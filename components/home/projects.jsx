@@ -70,7 +70,7 @@ export function Projects() {
       <div
         ref={projectsElement}
         id={"projects"}
-        className="mt-12 grid gap-4 text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-flow-col lg:text-left"
+        className="mt-12 grid w-full grid-flow-row gap-4 text-center lg:mb-0 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 md:text-left"
       >
         {projects.map((project) => (
           <div
