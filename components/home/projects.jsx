@@ -81,7 +81,7 @@ export function Projects() {
               href={project.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute -right-2 -top-2 z-10 -m-1 h-0 w-0 duration-300 overflow-hidden rounded-full p-0 text-zinc-950 transition-all [clip:rect(0,0,0,0)] group-hover:h-auto group-hover:w-auto group-hover:p-2 group-hover:[clip:auto] dark:bg-zinc-200 dark:hover:bg-zinc-50"
+              className="absolute -right-2 -top-2 z-10 -m-1 h-0 w-0 overflow-hidden rounded-full p-0 text-zinc-950 transition-all duration-300 [clip:rect(0,0,0,0)] group-hover:h-auto group-hover:w-auto group-hover:p-2 group-hover:[clip:auto] dark:bg-zinc-200 dark:hover:bg-zinc-50"
             >
               <OpenNewTab />
             </a>
@@ -107,7 +107,13 @@ export function Projects() {
                 </div>
               </div>
             </div>
-            <Link className="z-10 dark:text-zinc-300 dark:hover:text-zinc-50 border-b hover:border-white/50 border-transparent transition-all bottom-3 left-7 absolute text-sm flex items-center" href="lol">More about this project <ArrowRight className="ml-2 w-4 h-4 -rotate-45"/></Link>
+            <Link
+              className="absolute bottom-3 left-7 z-10 flex items-center border-b border-transparent text-sm transition-all hover:border-white/50 dark:text-zinc-300 dark:hover:text-zinc-50"
+              href="lol"
+            >
+              More about this project{" "}
+              <ArrowRight className="ml-2 h-4 w-4 -rotate-45" />
+            </Link>
           </div>
         ))}
       </div>
