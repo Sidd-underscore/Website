@@ -81,14 +81,14 @@ export function Projects() {
               href={project.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute -right-2 -top-2 z-10 -m-1 h-0 w-0 overflow-hidden rounded-full p-0 text-zinc-950 transition-all [clip:rect(0,0,0,0)] group-hover:h-auto group-hover:w-auto group-hover:p-2 group-hover:[clip:auto] dark:bg-zinc-200 dark:hover:bg-zinc-50"
+              className="absolute -right-2 -top-2 z-10 -m-1 h-0 w-0 duration-300 overflow-hidden rounded-full p-0 text-zinc-950 transition-all [clip:rect(0,0,0,0)] group-hover:h-auto group-hover:w-auto group-hover:p-2 group-hover:[clip:auto] dark:bg-zinc-200 dark:hover:bg-zinc-50"
             >
               <OpenNewTab />
             </a>
             <div className="project-content">
               <div className="flex h-full flex-col justify-between px-5 py-4">
                 <div>
-                  <p className="-ml-1 mb-3 font-mono text-sm">
+                  <p className="-ml-1 mb-3 font-mono text-xs">
                     {project.technologies.map((technology, index) => (
                       <span
                         className="mx-1 rounded-full bg-zinc-50 px-3 py-1 transition dark:bg-zinc-100/25"
