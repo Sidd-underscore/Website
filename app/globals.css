@@ -13,7 +13,6 @@
 
 .project {
   background-color: var(--projects-bg);
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   height: 300px;
