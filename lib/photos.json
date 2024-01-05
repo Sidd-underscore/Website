@@ -43,5 +43,95 @@
         "location": "Portland, OR",
         "camera": "Pixel 7 Pro",
         "date": 1694316600
+    },
+    {
+        "name": "Let There Be Light",
+        "description": "A closeup of one of the lights on my patio, shining amidst the dark void.",
+        "tags": ["light", "night", "close up"],
+        "path": "/photography/PXL_20230910_033215139.jpg",
+        "location": "Portland, OR",
+        "camera": "Pixel 7 Pro",
+        "date": 1694316720
+    },
+    {
+        "name": "Natural Geometry",
+        "description": "The back of a flower that looks like a bunch of equilateral triangles forming the circle that is the flower's head.",
+        "tags": ["nature", "plant", "close up", "geometry"],
+        "path": "/photography/PXL_20230912_232322559.jpg",
+        "location": "Portland, OR",
+        "camera": "Pixel 7 Pro",
+        "date": 1694560980
+    },
+    {
+        "name": "Delicate Parsley",
+        "description": "A closeup of parsley, showing it's delicate form.",
+        "tags": ["nature", "plant", "close up"],
+        "path": "/photography/PXL_20230916_162727161.jpg",
+        "location": "Portland, OR",
+        "camera": "Pixel 7 Pro",
+        "date": 1694881560
+    },
+    {
+        "name": "Vegetable Alley",
+        "description": "A photo showcasing the beauty of veggies in grocery stores.",
+        "tags": ["nature", "plant", "geometry"],
+        "path": "/photography/PXL_20230916_162620439.jpg",
+        "location": "Portland, OR",
+        "camera": "Pixel 7 Pro",
+        "date": 1694881620
+    },
+    {
+        "name": "Sunny Laziness",
+        "description": "My dog laying down in front of a door on a sunny day, the sunlight landing magically upon her fur and the floor around her.",
+        "tags": ["dog", "sunlight", "vibrant"],
+        "path": "/photography/PXL_20230917_210010874.jpg",
+        "location": "Portland, OR",
+        "camera": "Pixel 7 Pro",
+        "date": 1694984400
+    },
+    {
+        "name": "Feeding Bird",
+        "description": "A happy lil bird feeding upon seeds from my backyard bird feeder",
+        "tags": ["bird", "nature", "portrait"],
+        "path": "/photography/PXL_20230917_211843869~2.jpg",
+        "location": "Portland, OR",
+        "camera": "Pixel 7 Pro",
+        "date": 1694985480
+    },
+    {
+        "name": "Feeding Bird Pt. 2",
+        "description": "A rather sassy-looking bird wth its back ot the camera looking back at the camera while eating food",
+        "tags": ["bird", "nature", "portrait"],
+        "path": "/photography/PXL_20230917_211852435~2.jpg",
+        "location": "Portland, OR",
+        "camera": "Pixel 7 Pro",
+        "date": 1694985540
+    },
+    {
+        "name": "Plant-Filled Void",
+        "description": "A leafy plant, lit by a mysterious and unkown light, glowing in a seemingly-endless void",
+        "tags": ["plant", "nature", "night"],
+        "path": "/photography/PXL_20230923_051458726~2.jpg",
+        "location": "Portland, OR",
+        "camera": "Pixel 7 Pro",
+        "date": 1695446040
+    },
+    {
+        "name": "Plant-Filled Void",
+        "description": "A leafy plant, lit by a mysterious and unkown light, glowing in a seemingly-endless void",
+        "tags": ["urban", "vibrant"],
+        "path": "/photography/PXL_20230926_224259390~2.jpg",
+        "location": "Portland, OR",
+        "camera": "Pixel 7 Pro",
+        "date": 1695768120
+    },
+    {
+        "name": "Urban Railway",
+        "description": "A railway in a cobblestone road leading to an urban building in construction. Notice the use of magic eraser on the platform to remove humans that were previously there!",
+        "tags": ["urban", "vibrant", "historical", "Google's Magic Eraser"],
+        "path": "/photography/PXL_20230929_223803856~2.jpg",
+        "location": "Portland, OR",
+        "camera": "Pixel 7 Pro",
+        "date": 1696027080
     }
 ]
