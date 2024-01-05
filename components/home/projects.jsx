@@ -1,7 +1,6 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/components/ui/link";
 import { useEffect, useRef } from "react";
 
 const projects = [
@@ -112,7 +111,6 @@ export function Projects() {
               href="lol"
             >
               More about this project{" "}
-              <ArrowRight className="ml-2 h-4 w-4 -rotate-45" />
             </Link>
           </div>
         ))}
