@@ -1,16 +1,25 @@
 import Image from "next/image";
 import { Link } from "@/components/ui/link";
+import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 
-export function NavItem({ item }) {
-  return <Link href={item.link}>{item.label}</Link>;
+export function NavItem({ item, underline }) {
+  return (
+    <Link
+      className={underline === false ? "border-none" : undefined}
+      href={item.link}
+    >
+      {item.label}
+    </Link>
+  );
 }
 
 export function Navbar() {
   return (
-    <div className="fixed left-0 top-0 z-10 w-screen flex items-center justify-center md:top-4 ">
-      <nav className="flex items-center justify-between rounded-none md:ml-4 md:w-[calc(100%_-_32px)] max-w-5xl border-b border-zinc-500/25 px-4 py-4 md:py-2 text-xs md:text-sm backdrop-blur-lg transition md:top-4 md:rounded-3xl md:border dark:border-white/10 dark:bg-zinc-900/50">
+    <div className="fixed left-0 top-0 z-10 flex w-screen items-center justify-center md:top-4 ">
+      <nav className="flex max-w-5xl items-center justify-between rounded-none border-b border-zinc-500/25 px-4 py-4 text-xs backdrop-blur-lg transition md:top-4 md:ml-4 md:w-[calc(100%_-_32px)] md:rounded-3xl md:border md:py-2 md:text-sm dark:border-white/10 dark:bg-zinc-900/50">
         <p className="flex items-center space-x-4">
           <NavItem
+            underline={false}
             item={{
               link: "/",
               label: (
@@ -26,6 +35,7 @@ export function Navbar() {
           <NavItem item={{ link: "/about", label: "About Me" }} />
           <NavItem item={{ link: "/photos", label: "Photography" }} />
         </p>
+        <ThemeSwitcher />
       </nav>
     </div>
   );

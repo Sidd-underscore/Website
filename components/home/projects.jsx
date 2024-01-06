@@ -27,25 +27,6 @@ const projects = [
   },
 ];
 
-export function OpenNewTab() {
-  return (
-    <svg
-      height="16"
-      strokeLinejoin="round"
-      viewBox="0 0 16 16"
-      width="16"
-      style={{ color: "currentcolor" }}
-    >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M11.5 9.75V11.25C11.5 11.3881 11.3881 11.5 11.25 11.5H4.75C4.61193 11.5 4.5 11.3881 4.5 11.25L4.5 4.75C4.5 4.61193 4.61193 4.5 4.75 4.5H6.25H7V3H6.25H4.75C3.7835 3 3 3.7835 3 4.75V11.25C3 12.2165 3.7835 13 4.75 13H11.25C12.2165 13 13 12.2165 13 11.25V9.75V9H11.5V9.75ZM8.5 3H9.25H12.2495C12.6637 3 12.9995 3.33579 12.9995 3.75V6.75V7.5H11.4995V6.75V5.56066L8.53033 8.52978L8 9.06011L6.93934 7.99945L7.46967 7.46912L10.4388 4.5H9.25H8.5V3Z"
-        fill="currentColor"
-      ></path>
-    </svg>
-  );
-}
-
 export function Projects() {
   const projectsElement = useRef(null);
 
@@ -64,33 +45,25 @@ export function Projects() {
 
   return (
     <div className="my-32 w-full text-left">
-      <h2 className="text-4xl font-semibold">Projects</h2>
+      <h2 className="text-4xl font-semibold">Coding Projects</h2>
 
       <div
         ref={projectsElement}
         id={"projects"}
-        className="mt-12 grid w-full grid-flow-row gap-4 text-center lg:mb-0 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 md:text-left"
+        className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-4 text-center md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3"
       >
         {projects.map((project) => (
           <div
             key={project.name}
             className="project group relative rounded-lg transition-colors"
           >
-            <a
-              href={project.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="absolute -right-2 -top-2 z-10 -m-1 h-0 w-0 overflow-hidden rounded-full p-0 text-zinc-950 transition-all duration-300 [clip:rect(0,0,0,0)] group-hover:h-auto group-hover:w-auto group-hover:p-2 group-hover:[clip:auto] dark:bg-zinc-200 dark:hover:bg-zinc-50"
-            >
-              <OpenNewTab />
-            </a>
             <div className="project-content">
               <div className="flex h-full flex-col justify-between px-5 py-4">
                 <div>
                   <p className="-ml-1 mb-3 font-mono text-xs">
                     {project.technologies.map((technology, index) => (
                       <span
-                        className="mx-1 rounded-full bg-zinc-50 px-3 py-1 transition dark:bg-zinc-100/25"
+                        className="mx-1 rounded-full bg-zinc-50 px-3 py-1 transition dark:bg-zinc-700/50"
                         key={index}
                       >
                         {technology}
@@ -106,12 +79,7 @@ export function Projects() {
                 </div>
               </div>
             </div>
-            <Link
-              className="absolute bottom-3 left-7 z-10 flex items-center border-b border-transparent text-sm transition-all hover:border-white/50 dark:text-zinc-300 dark:hover:text-zinc-50"
-              href="lol"
-            >
-              More about this project{" "}
-            </Link>
+            <Link className="absolute bottom-5 left-7 z-10 " href="lol">More about this project </Link>
           </div>
         ))}
       </div>

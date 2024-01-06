@@ -1,3 +1,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Cards in home page. Hover effect made by the illoustrious Hyperplexed! https://codepen.io/Hyperplexed/pen/MWQeYLW */
+#projects {
+  @apply [--project-color:rgba(233,233,233,0.3)] [--projects-after:rgba(233,233,233,0.6)] [--projects-before:rgba(233,233,233,0.1)] [--projects-bg:rgba(233,233,233,0.3)] dark:[--project-bg:rgba(255,255,255,0.1)] dark:[--project-color:rgba(23,23,23,0.9)] dark:[--projects-after:rgba(255,255,255,0.4)] dark:[--projects-before:rgba(255,255,255,0.1)] dark:[--projects-bg:rgb(23,23,23)];
+}
+
+#projects:hover > .project::after {
+  opacity: 1;
+}
+
+.project {
+  background-color: var(--projects-bg);
+  display: flex;
+  flex-direction: column;
+  height: calc(100% + 36px);
+  width: 100%;
+  position: relative;
+}
+
+.project:hover::before {
+  opacity: 1;
+}
+
+.project::before,
+.project::after {
+  border-radius: inherit;
+  content: "";
+  height: 100%;
+  left: 0px;
+  opacity: 0;
+  position: absolute;
+  top: 0px;
+  transition: opacity 500ms;
+  width: 100%;
+}
+
+.project::before {
+  background: radial-gradient(
+    800px circle at var(--mouse-x) var(--mouse-y),
+    var(--projects-before),
+    transparent 40%
+  );
+  z-index: 3;
+}
+
+.project::after {
+  background: radial-gradient(
+    600px circle at var(--mouse-x) var(--mouse-y),
+    var(--projects-after),
+    transparent 40%
+  );
+  z-index: 1;
+}
+
+.project > .project-content {
+  background-color: var(--project-color);
+  border-radius: inherit;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin: 1px;
+  padding: 10px;
+  z-index: 3;
+}
