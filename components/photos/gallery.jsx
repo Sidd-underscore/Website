@@ -167,7 +167,7 @@ export function Gallery() {
   return (
     <div className="my-6">
       <div className="flex w-full items-center space-x-2">
-        <div className="pointer-events-none flex w-full items-center rounded-lg border border-zinc-200 bg-transparent px-3 py-1 text-sm shadow-sm transition-colors hover:border-zinc-300 hover:ring-zinc-950 dark:border-zinc-800 dark:hover:border-zinc-700 dark:hover:ring-zinc-300">
+        <div className="pointer-events-none flex w-full items-center rounded-md border border-zinc-200 bg-transparent px-3 py-1 text-sm shadow-sm transition-colors hover:border-zinc-300 hover:ring-zinc-950 dark:border-zinc-800 dark:hover:border-zinc-700 dark:hover:ring-zinc-300">
           {searchIcon}
           <Input
             onChange={(event) => setSearchQuery(event.target.value)}
