@@ -33,48 +33,85 @@ export function Gallery() {
 
   async function filterPhotos(data) {
     let photos = [...originalPhotosArray];
-    let query = data?.searchQuery;
-    let dateQuery = data?.filterDate;
+    let query = data?.searchQuery || searchQuery;
+    let dateQuery = data?.filterDate || date;
 
     let anotherTemp1 = [];
     let anotherTemp2 = [];
 
+    var doneWithDateFiltering = false;
     var doneWithSearching = false;
     var doneWithArrays = false;
 
+    // First, remove photos outside of date range if it exists
     for (let i = photos.length - 1; i >= 0; i--) {
-      let found = false;
-
-      // First, remove photos outside of date range if it exists
       if (dateQuery) {
-        let preciseDate = new Date(photos[i].date * 1000); // Multiply by 1000 to convert seconds to milliseconds
+        let preciseDate = new Date(photos[i].date * 1000);
+
         let dayDate = {
           to: dateQuery?.to ? new Date(dateQuery.to) : undefined,
           from: dateQuery?.from ? new Date(dateQuery.from) : undefined,
         };
 
-        const areTheyComparableByFrom =
-          preciseDate.getFullYear() === dayDate.from?.getFullYear() &&
-          preciseDate.getMonth() === dayDate.from?.getMonth() &&
-          preciseDate.getDate() === dayDate.from?.getDate();
+        const areTheyComparableByFrom = dayDate.from
+          ? preciseDate.getFullYear() === dayDate.from?.getFullYear() &&
+            preciseDate.getMonth() === dayDate.from?.getMonth() &&
+            preciseDate.getDate() === dayDate.from?.getDate()
+          : true;
 
-        const areTheyComparableByTo =
-          preciseDate.getFullYear() === dayDate.to?.getFullYear() &&
-          preciseDate.getMonth() === dayDate.to?.getMonth() &&
-          preciseDate.getDate() === dayDate.to?.getDate();
+        const areTheyComparableByTo = dayDate.to
+          ? preciseDate.getFullYear() === dayDate.to?.getFullYear() &&
+            preciseDate.getMonth() === dayDate.to?.getMonth() &&
+            preciseDate.getDate() === dayDate.to?.getDate()
+          : true;
 
-        console.log(areTheyComparableByFrom, areTheyComparableByTo, preciseDate >= dayDate.from && preciseDate <= dayDate.to, preciseDate, dayDate)
+        const areTheyWithinRange =
+          dayDate.to && dayDate.from
+            ? preciseDate >= dayDate.from && preciseDate <= dayDate.to
+            : true;
 
-        if (
-          areTheyComparableByFrom === false ||
-          areTheyComparableByTo === false ||
-          preciseDate >= dayDate.from && preciseDate <= dayDate.to
-        ) {
+        const shouldBeFiltered =
+          areTheyComparableByFrom === true &&
+          areTheyComparableByTo === true &&
+          areTheyWithinRange === true
+            ? false
+            : areTheyComparableByFrom === true &&
+                areTheyComparableByTo === true &&
+                areTheyWithinRange == false
+              ? false
+              : areTheyComparableByFrom === true &&
+                  areTheyComparableByTo === false &&
+                  areTheyWithinRange === true
+                ? false
+                : areTheyComparableByFrom === true &&
+                    areTheyComparableByTo === false &&
+                    areTheyWithinRange === false
+                  ? false
+                  : areTheyComparableByFrom === false &&
+                      areTheyComparableByTo === false &&
+                      areTheyWithinRange === true
+                    ? false
+                    : areTheyComparableByFrom === false &&
+                        areTheyComparableByTo === true &&
+                        areTheyWithinRange === false
+                      ? false
+                      : true;
+
+        if (shouldBeFiltered === true) {
           photos.splice(i, 1);
         }
-      }
 
-      // Then, search for text matches
+        if (i === photos.length -1) doneWithDateFiltering = true;
+      } else {
+        doneWithDateFiltering = true;
+      }
+    }
+
+    await until((_) => doneWithDateFiltering === true);
+
+    // Then, search for text matches
+    for (let i = photos.length - 1; i >= 0; i--) {
+      let found = false;
       for (let key in photos[i]) {
         if (Array.isArray(photos[i][key])) {
           for (let againAKey in photos[i][key]) {
@@ -131,7 +168,7 @@ export function Gallery() {
     setSearchIcon(<Loading />);
 
     const timeOutId = setTimeout(() => {
-      filterPhotos({searchQuery: searchQuery});
+      filterPhotos({ searchQuery: searchQuery });
     }, 500);
     return () => clearTimeout(timeOutId);
   }, [searchQuery]);
