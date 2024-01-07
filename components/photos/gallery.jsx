@@ -31,9 +31,10 @@ export function Gallery() {
   const [searchError, setSearchError] = useState(false);
   const [date, setDate] = useState();
 
-  async function filterPhotos() {
+  async function filterPhotos(data) {
     let photos = [...originalPhotosArray];
-    let query = searchQuery;
+    let query = data?.searchQuery;
+    let dateQuery = data?.filterDate;
 
     let anotherTemp1 = [];
     let anotherTemp2 = [];
@@ -43,10 +44,41 @@ export function Gallery() {
 
     for (let i = photos.length - 1; i >= 0; i--) {
       let found = false;
+
+      // First, remove photos outside of date range if it exists
+      if (dateQuery) {
+        let preciseDate = new Date(photos[i].date * 1000); // Multiply by 1000 to convert seconds to milliseconds
+        let dayDate = {
+          to: dateQuery?.to ? new Date(dateQuery.to) : undefined,
+          from: dateQuery?.from ? new Date(dateQuery.from) : undefined,
+        };
+
+        const areTheyComparableByFrom =
+          preciseDate.getFullYear() === dayDate.from?.getFullYear() &&
+          preciseDate.getMonth() === dayDate.from?.getMonth() &&
+          preciseDate.getDate() === dayDate.from?.getDate();
+
+        const areTheyComparableByTo =
+          preciseDate.getFullYear() === dayDate.to?.getFullYear() &&
+          preciseDate.getMonth() === dayDate.to?.getMonth() &&
+          preciseDate.getDate() === dayDate.to?.getDate();
+
+        console.log(areTheyComparableByFrom, areTheyComparableByTo, preciseDate >= dayDate.from && preciseDate <= dayDate.to, preciseDate, dayDate)
+
+        if (
+          areTheyComparableByFrom === false ||
+          areTheyComparableByTo === false ||
+          preciseDate >= dayDate.from && preciseDate <= dayDate.to
+        ) {
+          photos.splice(i, 1);
+        }
+      }
+
+      // Then, search for text matches
       for (let key in photos[i]) {
         if (Array.isArray(photos[i][key])) {
-          for (let morekey in photos[i][key]) {
-            if (photos[i][key][morekey].toLowerCase().includes(query)) {
+          for (let againAKey in photos[i][key]) {
+            if (photos[i][key][againAKey].toLowerCase().includes(query)) {
               found = true;
               if (i === photos.length - 1) doneWithSearching = true;
               break;
@@ -93,76 +125,21 @@ export function Gallery() {
     setSearchIcon(<MagnifyingGlassIcon />);
   }
 
-  async function filterPhotosByDate(query) {
-    let photos = [...originalPhotosArray];
-
-    let anotherTemp1 = [];
-    let anotherTemp2 = [];
-
-    var doneWithSearching = false;
-    var doneWithArrays = false;
-
-    if (!query) {
-      doneWithSearching = true;
-    } else {
-      for (let i = photos.length - 1; i >= 0; i--) {
-        let preciseDate = new Date(photos[i].date * 1000); // Multiply by 1000 to convert seconds to milliseconds
-        let dayDate = {
-          to: query.to ? new Date(query.to) : undefined,
-          from: query.from ? new Date(query.from) : undefined,
-        };
-
-        const areTheyComparableByFrom =
-          preciseDate.getFullYear() === dayDate.from?.getFullYear() &&
-          preciseDate.getMonth() === dayDate.from?.getMonth() &&
-          preciseDate.getDate() === dayDate.from?.getDate();
-
-        const areTheyComparableByTo =
-          preciseDate.getFullYear() === dayDate.to?.getFullYear() &&
-          preciseDate.getMonth() === dayDate.to?.getMonth() &&
-          preciseDate.getDate() === dayDate.to?.getDate();
-
-        if (
-          areTheyComparableByFrom === true ||
-          areTheyComparableByTo === true ||
-          preciseDate >= dayDate.from && preciseDate <= dayDate.to
-        ) {
-          if (i === photos.length - 1) doneWithSearching = true;
-        } else {
-          photos.splice(i, 1);
-        }
-      }
-    }
-
-    if (photos.length === 0) return setSearchError(true);
-    else setSearchError(false);
-
-    for (let i = 0; i < photos.length; i += 1) {
-      if (i % 2 === 0) {
-        anotherTemp1.push(photos[i]);
-      } else {
-        anotherTemp2.push(photos[i]);
-      }
-
-      if (i === photos.length - 1) doneWithArrays = true;
-    }
-
-    setPhotos1(() => anotherTemp1);
-    setPhotos2(() => anotherTemp2);
-
-    await until((_) => doneWithSearching === true && doneWithArrays === true);
-    setSearchIcon(<MagnifyingGlassIcon />);
-  }
-
+  // when searchQuery changes, wait a bit for typing to stop then filter
   useEffect(() => {
     initializePhotos();
     setSearchIcon(<Loading />);
 
     const timeOutId = setTimeout(() => {
-      filterPhotos();
+      filterPhotos({searchQuery: searchQuery});
     }, 500);
     return () => clearTimeout(timeOutId);
   }, [searchQuery]);
+
+  // when date changes, filter photos
+  useEffect(() => {
+    filterPhotos({ filterDate: date });
+  }, [date]);
 
   return (
     <div className="my-6">
@@ -171,8 +148,8 @@ export function Gallery() {
           {searchIcon}
           <Input
             onChange={(event) => setSearchQuery(event.target.value)}
-            className="pointer-events-auto !border-transparent !bg-transparent pr-16 !ring-0"
-            placeholder="Search photos... (by name, description, time, date, camera, and more!)"
+            className="pointer-events-auto !border-transparent !bg-transparent pr-16 shadow-none !ring-0"
+            placeholder="Search photos... (by name, description, camera, and more!)"
           />
         </div>
         <DatePickerWithRange
@@ -180,7 +157,6 @@ export function Gallery() {
           setDate={(e) => {
             setSearchIcon(<Loading />);
             setDate(e);
-            filterPhotosByDate(e);
           }}
           className="h-auto px-3 py-3 text-sm shadow-sm"
         />

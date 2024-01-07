@@ -13,7 +13,7 @@ export function FeaturedPhotos() {
   function scrollLeft() {
     if (!gallery.current) return false;
     gallery.current.scrollTo({
-      left: gallery.current.scrollLeft + 300,
+      left: gallery.current.scrollLeft + 305.19,
       behavior: "smooth",
     });
   }
@@ -21,7 +21,7 @@ export function FeaturedPhotos() {
   function scrollRight() {
     if (!gallery.current) return false;
     gallery.current.scrollTo({
-      left: gallery.current.scrollLeft - 300,
+      left: gallery.current.scrollLeft - 305.19,
       behavior: "smooth",
     });
   }
@@ -50,13 +50,15 @@ export function FeaturedPhotos() {
         {getRandomElements(photos).map((photo, index) => (
           <Photo className="h-96" key={index} photoData={photo} />
         ))}
+
         <Link
           href="/photos"
-          className="flex aspect-square h-96 w-48 items-center justify-center rounded-lg border bg-zinc-900"
+          className="flex aspect-square h-96 w-[289.119px] items-center justify-center rounded-lg border bg-zinc-200 dark:bg-zinc-900"
         >
           <div className="text-center text-2xl font-bold">View all</div>
         </Link>
       </div>
+
       <div className="flex items-center justify-between">
         {" "}
         <Button variant="icon" size="icon" onClick={(e) => scrollRight()}>
