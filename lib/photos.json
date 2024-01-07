@@ -29,7 +29,7 @@
     {
         "name": "Fall Salad",
         "description": "A closeup of the top of a roasted vegetable salad my family and I made to celebrate the coming of fall. Doesn't it match the vibe of the season so well?",
-        "tags": ["fall", "food", "close up"],
+        "tags": ["fall", "food", "closeup"],
         "path": "/photography/PXL_20230910_014736295.MP.jpg",
         "location": "Portland, OR",
         "camera": "Pixel 7 Pro",
@@ -38,7 +38,7 @@
     {
         "name": "Late-Night Candle Light",
         "description": "A closeup of the top of a small candle burning bright at night.",
-        "tags": ["light", "night", "close up"],
+        "tags": ["light", "night", "closeup"],
         "path": "/photography/PXL_20230910_033057462.MP.jpg",
         "location": "Portland, OR",
         "camera": "Pixel 7 Pro",
@@ -47,7 +47,7 @@
     {
         "name": "Let There Be Light",
         "description": "A closeup of one of the lights on my patio, shining amidst the dark void.",
-        "tags": ["light", "night", "close up"],
+        "tags": ["light", "night", "closeup"],
         "path": "/photography/PXL_20230910_033215139.jpg",
         "location": "Portland, OR",
         "camera": "Pixel 7 Pro",
@@ -56,7 +56,7 @@
     {
         "name": "Natural Geometry",
         "description": "The back of a flower that looks like a bunch of equilateral triangles forming the circle that is the flower's head.",
-        "tags": ["nature", "plant", "close up", "geometry"],
+        "tags": ["nature", "plant", "closeup", "geometry"],
         "path": "/photography/PXL_20230912_232322559.jpg",
         "location": "Portland, OR",
         "camera": "Pixel 7 Pro",
@@ -65,7 +65,7 @@
     {
         "name": "Delicate Parsley",
         "description": "A closeup of parsley, showing it's delicate form.",
-        "tags": ["nature", "plant", "close up"],
+        "tags": ["nature", "plant", "closeup"],
         "path": "/photography/PXL_20230916_162727161.jpg",
         "location": "Portland, OR",
         "camera": "Pixel 7 Pro",
@@ -83,7 +83,7 @@
     {
         "name": "Sunny Laziness",
         "description": "My dog laying down in front of a door on a sunny day, the sunlight landing magically upon her fur and the floor around her.",
-        "tags": ["dog", "sunlight", "vibrant"],
+        "tags": ["dog", "sunlight", "vibrant", "Ivy"],
         "path": "/photography/PXL_20230917_210010874.jpg",
         "location": "Portland, OR",
         "camera": "Pixel 7 Pro",
