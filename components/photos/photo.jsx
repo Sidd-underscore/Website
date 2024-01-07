@@ -20,9 +20,9 @@ export function Photo({ className, photoData }) {
   return (
     <>
       <Dialog key={photoData.name}>
-        <DialogTrigger>
+        <DialogTrigger asChild={true}>
           <img
-            className={"rounded-lg " + className}
+            className={"mx-2 w-full cursor-pointer rounded-lg " + className}
             src={photoData.path}
             alt={photoData.name}
             title={photoData.name}
@@ -32,7 +32,7 @@ export function Photo({ className, photoData }) {
           <DialogHeader>
             <DialogTitle>{photoData.name}</DialogTitle>
             <DialogDescription>
-              <div className="space-y-2 text-left md:flex md:space-x-4 md:space-y-0">
+              <div className="max-h-[50vh] space-y-2 overflow-auto text-left md:flex md:space-x-4 md:space-y-0">
                 <div className="md:w-1/2">
                   <div className="my-2 flex w-full items-center justify-center overflow-x-auto py-1 font-mono text-xs md:justify-start">
                     {photoData.tags.map((tag, index) => (
@@ -45,7 +45,7 @@ export function Photo({ className, photoData }) {
                     ))}
                   </div>
 
-                  <p className="my-2">{photoData.description}</p>
+                  <p className="my-4">{photoData.description}</p>
 
                   <div className="mt-2 flex items-center space-x-2">
                     <CalendarIcon className="h-4 w-4" />

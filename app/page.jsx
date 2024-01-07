@@ -10,10 +10,10 @@ export default function Home() {
       <h1 className="text-7xl font-bold">Sidd_!</h1>
       <sub>(it&apos;s short for Siddharth)</sub>
 
-      <p className="mt-12 flex items-center">
+      <p className="mt-12 ,d:flex items-center">
         I code, take photos, enjoy working lightboards, and livestream.{" "}
-        <strong className="group ml-2 cursor-pointer">
-          <Link href="/about" className="flex items-center border-none">
+        <strong className="group md:ml-2 cursor-pointer">
+          <Link href="/about" className="flex mt-2 md:mt-0 items-center border-none">
             More{" "}
             <ArrowRightIcon className="ml-1 h-4 w-4 transition-all group-hover:ml-2" />
           </Link>

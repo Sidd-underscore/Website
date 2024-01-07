@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.className} justify-left flex flex-col mt-12 !pb-0 p-12 2xl:p-24 items-center dark:bg-zinc-950 dark:text-white`}
+        className={`${inter.className} justify-left flex flex-col mt-12 !pb-0 p-6 md:p-12 2xl:p-24 items-center dark:bg-zinc-950 dark:text-white`}
       >
         <ThemeProvider
           attribute="class"
