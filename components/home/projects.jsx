@@ -50,7 +50,7 @@ export function Projects() {
       <div
         ref={projectsElement}
         id={"projects"}
-        className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 md:gap-4 text-center md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3"
+        className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3"
       >
         {projects.map((project) => (
           <div
@@ -77,9 +77,13 @@ export function Projects() {
                     {project.description}
                   </p>
                 </div>
+                <div className="mt-4">
+                  <Link className="z-10 w-fit" href="lol">
+                    More about this project
+                  </Link>
+                </div>
               </div>
             </div>
-            <Link className="absolute bottom-5 left-7 z-10" href="lol">More about this project </Link>
           </div>
         ))}
       </div>
