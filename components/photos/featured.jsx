@@ -45,22 +45,21 @@ export function FeaturedPhotos() {
 
       <div
         ref={gallery}
-        className="mt-12 flex w-full space-x-4 overflow-x-auto py-4 -my-2"
+        className="mx-0.5 mt-12 flex w-full space-x-4 overflow-x-auto py-2"
       >
-        <div         className="min-w-[510px] flex w-full space-x-4"
->
-        {getRandomElements(photos).map((photo, index) => (
-          <Photo className="h-96 w-full" key={index} photoData={photo} />
-        ))}
+        <div className="flex w-full min-w-[510px] space-x-4">
+          {getRandomElements(photos).map((photo, index) => (
+            <Photo className="h-96 w-full" key={index} photoData={photo} />
+          ))}
 
-        <Link
-          href="/photos"
-          className="flex h-96 min-w-48 items-center justify-center rounded-lg border bg-zinc-200 dark:bg-zinc-900"
-        >
-          <div className="text-center text-2xl font-bold">View all</div>
-        </Link>
+          <Link
+            href="/photos"
+            className="flex h-96 min-w-48 items-center justify-center rounded-lg border bg-zinc-200 dark:bg-zinc-900"
+          >
+            <div className="text-center text-2xl font-bold">View all</div>
+          </Link>
         </div>
-        </div>
+      </div>
 
       <div className="flex items-center justify-between">
         {" "}

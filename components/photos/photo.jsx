@@ -22,7 +22,7 @@ export function Photo({ className, photoData }) {
       <Dialog key={photoData.name}>
         <DialogTrigger asChild={true}>
           <img
-            className={"mx-2 w-full cursor-pointer rounded-lg " + className}
+            className={"w-full cursor-pointer rounded-lg " + className}
             src={photoData.path}
             alt={photoData.name}
             title={photoData.name}
