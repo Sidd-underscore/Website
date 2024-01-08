@@ -34,10 +34,10 @@ export function Photo({ className, photoData }) {
             <DialogDescription>
               <div className="max-h-[50vh] space-y-2 overflow-auto text-left md:flex md:space-x-4 md:space-y-0">
                 <div className="md:w-1/2">
-                  <div className="my-2 flex w-full items-center justify-center overflow-x-auto py-1 font-mono text-xs md:justify-start">
+                  <div className="my-2 flex min-w-full items-center justify-center overflow-x-auto py-1 font-mono text-xs md:justify-start">
                     {photoData.tags.map((tag, index) => (
                       <span
-                        className="mx-1 rounded-full bg-zinc-50 px-2 py-0.5 transition dark:bg-zinc-700/50"
+                        className="mx-1 rounded-full text-nowrap bg-zinc-100 px-2 py-0.5 transition dark:bg-zinc-700/50"
                         key={tag + index}
                       >
                         {tag}
@@ -45,11 +45,11 @@ export function Photo({ className, photoData }) {
                     ))}
                   </div>
 
-                  <p className="my-4">{photoData.description}</p>
+                  <div className="my-4">{photoData.description}</div>
 
                   <div className="mt-2 flex items-center space-x-2">
                     <CalendarIcon className="h-4 w-4" />
-                    <p>
+                    <span>
                       {formatRelative(fromUnixTime(photoData.date), Date.now())}{" "}
                       at {format(fromUnixTime(photoData.date), "h:mm a")} (
                       {formatDistance(
@@ -60,17 +60,17 @@ export function Photo({ className, photoData }) {
                         },
                       )}
                       )
-                    </p>
+                    </span>
                   </div>
 
                   <div className="mt-2 flex items-center space-x-2">
                     <SewingPinFilledIcon className="h-3 w-3" />
-                    <p>{photoData.location}</p>
+                    <span>{photoData.location}</span>
                   </div>
 
                   <div className="mt-2 flex items-center space-x-2">
                     <CameraIcon className="h-3 w-3" />
-                    <p>{photoData.camera}</p>
+                    <span>{photoData.camera}</span>
                   </div>
                 </div>
 

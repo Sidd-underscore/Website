@@ -7,12 +7,12 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: {default: "Sidd_", template: "%s / Sidd_"},
+  title: { default: "Sidd_", template: "%s / Sidd_" },
   description: "I code, take photos and livestream.",
 };
 
 export function TailwindIndicator() {
-  if (process.env.NODE_ENV === "production") return null
+  if (process.env.NODE_ENV === "production") return null;
 
   return (
     <div className="fixed bottom-1 left-1 z-50 flex h-6 w-6 items-center justify-center rounded-full bg-gray-800 p-3 font-mono text-xs text-white">
@@ -23,14 +23,14 @@ export function TailwindIndicator() {
       <div className="hidden xl:block 2xl:hidden">xl</div>
       <div className="hidden 2xl:block">2xl</div>
     </div>
-  )
+  );
 }
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.className} justify-left flex flex-col mt-12 !pb-0 p-6 md:p-12 2xl:p-24 items-center dark:bg-zinc-950 dark:text-white`}
+        className={`${inter.className} justify-left mt-12 flex flex-col items-center p-6 !pb-0 md:p-12 2xl:p-24 dark:bg-zinc-950 dark:text-white`}
       >
         <ThemeProvider
           attribute="class"
@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
         >
           <Navbar />
 
-          <main className="w-full max-w-5xl min-h-screen">{children}</main>
+          <main className="min-h-screen w-full max-w-5xl">{children}</main>
           <Footer />
         </ThemeProvider>
 

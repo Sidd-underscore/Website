@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  @apply scrollbar-thin scrollbar-track-rounded scrollbar-thumb-neutral-400 scrollbar-track-neutral-200 dark:scrollbar-thumb-neutral-600 dark:scrollbar-track-neutral-900 scrollbar-thumb-rounded
+}
+
 /* Cards in home page. Hover effect made by the illoustrious Hyperplexed! https://codepen.io/Hyperplexed/pen/MWQeYLW */
 #projects {
   @apply [--project-color:rgba(233,233,233,0.3)] [--projects-after:rgba(233,233,233,0.6)] [--projects-before:rgba(233,233,233,0.1)] [--projects-bg:rgba(233,233,233,0.3)] dark:[--project-bg:rgba(255,255,255,0.1)] dark:[--project-color:rgba(23,23,23,0.9)] dark:[--projects-after:rgba(255,255,255,0.4)] dark:[--projects-before:rgba(255,255,255,0.1)] dark:[--projects-bg:rgb(23,23,23)];

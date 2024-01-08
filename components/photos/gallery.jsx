@@ -34,7 +34,7 @@ export function Gallery() {
   async function filterPhotos(data) {
     let photos = [...originalPhotosArray];
     let query = data?.searchQuery || searchQuery;
-    let dateQuery = data?.filterDate || date;
+    let dateQuery = data?.filterDate;
 
     let anotherTemp1 = [];
     let anotherTemp2 = [];
@@ -44,67 +44,25 @@ export function Gallery() {
     var doneWithArrays = false;
 
     // First, remove photos outside of date range if it exists
-    for (let i = photos.length - 1; i >= 0; i--) {
-      if (dateQuery) {
-        let preciseDate = new Date(photos[i].date * 1000);
+    if (dateQuery) {
+      let filteredPhotos = photos.filter((photo) => {
+        let photoDate = new Date(photo.date * 1000);
+        let from = dateQuery.from ? new Date(dateQuery.from) : undefined;
+        let to = dateQuery.to ? new Date(dateQuery.to) : undefined;
+    
+        let withinRange = (photoDate >= from) && (photoDate <= to);
+        let comparableByFrom = !from || photoDate.toDateString() === from.toDateString();
+        let comparableByTo = !to || photoDate.toDateString() === to.toDateString();
+    
 
-        let dayDate = {
-          to: dateQuery?.to ? new Date(dateQuery.to) : undefined,
-          from: dateQuery?.from ? new Date(dateQuery.from) : undefined,
-        };
-
-        const areTheyComparableByFrom = dayDate.from
-          ? preciseDate.getFullYear() === dayDate.from?.getFullYear() &&
-            preciseDate.getMonth() === dayDate.from?.getMonth() &&
-            preciseDate.getDate() === dayDate.from?.getDate()
-          : true;
-
-        const areTheyComparableByTo = dayDate.to
-          ? preciseDate.getFullYear() === dayDate.to?.getFullYear() &&
-            preciseDate.getMonth() === dayDate.to?.getMonth() &&
-            preciseDate.getDate() === dayDate.to?.getDate()
-          : true;
-
-        const areTheyWithinRange =
-          dayDate.to && dayDate.from
-            ? preciseDate >= dayDate.from && preciseDate <= dayDate.to
-            : true;
-
-        const shouldBeFiltered =
-          areTheyComparableByFrom === true &&
-          areTheyComparableByTo === true &&
-          areTheyWithinRange === true
-            ? false
-            : areTheyComparableByFrom === true &&
-                areTheyComparableByTo === true &&
-                areTheyWithinRange == false
-              ? false
-              : areTheyComparableByFrom === true &&
-                  areTheyComparableByTo === false &&
-                  areTheyWithinRange === true
-                ? false
-                : areTheyComparableByFrom === true &&
-                    areTheyComparableByTo === false &&
-                    areTheyWithinRange === false
-                  ? false
-                  : areTheyComparableByFrom === false &&
-                      areTheyComparableByTo === false &&
-                      areTheyWithinRange === true
-                    ? false
-                    : areTheyComparableByFrom === false &&
-                        areTheyComparableByTo === true &&
-                        areTheyWithinRange === false
-                      ? false
-                      : true;
-
-        if (shouldBeFiltered === true) {
-          photos.splice(i, 1);
-        }
-
-        if (i === photos.length -1) doneWithDateFiltering = true;
-      } else {
-        doneWithDateFiltering = true;
-      }
+        return withinRange || comparableByFrom && comparableByTo;
+      });
+    
+      photos = filteredPhotos;
+      doneWithDateFiltering = true;
+    } else {
+      photos = originalPhotosArray;
+      doneWithDateFiltering = true;
     }
 
     await until((_) => doneWithDateFiltering === true);
@@ -164,19 +122,13 @@ export function Gallery() {
 
   // when searchQuery changes, wait a bit for typing to stop then filter
   useEffect(() => {
-    initializePhotos();
     setSearchIcon(<Loading />);
 
     const timeOutId = setTimeout(() => {
-      filterPhotos({ searchQuery: searchQuery });
+      filterPhotos({ searchQuery: searchQuery, filterDate: date });
     }, 500);
     return () => clearTimeout(timeOutId);
   }, [searchQuery]);
-
-  // when date changes, filter photos
-  useEffect(() => {
-    filterPhotos({ filterDate: date });
-  }, [date]);
 
   return (
     <div className="my-6">
@@ -194,12 +146,14 @@ export function Gallery() {
           setDate={(e) => {
             setSearchIcon(<Loading />);
             setDate(e);
+            filterPhotos({ searchQuery: searchQuery, filterDate: e });
+
           }}
           className="h-auto px-3 py-3 text-sm shadow-sm"
         />
       </div>
 
-      <div className="mt-4 flex w-full gap-4">
+      <div className="mt-4 flex w-full gap-4 p-4">
         {searchError === false ? (
           <>
             <div className="flex w-1/2 flex-col space-y-4">
