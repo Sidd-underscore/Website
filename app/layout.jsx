@@ -29,24 +29,22 @@ export function TailwindIndicator() {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
+      <body
+        className={`${inter.className} justify-left scrollbar-track-rounded-none mt-12 flex flex-col items-center p-6 !pb-0 md:p-12 2xl:p-24 dark:bg-zinc-950 dark:text-white`}
       >
-        <body
-          className={`${inter.className} justify-left scrollbar-track-rounded-none mt-12 flex flex-col items-center p-6 !pb-0 md:p-12 2xl:p-24 dark:bg-zinc-950 dark:text-white`}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
         >
           <Navbar />
-
           <main className="min-h-screen w-full max-w-5xl">{children}</main>
           <Footer />
-
           {/* For screen sizes */}
           <TailwindIndicator />
-        </body>
-      </ThemeProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
