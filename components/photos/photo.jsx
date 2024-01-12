@@ -33,7 +33,7 @@ export function Photo({ className, photoData }) {
             <DialogTitle>{photoData.name}</DialogTitle>
             <DialogDescription>
               <div className="max-h-[50vh] space-y-2 overflow-auto text-left md:flex md:space-x-4 md:space-y-0">
-                <div className="md:w-1/2">
+                <div className="md:w-2/5">
                   <div className="my-2 flex min-w-full items-center justify-center overflow-x-auto py-1 font-mono text-xs md:justify-start">
                     {photoData.tags.map((tag, index) => (
                       <span
@@ -74,7 +74,7 @@ export function Photo({ className, photoData }) {
                   </div>
                 </div>
 
-                <div className="md:w-1/2">
+                <div className="md:w-3/5">
                   <img
                     className={"h-auto rounded-lg"}
                     src={photoData.path}
