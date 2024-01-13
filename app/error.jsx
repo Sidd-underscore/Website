@@ -12,7 +12,7 @@ export default function Error({ error, reset }) {
   return (
     <div>
       <h1 className="text-5xl font-bold">Something went wrong!</h1>
-      <p className='mt-4'>Sorry, I make a lot of mistakes! Here, let&apos;s try again:</p>
+      <p className='mt-4'>Here, let&apos;s try again:</p>
       <Button
       className="mt-2"
         onClick={

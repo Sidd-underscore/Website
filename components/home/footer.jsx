@@ -7,7 +7,7 @@ export function Footer() {
         Made with Next.js and love by Sidd in Portland, OR.{" "}
         <p>
           <Link
-            className="inline-flex dark:text-zinc-50"
+            className="text-xs inline-flex dark:text-zinc-50"
             href="/photography/PXL_20230903_140052596.PORTRAIT.jpg"
           >
             Ivy

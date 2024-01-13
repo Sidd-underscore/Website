@@ -10,7 +10,7 @@
     },
     {
         "name": "Ivy Posing",
-        "description": "My dog, Ivy, posing for a picture on my patio outside. She's so cute!",
+        "description": "My dog, Ivy, posing for a picture on my patio outside.",
         "tags": ["dog", "plants", "portrait"],
         "path": "/photography/PXL_20230903_140052596.PORTRAIT.jpg",
         "location": "Portland, OR",
@@ -28,7 +28,7 @@
     },
     {
         "name": "Fall Salad",
-        "description": "A closeup of the top of a roasted vegetable salad my family and I made to celebrate the coming of fall. Doesn't it match the vibe of the season so well?",
+        "description": "A closeup of the top of a roasted vegetable salad my family and I made to celebrate the coming of fall.",
         "tags": ["fall", "food", "closeup"],
         "path": "/photography/PXL_20230910_014736295.MP.jpg",
         "location": "Portland, OR",
@@ -91,7 +91,7 @@
     },
     {
         "name": "Feeding Bird",
-        "description": "A happy lil bird feeding upon seeds from my backyard bird feeder",
+        "description": "A happy bird feeding upon seeds from my backyard bird feeder",
         "tags": ["bird", "nature", "portrait"],
         "path": "/photography/PXL_20230917_211843869~2.jpg",
         "location": "Portland, OR",
@@ -100,7 +100,7 @@
     },
     {
         "name": "Feeding Bird Pt. 2",
-        "description": "A rather sassy-looking bird wth its back ot the camera looking back at the camera while eating food",
+        "description": "A bird with its back to the camera looking back while eating food",
         "tags": ["bird", "nature", "portrait"],
         "path": "/photography/PXL_20230917_211852435~2.jpg",
         "location": "Portland, OR",
@@ -118,7 +118,7 @@
     },
     {
         "name": "Urban Railway",
-        "description": "A railway in a cobblestone road leading to an urban building in construction. Notice the use of magic eraser on the platform to remove humans that were previously there!",
+        "description": "A railway in a cobblestone road leading to an urban building in construction. Notice the use of Google's Magic Eraser on the platform (left) to remove humans that were previously there!",
         "tags": ["urban", "vibrant", "historical", "Google's Magic Eraser"],
         "path": "/photography/PXL_20230929_223803856~2.jpg",
         "location": "Portland, OR",

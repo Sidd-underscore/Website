@@ -32,7 +32,7 @@ export function Photo({ className, photoData }) {
           <DialogHeader>
             <DialogTitle>{photoData.name}</DialogTitle>
             <DialogDescription>
-              <div className="max-h-[50vh] space-y-2 overflow-auto text-left md:flex md:space-x-4 md:space-y-0">
+              <div className="max-h-[50vh] md:max-h-[75vh] space-y-2 overflow-auto text-left md:flex md:space-x-4 md:space-y-0">
                 <div className="md:w-2/5">
                   <div className="my-2 flex min-w-full items-center justify-center overflow-x-auto py-1 font-mono text-xs md:justify-start">
                     {photoData.tags.map((tag, index) => (
