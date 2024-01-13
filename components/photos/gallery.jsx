@@ -16,6 +16,9 @@ export function Gallery() {
   const [photos2, setPhotos2] = useState();
   const [searchError, setSearchError] = useState(false);
   const [date, setDate] = useState();
+  const [imagesLoading, setImagesLoading] = useState(
+    originalPhotosArray.length,
+  );
 
   async function filterPhotos(data) {
     let photos = [...originalPhotosArray];
@@ -111,6 +114,7 @@ export function Gallery() {
 
     await until((_) => doneWithSearching === true && doneWithArrays === true);
     setSearchIcon(<MagnifyingGlassIcon />);
+    setImagesLoading(() => photos.length);
   }
 
   // when searchQuery changes, wait a bit for typing to stop then filter
@@ -148,16 +152,39 @@ export function Gallery() {
       <div className="mt-4 flex w-full gap-4 p-4">
         {searchError === false ? (
           <>
-            <div className="flex w-1/2 flex-col space-y-4">
+            <div
+              className={
+                imagesLoading === 0 ? "flex w-1/2 flex-col space-y-4" : "hidden"
+              }
+            >
               {photos1?.map((photo) => (
-                <Photo key={photo.name} photoData={photo} />
+                <Photo
+                  onLoad={() => setImagesLoading((prev) => prev - 1)}
+                  key={photo.name}
+                  photoData={photo}
+                />
               ))}
             </div>
-            <div className="flex w-1/2 flex-col space-y-4">
+            <div
+              className={
+                imagesLoading === 0 ? "flex w-1/2 flex-col space-y-4" : "hidden"
+              }
+            >
               {photos2?.map((photo) => (
-                <Photo key={photo.name} photoData={photo} />
+                <Photo
+                  onLoad={() => setImagesLoading((prev) => prev - 1)}
+                  key={photo.name}
+                  photoData={photo}
+                />
               ))}
             </div>
+
+            {imagesLoading != 0 && (
+              <p className="flex h-full w-full items-center justify-center space-x-2 py-4 text-center text-sm text-zinc-400">
+                <Loading />{" "}
+                <span>Loading images... ({imagesLoading} left)</span>
+              </p>
+            )}
           </>
         ) : (
           <p className="w-full py-4 text-center text-sm text-zinc-400">

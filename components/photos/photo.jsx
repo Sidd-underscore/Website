@@ -15,29 +15,38 @@ import {
 } from "../ui/responsive-dialog";
 import { formatRelative, fromUnixTime, formatDistance, format } from "date-fns";
 import { Button } from "../ui/button";
+import Image from "next/image";
 
-export function Photo({ className, photoData }) {
+export function Photo({ className, photoData, ...props }) {
   return (
     <>
       <Dialog key={photoData.name}>
         <DialogTrigger asChild={true}>
-          <img
-            className={"w-full cursor-pointer rounded-lg " + className}
-            src={photoData.path}
-            alt={photoData.name}
-            title={photoData.name}
-          />
+          <div className="relative h-full w-full">
+            <Image
+              priority={true}
+              quality={50}
+              className={"h-full w-full cursor-pointer rounded-lg " + className}
+              src={photoData.path}
+              alt={photoData.name}
+              title={photoData.name}
+              width={0}
+              height={0}
+              sizes="100vw"
+              {...props}
+            />
+          </div>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{photoData.name}</DialogTitle>
             <DialogDescription>
-              <div className="max-h-[50vh] md:max-h-[75vh] space-y-2 overflow-auto text-left md:flex md:space-x-4 md:space-y-0">
+              <div className="max-h-[75vh] space-y-2 overflow-auto p-2 text-left md:flex md:max-h-[75vh] md:space-x-4 md:space-y-0">
                 <div className="md:w-2/5">
                   <div className="my-2 flex min-w-full items-center justify-center overflow-x-auto py-1 font-mono text-xs md:justify-start">
                     {photoData.tags.map((tag, index) => (
                       <span
-                        className="mx-1 rounded-full text-nowrap bg-zinc-100 px-2 py-0.5 transition dark:bg-zinc-700/50"
+                        className="mx-1 text-nowrap rounded-full bg-zinc-100 px-2 py-0.5 transition dark:bg-zinc-700/50"
                         key={tag + index}
                       >
                         {tag}
@@ -75,11 +84,18 @@ export function Photo({ className, photoData }) {
                 </div>
 
                 <div className="md:w-3/5">
-                  <img
-                    className={"h-auto rounded-lg"}
+                  <Image
+                    priority={true}
+                    quality={100}
+                    className={
+                      "h-full w-full cursor-pointer rounded-lg " + className
+                    }
                     src={photoData.path}
                     alt={photoData.name}
                     title={photoData.name}
+                    width={0}
+                    height={0}
+                    sizes="100vw"
                   />
                 </div>
               </div>
