@@ -3,7 +3,7 @@
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Input } from "@/components/ui/input";
 import { Photo } from "@/components/photos/photo";
-import originalPhotosArray from "@/lib/photos.json";
+import originalPhotosArray from "@/lib/photos";
 import { useState, useEffect } from "react";
 import { Loading } from "../ui/loading";
 import { until } from "@/lib/utils";
@@ -154,7 +154,7 @@ export function Gallery() {
           <>
             <div
               className={
-                imagesLoading === 0 ? "flex w-1/2 flex-col space-y-4" : "hidden"
+                imagesLoading < 2 ? "flex w-1/2 flex-col space-y-4" : "hidden"
               }
             >
               {photos1?.map((photo) => (
@@ -167,7 +167,7 @@ export function Gallery() {
             </div>
             <div
               className={
-                imagesLoading === 0 ? "flex w-1/2 flex-col space-y-4" : "hidden"
+                imagesLoading < 2 ? "flex w-1/2 flex-col space-y-4" : "hidden"
               }
             >
               {photos2?.map((photo) => (
@@ -179,7 +179,7 @@ export function Gallery() {
               ))}
             </div>
 
-            {imagesLoading != 0 && (
+            {imagesLoading > 1 && (
               <p className="flex h-full w-full items-center justify-center space-x-2 py-4 text-center text-sm text-zinc-400">
                 <Loading />{" "}
                 <span>Loading images... ({imagesLoading} left)</span>

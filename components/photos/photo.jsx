@@ -27,12 +27,13 @@ export function Photo({ className, photoData, ...props }) {
               priority={true}
               quality={50}
               className={"h-full w-full cursor-pointer rounded-lg " + className}
-              src={photoData.path}
+              src={photoData.staticPhoto}
               alt={photoData.name}
               title={photoData.name}
               width={0}
               height={0}
               sizes="100vw"
+              placeholder="blur"
               {...props}
             />
           </div>
@@ -83,19 +84,17 @@ export function Photo({ className, photoData, ...props }) {
                   </div>
                 </div>
 
-                <div className="md:w-3/5">
+                <div className="md:w-3/5 overflow-auto">
                   <Image
                     priority={true}
-                    quality={100}
-                    className={
-                      "h-full w-full cursor-pointer rounded-lg " + className
-                    }
-                    src={photoData.path}
+                    className={"w-full rounded-lg " + className}
+                    src={photoData.staticPhoto}
                     alt={photoData.name}
                     title={photoData.name}
                     width={0}
                     height={0}
                     sizes="100vw"
+                    placeholder="blur"
                   />
                 </div>
               </div>
