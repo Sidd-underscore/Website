@@ -15,8 +15,8 @@ export function NavItem({ item, underline }) {
 
 export function Navbar() {
   return (
-    <div className="fixed left-0 top-0 z-10 flex w-screen items-center justify-center lg:top-4 ">
-      <nav className="z-20 flex w-screen max-w-5xl items-center justify-between rounded-none border-b border-zinc-500/25 bg-zinc-50/70 px-4 py-2 text-xs shadow backdrop-blur-md transition lg:rounded-3xl lg:border md:text-sm dark:border-white/10 dark:bg-zinc-900/75">
+    <div className="fixed left-0 top-0 z-10 flex w-screen items-center justify-center xl:top-4 ">
+      <nav className="relative z-20 flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-zinc-500/25 bg-zinc-50/70 px-4 py-2 text-xs shadow backdrop-blur-md transition md:text-sm xl:max-w-6xl xl:rounded-3xl xl:border dark:border-white/10 dark:bg-zinc-900/75">
         <p className="flex items-center space-x-4">
           <NavItem
             underline={false}
@@ -25,14 +25,26 @@ export function Navbar() {
               label: (
                 <Image
                   alt="Sidd's logo"
-                  width={24}
-                  height={24}
+                  width={250}
+                  height={250}
+                  quality={100}
+                  className="absolute left-3 top-2.5 h-8 w-8 transition-[width_height] hover:-left-2 hover:top-0 hover:h-[72px] hover:w-[72px] hover:-rotate-12 hover:[filter:drop-shadow(1px_0_0_white)_drop-shadow(0_1px_0_white)_drop-shadow(-1px_0_0_white)_drop-shadow(0_-1px_0_white)] dark:hover:[filter:drop-shadow(1px_0_0_#09090b)_drop-shadow(0_1px_0_#09090b)_drop-shadow(-1px_0_0_#09090b)_drop-shadow(0_-1px_0_#09090b)]"
                   src="/images/sidd.png"
                 />
               ),
             }}
           />
-          <NavItem item={{ link: "/about", label: "About Me" }} />
+          <NavItem
+            underline={false}
+            item={{
+              link: "/about",
+              label: (
+                <span className="ml-6 border-b border-zinc-400 transition-all hover:border-zinc-500 dark:border-white/25 dark:hover:border-white/50">
+                  About Me
+                </span>
+              ),
+            }}
+          />
           <NavItem item={{ link: "/photos", label: "Photography" }} />
         </p>
         <ThemeSwitcher />

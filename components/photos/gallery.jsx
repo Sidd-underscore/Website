@@ -149,7 +149,7 @@ export function Gallery() {
         />
       </div>
 
-      <div className="mt-4 flex w-full gap-4 p-4">
+      <div className="mt-4 flex w-full gap-4 py-4">
         {searchError === false ? (
           <>
             <div

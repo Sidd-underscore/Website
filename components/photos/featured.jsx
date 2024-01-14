@@ -14,7 +14,7 @@ export function FeaturedPhotos() {
   function scrollLeft() {
     if (!gallery.current) return false;
     gallery.current.scrollTo({
-      left: gallery.current.scrollLeft + 305.12,
+      left: gallery.current.scrollLeft + 250,
       behavior: "smooth",
     });
   }
@@ -22,7 +22,7 @@ export function FeaturedPhotos() {
   function scrollRight() {
     if (!gallery.current) return false;
     gallery.current.scrollTo({
-      left: gallery.current.scrollLeft - 305.12,
+      left: gallery.current.scrollLeft - 250,
       behavior: "smooth",
     });
   }
@@ -61,7 +61,7 @@ export function FeaturedPhotos() {
 
         <Link
           href="/photos"
-          className="flex h-96 min-w-48 items-center justify-center rounded-lg border bg-zinc-200 dark:bg-zinc-900"
+          className="flex h-96 min-w-[289.13px] items-center justify-center rounded-lg border bg-zinc-200 dark:bg-zinc-900"
         >
           <div className="text-center text-2xl font-bold">View all</div>
         </Link>
