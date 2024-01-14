@@ -3,6 +3,8 @@ import "./globals.css";
 import { Footer } from "@/components/home/footer";
 import { Navbar } from "@/components/home/navbar";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from '@vercel/analytics/react';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -44,6 +46,8 @@ export default function RootLayout({ children }) {
           {/* For screen sizes */}
           <TailwindIndicator />
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
