@@ -1,6 +1,6 @@
 "use client";
 
-import photos from "@/lib/photos.json";
+import photos from "@/lib/photos";
 import { Photo } from "./photo";
 import { Link } from "../ui/link";
 import { useEffect, useRef } from "react";
