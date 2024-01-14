@@ -1,14 +1,15 @@
 "use client";
 
-import photos from "@/lib/photos";
+import originalPhotosArray from "@/lib/photos";
 import { Photo } from "./photo";
 import { Link } from "../ui/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 
 export function FeaturedPhotos() {
   const gallery = useRef(null);
+  const [photos, setPhotos] = useState([]);
 
   function scrollLeft() {
     if (!gallery.current) return false;
@@ -26,8 +27,10 @@ export function FeaturedPhotos() {
     });
   }
 
-  function getRandomElements(arr) {
+  useEffect(() => {
     let result = [];
+    let arr = [...originalPhotosArray];
+
     const len = arr.length;
     for (let i = 0; i < 5; i++) {
       const randomIndex = Math.floor(Math.random() * len);
@@ -37,28 +40,31 @@ export function FeaturedPhotos() {
         result.push(arr[randomIndex]);
       }
     }
-    return result;
-  }
+    setPhotos(result);
+  }, [originalPhotosArray]);
+
   return (
     <div className="my-32 w-full text-left">
       <h2 className="text-4xl font-semibold">Featured Photos</h2>
 
       <div
         ref={gallery}
-        className="mx-0.5 mt-12 flex w-full space-x-4 overflow-x-auto py-2"
+        className="mx-0.5 mt-12 flex space-x-4 overflow-x-auto py-2"
       >
-        <div className="flex w-full min-w-[510px] space-x-4">
-          {getRandomElements(photos).map((photo, index) => (
-            <Photo className="h-96 w-full" key={index} photoData={photo} />
-          ))}
+        {photos.map((photo, index) => (
+          <Photo
+            key={index}
+            className="h-96 w-fit max-w-none"
+            photoData={photo}
+          />
+        ))}
 
-          <Link
-            href="/photos"
-            className="flex h-96 min-w-48 items-center justify-center rounded-lg border bg-zinc-200 dark:bg-zinc-900"
-          >
-            <div className="text-center text-2xl font-bold">View all</div>
-          </Link>
-        </div>
+        <Link
+          href="/photos"
+          className="flex h-96 min-w-48 items-center justify-center rounded-lg border bg-zinc-200 dark:bg-zinc-900"
+        >
+          <div className="text-center text-2xl font-bold">View all</div>
+        </Link>
       </div>
 
       <div className="flex items-center justify-between">

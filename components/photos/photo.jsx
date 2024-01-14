@@ -14,8 +14,9 @@ import {
   DialogTrigger,
 } from "../ui/responsive-dialog";
 import { formatRelative, fromUnixTime, formatDistance, format } from "date-fns";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 export function Photo({ className, photoData, ...props }) {
   return (
@@ -26,7 +27,10 @@ export function Photo({ className, photoData, ...props }) {
             <Image
               priority={true}
               quality={50}
-              className={"h-full w-full cursor-pointer rounded-lg " + className}
+              className={cn(
+                "h-full w-full cursor-pointer rounded-lg",
+                className,
+              )}
               src={photoData.staticPhoto}
               alt={photoData.name}
               title={photoData.name}
@@ -84,10 +88,9 @@ export function Photo({ className, photoData, ...props }) {
                   </div>
                 </div>
 
-                <div className="md:w-3/5 overflow-auto">
+                <div className="overflow-auto p-0.5 md:w-3/5">
                   <Image
-                    priority={true}
-                    className={"w-full rounded-lg " + className}
+                    className={"w-full rounded-lg"}
                     src={photoData.staticPhoto}
                     alt={photoData.name}
                     title={photoData.name}
@@ -95,21 +98,23 @@ export function Photo({ className, photoData, ...props }) {
                     height={0}
                     sizes="100vw"
                     placeholder="blur"
+                    quality={100}
                   />
                 </div>
               </div>
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
-            <a download={true} href={photoData.path} className="h-full w-full">
-              <Button
-                variant="secondary"
-                size="sm"
-                className="flex w-full items-center"
-              >
-                <DownloadIcon className="mr-2" />
-                Download Image
-              </Button>
+            <a
+              download={true}
+              href={photoData.path}
+              className={buttonVariants({
+                variant: "secondary",
+                className: "flex h-full w-full items-center",
+              })}
+            >
+              <DownloadIcon className="mr-2" />
+              Download Image
             </a>
           </DialogFooter>
         </DialogContent>
