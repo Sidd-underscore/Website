@@ -34,8 +34,8 @@ export function Gallery() {
   async function filterPhotos(data) {
     let photos = [...originalPhotosArray];
     let query = data?.searchQuery || searchQuery;
-    let dateQuery = data?.filterDate;
-    let cameraQuery = data?.camera;
+    let dateQuery = data?.filterDate || date;
+    let cameraQuery = data?.filterCamera || searchCamera;
 
     let anotherTemp1 = [];
     let anotherTemp2 = [];
@@ -86,7 +86,6 @@ export function Gallery() {
         photos = filteredPhotos;
         doneWithCameraFiltering = true;
       } else {
-        photos = [...originalPhotosArray];
         doneWithCameraFiltering = true;
       }
 
@@ -184,21 +183,10 @@ export function Gallery() {
     const timeOutId = setTimeout(() => {
       filterPhotos({
         searchQuery: searchQuery,
-        filterDate: date,
-        camera: searchCamera,
       });
     }, 500);
     return () => clearTimeout(timeOutId);
   }, [searchQuery]);
-
-  useEffect(() => {
-    setSearchIcon(<Loading />);
-    filterPhotos({
-      searchQuery: searchQuery,
-      filterDate: date,
-      camera: searchCamera,
-    });
-  }, [searchCamera, date]);
 
   return (
     <div className="my-6">
@@ -216,17 +204,24 @@ export function Gallery() {
           setDate={(e) => {
             setSearchIcon(<Loading />);
             setDate(e);
+            filterPhotos({
+              filterDate: e,
+            });
           }}
           className="h-auto px-3 py-3 text-sm shadow-sm"
         />
       </div>
       <div className="mt-2 flex justify-between">
         <Select
-          onValueChange={(e) =>
+          onValueChange={(e) => {
             e === "removeSearchCameraFilter"
               ? setSearchCamera(undefined)
-              : setSearchCamera(e)
-          }
+              : setSearchCamera(e);
+
+            filterPhotos({
+              filterCamera: e,
+            });
+          }}
         >
           <SelectTrigger
             className={cn(
