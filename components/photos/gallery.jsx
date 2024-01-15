@@ -6,8 +6,15 @@ import { Photo } from "@/components/photos/photo";
 import originalPhotosArray from "@/lib/photos";
 import { useState, useEffect } from "react";
 import { Loading } from "../ui/loading";
-import { until } from "@/lib/utils";
+import { cn, until } from "@/lib/utils";
 import { DatePickerWithRange } from "../ui/date-picker";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function Gallery() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,6 +23,10 @@ export function Gallery() {
   const [photos2, setPhotos2] = useState();
   const [searchError, setSearchError] = useState(false);
   const [date, setDate] = useState();
+
+  const [searchCamera, setSearchCamera] = useState();
+  const [cameras, setCameras] = useState([]);
+
   const [imagesLoading, setImagesLoading] = useState(
     originalPhotosArray.length,
   );
@@ -81,6 +92,19 @@ export function Gallery() {
               if (i === photos.length - 1) doneWithSearching = true;
               break;
             }
+          } else if (
+            [
+              "blurDataURL",
+              "blurHeight",
+              "blurWidth",
+              "height",
+              "src",
+              "width",
+            ].every((prop) => photos[i][key].hasOwnProperty(prop))
+          ) {
+            // This is the image static import
+            if (i === photos.length - 1) doneWithSearching = true;
+            break;
           } else {
             if (photos[i][key].toLowerCase().includes(query)) {
               found = true;
@@ -96,6 +120,7 @@ export function Gallery() {
         }
       }
     }
+
     if (photos.length === 0) return setSearchError(true);
     else setSearchError(false);
 
@@ -127,6 +152,27 @@ export function Gallery() {
     return () => clearTimeout(timeOutId);
   }, [searchQuery]);
 
+  // when the photos change, update the camera select menu
+  useEffect(() => {
+    var tempCameras = [...cameras];
+    photos1?.forEach((photo) => {
+      const { camera } = photo;
+
+      if (!tempCameras.includes(camera)) {
+        tempCameras.push(camera);
+      }
+    });
+
+    photos2?.forEach((photo) => {
+      const { camera } = photo;
+
+      if (!tempCameras.includes(camera)) {
+        tempCameras.push(camera);
+      }
+    });
+    setCameras(() => tempCameras);
+  }, [photos1, photos2]);
+
   return (
     <div className="my-6">
       <div className="w-full items-center space-y-2 md:flex md:space-x-2 md:space-y-0">
@@ -147,6 +193,36 @@ export function Gallery() {
           }}
           className="h-auto px-3 py-3 text-sm shadow-sm"
         />
+      </div>
+      <div className="mt-2 flex justify-between">
+        <Select
+          onValueChange={(e) =>
+            e === "removeSearchCameraFilter"
+              ? setSearchCamera(undefined)
+              : setSearchCamera(e)
+          }
+        >
+          <SelectTrigger
+            className={cn(
+              "h-auto w-full px-3 py-2 font-normal md:w-[300px]",
+              !searchCamera && "text-zinc-400",
+            )}
+          >
+            {searchCamera === undefined ? (
+              "Select a camera..."
+            ) : (
+              <SelectValue placeholder="Select a camera..." />
+            )}
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="removeSearchCameraFilter">None</SelectItem>
+            {cameras.map((camera) => (
+              <SelectItem key={camera} value={camera}>
+                {camera}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       <div className="mt-4 flex w-full gap-4 py-4">
