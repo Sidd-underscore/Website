@@ -27,10 +27,6 @@ export function Gallery() {
   const [searchCamera, setSearchCamera] = useState();
   const [cameras, setCameras] = useState([]);
 
-  const [imagesLoading, setImagesLoading] = useState(
-    originalPhotosArray.length,
-  );
-
   async function filterPhotos(data) {
     let photos = [...originalPhotosArray];
     let query = data?.searchQuery || searchQuery;
@@ -173,7 +169,6 @@ export function Gallery() {
         doneWithCameraFiltering === true,
     );
     setSearchIcon(<MagnifyingGlassIcon />);
-    setImagesLoading(() => photos.length);
   }
 
   // when searchQuery changes, wait a bit for typing to stop then filter
