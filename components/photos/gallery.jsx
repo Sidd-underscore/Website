@@ -237,6 +237,7 @@ export function Gallery() {
                 <Photo
                   onLoad={() => setImagesLoading((prev) => prev - 1)}
                   key={photo.name}
+                  className="h-auto"
                   photoData={photo}
                 />
               ))}
@@ -250,6 +251,7 @@ export function Gallery() {
                 <Photo
                   onLoad={() => setImagesLoading((prev) => prev - 1)}
                   key={photo.name}
+                  className="h-auto"
                   photoData={photo}
                 />
               ))}
