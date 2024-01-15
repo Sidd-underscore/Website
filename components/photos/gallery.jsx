@@ -249,41 +249,16 @@ export function Gallery() {
       <div className="mt-4 flex w-full gap-4 py-4">
         {searchError === false ? (
           <>
-            <div
-              className={
-                imagesLoading < 2 ? "flex w-1/2 flex-col space-y-4" : "hidden"
-              }
-            >
+            <div className={"flex w-1/2 flex-col space-y-4"}>
               {photos1?.map((photo) => (
-                <Photo
-                  onLoad={() => setImagesLoading((prev) => prev - 1)}
-                  key={photo.name}
-                  className="h-auto"
-                  photoData={photo}
-                />
+                <Photo key={photo.name} className="h-auto" photoData={photo} />
               ))}
             </div>
-            <div
-              className={
-                imagesLoading < 2 ? "flex w-1/2 flex-col space-y-4" : "hidden"
-              }
-            >
+            <div className={"flex w-1/2 flex-col space-y-4"}>
               {photos2?.map((photo) => (
-                <Photo
-                  onLoad={() => setImagesLoading((prev) => prev - 1)}
-                  key={photo.name}
-                  className="h-auto"
-                  photoData={photo}
-                />
+                <Photo key={photo.name} className="h-auto" photoData={photo} />
               ))}
             </div>
-
-            {imagesLoading > 1 && (
-              <p className="flex h-full w-full items-center justify-center space-x-2 py-4 text-center text-sm text-zinc-400">
-                <Loading />{" "}
-                <span>Loading images... ({imagesLoading} left)</span>
-              </p>
-            )}
           </>
         ) : (
           <p className="w-full py-4 text-center text-sm text-zinc-400">
