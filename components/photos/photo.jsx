@@ -8,17 +8,27 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "../ui/responsive-dialog";
 import { formatRelative, fromUnixTime, formatDistance, format } from "date-fns";
-import { Button, buttonVariants } from "../ui/button";
+import { buttonVariants } from "../ui/button";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export function Photo({ className, photoData, ...props }) {
+  const [downloadFormat, setDownloadFormat] = useState(".jpg");
   return (
     <>
       <Dialog key={photoData.name}>
@@ -94,14 +104,23 @@ export function Photo({ className, photoData, ...props }) {
 
                   <a
                     download={true}
-                    href={photoData.path}
+                    href={photoData.path.replace(".png", downloadFormat)}
                     className={buttonVariants({
                       variant: "secondary",
-                      className: "mt-4 flex w-full items-center",
+                      className: "mt-4 flex w-full items-center rounded-lg",
                     })}
                   >
                     <DownloadIcon className="mr-2" />
-                    Download Image
+                    Download image as{" "}
+                    <Select defaultValue={downloadFormat} onValueChange={setDownloadFormat}>
+                      <SelectTrigger className="w-fit space-x-2">
+                        <SelectValue placeholder="Select an image format" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value=".jpg">JPG</SelectItem>
+                        <SelectItem value=".png">PNG</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </a>
                 </div>
 
