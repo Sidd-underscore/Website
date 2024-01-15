@@ -74,7 +74,7 @@ export function Gallery() {
       await until((_) => doneWithDateFiltering === true);
 
       // Next, filter out unwanted cameras
-      if (cameraQuery) {
+      if (cameraQuery != "removeSearchCameraFilter") {
         let filteredPhotos = photos.filter((photo) => {
           return cameraQuery.includes(photo.camera);
         });
@@ -82,6 +82,7 @@ export function Gallery() {
         photos = filteredPhotos;
         doneWithCameraFiltering = true;
       } else {
+        photos = [...originalPhotosArray]
         doneWithCameraFiltering = true;
       }
 
@@ -166,7 +167,7 @@ export function Gallery() {
       (_) =>
         doneWithSearching === true &&
         doneWithArrays === true &&
-        doneWithCameraFiltering === true,
+        doneWithCameraFiltering === true
     );
     setSearchIcon(<MagnifyingGlassIcon />);
   }
@@ -221,7 +222,7 @@ export function Gallery() {
           <SelectTrigger
             className={cn(
               "h-auto w-full px-3 py-2 font-normal md:w-[300px]",
-              !searchCamera && "text-zinc-400",
+              !searchCamera && "text-zinc-400"
             )}
           >
             {searchCamera === undefined ? (

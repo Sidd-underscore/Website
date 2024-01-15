@@ -111,7 +111,7 @@ export function Photo({ className, photoData, ...props }) {
                     <DownloadIcon className="mr-2" />
                     Download image as{" "}
                     <Select defaultValue={downloadFormat} onValueChange={setDownloadFormat}>
-                      <SelectTrigger triggerButtonVariant="secondary" className="w-fit space-x-2">
+                      <SelectTrigger triggerButtonVariant="icon" className="w-fit space-x-2">
                         <SelectValue placeholder="Select an image format" />
                       </SelectTrigger>
                       <SelectContent>
