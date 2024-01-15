@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CameraIcon, SewingPinFilledIcon } from "@radix-ui/react-icons";
 
 export function Gallery() {
   const [searchIcon, setSearchIcon] = useState(<MagnifyingGlassIcon />);
@@ -84,14 +85,14 @@ export function Gallery() {
       // Next, filter out unwanted cameras
       if (cameraQuery && cameraQuery != "removeSearchCameraFilter") {
         let filteredPhotos = photos.filter((photo) => {
-          console.log(cameraQuery)
+          console.log(cameraQuery);
           return cameraQuery.includes(photo.camera);
         });
 
         photos = filteredPhotos;
         doneWithCameraFiltering = true;
       } else {
-        photos = [...originalPhotosArray]
+        photos = [...originalPhotosArray];
         doneWithCameraFiltering = true;
       }
 
@@ -106,7 +107,7 @@ export function Gallery() {
         photos = filteredPhotos;
         doneWithLocationFiltering = true;
       } else {
-        photos = [...originalPhotosArray]
+        photos = [...originalPhotosArray];
         doneWithLocationFiltering = true;
       }
 
@@ -239,6 +240,7 @@ export function Gallery() {
       </div>
       <div className="mt-2 flex justify-between space-x-2">
         <Select
+          defaultValue="removeSearchCameraFilter"
           onValueChange={(e) => {
             e === "removeSearchCameraFilter"
               ? setSearchCamera(undefined)
@@ -255,11 +257,16 @@ export function Gallery() {
               !searchCamera && "text-zinc-400"
             )}
           >
-            {searchCamera === undefined ? (
-              "Select a camera..."
-            ) : (
-              <SelectValue placeholder="Select a camera..." />
-            )}
+            <p className="flex items-center space-x-2">
+              <CameraIcon className="h-3 w-3" />
+              <span>
+                {searchCamera === undefined ? (
+                  "Select a camera..."
+                ) : (
+                  <SelectValue placeholder="Select a camera..." />
+                )}
+              </span>
+            </p>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="removeSearchCameraFilter">None</SelectItem>
@@ -272,6 +279,7 @@ export function Gallery() {
         </Select>
 
         <Select
+          defaultValue="removeSearchLocationFilter"
           onValueChange={(e) => {
             e === "removeSearchLocationFilter"
               ? setSearchLocation(undefined)
@@ -288,11 +296,16 @@ export function Gallery() {
               !searchLocation && "text-zinc-400"
             )}
           >
-            {searchLocation === undefined ? (
-              "Select a location..."
-            ) : (
-              <SelectValue placeholder="Select a location..." />
-            )}
+            <p className="flex items-center space-x-2">
+              <SewingPinFilledIcon className="h-3 w-3" />
+              <span>
+                {searchLocation === undefined ? (
+                  "Select a location..."
+                ) : (
+                  <SelectValue placeholder="Select a location..." />
+                )}
+              </span>
+            </p>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="removeSearchLocationFilter">None</SelectItem>
