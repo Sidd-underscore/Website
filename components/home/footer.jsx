@@ -24,7 +24,7 @@ export function Footer() {
         );
       }, 10000);
 
-      setTimeout(() => setCanSpawn(true), 50);
+      setTimeout(() => setCanSpawn(true), 100);
     }
   };
 
@@ -32,7 +32,7 @@ export function Footer() {
     <>
       <footer className="p-4 text-center">
         <sub>
-          Made with Next.js and <span onMouseMove={handleHeartHover}>love</span>{" "}
+          Made with Next.js and <span onMouseEnter={handleHeartHover}>love</span>{" "}
           by Sidd in Portland, OR.
           <p>
             <Link
