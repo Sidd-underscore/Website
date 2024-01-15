@@ -17,21 +17,27 @@ import {
 } from "@/components/ui/select";
 
 export function Gallery() {
-  const [searchQuery, setSearchQuery] = useState("");
   const [searchIcon, setSearchIcon] = useState(<MagnifyingGlassIcon />);
+
   const [photos1, setPhotos1] = useState();
   const [photos2, setPhotos2] = useState();
+
   const [searchError, setSearchError] = useState(false);
   const [date, setDate] = useState();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [searchCamera, setSearchCamera] = useState();
   const [cameras, setCameras] = useState([]);
+
+  const [searchLocation, setSearchLocation] = useState();
+  const [locations, setLocations] = useState([]);
 
   async function filterPhotos(data) {
     let photos = [...originalPhotosArray];
     let query = data?.searchQuery || searchQuery;
     let dateQuery = data?.filterDate || date;
     let cameraQuery = data?.filterCamera || searchCamera;
+    let locationQuery = data?.filterLocation || searchLocation;
 
     let anotherTemp1 = [];
     let anotherTemp2 = [];
@@ -40,12 +46,14 @@ export function Gallery() {
     var doneWithSearching = false;
     var doneWithArrays = false;
     var doneWithCameraFiltering = false;
+    var doneWithLocationFiltering = false;
 
     // Check whether there is a query in the first place
-    if (!dateQuery && !cameraQuery && query === "") {
+    if (!dateQuery && !cameraQuery && !locationQuery && query === "") {
       doneWithDateFiltering = true;
       doneWithSearching = true;
       doneWithCameraFiltering = true;
+      doneWithLocationFiltering = true;
       photos = [...originalPhotosArray];
     } else {
       // First, remove photos outside of date range if it exists
@@ -74,8 +82,9 @@ export function Gallery() {
       await until((_) => doneWithDateFiltering === true);
 
       // Next, filter out unwanted cameras
-      if (cameraQuery != "removeSearchCameraFilter") {
+      if (cameraQuery && cameraQuery != "removeSearchCameraFilter") {
         let filteredPhotos = photos.filter((photo) => {
+          console.log(cameraQuery)
           return cameraQuery.includes(photo.camera);
         });
 
@@ -87,6 +96,21 @@ export function Gallery() {
       }
 
       await until((_) => doneWithCameraFiltering === true);
+
+      // Next, filter out unwanted locations
+      if (locationQuery && locationQuery != "removeSearchLocationFilter") {
+        let filteredPhotos = photos.filter((photo) => {
+          return locationQuery.includes(photo.location);
+        });
+
+        photos = filteredPhotos;
+        doneWithLocationFiltering = true;
+      } else {
+        photos = [...originalPhotosArray]
+        doneWithLocationFiltering = true;
+      }
+
+      await until((_) => doneWithLocationFiltering === true);
 
       // Then, search for text matches
       for (let i = photos.length - 1; i >= 0; i--) {
@@ -138,17 +162,23 @@ export function Gallery() {
     if (photos.length === 0) return setSearchError(true);
     else setSearchError(false);
 
-    // update the camera menu
+    // update the camera and location menus
     var tempCameras = [];
+    var tempLocations = [];
     photos.forEach((photo) => {
-      const { camera } = photo;
+      const { camera, location } = photo;
 
       if (!tempCameras.includes(camera)) {
         tempCameras.push(camera);
       }
+
+      if (!tempLocations.includes(location)) {
+        tempLocations.push(location);
+      }
     });
 
     setCameras(() => tempCameras);
+    setLocations(() => tempLocations);
 
     for (let i = 0; i < photos.length; i += 1) {
       if (i % 2 === 0) {
@@ -207,7 +237,7 @@ export function Gallery() {
           className="h-auto px-3 py-3 text-sm shadow-sm"
         />
       </div>
-      <div className="mt-2 flex justify-between">
+      <div className="mt-2 flex justify-between space-x-2">
         <Select
           onValueChange={(e) => {
             e === "removeSearchCameraFilter"
@@ -221,7 +251,7 @@ export function Gallery() {
         >
           <SelectTrigger
             className={cn(
-              "h-auto w-full px-3 py-2 font-normal md:w-[300px]",
+              "h-auto w-full px-3 py-2 font-normal w-full",
               !searchCamera && "text-zinc-400"
             )}
           >
@@ -236,6 +266,39 @@ export function Gallery() {
             {cameras.map((camera) => (
               <SelectItem key={camera} value={camera}>
                 {camera}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select
+          onValueChange={(e) => {
+            e === "removeSearchLocationFilter"
+              ? setSearchLocation(undefined)
+              : setSearchLocation(e);
+
+            filterPhotos({
+              filterLocation: e,
+            });
+          }}
+        >
+          <SelectTrigger
+            className={cn(
+              "h-auto w-full px-3 py-2 font-normal w-full",
+              !searchLocation && "text-zinc-400"
+            )}
+          >
+            {searchLocation === undefined ? (
+              "Select a location..."
+            ) : (
+              <SelectValue placeholder="Select a location..." />
+            )}
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="removeSearchLocationFilter">None</SelectItem>
+            {locations.map((location) => (
+              <SelectItem key={location} value={location}>
+                {location}
               </SelectItem>
             ))}
           </SelectContent>
