@@ -35,6 +35,7 @@ export function Gallery() {
     let photos = [...originalPhotosArray];
     let query = data?.searchQuery || searchQuery;
     let dateQuery = data?.filterDate;
+    let cameraQuery = data?.camera;
 
     let anotherTemp1 = [];
     let anotherTemp2 = [];
@@ -42,11 +43,13 @@ export function Gallery() {
     var doneWithDateFiltering = false;
     var doneWithSearching = false;
     var doneWithArrays = false;
+    var doneWithCameraFiltering = false;
 
     // Check whether there is a query in the first place
-    if (!dateQuery && query === "") {
+    if (!dateQuery && !cameraQuery && query === "") {
       doneWithDateFiltering = true;
       doneWithSearching = true;
+      doneWithCameraFiltering = true;
       photos = [...originalPhotosArray];
     } else {
       // First, remove photos outside of date range if it exists
@@ -73,6 +76,21 @@ export function Gallery() {
       }
 
       await until((_) => doneWithDateFiltering === true);
+
+      // Next, filter out unwanted cameras
+      if (cameraQuery) {
+        let filteredPhotos = photos.filter((photo) => {
+          return cameraQuery.includes(photo.camera);
+        });
+
+        photos = filteredPhotos;
+        doneWithCameraFiltering = true;
+      } else {
+        photos = [...originalPhotosArray];
+        doneWithCameraFiltering = true;
+      }
+
+      await until((_) => doneWithCameraFiltering === true);
 
       // Then, search for text matches
       for (let i = photos.length - 1; i >= 0; i--) {
@@ -124,6 +142,18 @@ export function Gallery() {
     if (photos.length === 0) return setSearchError(true);
     else setSearchError(false);
 
+    // update the camera menu
+    var tempCameras = [];
+    photos.forEach((photo) => {
+      const { camera } = photo;
+
+      if (!tempCameras.includes(camera)) {
+        tempCameras.push(camera);
+      }
+    });
+
+    setCameras(() => tempCameras);
+
     for (let i = 0; i < photos.length; i += 1) {
       if (i % 2 === 0) {
         anotherTemp1.push(photos[i]);
@@ -137,7 +167,12 @@ export function Gallery() {
     setPhotos1(() => anotherTemp1);
     setPhotos2(() => anotherTemp2);
 
-    await until((_) => doneWithSearching === true && doneWithArrays === true);
+    await until(
+      (_) =>
+        doneWithSearching === true &&
+        doneWithArrays === true &&
+        doneWithCameraFiltering === true,
+    );
     setSearchIcon(<MagnifyingGlassIcon />);
     setImagesLoading(() => photos.length);
   }
@@ -147,31 +182,23 @@ export function Gallery() {
     setSearchIcon(<Loading />);
 
     const timeOutId = setTimeout(() => {
-      filterPhotos({ searchQuery: searchQuery, filterDate: date });
+      filterPhotos({
+        searchQuery: searchQuery,
+        filterDate: date,
+        camera: searchCamera,
+      });
     }, 500);
     return () => clearTimeout(timeOutId);
   }, [searchQuery]);
 
-  // when the photos change, update the camera select menu
   useEffect(() => {
-    var tempCameras = [...cameras];
-    photos1?.forEach((photo) => {
-      const { camera } = photo;
-
-      if (!tempCameras.includes(camera)) {
-        tempCameras.push(camera);
-      }
+    setSearchIcon(<Loading />);
+    filterPhotos({
+      searchQuery: searchQuery,
+      filterDate: date,
+      camera: searchCamera,
     });
-
-    photos2?.forEach((photo) => {
-      const { camera } = photo;
-
-      if (!tempCameras.includes(camera)) {
-        tempCameras.push(camera);
-      }
-    });
-    setCameras(() => tempCameras);
-  }, [photos1, photos2]);
+  }, [searchCamera, date]);
 
   return (
     <div className="my-6">
@@ -189,7 +216,6 @@ export function Gallery() {
           setDate={(e) => {
             setSearchIcon(<Loading />);
             setDate(e);
-            filterPhotos({ searchQuery: searchQuery, filterDate: e });
           }}
           className="h-auto px-3 py-3 text-sm shadow-sm"
         />
