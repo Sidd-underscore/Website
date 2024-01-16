@@ -4,7 +4,7 @@ import { projects } from "@/lib/projects";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/components/ui/separator"
 
-export async function generateMetadata({ params, searchParams }, parent) {
+export async function generateMetadata({ params }, parent) {
   const { projectId } = params;
   const project = projects.find((e) => e.id === projectId);
  
