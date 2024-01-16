@@ -29,7 +29,7 @@ export default function ProjectPage({params}) {
 
       <div className="mt-10">{project.longDescription}</div>
 
-      <Separator />
+      <Separator className="mt-10 -mb-10" />
       <Projects />
     </>
   );
