@@ -16,6 +16,8 @@ export function NavItem({ item, underline }) {
 export function Navbar() {
   return (
     <div className="fixed left-0 top-0 z-10 flex w-screen items-center justify-center xl:top-4 ">
+      <div className="fixed h-[14rem] w-screen bg-gradient-to-b from-neutral-50 via-neutral-50 to-transparent dark:h-[16rem] dark:from-neutral-950 dark:via-neutral-900" />
+
       <nav className="relative z-20 flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-zinc-500/25 bg-zinc-50/70 px-4 py-2 text-xs shadow backdrop-blur-md transition md:text-sm xl:max-w-6xl xl:rounded-3xl xl:border dark:border-white/10 dark:bg-zinc-900/75">
         <p className="flex items-center space-x-4">
           <NavItem
