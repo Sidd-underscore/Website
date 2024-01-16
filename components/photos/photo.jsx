@@ -31,7 +31,7 @@ export function Photo({ className, photoData, ...props }) {
     <>
       <Dialog key={photoData.name}>
         <DialogTrigger asChild={true}>
-          <div className="relative h-full w-full">
+          <div className="relative w-full">
             <Image
               priority={true}
               quality={50}

@@ -69,10 +69,10 @@ export function FeaturedPhotos() {
 
       <div className="flex items-center justify-between">
         {" "}
-        <Button variant="icon" size="icon" onClick={(e) => scrollRight()}>
+        <Button variant="icon" size="icon" className="active:scale-90" onClick={(e) => scrollRight()}>
           <ArrowLeftIcon />
         </Button>
-        <Button variant="icon" size="icon" onClick={(e) => scrollLeft()}>
+        <Button variant="icon" size="icon" className="active:scale-90" onClick={(e) => scrollLeft()}>
           <ArrowRightIcon />
         </Button>
       </div>

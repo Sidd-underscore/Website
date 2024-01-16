@@ -30,7 +30,7 @@ export function Footer() {
       <footer className="p-4 text-center">
         <sub>
           Made with Next.js and{" "}
-          <span className="cursor-text select-none" onClick={handleHeartHover}>
+          <span className="cursor-text" onClick={handleHeartHover}>
             love
           </span>{" "}
           by Sidd in Portland, OR.
