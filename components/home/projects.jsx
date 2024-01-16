@@ -2,30 +2,7 @@
 
 import { Link } from "@/components/ui/link";
 import { useEffect, useRef } from "react";
-
-const projects = [
-  {
-    name: "PurAI's Website",
-    description:
-      "I designed and coded the documentation and showcase of PurAI, a project focused on providing high-quality AI for free.",
-    technologies: ["Nextra", "TailwindCSS", "Nextjs"],
-    url: "https://purai.purlabs.xyz",
-  },
-  {
-    name: "Mastodon Template",
-    description:
-      "Through a Replit Bounty, I created a one-click runable instance of Mastodon, a free and open-source Twitter alternative. It is hosted on Replit, but the code works everywhere. In-depth documentation on everything from localhosting to the folder/file explanation (and more!) is also provided!",
-    technologies: ["Ruby", "Bash Scripts"],
-    url: "https://replit.com/@cool-sidd/Mastodon?v=1",
-  },
-  {
-    name: "Mythos' Website",
-    description:
-      "As part of a Replit Bounty, I brought the amazing Discord bot Mythos to life with a website, complete with a dashboard, stats, and even an API. ",
-    technologies: ["Nextjs", "shadcn/ui", "TailwindCSS"],
-    url: "https://mythosbot.com",
-  },
-];
+import { projects } from "@/lib/projects";
 
 export function Projects() {
   const projectsElement = useRef(null);
@@ -45,7 +22,7 @@ export function Projects() {
 
   return (
     <div className="my-32 w-full text-left">
-      <h2 className="text-4xl font-semibold">Coding Projects</h2>
+      <h2 className="text-4xl font-semibold">Projects</h2>
 
       <div
         ref={projectsElement}
@@ -78,7 +55,7 @@ export function Projects() {
                   </p>
                 </div>
                 <div className="mt-4">
-                  <Link className="z-10 w-fit" href="lol">
+                  <Link className="z-10 w-fit" href={"/projects/" + project.id}>
                     More about this project
                   </Link>
                 </div>
