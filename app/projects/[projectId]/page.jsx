@@ -2,19 +2,19 @@ import { Projects } from "@/components/home/projects";
 import { Link } from "@/components/ui/link";
 import { projects } from "@/lib/projects";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
-import { Separator } from "@/components/ui/separator"
+import { Separator } from "@/components/ui/separator";
 
 export async function generateMetadata({ params }, parent) {
   const { projectId } = params;
   const project = projects.find((e) => e.id === projectId);
- 
+
   return {
     title: project.name + " / Projects",
-    description: project.description
-  }
+    description: project.description,
+  };
 }
 
-export default function ProjectPage({params}) {
+export default function ProjectPage({ params }) {
   const { projectId } = params;
   const project = projects.find((e) => e.id === projectId);
 

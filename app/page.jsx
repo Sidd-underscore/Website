@@ -2,6 +2,7 @@ import { Projects } from "@/components/home/projects";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { Link } from "@/components/ui/link";
 import { FeaturedPhotos } from "@/components/photos/featured";
+import { Work } from "@/components/home/work";
 
 export default function Home() {
   return (
@@ -19,7 +20,8 @@ export default function Home() {
           </Link>
         </strong>
       </p>
-      <Projects clipped={true} />
+      <Projects />
+      <Work />
       <FeaturedPhotos />
     </div>
   );
