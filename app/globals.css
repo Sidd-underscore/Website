@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-  @apply scrollbar-thin scrollbar-track-rounded scrollbar-thumb-neutral-400 scrollbar-track-neutral-200 dark:scrollbar-thumb-neutral-600 dark:scrollbar-track-neutral-900 scrollbar-thumb-rounded
+  @apply scrollbar-thin scrollbar-track-rounded scrollbar-thumb-zinc-400 scrollbar-track-zinc-200 dark:scrollbar-thumb-zinc-600 dark:scrollbar-track-zinc-900 scrollbar-thumb-rounded
 }
 
 /* Cards in home page. Hover effect made by the illoustrious Hyperplexed! https://codepen.io/Hyperplexed/pen/MWQeYLW */

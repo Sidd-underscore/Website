@@ -58,7 +58,7 @@ export function Gallery() {
       photos = [...originalPhotosArray];
     } else {
       // First, remove photos outside of date range if it exists
-      if (dateQuery) {
+      if (dateQuery && dateQuery != "removeSearchDateFilter") {
         let filteredPhotos = photos.filter((photo) => {
           let photoDate = new Date(photo.date * 1000);
           let from = dateQuery.from ? new Date(dateQuery.from) : undefined;
@@ -92,7 +92,6 @@ export function Gallery() {
         photos = filteredPhotos;
         doneWithCameraFiltering = true;
       } else {
-        photos = [...originalPhotosArray];
         doneWithCameraFiltering = true;
       }
 
@@ -107,7 +106,6 @@ export function Gallery() {
         photos = filteredPhotos;
         doneWithLocationFiltering = true;
       } else {
-        photos = [...originalPhotosArray];
         doneWithLocationFiltering = true;
       }
 
@@ -198,7 +196,7 @@ export function Gallery() {
       (_) =>
         doneWithSearching === true &&
         doneWithArrays === true &&
-        doneWithCameraFiltering === true
+        doneWithCameraFiltering === true,
     );
     setSearchIcon(<MagnifyingGlassIcon />);
   }
@@ -230,9 +228,9 @@ export function Gallery() {
           date={date}
           setDate={(e) => {
             setSearchIcon(<Loading />);
-            setDate(e);
+            setDate(e === undefined ? "removeSearchDateFilter" : e);
             filterPhotos({
-              filterDate: e,
+              filterDate: e === undefined ? "removeSearchDateFilter" : e,
             });
           }}
           className="h-auto px-3 py-3 text-sm shadow-sm"
@@ -253,8 +251,8 @@ export function Gallery() {
         >
           <SelectTrigger
             className={cn(
-              "h-auto w-full px-3 py-2 font-normal w-full",
-              !searchCamera && "text-zinc-400"
+              "h-auto w-full w-full px-3 py-2 font-normal",
+              !searchCamera && "text-zinc-400",
             )}
           >
             <p className="flex items-center space-x-2">
@@ -292,8 +290,8 @@ export function Gallery() {
         >
           <SelectTrigger
             className={cn(
-              "h-auto w-full px-3 py-2 font-normal w-full",
-              !searchLocation && "text-zinc-400"
+              "h-auto w-full w-full px-3 py-2 font-normal",
+              !searchLocation && "text-zinc-400",
             )}
           >
             <p className="flex items-center space-x-2">

@@ -93,7 +93,7 @@ export function Photo({ className, photoData, ...props }) {
                       <InfoCircledIcon className="h-5 w-5" />
                     </Button>
                   </PopoverTrigger>
-                  <PopoverContent align="end">
+                  <PopoverContent align="end" className="max-w-[300px]">
                     <div>{photoData.description}</div>
 
                     <div className="mt-4 flex items-start space-x-2 text-xs">
