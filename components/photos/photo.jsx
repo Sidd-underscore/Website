@@ -37,7 +37,7 @@ export function Photo({ className, photoData, ...props }) {
               quality={50}
               className={cn(
                 "h-full w-full cursor-pointer rounded-lg",
-                className,
+                className
               )}
               src={photoData.staticPhoto}
               alt={photoData.name}
@@ -54,75 +54,59 @@ export function Photo({ className, photoData, ...props }) {
           <DialogHeader>
             <DialogTitle>{photoData.name}</DialogTitle>
             <DialogDescription>
-              <div className="max-h-[75vh] space-y-2 overflow-auto text-left md:flex md:max-h-[75vh] md:space-x-4 md:space-y-0 lg:max-h-[85vh] xl:max-h-[90vh]">
-                <div className="flex flex-col justify-between md:w-5/12">
+              <div className="max-h-[75vh] space-y-2 overflow-auto md:max-h-[75vh] md:space-x-4 md:space-y-0 lg:max-h-[85vh] xl:max-h-[90vh]">
+                <div className="flex flex-col justify-between">
                   <div>
-                    <div className="my-2 flex min-w-full items-center justify-center overflow-x-auto py-1 font-mono text-xs sm:justify-start">
-                      {photoData.tags.map((tag, index) => (
-                        <span
-                          className="mx-1 text-nowrap rounded-full bg-zinc-100 px-2 py-0.5 transition dark:bg-zinc-700/50"
-                          key={tag + index}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                    <div className="flex w-full items-start">
+                      <div className="w-1/2">
+                        <div className="my-2 flex items-center justify-center overflow-x-auto py-1 font-mono text-xs sm:justify-start">
+                          {photoData.tags.map((tag, index) => (
+                            <span
+                              className="mx-1 text-nowrap rounded-full bg-zinc-100 px-2 py-0.5 transition dark:bg-zinc-700/50"
+                              key={tag + index}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
 
-                    <div className="my-4">{photoData.description}</div>
+                          <div className="my-4">{photoData.description}</div>
+                      </div>
 
-                    <div className="mt-2 flex items-center space-x-2">
-                      <CalendarIcon className="h-4 w-4" />
-                      <span>
-                        {formatRelative(
-                          fromUnixTime(photoData.date),
-                          Date.now(),
-                        )}{" "}
-                        at {format(fromUnixTime(photoData.date), "h:mm a")} (
-                        {formatDistance(
-                          fromUnixTime(photoData.date),
-                          Date.now(),
-                          {
-                            addSuffix: true,
-                          },
-                        )}
-                        )
-                      </span>
-                    </div>
+                      <div className="w-1/2">
+                        <div className="mt-2 flex items-center space-x-2">
+                          <CalendarIcon className="h-4 w-4" />
+                          <span>
+                            {formatRelative(
+                              fromUnixTime(photoData.date),
+                              Date.now()
+                            )}{" "}
+                            at {format(fromUnixTime(photoData.date), "h:mm a")}{" "}
+                            (
+                            {formatDistance(
+                              fromUnixTime(photoData.date),
+                              Date.now(),
+                              {
+                                addSuffix: true,
+                              }
+                            )}
+                            )
+                          </span>
+                        </div>
 
-                    <div className="mt-2 flex items-center space-x-2">
-                      <SewingPinFilledIcon className="h-3 w-3" />
-                      <span>{photoData.location}</span>
-                    </div>
+                        <div className="mt-2 flex items-center space-x-2">
+                          <SewingPinFilledIcon className="h-3 w-3" />
+                          <span>{photoData.location}</span>
+                        </div>
 
-                    <div className="mt-2 flex items-center space-x-2">
-                      <CameraIcon className="h-3 w-3" />
-                      <span>{photoData.camera}</span>
+                        <div className="mt-2 flex items-center space-x-2">
+                          <CameraIcon className="h-3 w-3" />
+                          <span>{photoData.camera}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  <a
-                    download={true}
-                    href={photoData.path.replace(".png", downloadFormat)}
-                    className={buttonVariants({
-                      variant: "secondary",
-                      className: "mt-4 flex w-full items-center rounded-lg",
-                    })}
-                  >
-                    <DownloadIcon className="mr-2" />
-                    Download image as{" "}
-                    <Select defaultValue={downloadFormat} onValueChange={setDownloadFormat}>
-                      <SelectTrigger triggerButtonVariant="icon" className="w-fit space-x-2">
-                        <SelectValue placeholder="Select an image format" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value=".jpg">JPG</SelectItem>
-                        <SelectItem value=".png">PNG</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </a>
-                </div>
-
-                <div className="overflow-auto p-0.5 md:w-7/12">
                   <Image
                     className={"max-w- ml-auto w-full rounded-lg"}
                     src={photoData.staticPhoto}
@@ -134,6 +118,33 @@ export function Photo({ className, photoData, ...props }) {
                     placeholder="blur"
                     quality={100}
                   />
+
+                  <a
+                    download={true}
+                    href={photoData.path.replace(".png", downloadFormat)}
+                    className={buttonVariants({
+                      variant: "secondary",
+                      className: "mt-4 flex w-full items-center rounded-lg",
+                    })}
+                  >
+                    <DownloadIcon className="mr-2" />
+                    Download image as{" "}
+                    <Select
+                      defaultValue={downloadFormat}
+                      onValueChange={setDownloadFormat}
+                    >
+                      <SelectTrigger
+                        triggerButtonVariant="icon"
+                        className="w-fit space-x-2"
+                      >
+                        <SelectValue placeholder="Select an image format" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value=".jpg">JPG</SelectItem>
+                        <SelectItem value=".png">PNG</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </a>
                 </div>
               </div>
             </DialogDescription>
