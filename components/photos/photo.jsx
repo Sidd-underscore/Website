@@ -44,7 +44,7 @@ export function Photo({ className, photoData, ...props }) {
               quality={50}
               className={cn(
                 "h-full w-full cursor-pointer rounded-lg",
-                className,
+                className
               )}
               src={photoData.staticPhoto}
               alt={photoData.name}
@@ -73,96 +73,92 @@ export function Photo({ className, photoData, ...props }) {
               </div>
             </DialogTitle>
             <DialogDescription>
-              <div
-                className="relative h-auto sm:h-[85vh] overflow-auto w-auto space-y-2 p-1 md:space-y-0"
-                style={{
-                  aspectRatio:
-                    photoData.staticPhoto.width / photoData.staticPhoto.height,
-                }}
-              >
-                <Image
-                  className={"h-auto w-full rounded-lg"}
-                  src={photoData.staticPhoto}
-                  alt={photoData.name}
-                  title={photoData.name}
-                  width={0}
-                  height={0}
-                  sizes="100vh"
-                  placeholder="blur"
-                  quality={100}
-                />
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="secondary"
-                      className="absolute right-4 top-4 aspect-square h-auto w-auto rounded-full p-2 backdrop-blur-sm"
-                      size="icon"
-                    >
-                      <InfoCircledIcon className="h-5 w-5" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent align="end" className="max-w-[300px]">
-                    <div>{photoData.description}</div>
-
-                    <div className="mt-4 flex items-start space-x-2 text-xs">
-                      <CalendarIcon className="h-4 w-4 shrink-0" />
-                      <span>
-                        {formatRelative(
-                          fromUnixTime(photoData.date),
-                          Date.now(),
-                        )}{" "}
-                        at {format(fromUnixTime(photoData.date), "h:mm a")} (
-                        {formatDistance(
-                          fromUnixTime(photoData.date),
-                          Date.now(),
-                          {
-                            addSuffix: true,
-                          },
-                        )}
-                        )
-                      </span>
-                    </div>
-
-                    <div className="mt-2 flex items-start space-x-2 text-xs">
-                      <SewingPinFilledIcon className="h-3 w-3 shrink-0" />
-                      <span>{photoData.location}</span>
-                    </div>
-
-                    <div className="mb-4 mt-2 flex items-start space-x-2 text-xs">
-                      <CameraIcon className="h-3 w-3 shrink-0" />
-                      <span>{photoData.camera}</span>
-                    </div>
-
-                    <a
-                      download={true}
-                      href={photoData.path.replace(".png", downloadFormat)}
-                      className={buttonVariants({
-                        variant: "outline",
-                        size: "md",
-                        className:
-                          "mt-2 flex w-full items-center rounded-lg text-sm",
-                      })}
-                    >
-                      <DownloadIcon className="mr-2" />
-                      Download image as{" "}
-                      <Select
-                        defaultValue={downloadFormat}
-                        onValueChange={setDownloadFormat}
+              <div className="max-w-[28rem] min-h-[75vh] max-h-[85vh] overflow-auto sm:max-w-[32rem] md:max-w-[44rem] lg:max-w-[52rem] xl:max-w-[60rem]" style={{aspectRatio: photoData.staticPhoto.width / photoData.staticPhoto.height}}>
+                <div className="relative flex w-fit justify-center max-h-full items-center space-y-2 overflow-auto p-1 md:space-y-0">
+                  <Image
+                    className={"h-auto w-auto rounded-lg"}
+                    src={photoData.staticPhoto}
+                    alt={photoData.name}
+                    title={photoData.name}
+                    width={0}
+                    height={0}
+                    sizes="100vh"
+                    placeholder="blur"
+                    quality={100}
+                  />
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="secondary"
+                        className="fixed right-10 top-14 aspect-square h-auto w-auto rounded-full p-2 backdrop-blur-sm"
+                        size="icon"
                       >
-                        <SelectTrigger
-                          triggerButtonVariant="icon"
-                          className="w-fit space-x-2 border-none !text-xs shadow-none"
+                        <InfoCircledIcon className="h-5 w-5" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent align="end" className="max-w-[300px]">
+                      <div>{photoData.description}</div>
+
+                      <div className="mt-4 flex items-start space-x-2 text-xs">
+                        <CalendarIcon className="h-4 w-4 shrink-0" />
+                        <span>
+                          {formatRelative(
+                            fromUnixTime(photoData.date),
+                            Date.now()
+                          )}{" "}
+                          at {format(fromUnixTime(photoData.date), "h:mm a")} (
+                          {formatDistance(
+                            fromUnixTime(photoData.date),
+                            Date.now(),
+                            {
+                              addSuffix: true,
+                            }
+                          )}
+                          )
+                        </span>
+                      </div>
+
+                      <div className="mt-2 flex items-start space-x-2 text-xs">
+                        <SewingPinFilledIcon className="h-3 w-3 shrink-0" />
+                        <span>{photoData.location}</span>
+                      </div>
+
+                      <div className="mb-4 mt-2 flex items-start space-x-2 text-xs">
+                        <CameraIcon className="h-3 w-3 shrink-0" />
+                        <span>{photoData.camera}</span>
+                      </div>
+
+                      <a
+                        download={true}
+                        href={photoData.path.replace(".png", downloadFormat)}
+                        className={buttonVariants({
+                          variant: "outline",
+                          size: "md",
+                          className:
+                            "mt-2 flex w-full items-center rounded-lg text-sm",
+                        })}
+                      >
+                        <DownloadIcon className="mr-2" />
+                        Download image as{" "}
+                        <Select
+                          defaultValue={downloadFormat}
+                          onValueChange={setDownloadFormat}
                         >
-                          <SelectValue placeholder="Select an image format" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value=".jpg">JPG</SelectItem>
-                          <SelectItem value=".png">PNG</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </a>
-                  </PopoverContent>
-                </Popover>
+                          <SelectTrigger
+                            triggerButtonVariant="icon"
+                            className="w-fit space-x-2 border-none !text-xs shadow-none"
+                          >
+                            <SelectValue placeholder="Select an image format" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value=".jpg">JPG</SelectItem>
+                            <SelectItem value=".png">PNG</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </a>
+                    </PopoverContent>
+                  </Popover>
+                </div>
               </div>
             </DialogDescription>
           </DialogHeader>
