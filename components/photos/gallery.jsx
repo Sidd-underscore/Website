@@ -236,7 +236,7 @@ export function Gallery() {
           className="h-auto px-3 py-3 text-sm shadow-sm"
         />
       </div>
-      <div className="mt-2 flex justify-between space-x-2">
+      <div className="mt-2 sm:flex justify-between space-y-2 sm:space-y-0 sm:space-x-2">
         <Select
           defaultValue="removeSearchCameraFilter"
           onValueChange={(e) => {

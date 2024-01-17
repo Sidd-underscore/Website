@@ -59,27 +59,35 @@ export function Photo({ className, photoData, ...props }) {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="flex items-center">
+            <DialogTitle className="mb-2 items-center space-y-2 md:flex md:space-y-0">
               <span className="mr-2">{photoData.name}</span>{" "}
-              {photoData.tags.map((tag, index) => (
-                <span
-                  className="mx-1 text-nowrap font-light rounded-full bg-zinc-100 px-2 py-0.5 font-mono text-xs transition dark:bg-zinc-700/50"
-                  key={tag + index}
-                >
-                  {tag}
-                </span>
-              ))}
+              <div className="flex items-center justify-center md:justify-normal">
+                {photoData.tags.map((tag, index) => (
+                  <span
+                    className="mx-1 text-nowrap rounded-full bg-zinc-100 px-2 py-0.5 font-mono text-xs font-light transition dark:bg-zinc-700/50"
+                    key={tag + index}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </DialogTitle>
             <DialogDescription>
-              <div className="relative -m-1 max-h-[75vh] space-y-2 overflow-auto p-1 md:max-h-[75vh] md:space-x-4 md:space-y-0 lg:max-h-[85vh] xl:max-h-[90vh]">
+              <div
+                className="relative h-auto sm:h-[85vh] overflow-auto w-auto space-y-2 p-1 md:space-y-0"
+                style={{
+                  aspectRatio:
+                    photoData.staticPhoto.width / photoData.staticPhoto.height,
+                }}
+              >
                 <Image
-                  className={"ml-auto w-full rounded-lg"}
+                  className={"h-auto w-full rounded-lg"}
                   src={photoData.staticPhoto}
                   alt={photoData.name}
                   title={photoData.name}
                   width={0}
                   height={0}
-                  sizes="100vw"
+                  sizes="100vh"
                   placeholder="blur"
                   quality={100}
                 />
@@ -120,7 +128,7 @@ export function Photo({ className, photoData, ...props }) {
                       <span>{photoData.location}</span>
                     </div>
 
-                    <div className="mt-2 mb-4 flex items-start space-x-2 text-xs">
+                    <div className="mb-4 mt-2 flex items-start space-x-2 text-xs">
                       <CameraIcon className="h-3 w-3 shrink-0" />
                       <span>{photoData.camera}</span>
                     </div>
