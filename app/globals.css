@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 * {
-  @apply scrollbar-thin scrollbar-track-rounded scrollbar-thumb-zinc-400 scrollbar-track-zinc-200 dark:scrollbar-thumb-zinc-600 dark:scrollbar-track-zinc-900 scrollbar-thumb-rounded
+  @apply scrollbar-thin scrollbar-track-zinc-200 scrollbar-thumb-zinc-400 scrollbar-track-rounded scrollbar-thumb-rounded dark:scrollbar-track-zinc-900 dark:scrollbar-thumb-zinc-600;
 }
 
 /* Cards in home page. Hover effect made by the illoustrious Hyperplexed! https://codepen.io/Hyperplexed/pen/MWQeYLW */
@@ -69,7 +69,7 @@
   padding: 10px;
   z-index: 3;
 }
- 
+
 /* ---- */
 
 .love {

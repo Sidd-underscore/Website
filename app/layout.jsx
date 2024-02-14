@@ -3,8 +3,9 @@ import "./globals.css";
 import { Footer } from "@/components/home/footer";
 import { Navbar } from "@/components/home/navbar";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
+import { AppProvider } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -32,7 +33,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${inter.className} justify-left scrollbar-track-rounded-none mt-12 flex flex-col items-center p-6 !pb-0 md:p-12 2xl:p-24 dark:bg-zinc-950 dark:text-white`}
+        className={`${inter.className} justify-left mt-12 flex flex-col items-center p-6 !pb-0 scrollbar-track-rounded-none md:p-12 2xl:p-24 dark:bg-zinc-950 dark:text-white`}
       >
         <ThemeProvider
           attribute="class"
@@ -40,11 +41,17 @@ export default function RootLayout({ children }) {
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          <main className="min-h-screen w-full max-w-5xl">{children}</main>
-          <Footer />
-          {/* For screen sizes */}
-          <TailwindIndicator />
+          <AppProvider>
+            <Navbar />
+            <main className="min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none">
+              {children}
+            </main>
+            <Footer />
+
+            {/* For screen sizes */}
+            <TailwindIndicator />
+            
+          </AppProvider>
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />
