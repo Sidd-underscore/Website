@@ -240,11 +240,11 @@ export function AboutSplash() {
           style={{ opacity: livestreamRingsOpacity, position: ringsPosition }}
           className="left-[50%] top-[50%] h-[24rem] w-[24rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-neutral-200 dark:border-white/10"
         >
-          <p className="max-w-50 absolute opacity-90 sm:-left-20 sm:-top-20 md:-left-20 md:-top-14 lg:-top-20 lg:-left-36">
+          <p className="max-w-50 absolute opacity-90 sm:-left-20 sm:-top-20 md:-left-20 md:-top-14 lg:-left-36 lg:-top-20">
             I livestream weekly using OBS and PTZ Optics, to control camera
             movement.
           </p>
-          <p className="absolute right-0 max-w-60 text-right opacity-90 sm:-right-28 md:-right-36 md:top-12 lg:top-24 lg:-right-56">
+          <p className="absolute right-0 max-w-60 text-right opacity-90 sm:-right-28 md:-right-36 md:top-12 lg:-right-56 lg:top-24">
             I also run other A/V positions, like mixing live sound during
             performances, for the{" "}
             <Link
@@ -257,8 +257,15 @@ export function AboutSplash() {
           </p>
           <p className="absolute -bottom-10 max-w-72 text-left opacity-90 sm:-bottom-24 sm:-left-28 lg:-bottom-20 lg:-left-56 lg:max-w-80">
             I also love designing and hanging lights in theatres and blackboxes.
-            I will lead this department at Lincoln High School in September of
-            2024.
+            I will lead this department at{" "}
+            <Link
+              href="https://www.pps.net/lincoln"
+              className="!inline w-fit text-right !text-base"
+              target="_blank"
+            >
+              Lincoln High School
+            </Link>{" "}
+            in September of 2024.
           </p>
 
           <motion.div className="flex">
@@ -322,7 +329,7 @@ export function AboutSplash() {
 
           <motion.div className="flex">
             <div className="-ml-6 mt-64 h-fit bg-white dark:bg-neutral-950">
-              <ETCLogo className="duration-[2500] h-20 w-20 -mr-6 opacity-75" />
+              <ETCLogo className="duration-[2500] -mr-6 h-20 w-20 opacity-75" />
             </div>
 
             <div className="relative -mt-6 ml-36 bg-white dark:bg-neutral-950">
