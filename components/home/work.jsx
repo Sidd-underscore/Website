@@ -28,7 +28,7 @@ export function Work() {
         Outside of coding, I do many other things! Here are some examples. My
         full CV can be found{" "}
         <Link
-          className="w-fit inline"
+          className="w-fit !inline"
           target="_blank"
           href="https://docs.google.com/document/d/1pvQcjzzaIq11oYS_XvRQHYKZNvDmu8OxrgsjTjLtX4w/edit"
         >
@@ -68,7 +68,7 @@ export function Work() {
                   </p>
 
                   <p className={`m-4 text-sm opacity-75`}>
-                    <ul className="list-disc">
+                    <ul className="list-disc text-left">
                       {workItem.details.map((item) => (
                         <li key={item}>{item}</li>
                       ))}

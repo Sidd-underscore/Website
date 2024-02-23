@@ -251,7 +251,7 @@ export function Gallery() {
         >
           <SelectTrigger
             className={cn(
-              "h-auto w-full w-full px-3 py-2 font-normal",
+              "h-auto w-full px-3 py-2 font-normal",
               !searchCamera && "text-zinc-400",
             )}
           >
@@ -290,7 +290,7 @@ export function Gallery() {
         >
           <SelectTrigger
             className={cn(
-              "h-auto w-full w-full px-3 py-2 font-normal",
+              "h-auto w-full px-3 py-2 font-normal",
               !searchLocation && "text-zinc-400",
             )}
           >

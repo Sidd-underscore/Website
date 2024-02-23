@@ -54,7 +54,7 @@ export function Projects() {
                     {project.description}
                   </p>
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 flex justify-center md:justify-start">
                   <Link className="z-10 w-fit" href={"/projects/" + project.id}>
                     More about this project
                   </Link>

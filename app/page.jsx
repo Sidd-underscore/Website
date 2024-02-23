@@ -6,7 +6,7 @@ import { Work } from "@/components/home/work";
 
 export default function Home() {
   return (
-    <div className="w-full text-left">
+    <div className="w-full text-left mt-5">
       <p>Hi, I&apos;m</p>
       <h1 className="text-7xl font-bold">Sidd_!</h1>
       <sub>(it&apos;s short for Siddharth)</sub>

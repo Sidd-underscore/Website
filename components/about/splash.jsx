@@ -76,10 +76,7 @@ export function AboutSplash() {
     ["32px", "32px", "128px"],
   );
 
-  const shouldAvatarHaveHoverEffect = useTransform(
-    scrollYProgressOfContainer,
-    (pos) => (pos >= 0.2 ? false : true),
-  );
+  console.log(scrollYProgressOfContainer.get());
 
   const codeRingsOpacity = useTransform(
     scrollYProgressOfContainer,
@@ -112,16 +109,17 @@ export function AboutSplash() {
             left: avatarLeft,
             top: avatarTop,
             width: avatarSize,
-            height: avatarSize,
+            height: scrollYProgressOfContainer.get(),
           }}
           className="fixed translate-x-[-50%] translate-y-[-50%]"
         >
           <motion.img
             className={`object-cover transition-[width_height] ${
-              shouldAvatarHaveHoverEffect === true
+              scrollYProgressOfContainer.get() < 0.2
                 ? "hover:-left-2 hover:top-0 hover:h-[72px] hover:w-[72px] hover:[filter:drop-shadow(1px_0_0_white)_drop-shadow(0_1px_0_white)_drop-shadow(-1px_0_0_white)_drop-shadow(0_-1px_0_white)] hover:[rotate:-12deg] dark:hover:[filter:drop-shadow(1px_0_0_#09090b)_drop-shadow(0_1px_0_#09090b)_drop-shadow(-1px_0_0_#09090b)_drop-shadow(0_-1px_0_#09090b)]"
                 : undefined
             }`}
+            alt="sidd's logo"
             src="/images/sidd.png "
           />
         </motion.div>
@@ -135,7 +133,7 @@ export function AboutSplash() {
 
   return (
     <div ref={containerRef} className="h-[400vh]">
-      <motion.section className="relative py-16 text-neutral-950 dark:text-white">
+      <motion.section className="relative text-neutral-950 dark:text-white">
         <motion.div className="z-20 flex w-full flex-col items-center justify-center p-24">
           <motion.p
             style={{
@@ -144,8 +142,8 @@ export function AboutSplash() {
             }}
             className="mb-[10vh] rounded-lg p-2 text-center text-sm text-black/75 dark:text-white"
           >
-            A coder, a livestreamer, a designer, a lighting technician, but most
-            of all
+            A coder, livestreamer, designer, lighting technician, but most of
+            all
           </motion.p>
           <motion.svg
             style={{
@@ -200,15 +198,15 @@ export function AboutSplash() {
 
           <motion.div className="flex">
             <div className="mt-64 h-fit bg-white dark:bg-neutral-950">
-              <TailwindCssIcon className="duration-[2500] h-10 w-10 opacity-50" />
+              <TailwindCssIcon className="h-10 w-10 opacity-50" />
             </div>
 
             <div className="-mt-6 ml-36 h-fit bg-white dark:bg-neutral-950">
-              <RadixUIIcon className="duration-[2500] h-10 w-10 text-black opacity-50 dark:text-white" />
+              <RadixUIIcon className="h-10 w-10 text-black opacity-50 dark:text-white" />
             </div>
 
             <div className="ml-28 mt-64 h-fit bg-white dark:bg-neutral-950">
-              <GitHubIcon className="duration-[2500] h-10 w-10 fill-black opacity-50 dark:*:fill-white" />
+              <GitHubIcon className="h-10 w-10 fill-black opacity-50 dark:*:fill-white" />
             </div>
           </motion.div>
         </motion.div>
@@ -218,15 +216,15 @@ export function AboutSplash() {
         >
           <motion.div className="flex">
             <div className="-ml-2 mt-[3.5rem] h-fit bg-white dark:bg-neutral-950">
-              <VisualStudioCodeIcon className="duration-[2500] h-10 w-10 opacity-50" />
+              <VisualStudioCodeIcon className="h-10 w-10 opacity-50" />
             </div>
 
             <div className="ml-24 mt-[16.5rem] h-fit bg-white dark:bg-neutral-950">
-              <NextJSLogo className="duration-[2500] h-10 w-10 fill-black opacity-50 dark:*:fill-white" />
+              <NextJSLogo className="h-10 w-10 fill-black opacity-50 dark:*:fill-white" />
             </div>
 
             <div className="ml-[5rem] mt-[3.5rem] h-fit bg-white dark:bg-neutral-950">
-              <ReactLogo className="duration-[2500] h-10 w-10 text-black opacity-50 dark:text-white" />
+              <ReactLogo className="h-10 w-10 text-black opacity-50 dark:text-white" />
             </div>
           </motion.div>
         </motion.div>
@@ -270,7 +268,7 @@ export function AboutSplash() {
 
           <motion.div className="flex">
             <div className="-ml-6 mt-64 h-fit bg-white dark:bg-neutral-950">
-              <HarmanLogo className="duration-[2500] h-16 w-16 opacity-75" />
+              <HarmanLogo className="h-16 w-16 opacity-75" />
             </div>
 
             <div className="relative -mt-6 ml-36 bg-white dark:bg-neutral-950">
@@ -279,12 +277,12 @@ export function AboutSplash() {
                 src="/images/ptz.png"
                 height={40}
                 width={40}
-                className="duration-[2500] max-w-none text-black dark:text-white"
+                className="max-w-none text-black dark:text-white"
               />
             </div>
 
             <div className="ml-20 mt-64 h-fit bg-white dark:bg-neutral-950">
-              <SoundcraftHarmanLogo className="duration-[2500] h-24 w-24 fill-black opacity-75 dark:*:fill-white" />
+              <SoundcraftHarmanLogo className="h-24 w-24 fill-black opacity-75 dark:*:fill-white" />
             </div>
           </motion.div>
         </motion.div>
@@ -294,15 +292,15 @@ export function AboutSplash() {
         >
           <motion.div className="flex">
             <div className="-ml-2 mt-[3.5rem] h-fit bg-white dark:bg-neutral-950">
-              <OBSLogo className="duration-[2500] h-10 w-10 opacity-50" />
+              <OBSLogo className="h-10 w-10 opacity-50" />
             </div>
 
             <div className="ml-20 mt-[16.5rem] h-fit bg-white dark:bg-neutral-950">
-              <ShureLogo className="duration-[2500] h-14 w-14 fill-black opacity-50 dark:*:fill-white" />
+              <ShureLogo className="h-14 w-14 fill-black opacity-50 dark:*:fill-white" />
             </div>
 
             <div className="ml-[5rem] mt-[3.5rem] h-fit bg-white dark:bg-neutral-950">
-              <AudixLogo className="duration-[2500] h-14 w-14 fill-neutral-950 stroke-neutral-950 text-black opacity-75 dark:fill-white dark:stroke-white dark:text-white" />
+              <AudixLogo className="h-14 w-14 fill-neutral-950 stroke-neutral-950 text-black opacity-75 dark:fill-white dark:stroke-white dark:text-white" />
             </div>
           </motion.div>
         </motion.div>
@@ -329,7 +327,7 @@ export function AboutSplash() {
 
           <motion.div className="flex">
             <div className="-ml-6 mt-64 h-fit bg-white dark:bg-neutral-950">
-              <ETCLogo className="duration-[2500] -mr-6 h-20 w-20 opacity-75" />
+              <ETCLogo className="-mr-6 h-20 w-20 opacity-75" />
             </div>
 
             <div className="relative -mt-6 ml-36 bg-white dark:bg-neutral-950">
@@ -338,12 +336,12 @@ export function AboutSplash() {
                 src="/images/ptz.png"
                 height={40}
                 width={40}
-                className="duration-[2500] max-w-none text-black dark:text-white"
+                className="max-w-none text-black dark:text-white"
               />
             </div>
 
             <div className="ml-20 mt-64 h-fit bg-white dark:bg-neutral-950">
-              <SoundcraftHarmanLogo className="duration-[2500] h-24 w-24 fill-black opacity-75 dark:*:fill-white" />
+              <SoundcraftHarmanLogo className="h-24 w-24 fill-black opacity-75 dark:*:fill-white" />
             </div>
           </motion.div>
         </motion.div>
@@ -353,15 +351,15 @@ export function AboutSplash() {
         >
           <motion.div className="flex">
             <div className="-ml-2 mt-[3.5rem] h-fit bg-white dark:bg-neutral-950">
-              <OBSLogo className="duration-[2500] h-10 w-10 opacity-50" />
+              <OBSLogo className="h-10 w-10 opacity-50" />
             </div>
 
             <div className="ml-20 mt-[16.5rem] h-fit bg-white dark:bg-neutral-950">
-              <ShureLogo className="duration-[2500] h-14 w-14 fill-black opacity-50 dark:*:fill-white" />
+              <ShureLogo className="h-14 w-14 fill-black opacity-50 dark:*:fill-white" />
             </div>
 
             <div className="ml-[5rem] mt-[3.5rem] h-fit bg-white dark:bg-neutral-950">
-              <AudixLogo className="duration-[2500] h-14 w-14 fill-neutral-950 stroke-neutral-950 text-black opacity-75 dark:fill-white dark:stroke-white dark:text-white" />
+              <AudixLogo className="h-14 w-14 fill-neutral-950 stroke-neutral-950 text-black opacity-75 dark:fill-white dark:stroke-white dark:text-white" />
             </div>
           </motion.div>
         </motion.div>
