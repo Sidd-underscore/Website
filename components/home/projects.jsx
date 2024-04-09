@@ -22,7 +22,10 @@ export function Projects() {
 
   return (
     <div className="my-32 w-full text-left">
-      <h2 className="text-4xl font-semibold">Projects</h2>
+     <h2 className="text-4xl font-semibold">Projects</h2>
+           <p className="text-sm mt-1">
+             Here are some things that I have coded! All, or at least most of them, are open-source :)
+           </p>
 
       <div
         ref={projectsElement}

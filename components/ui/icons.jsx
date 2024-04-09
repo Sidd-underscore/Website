@@ -6,12 +6,12 @@ export function TailwindCssIcon({ ...props }) {
       fill="none"
       viewBox="0 0 54 33"
     >
-      <g clip-path="url(#prefix__clip0_taiwlind)">
+      <g clipPath="url(#prefix__clip0_taiwlind)">
         <path
           fill="#38bdf8"
-          fill-rule="evenodd"
+          fillRule="evenodd"
           d="M27 0c-7.2 0-11.7 3.6-13.5 10.8 2.7-3.6 5.85-4.95 9.45-4.05 2.054.513 3.522 2.004 5.147 3.653C30.744 13.09 33.808 16.2 40.5 16.2c7.2 0 11.7-3.6 13.5-10.8-2.7 3.6-5.85 4.95-9.45 4.05-2.054-.513-3.522-2.004-5.147-3.653C36.756 3.11 33.692 0 27 0zM13.5 16.2C6.3 16.2 1.8 19.8 0 27c2.7-3.6 5.85-4.95 9.45-4.05 2.054.514 3.522 2.004 5.147 3.653C17.244 29.29 20.308 32.4 27 32.4c7.2 0 11.7-3.6 13.5-10.8-2.7 3.6-5.85 4.95-9.45 4.05-2.054-.513-3.522-2.004-5.147-3.653C23.256 19.31 20.192 16.2 13.5 16.2z"
-          clip-rule="evenodd"
+          clipRule="evenodd"
         />
       </g>
       <defs>
@@ -67,7 +67,7 @@ export function VisualStudioCodeIcon({ ...props }) {
     >
       <mask
         id="mask0"
-        maskType="alpha"
+        mask="alpha"
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
@@ -98,7 +98,7 @@ export function VisualStudioCodeIcon({ ...props }) {
             fill="#1F9CF0"
           />
         </g>
-        <g style={{ "mix-blend-mode": "overlay" }} opacity="0.25">
+        <g style={{ "mixBlendMode": "overlay" }} opacity="0.25">
           <path
             fillRule="evenodd"
             clipRule="evenodd"
@@ -266,7 +266,7 @@ export function OBSLogo({ ...props }) {
           <stop offset={0.99921} stopColor="#dadada" />
           <stop offset={1} stopColor="#c7c7c7" />
         </radialGradient>
-        <clipPath id="clip-path" transform="translate(-18 -20)">
+        <clipPath id="clipPath" transform="translate(-18 -20)">
           <path
             id="SVGID"
             className="cls-1"
@@ -280,7 +280,7 @@ export function OBSLogo({ ...props }) {
           r={444.12237}
           xlinkHref="#radial-gradient"
         />
-        <clipPath id="clip-path-2" transform="translate(-18 -20)">
+        <clipPath id="clipPath-2" transform="translate(-18 -20)">
           <path
             d="M71.603 512.121c0 243.262 197.199 440.456 440.456 440.456s440.46-197.194 440.46-440.456c0-243.257-197.203-440.456-440.46-440.456S71.603 268.864 71.603 512.121"
             fill="none"
@@ -329,14 +329,14 @@ export function OBSLogo({ ...props }) {
         transform="translate(-18 -20)"
         shapeRendering="geometricPrecision"
       />
-      <g clipPath="url(#clip-path)">
+      <g clipPath="url(#clipPath)">
         <path
           shapeRendering="geometricPrecision"
           fill="url(#radial-gradient-5)"
           d="M49.93786 48H938.18495V936.2424H49.93786z"
         />
       </g>
-      <g clipPath="url(#clip-path-2)">
+      <g clipPath="url(#clipPath-2)">
         <path
           shapeRendering="geometricPrecision"
           fill="url(#radial-gradient-6)"

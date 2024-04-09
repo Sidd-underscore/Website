@@ -3,6 +3,7 @@ import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { Link } from "@/components/ui/link";
 import { FeaturedPhotos } from "@/components/photos/featured";
 import { Work } from "@/components/home/work";
+import { Achievements } from "@/components/home/achievements";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
       </p>
       <Projects />
       <Work />
+      <Achievements />
       <FeaturedPhotos />
     </div>
   );

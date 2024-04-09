@@ -4,6 +4,7 @@ import { Link } from "@/components/ui/link";
 import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import { useNavbarLogo } from "@/lib/utils";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 export function NavItem({ item, underline }) {
@@ -19,28 +20,34 @@ export function NavItem({ item, underline }) {
 
 export function Navbar() {
   const { navbarLogo, setNavbarLogo } = useNavbarLogo();
+  const path = usePathname();
 
   useEffect(() => {
-    setNavbarLogo({
-      link: "/",
-      label: (
-        <Image
-          alt="Sidd's logo"
-          width={250}
-          height={250}
-          quality={100}
-          className="absolute left-3 top-2.5 h-8 w-8 transition-[width_height] hover:-left-2 hover:top-0 hover:h-[72px] hover:w-[72px] hover:-rotate-12 hover:[filter:drop-shadow(1px_0_0_white)_drop-shadow(0_1px_0_white)_drop-shadow(-1px_0_0_white)_drop-shadow(0_-1px_0_white)] dark:hover:[filter:drop-shadow(1px_0_0_#09090b)_drop-shadow(0_1px_0_#09090b)_drop-shadow(-1px_0_0_#09090b)_drop-shadow(0_-1px_0_#09090b)]"
-          src="/images/sidd.png"
-        />
-      ),
-    });
-  }, []);
+    if (path != "/about") {
+      setNavbarLogo({
+        link: "/",
+        label: (
+          <Image
+            alt="Sidd's logo"
+            width={250}
+            height={250}
+            quality={100}
+            className="absolute left-3 top-2.5 h-8 w-8 transition-[width_height] hover:-left-2 hover:top-0 hover:h-[72px] hover:w-[72px] hover:-rotate-12 hover:[filter:drop-shadow(1px_0_0_white)_drop-shadow(0_1px_0_white)_drop-shadow(-1px_0_0_white)_drop-shadow(0_-1px_0_white)] dark:hover:[filter:drop-shadow(1px_0_0_#09090b)_drop-shadow(0_1px_0_#09090b)_drop-shadow(-1px_0_0_#09090b)_drop-shadow(0_-1px_0_#09090b)]"
+            src="/images/sidd.png"
+          />
+        ),
+      });
+    }
+  }, [path, setNavbarLogo]);
 
   return (
     <div className="fixed left-0 top-0 z-10 flex w-screen items-center justify-center xl:top-4 ">
       <div className="fixed top-0 h-4 w-screen bg-zinc-50 dark:bg-zinc-950" />
 
-      <nav className="z-20 flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-zinc-500/25 bg-zinc-50/70 px-4 py-2 text-xs shadow backdrop-blur-md transition md:text-sm xl:max-w-6xl xl:rounded-3xl xl:border dark:border-white/10 dark:bg-zinc-900/75">
+      <nav
+        data-element-reference="nav"
+        className="z-20 flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-zinc-500/25 bg-zinc-50/70 px-4 py-2 text-xs shadow backdrop-blur-md transition md:text-sm xl:max-w-6xl xl:rounded-3xl xl:border dark:border-white/10 dark:bg-zinc-900/75"
+      >
         <p className="flex items-center space-x-4">
           <NavItem underline={false} item={navbarLogo} />
           <NavItem
