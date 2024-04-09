@@ -3,9 +3,7 @@
 import originalPhotosArray from "@/lib/photos";
 import { Photo } from "./photo";
 import { Link } from "../ui/link";
-import { useEffect, useRef, useState } from "react";
-import { Button } from "../ui/button";
-import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
+import { useEffect, useState } from "react";
 import { PhotoGallery } from "../ui/photo-gallery";
 
 export function FeaturedPhotos() {
@@ -40,7 +38,7 @@ export function FeaturedPhotos() {
       </Link>,
     );
     setPhotos(trueResult);
-  }, [originalPhotosArray]);
+  }, []);
 
   return (
     <div className="my-32 w-full text-left">
