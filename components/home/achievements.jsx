@@ -32,8 +32,7 @@ export function Achievements() {
 
       <div
         ref={projectsElement}
-        id={"projects"}
-        className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2"
+        className="projects mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2"
       >
         {achievements.map((achievement) => (
           <div
@@ -61,13 +60,13 @@ export function Achievements() {
                       </span>
                     )}
                   </p>
-                  <p className={`m-4 text-sm opacity-50`}>
+                  <div className={`m-4 text-sm opacity-50`}>
                     <ul className="list-disc text-left">
                       {achievement.descriptions.map((description) => (
                         <li key={description}>{description}</li>
                       ))}
                     </ul>
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>

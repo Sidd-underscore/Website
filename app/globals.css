@@ -3,25 +3,53 @@
 @tailwind utilities;
 
 * {
-  @apply scrollbar-thin scrollbar-track-zinc-200 scrollbar-thumb-zinc-400 scrollbar-track-rounded scrollbar-thumb-rounded dark:scrollbar-track-zinc-900 dark:scrollbar-thumb-zinc-600;
+  @apply scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 scrollbar-track-rounded scrollbar-thumb-rounded dark:scrollbar-track-neutral-900 dark:scrollbar-thumb-neutral-600;
 }
 
-/* Cards in home page. Hover effect made by the illoustrious Hyperplexed! https://codepen.io/Hyperplexed/pen/MWQeYLW */
-#projects {
+.dark {
+  @apply [--accent-color:#e969ee] [--transparent-color:black];
+}
+
+.light {
+  @apply [--accent-color:#f384f7] [--transparent-color:white];
+}
+
+::-moz-selection {
+  background-color: var(--accent-color);
+  color: #fefefe;
+}
+::selection {
+  background-color: var(--accent-color);
+  color: #fefefe;
+}
+
+.shimmer {
+  display: inline-block;
+  -webkit-mask: linear-gradient(-60deg, #000 30%, #0005, #000 70%) right/300%
+    100%;
+  mask: linear-gradient(-60deg, #000 30%, #0005, #000 70%) right/300% 100%;
+  background-repeat: no-repeat;
+  animation: shimmer 2.5s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    -webkit-mask-position: left;
+  }
+}
+
+/* Cards in home page. Hover effect made by the illustrious Hyperplexed! https://codepen.io/Hyperplexed/pen/MWQeYLW */
+.projects {
   @apply [--project-color:rgba(233,233,233,0.3)] [--projects-after:rgba(233,233,233,0.6)] [--projects-before:rgba(233,233,233,0.1)] [--projects-bg:rgba(233,233,233,0.3)] dark:[--project-bg:rgba(255,255,255,0.1)] dark:[--project-color:rgba(23,23,23,0.9)] dark:[--projects-after:rgba(255,255,255,0.4)] dark:[--projects-before:rgba(255,255,255,0.1)] dark:[--projects-bg:rgb(23,23,23)];
 }
 
-#projects:hover > .project::after {
+.projects:hover > .project::after {
   opacity: 1;
 }
 
 .project {
   background-color: var(--projects-bg);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
   width: 100%;
-  position: relative;
 }
 
 .project:hover::before {
@@ -48,15 +76,6 @@
     transparent 40%
   );
   z-index: 3;
-}
-
-.project::after {
-  background: radial-gradient(
-    600px circle at var(--mouse-x) var(--mouse-y),
-    var(--projects-after),
-    transparent 40%
-  );
-  z-index: 1;
 }
 
 .project > .project-content {
@@ -113,4 +132,14 @@
     transform: translateY(-100px) translateX(-50px) scale(0.5);
     opacity: 0;
   }
+}
+
+/* For hydration errors */
+
+p ul {
+  background-color: red !important;
+}
+
+button button {
+  background-color: red !important;
 }

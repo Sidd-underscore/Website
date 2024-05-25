@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from 'next-view-transitions'
 
 export default function NotFound() {
   return (
@@ -10,7 +10,7 @@ export default function NotFound() {
 
       <div className="flex items-start space-x-2 mt-4">
         <details>
-          <summary className="mt-0.5 cursor-pointer w-fit flex items-center border-b border-zinc-400 text-sm transition-all hover:border-zinc-500 dark:border-white/25 dark:text-zinc-300 dark:hover:border-white/50 dark:hover:text-zinc-50">
+          <summary className="mt-0.5 cursor-pointer w-fit flex items-center border-b border-neutral-400 text-sm transition-all hover:border-neutral-500 dark:border-white/25 dark:text-neutral-300 dark:hover:border-white/50 dark:hover:text-neutral-50">
             Play a game
           </summary>
           <iframe
@@ -20,7 +20,7 @@ export default function NotFound() {
         </details>
         <span>or</span>
         <Link
-          className="mt-0.5 w-fit flex items-center border-b border-zinc-400 text-sm transition-all hover:border-zinc-500 dark:border-white/25 dark:text-zinc-300 dark:hover:border-white/50 dark:hover:text-zinc-50"
+          className="mt-0.5 w-fit flex items-center border-b border-neutral-400 text-sm transition-all hover:border-neutral-500 dark:border-white/25 dark:text-neutral-300 dark:hover:border-white/50 dark:hover:text-neutral-50"
           href="/"
         >
           return home?

@@ -6,12 +6,13 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { AppProvider } from "@/lib/utils";
+import { ViewTransitions } from "next-view-transitions";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: { default: "Sidd_", template: "%s / Sidd_" },
-  description: "I code, take photos and livestream.",
+  description: "I code, take photos and live stream.",
 };
 
 export function TailwindIndicator() {
@@ -31,31 +32,32 @@ export function TailwindIndicator() {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${inter.className} justify-left mt-12 flex flex-col items-center p-6 !pb-0 scrollbar-track-rounded-none md:p-12 2xl:p-24 dark:bg-zinc-950 dark:text-white`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
+    <ViewTransitions>
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${inter.className} justify-left mt-12 flex flex-col items-center p-6 !pb-0 scrollbar-track-rounded-none dark:bg-neutral-950 dark:text-white md:p-12 2xl:p-24`}
         >
-          <AppProvider>
-            <Navbar />
-            <main className="min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none">
-              {children}
-            </main>
-            <Footer />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <AppProvider>
+              <Navbar />
+              <main className="min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none">
+                {children}
+              </main>
+              <Footer />
 
-            {/* For screen sizes */}
-            <TailwindIndicator />
-            
-          </AppProvider>
-        </ThemeProvider>
-        <Analytics />
-        <SpeedInsights />
-      </body>
-    </html>
+              {/* For screen sizes */}
+              <TailwindIndicator />
+            </AppProvider>
+          </ThemeProvider>
+          <Analytics />
+          <SpeedInsights />
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }

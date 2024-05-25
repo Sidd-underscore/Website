@@ -216,7 +216,7 @@ export function Gallery() {
   return (
     <div className="my-6">
       <div className="w-full items-center space-y-2 md:flex md:space-x-2 md:space-y-0">
-        <div className="pointer-events-none flex w-full items-center rounded-md border border-zinc-200 bg-transparent px-3 py-1 text-sm shadow-sm transition-colors hover:border-zinc-300 hover:ring-zinc-950 dark:border-zinc-800 dark:hover:border-zinc-700 dark:hover:ring-zinc-300">
+        <div className="pointer-events-none flex w-full items-center rounded-md border border-neutral-200 bg-transparent px-3 py-1 text-sm shadow-sm transition-colors hover:border-neutral-300 hover:ring-neutral-950 dark:border-neutral-800 dark:hover:border-neutral-700 dark:hover:ring-neutral-300">
           {searchIcon}
           <Input
             onChange={(event) => setSearchQuery(event.target.value)}
@@ -252,7 +252,7 @@ export function Gallery() {
           <SelectTrigger
             className={cn(
               "h-auto w-full px-3 py-2 font-normal",
-              !searchCamera && "text-zinc-400",
+              !searchCamera && "text-neutral-400",
             )}
           >
             <p className="flex items-center space-x-2">
@@ -267,7 +267,7 @@ export function Gallery() {
             </p>
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="removeSearchCameraFilter">None</SelectItem>
+            <SelectItem value="removeSearchCameraFilter">No filter</SelectItem>
             {cameras.map((camera) => (
               <SelectItem key={camera} value={camera}>
                 {camera}
@@ -291,7 +291,7 @@ export function Gallery() {
           <SelectTrigger
             className={cn(
               "h-auto w-full px-3 py-2 font-normal",
-              !searchLocation && "text-zinc-400",
+              !searchLocation && "text-neutral-400",
             )}
           >
             <p className="flex items-center space-x-2">
@@ -306,7 +306,7 @@ export function Gallery() {
             </p>
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="removeSearchLocationFilter">None</SelectItem>
+            <SelectItem value="removeSearchLocationFilter">No filter</SelectItem>
             {locations.map((location) => (
               <SelectItem key={location} value={location}>
                 {location}
@@ -331,7 +331,7 @@ export function Gallery() {
             </div>
           </>
         ) : (
-          <p className="w-full py-4 text-center text-sm text-zinc-400">
+          <p className="w-full py-4 text-center text-sm text-neutral-400">
             No photos found... Try clearing some search filters?
           </p>
         )}

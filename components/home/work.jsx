@@ -30,7 +30,7 @@ export function Work() {
         <Link
           className="w-fit !inline"
           target="_blank"
-          href="https://docs.google.com/document/d/1pvQcjzzaIq11oYS_XvRQHYKZNvDmu8OxrgsjTjLtX4w/edit"
+          href="https://docs.google.com/document/d/1pvQcjzzaIq11oYS_XvRQHYKZNvDmu8OxrgsjTjLtX4w/view"
         >
           here
         </Link>
@@ -39,8 +39,7 @@ export function Work() {
 
       <div
         ref={worksElement}
-        id={"projects"}
-        className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3"
+        className="projects mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3"
       >
         {work.map((workItem) => (
           <div
@@ -48,7 +47,7 @@ export function Work() {
             className="project group relative rounded-lg transition-colors"
           >
             <div className="project-content">
-              <div className="flex h-full flex-col justify-between px-5 py-4">
+              <div className="flex h-full flex-col text-left justify-between px-5 py-4">
                 <div>
                   <h3 className={`mb-3 text-2xl font-semibold`}>
                     {workItem.name}
@@ -67,13 +66,13 @@ export function Work() {
                     <span>{workItem.dates}</span>
                   </p>
 
-                  <p className={`m-4 text-sm opacity-75`}>
+                  <div className={`m-4 text-sm opacity-75`}>
                     <ul className="list-disc text-left">
                       {workItem.details.map((item) => (
                         <li key={item}>{item}</li>
                       ))}
                     </ul>
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>

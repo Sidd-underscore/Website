@@ -36,19 +36,19 @@ export function Footer() {
           by Sidd in Portland, OR.
           <p>
             <Link
-              className="inline-flex text-xs dark:text-zinc-50"
+              className="inline-flex text-xs dark:text-neutral-50"
               href="/images/i.jpg"
             >
               I
             </Link>
             <Link
-              className="inline-flex text-xs dark:text-zinc-50"
+              className="inline-flex text-xs dark:text-neutral-50"
               href="/images/v.jpg"
             >
               v
             </Link>
             <Link
-              className="inline-flex text-xs dark:text-zinc-50"
+              className="inline-flex text-xs dark:text-neutral-50"
               href="/images/y.jpg"
             >
               y

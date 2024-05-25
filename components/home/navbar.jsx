@@ -42,11 +42,11 @@ export function Navbar() {
 
   return (
     <div className="fixed left-0 top-0 z-10 flex w-screen items-center justify-center xl:top-4 ">
-      <div className="fixed top-0 h-4 w-screen bg-zinc-50 dark:bg-zinc-950" />
+      <div className="fixed top-0 h-4 w-screen bg-neutral-50 dark:bg-neutral-950" />
 
       <nav
         data-element-reference="nav"
-        className="z-20 flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-zinc-500/25 bg-zinc-50/70 px-4 py-2 text-xs shadow backdrop-blur-md transition md:text-sm xl:max-w-6xl xl:rounded-3xl xl:border dark:border-white/10 dark:bg-zinc-900/75"
+        className="z-20 flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-neutral-500/25 bg-neutral-50/70 px-4 py-2 text-xs shadow backdrop-blur-md transition md:text-sm xl:max-w-6xl xl:rounded-3xl xl:border dark:border-white/10 dark:bg-neutral-900/75"
       >
         <p className="flex items-center space-x-4">
           <NavItem underline={false} item={navbarLogo} />
@@ -55,9 +55,9 @@ export function Navbar() {
             item={{
               link: "/about",
               label: (
-                <span className="ml-6 border-b border-zinc-400 transition-all hover:border-zinc-500 dark:border-white/25 dark:hover:border-white/50">
+                <span className="ml-6 border-b border-pink-400 text-sm transition-all hover:border-pink-500 dark:border-pink-200 dark:text-pink-200 dark:hover:border-pink-300 dark:hover:text-pink-300">
                   About Me
-                </span>
+                 </span>
               ),
             }}
           />

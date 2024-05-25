@@ -64,7 +64,7 @@ export function Photo({ className, photoData, ...props }) {
               <div className="flex items-center justify-center md:justify-normal">
                 {photoData.tags.map((tag, index) => (
                   <span
-                    className="mx-1 text-nowrap rounded-full bg-zinc-100 px-2 py-0.5 font-mono text-xs font-light transition dark:bg-zinc-700/50"
+                    className="mx-1 text-nowrap rounded-full bg-neutral-100 px-2 py-0.5 font-mono text-xs font-light transition dark:bg-neutral-700/50"
                     key={tag + index}
                   >
                     {tag}

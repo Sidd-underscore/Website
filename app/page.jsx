@@ -12,8 +12,8 @@ export default function Home() {
       <h1 className="text-7xl font-bold">Sidd_!</h1>
       <sub>(it&apos;s short for Siddharth)</sub>
 
-      <p className="mt-12 ,d:flex items-center">
-        I code, take photos, enjoy working lightboards, and livestream.{" "}
+      <p className="mt-12 sm:flex items-center">
+        I code, take photos, enjoy working light boards, and live stream.{" "}
         <strong className="group md:ml-2 cursor-pointer">
           <Link href="/about" className="inline-flex mt-2 md:mt-0 items-center border-none">
             More{" "}
