@@ -7,11 +7,11 @@
 }
 
 .dark {
-  @apply [--accent-color-lighter:#461447] [--accent-color:#e969ee] [--transparent-color:black];
+  @apply [--accent-color-lighter:#e969ee30] [--accent-color:#e969ee] [--transparent-color:black];
 }
 
 .light {
-  @apply [--accent-color-lighter:#f7d1f8] [--accent-color:#f384f7] [--transparent-color:white];
+  @apply [--accent-color-lighter:#e969ee20] [--accent-color:#f384f7] [--transparent-color:white];
 }
 
 ::-moz-selection {
