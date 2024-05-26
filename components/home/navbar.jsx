@@ -46,7 +46,7 @@ export function Navbar() {
 
       <nav
         data-element-reference="nav"
-        className="z-20 flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-neutral-500/25 bg-neutral-50/70 px-4 py-2 text-xs shadow backdrop-blur-md transition md:text-sm xl:max-w-6xl xl:rounded-3xl xl:border dark:border-white/10 dark:bg-neutral-900/75"
+        className="z-[1000000000] flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-neutral-500/50 bg-neutral-100/75 px-4 py-2 text-xs shadow-md hover:shadow-lg backdrop-blur-md transition md:text-sm xl:max-w-6xl xl:rounded-3xl xl:border dark:border-white/10 dark:bg-neutral-900/75"
       >
         <p className="flex items-center space-x-4">
           <NavItem underline={false} item={navbarLogo} />

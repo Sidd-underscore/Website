@@ -22,13 +22,13 @@ export function Work() {
   });
 
   return (
-    <div className="my-32 w-full text-left">
+    <div ref={worksElement} className="my-32 w-full text-left">
       <h2 className="text-4xl font-semibold">Work Experience</h2>
-      <p className="text-sm mt-1">
+      <p className="mt-1 text-sm">
         Outside of coding, I do many other things! Here are some examples. My
         full CV can be found{" "}
         <Link
-          className="w-fit !inline"
+          className="!inline w-fit"
           target="_blank"
           href="https://docs.google.com/document/d/1pvQcjzzaIq11oYS_XvRQHYKZNvDmu8OxrgsjTjLtX4w/view"
         >
@@ -37,32 +37,29 @@ export function Work() {
         .
       </p>
 
-      <div
-        ref={worksElement}
-        className="projects mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3"
-      >
+      <div className="projects mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3">
         {work.map((workItem) => (
           <div
             key={workItem.name}
-            className="project group relative rounded-lg transition-colors"
+            className="project group relative h-full rounded-lg transition-colors"
           >
-            <div className="project-content">
-              <div className="flex h-full flex-col text-left justify-between px-5 py-4">
+            <div className="project-content h-full">
+              <div className="flex z-30 h-full flex-col justify-between px-5 py-4 text-left">
                 <div>
                   <h3 className={`mb-3 text-2xl font-semibold`}>
                     {workItem.name}
                   </h3>
                   <p
-                    className={`m-0 text-sm opacity-50 flex items-start space-x-2`}
+                    className={`m-0 flex items-start space-x-2 text-sm opacity-50`}
                   >
-                    <SewingPinFilledIcon className="shrink-0 h-4 w-4" />
+                    <SewingPinFilledIcon className="h-4 w-4 shrink-0" />
                     <span>{workItem.location}</span>
                   </p>
 
                   <p
-                    className={`m-0 text-sm opacity-50 flex items-start space-x-2`}
+                    className={`m-0 flex items-start space-x-2 text-sm opacity-50`}
                   >
-                    <CalendarIcon className="shrink-0 h-4 w-4" />
+                    <CalendarIcon className="h-4 w-4 shrink-0" />
                     <span>{workItem.dates}</span>
                   </p>
 

@@ -40,7 +40,7 @@ export function Achievements() {
             className="project group relative rounded-lg transition-colors"
           >
             <div className="project-content">
-              <div className="flex h-full flex-col justify-between px-5 py-4">
+              <div className="z-30 flex h-full flex-col justify-between px-5 py-4">
                 <div>
                   <h3 className={`mb-3 text-2xl font-semibold`}>
                     {achievement.name}

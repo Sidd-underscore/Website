@@ -6,21 +6,6 @@ import { projects } from "@/lib/projects";
 import Image from "next/image";
 
 export function Projects() {
-  const projectsElement = useRef(null);
-
-  useEffect(() => {
-    projectsElement.current.onmousemove = (e) => {
-      for (const card of document.getElementsByClassName("project")) {
-        const rect = card.getBoundingClientRect(),
-          x = e.clientX - rect.left,
-          y = e.clientY - rect.top;
-
-        card.style.setProperty("--mouse-x", `${x}px`);
-        card.style.setProperty("--mouse-y", `${y}px`);
-      }
-    };
-  });
-
   return (
     <div className="my-32 w-full text-left">
       <h2 className="text-4xl font-semibold">Projects</h2>
@@ -30,7 +15,6 @@ export function Projects() {
       </p>
 
       <div
-        ref={projectsElement}
         className="projects relative mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3"
       >
         {projects.map((project) => (
@@ -56,7 +40,7 @@ export function Projects() {
                   <rect
                     width="100%"
                     height="100%"
-                    className="opacity-0 group-hover:opacity-30 dark:group-hover:opacity-75"
+                    className="opacity-0 group-hover:opacity-75"
                     rx={6}
                   />
 
@@ -102,7 +86,7 @@ export function Projects() {
                 </div>
                 <div className="mt-4 flex justify-center md:justify-start">
                   <Link
-                    className="w-fit"
+                    className="w-fit group-hover:border-pink-200 group-hover:text-pink-200 group-hover:hover:border-pink-300 group-hover:hover:text-pink-300"
                     href={"/projects/" + project.id}
                   >
                     More about this project
