@@ -41,12 +41,12 @@ export function Navbar() {
   }, [path, setNavbarLogo]);
 
   return (
-    <div className="fixed left-0 top-0 z-10 flex w-screen items-center justify-center xl:top-4 ">
+    <div className="fixed left-0 top-0 z-50 flex w-screen items-center justify-center xl:top-4 ">
       <div className="fixed top-0 h-4 w-screen bg-neutral-50 dark:bg-neutral-950" />
 
       <nav
         data-element-reference="nav"
-        className="z-[1000000000] flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-neutral-500/50 bg-neutral-100/75 px-4 py-2 text-xs shadow-md hover:shadow-lg backdrop-blur-md transition md:text-sm xl:max-w-6xl xl:rounded-3xl xl:border dark:border-white/10 dark:bg-neutral-900/75"
+        className=" flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-neutral-500/50 bg-neutral-100/75 px-4 py-2 text-xs shadow-md hover:shadow-lg backdrop-blur-md transition md:text-sm xl:max-w-6xl xl:rounded-3xl xl:border dark:border-white/10 dark:bg-neutral-900/75"
       >
         <p className="flex items-center space-x-4">
           <NavItem underline={false} item={navbarLogo} />
