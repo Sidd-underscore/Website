@@ -11,7 +11,7 @@ import { ViewTransitions } from "next-view-transitions";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: { default: "Sidd_", template: "%s / Sidd_" },
+  title: { default: "Sidd", template: "%s / Sidd" },
   description: "I code, take photos and live stream.",
 };
 

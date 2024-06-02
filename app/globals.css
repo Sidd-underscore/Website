@@ -16,10 +16,12 @@
 
 ::-moz-selection {
   background-color: var(--accent-color);
+  opacity: 1;
   color: #fefefe;
 }
 ::selection {
   background-color: var(--accent-color);
+  opacity: 1;
   color: #fefefe;
 }
 

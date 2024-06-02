@@ -25,7 +25,7 @@ export function Work() {
     <div ref={worksElement} className="my-32 w-full text-left">
       <h2 className="text-4xl font-semibold">Work Experience</h2>
       <p className="mt-1 text-sm">
-        Outside of coding, I do many other things! Here are some examples. My
+        The best testament of knowledge is putting it in practice. My
         full CV can be found{" "}
         <Link
           className="!inline w-fit"
@@ -63,10 +63,10 @@ export function Work() {
                     <span>{workItem.dates}</span>
                   </p>
 
-                  <div className={`m-4 text-sm opacity-75`}>
+                  <div className={`m-4 text-sm`}>
                     <ul className="list-disc text-left">
                       {workItem.details.map((item) => (
-                        <li key={item}>{item}</li>
+                        <li className="opacity-75" key={item}>{item}</li>
                       ))}
                     </ul>
                   </div>

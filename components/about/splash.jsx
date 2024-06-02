@@ -38,17 +38,24 @@ export function AboutSplash() {
   const [navRect, setNavRect] = useState({ left: 0, top: 0 });
 
   useEffect(() => {
-    function updateVars() {
+    const handleResize = () => {
       setWindowHeight(window.innerHeight);
       setWindowWidth(window.innerWidth);
+
       const nav = document
         .querySelector('[data-element-reference="nav"]')
         ?.getBoundingClientRect();
 
       setNavRect({ left: nav.left, top: nav.top });
-    }
-    document.addEventListener("resize", updateVars());
-    updateVars();
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const { scrollYProgress: scrollYProgressOfContainer } = useScroll();
@@ -151,7 +158,7 @@ export function AboutSplash() {
   return (
     <div ref={containerRef} className="-m-6 h-[500vh] md:-m-12 2xl:-m-24">
       <motion.section className="relative text-neutral-950 dark:text-white">
-        <motion.div className="z-20 flex h-[calc(100vh_-_192px)] w-full flex-col items-center justify-center px-24 py-12">
+        <motion.div className="z-20 flex h-[calc(100vh_-_192px)] w-full flex-col items-center justify-center px-12 py-12 lg:px-24">
           <motion.p
             style={{
               opacity: textOpacity,
@@ -160,7 +167,7 @@ export function AboutSplash() {
             className="mb-[10vh] rounded-lg p-2 text-center text-sm text-black/75 dark:text-white"
           >
             A coder, live streamer, designer, lighting technician, but most of
-            all
+            all {windowWidth}
           </motion.p>
           <p className="sr-only">a creative</p> {/* keep it accessible! */}
           <motion.svg
@@ -185,10 +192,7 @@ export function AboutSplash() {
                     to="1"
                   />
                 </stop>
-                <stop
-                  offset="0"
-                  stopColor="var(--transparent-color)"
-                >
+                <stop offset="0" stopColor="var(--transparent-color)">
                   <animate
                     dur="1s"
                     attributeName="offset"
@@ -218,53 +222,53 @@ export function AboutSplash() {
         {/* Code */}
         <motion.div
           style={{ opacity: codeRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[24rem] w-[24rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-neutral-200/75 dark:border-white/10"
+          className="left-[50%] top-[50%] h-[20rem] w-[20rem] sm:h-[24rem] sm:w-[24rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-neutral-200/75 dark:border-white/10"
         >
-          <p className="absolute max-w-40 opacity-90 sm:-left-10 sm:-top-10 md:-left-20 md:-top-14">
+          <p className="absolute -top-16 left-8 max-w-40 opacity-90 sm:-left-10 sm:-top-10 md:-left-20 md:-top-14">
             I code and design user interfaces
           </p>
-          <p className="absolute right-0 max-w-40 text-right opacity-90 sm:-right-28 md:-right-44 md:top-20">
+          <p className="absolute right-8 top-2 max-w-40 text-right opacity-90 sm:-right-28 md:-right-44 md:top-20">
             using tools like Next.js, TailwindCSS and Radix UI.
           </p>
-          <p className="absolute -bottom-10 max-w-72 text-left opacity-90 sm:-bottom-4 sm:-left-28 xl:-bottom-10 xl:-left-48">
+          <p className="absolute left-14 -bottom-16 max-w-72 text-left opacity-90 sm:-bottom-4 sm:-left-28 xl:-bottom-10 xl:-left-48">
             I code with Visual Studio Code, and push everything to GitHub.
           </p>
 
           <motion.div className="flex">
-            <div className="mt-64 h-fit bg-white dark:bg-neutral-950">
+            <div className="mt-56 sm:mt-64 h-fit bg-white dark:bg-neutral-950">
               <TailwindCssIcon className="h-10 w-10 opacity-50" />
             </div>
 
-            <div className="-mt-6 ml-36 h-fit bg-white dark:bg-neutral-950">
+            <div className="ml-28 -mt-4 sm:-mt-6 sm:ml-36 h-fit bg-white dark:bg-neutral-950">
               <RadixUIIcon className="h-10 w-10 text-black opacity-50 dark:text-white" />
             </div>
 
-            <div className="ml-28 mt-64 h-fit bg-white dark:bg-neutral-950">
+            <div className="ml-20 mt-56 sm:ml-28 sm:mt-64 h-fit bg-white dark:bg-neutral-950">
               <GitHubIcon className="h-10 w-10 fill-black opacity-50 dark:*:fill-white" />
             </div>
           </motion.div>
         </motion.div>
         <motion.div
           style={{ opacity: codeRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[18rem] w-[18rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-neutral-200 dark:border-white/20"
+          className="left-[50%] top-[50%] h-[16rem] w-[16rem] sm:h-[18rem] sm:w-[18rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-neutral-200 dark:border-white/20"
         >
           <motion.div className="flex">
-            <div className="-ml-2 mt-[3.5rem] h-fit bg-white dark:bg-neutral-950">
+            <div className="mt-16 -ml-2 sm:-ml-2 sm:mt-[3.5rem] h-fit bg-white dark:bg-neutral-950">
               <VisualStudioCodeIcon className="h-10 w-10 opacity-50" />
             </div>
 
-            <div className="ml-24 mt-[16.5rem] h-fit bg-white dark:bg-neutral-950">
+            <div className="ml-24 mt-20 sm:ml-24 sm:mt-[16.5rem] h-fit bg-white dark:bg-neutral-950">
               <NextJSLogo className="h-10 w-10 fill-black opacity-50 dark:*:fill-white" />
             </div>
 
-            <div className="ml-[5rem] mt-[3.5rem] h-fit bg-white dark:bg-neutral-950">
+            <div className="sm:ml-[5rem] sm:mt-[3.5rem] h-fit bg-white dark:bg-neutral-950">
               <ReactLogo className="h-10 w-10 text-black opacity-50 dark:text-white" />
             </div>
           </motion.div>
         </motion.div>
         <motion.div
           style={{ opacity: codeRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[12rem] w-[12rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-neutral-300 dark:border-white/30"
+          className="left-[50%] top-[50%] h-[11rem] w-[11rem] sm:h-[12rem] sm:w-[12rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-neutral-300 dark:border-white/30"
         ></motion.div>
 
         {/* Livestreaming */}

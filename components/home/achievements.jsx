@@ -60,10 +60,10 @@ export function Achievements() {
                       </span>
                     )}
                   </p>
-                  <div className={`m-4 text-sm opacity-50`}>
+                  <div className={`m-4 text-sm`}>
                     <ul className="list-disc text-left">
                       {achievement.descriptions.map((description) => (
-                        <li key={description}>{description}</li>
+                        <li className="opacity-75" key={description}>{description}</li>
                       ))}
                     </ul>
                   </div>
