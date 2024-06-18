@@ -30,6 +30,8 @@ export function TailwindIndicator() {
   );
 }
 
+
+
 export default function RootLayout({ children }) {
   return (
     <ViewTransitions>
@@ -53,6 +55,7 @@ export default function RootLayout({ children }) {
               {/* For screen sizes */}
               <TailwindIndicator />
             </AppProvider>
+
           </ThemeProvider>
           <Analytics />
           <SpeedInsights />

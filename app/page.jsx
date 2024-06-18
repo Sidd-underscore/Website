@@ -4,6 +4,7 @@ import { Link } from "@/components/ui/link";
 import { FeaturedPhotos } from "@/components/photos/featured";
 import { Work } from "@/components/home/work";
 import { Achievements } from "@/components/home/achievements";
+import { Blob } from "@/components/ui/blob";
 
 export default function Home() {
   return (
@@ -24,6 +25,12 @@ export default function Home() {
       <Work />
       <Achievements />
       <FeaturedPhotos />
+
+      {[1, 2, 3, 4, 5, 6].map((index) => (
+              <span key={index}>
+                <Blob index={index} />
+              </span>
+            ))}
     </div>
   );
 }
