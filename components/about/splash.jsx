@@ -133,15 +133,13 @@ export function AboutSplash() {
     pos >= 0.1 ? "fixed" : "relative",
   );
 
-  const finalImageDecorationPosition = useTransform(
-    scrollYProgressOfContainer,
-    (pos) => (pos >= 0.9 ? "fixed" : "relative"),
-  );
-
   const [shouldNavbarLogoHover, setShouldNavbarLogoHover] = useState(true);
+  const [shouldFinalImageDecorationFix, setShouldFinalImageDecorationFix] = useState(false);
 
   useMotionValueEvent(scrollYProgressOfContainer, "change", (latest) => {
     setShouldNavbarLogoHover(latest < 0.01);
+    setShouldFinalImageDecorationFix(latest > 0.9);
+
   });
 
   useEffect(() => {
@@ -392,7 +390,7 @@ export function AboutSplash() {
           className="relative mt-[350vh]"
         >
           <Blob
-            className={`left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] ${finalImageDecorationOpacity.get() > 0.95 ? "!fixed" : "absolute"}`}
+            className={`left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] ${shouldFinalImageDecorationFix ? "!fixed" : "absolute"}`}
             index={4}
           />
         </motion.div>
