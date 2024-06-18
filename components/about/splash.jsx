@@ -123,8 +123,19 @@ export function AboutSplash() {
     [0, 1, 1, 0],
   );
 
+  const finalImageDecorationOpacity = useTransform(
+    scrollYProgressOfContainer,
+    [0.85, 0.9],
+    [0, 1],
+  );
+
   const ringsPosition = useTransform(scrollYProgressOfContainer, (pos) =>
     pos >= 0.1 ? "fixed" : "relative",
+  );
+
+  const finalImageDecorationPosition = useTransform(
+    scrollYProgressOfContainer,
+    (pos) => (pos >= 0.9 ? "fixed" : "relative"),
   );
 
   const [shouldNavbarLogoHover, setShouldNavbarLogoHover] = useState(true);
@@ -218,10 +229,8 @@ export function AboutSplash() {
               />
             </g>
           </motion.svg>
-
           <Blob index={1} className="-left-[10rem] bottom-[42rem]" />
-
-            <Blob index={2} className="right-0 top-[60rem]" />
+          <Blob index={2} className="right-0 top-[60rem]" />
         </motion.div>
 
         {/* Code */}
@@ -375,6 +384,18 @@ export function AboutSplash() {
           style={{ opacity: miscRingsOpacity, position: ringsPosition }}
           className="left-[50%] top-[50%] h-[12rem] w-[12rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-300 dark:border-pink-300/75"
         ></motion.div>
+
+        <motion.div
+          style={{
+            opacity: finalImageDecorationOpacity,
+          }}
+          className="relative mt-[350vh]"
+        >
+          <Blob
+            className={`left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] ${finalImageDecorationOpacity.get() > 0.95 ? "!fixed" : "absolute"}`}
+            index={4}
+          />
+        </motion.div>
       </motion.section>
     </div>
   );

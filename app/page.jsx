@@ -8,14 +8,17 @@ import { Blob } from "@/components/ui/blob";
 
 export default function Home() {
   return (
-    <div className="w-full text-left mt-5">
+    <div className="mt-5 w-full text-left">
       <p>Hi, I&apos;m</p>
       <h1 className="text-7xl font-bold">Sidd!</h1>
 
-      <p className="mt-12 sm:flex items-center">
+      <p className="mt-12 items-center sm:flex">
         I code, take photos, enjoy working light boards, and live stream.{" "}
-        <strong className="group md:ml-2 cursor-pointer">
-          <Link href="/about" className="inline-flex mt-2 sm:mt-0 sm:ml-2 md:ml-0 items-center border-none">
+        <strong className="group cursor-pointer md:ml-2">
+          <Link
+            href="/about"
+            className="mt-2 inline-flex items-center border-none sm:ml-2 sm:mt-0 md:ml-0"
+          >
             More{" "}
             <ArrowRightIcon className="ml-1 h-4 w-4 transition-all group-hover:ml-2" />
           </Link>
@@ -26,11 +29,18 @@ export default function Home() {
       <Achievements />
       <FeaturedPhotos />
 
-      {[1, 2, 3, 4, 5, 6].map((index) => (
-              <span key={index}>
-                <Blob index={index} />
-              </span>
-            ))}
+      {[1, 2, 3].map((index) => (
+        <span key={index}>
+          <Blob
+            style={{
+              top: `${(16 * index) ** 2}px`,
+              left: index % 2 === 0 && 0,
+              right: index % 2 != 0 && 0,
+            }}
+            index={index}
+          />
+        </span>
+      ))}
     </div>
   );
 }

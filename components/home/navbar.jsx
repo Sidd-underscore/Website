@@ -42,7 +42,7 @@ export function Navbar() {
 
   return (
     <div className="fixed left-0 top-0 z-50 flex w-screen items-center justify-center lg:top-4 ">
-      <div className="fixed top-0 h-4 w-screen bg-neutral-50 dark:bg-neutral-950" />
+      <div className="fixed top-0 h-10 w-screen bg-gradient-to-b from-neutral-50 to:transparent via-transparent dark:from-neutral-950" />
 
       <nav
         data-element-reference="nav"
