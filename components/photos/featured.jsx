@@ -32,7 +32,7 @@ export function FeaturedPhotos() {
     trueResult.push(
       <Link
         href="/photos"
-        className="flex h-96 min-w-[289.13px] items-center justify-center rounded-lg border bg-neutral-200 dark:bg-neutral-900"
+        className="flex h-96 min-w-[289.13px] items-center justify-center rounded-lg bg-gradient-to-br border !border-pink-100 dark:!border-pink-500/15 from-neutral-100 via-pink-100 to-neutral-100 dark:from-neutral-900 dark:via-pink-500/15 dark:to-neutral-900"
       >
         <div className="text-center text-2xl font-bold">View all</div>
       </Link>,

@@ -1,9 +1,8 @@
 "use client";
 
-import { Link } from "@/components/ui/link";
 import { useEffect, useRef } from "react";
 import { achievements } from "@/lib/achievements";
-import { CalendarIcon } from "@radix-ui/react-icons";
+import { CalendarIcon, CardStackIcon } from "@radix-ui/react-icons";
 import { TrophyIcon } from "@heroicons/react/20/solid";
 
 export function Achievements() {
@@ -24,10 +23,9 @@ export function Achievements() {
 
   return (
     <div className="my-32 w-full text-left">
-      <h2 className="text-4xl font-semibold">Competitions & Awards</h2>
+      <h2 className="text-4xl font-semibold">Competitions, Awards, and the Rest</h2>
       <p className="mt-1 text-sm">
-        I have won some competitions, and achieved certain awards. Here they
-        are!
+        Here lies all the recognition I have received for my work or other experience. Thank you so much to all these awesome organizations! 
       </p>
 
       <div
@@ -59,11 +57,20 @@ export function Achievements() {
                         <span>{achievement.ranking}</span>
                       </span>
                     )}
+
+                    {achievement.type === "membership" && (
+                      <span className="flex items-center space-x-2">
+                        <CardStackIcon className="h-4 w-4 shrink-0" />
+                        <span>Membership by Invitation</span>
+                      </span>
+                    )}
                   </p>
                   <div className={`m-4 text-sm`}>
                     <ul className="list-disc text-left">
                       {achievement.descriptions.map((description) => (
-                        <li className="opacity-75" key={description}>{description}</li>
+                        <li className="opacity-75" key={description}>
+                          {description}
+                        </li>
                       ))}
                     </ul>
                   </div>

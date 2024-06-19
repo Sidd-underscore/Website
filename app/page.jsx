@@ -30,7 +30,7 @@ export default function Home() {
       <FeaturedPhotos />
 
       {[1, 2, 3].map((index) => (
-        <span key={index}>
+        <span key={index} className="hidden 2xl:block">
           <Blob
             style={{
               top: `${(16 * index) ** 2}px`,
