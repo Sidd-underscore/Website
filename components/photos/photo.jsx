@@ -34,19 +34,30 @@ import {
 
 export function Photo({ className, photoData, ...props }) {
   const [downloadFormat, setDownloadFormat] = useState(".jpg");
+  const [photoHasLoaded, setPhotoHasLoaded] = useState(false);
+
   return (
     <>
       <Dialog key={photoData.name}>
         <DialogTrigger asChild={true}>
           <div className="relative w-full">
+           {!photoHasLoaded && <div
+              className={`max-h-full max-w-full animate-pulse rounded-lg bg-neutral-900`}
+              style={{
+                width: photoData.staticPhoto.width,
+                aspectRatio:
+                  photoData.staticPhoto.width / photoData.staticPhoto.height,
+              }}
+            />} 
             <Image
-              priority={true}
               quality={50}
               className={cn(
                 "h-full w-full cursor-pointer rounded-lg",
+                photoHasLoaded ? "inherit" : "hidden",
                 className
               )}
               src={photoData.staticPhoto}
+              onLoadingComplete={() => setPhotoHasLoaded(true)}
               alt={photoData.name}
               title={photoData.name}
               width={0}
@@ -73,8 +84,14 @@ export function Photo({ className, photoData, ...props }) {
               </div>
             </DialogTitle>
             <DialogDescription>
-              <div className="max-w-[28rem] min-h-[75vh] max-h-[85vh] overflow-auto sm:max-w-[32rem] md:max-w-[44rem] lg:max-w-[52rem] xl:max-w-[60rem]" style={{aspectRatio: photoData.staticPhoto.width / photoData.staticPhoto.height}}>
-                <div className="relative flex w-fit justify-center max-h-full items-center space-y-2 overflow-auto p-1 md:space-y-0">
+              <div
+                className="max-h-[85vh] min-h-[75vh] max-w-[28rem] overflow-auto sm:max-w-[32rem] md:max-w-[44rem] lg:max-w-[52rem] xl:max-w-[60rem]"
+                style={{
+                  aspectRatio:
+                    photoData.staticPhoto.width / photoData.staticPhoto.height,
+                }}
+              >
+                <div className="relative flex max-h-full w-fit items-center justify-center space-y-2 overflow-auto p-1 md:space-y-0">
                   <Image
                     className={"h-auto w-auto rounded-lg"}
                     src={photoData.staticPhoto}
@@ -104,7 +121,7 @@ export function Photo({ className, photoData, ...props }) {
                         <span>
                           {formatRelative(
                             fromUnixTime(photoData.date),
-                            Date.now()
+                            Date.now(),
                           )}{" "}
                           at {format(fromUnixTime(photoData.date), "h:mm a")} (
                           {formatDistance(
@@ -112,7 +129,7 @@ export function Photo({ className, photoData, ...props }) {
                             Date.now(),
                             {
                               addSuffix: true,
-                            }
+                            },
                           )}
                           )
                         </span>
@@ -146,12 +163,15 @@ export function Photo({ className, photoData, ...props }) {
                         >
                           <SelectTrigger
                             triggerButtonVariant="icon"
-                            className="w-fit border-none !pr-0 !pl-2 !text-xs shadow-none"
+                            className="w-fit border-none !pl-2 !pr-0 !text-xs shadow-none"
                           >
                             <SelectValue placeholder="Select an image format" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value=".jpg">JPG <span className="text-xs">(with metadata)</span></SelectItem>
+                            <SelectItem value=".jpg">
+                              JPG{" "}
+                              <span className="text-xs">(with metadata)</span>
+                            </SelectItem>
                             <SelectItem value=".png">PNG</SelectItem>
                           </SelectContent>
                         </Select>
