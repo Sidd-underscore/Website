@@ -3,7 +3,6 @@ import {
   CameraIcon,
   DownloadIcon,
   InfoCircledIcon,
-  ListBulletIcon,
   SewingPinFilledIcon,
 } from "@radix-ui/react-icons";
 import {
@@ -34,35 +33,39 @@ import {
 
 export function Photo({ className, photoData, ...props }) {
   const [downloadFormat, setDownloadFormat] = useState(".jpg");
+
   const [photoHasLoaded, setPhotoHasLoaded] = useState(false);
+  const [photoPreviewHasLoaded, setPhotoPreviewHasLoaded] = useState(false);
 
   return (
     <>
       <Dialog key={photoData.name}>
         <DialogTrigger asChild={true}>
           <div className="relative w-full">
-           {!photoHasLoaded && <div
-              className={`max-h-full max-w-full animate-pulse rounded-lg bg-neutral-900`}
-              style={{
-                width: photoData.staticPhoto.width,
-                aspectRatio:
-                  photoData.staticPhoto.width / photoData.staticPhoto.height,
-              }}
-            />} 
+            {!photoHasLoaded && (
+              <div
+                className={`max-h-full max-w-full animate-pulse rounded-lg bg-neutral-900`}
+                style={{
+                  width: photoData.staticPhoto.width,
+                  aspectRatio:
+                    photoData.staticPhoto.width / photoData.staticPhoto.height,
+                }}
+              />
+            )}
             <Image
               quality={50}
+              priority={true}
               className={cn(
                 "h-full w-full cursor-pointer rounded-lg",
                 photoHasLoaded ? "inherit" : "hidden",
-                className
+                className,
               )}
               src={photoData.staticPhoto}
-              onLoadingComplete={() => setPhotoHasLoaded(true)}
+              onLoad={() => setPhotoHasLoaded(true)}
               alt={photoData.name}
               title={photoData.name}
               width={0}
               height={0}
-              sizes="100vw"
               placeholder="blur"
               {...props}
             />
@@ -84,39 +87,47 @@ export function Photo({ className, photoData, ...props }) {
               </div>
             </DialogTitle>
             <DialogDescription>
-              <div
-                className="max-h-[85vh] min-h-[75vh] max-w-[28rem] overflow-auto sm:max-w-[32rem] md:max-w-[44rem] lg:max-w-[52rem] xl:max-w-[60rem]"
-                style={{
-                  aspectRatio:
-                    photoData.staticPhoto.width / photoData.staticPhoto.height,
-                }}
-              >
-                <div className="relative flex max-h-full w-fit items-center justify-center space-y-2 overflow-auto p-1 md:space-y-0">
+              <div className="relative max-w-[28rem] overflow-auto sm:max-w-[32rem] md:max-w-[44rem] lg:max-w-[52rem] xl:max-w-[60rem]">
+                <div className="relative flex max-h-full max-w-full items-center justify-center space-y-2 overflow-auto p-1 md:space-y-0">
+                  {!photoPreviewHasLoaded && (
+                    <div
+                      className={`max-h-full w-full animate-pulse rounded-lg bg-neutral-900`}
+                      style={{
+                        height: photoData.staticPhoto.height / 4,
+                        aspectRatio:
+                          photoData.staticPhoto.width /
+                          photoData.staticPhoto.height,
+                      }}
+                    />
+                  )}
+
                   <Image
-                    className={"h-auto w-auto rounded-lg"}
+                    className={`${photoPreviewHasLoaded ? "inherit" : "hidden"} h-auto w-auto rounded-lg`}
                     src={photoData.staticPhoto}
                     alt={photoData.name}
                     title={photoData.name}
+                    onLoad={() => setPhotoPreviewHasLoaded(true)}
                     width={0}
                     height={0}
                     sizes="100vh"
                     placeholder="blur"
                     quality={100}
                   />
+
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
                         variant="secondary"
-                        className="fixed right-10 top-14 aspect-square h-auto w-auto rounded-full p-2 backdrop-blur-sm"
+                        className="absolute right-4 top-4 aspect-square h-auto w-auto rounded-full p-2 backdrop-blur-sm"
                         size="icon"
                       >
                         <InfoCircledIcon className="h-5 w-5" />
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent align="end" className="max-w-[300px]">
+                    <PopoverContent align="end" sideOffset={12} className="max-w-[300px]">
                       <div>{photoData.description}</div>
 
-                      <div className="mt-4 flex items-start space-x-2 text-xs">
+                      <div className="mt-4 flex items-center space-x-2 text-xs">
                         <CalendarIcon className="h-4 w-4 shrink-0" />
                         <span>
                           {formatRelative(
@@ -135,12 +146,12 @@ export function Photo({ className, photoData, ...props }) {
                         </span>
                       </div>
 
-                      <div className="mt-2 flex items-start space-x-2 text-xs">
+                      <div className="mt-2 flex items-center space-x-2 text-xs">
                         <SewingPinFilledIcon className="h-3 w-3 shrink-0" />
                         <span>{photoData.location}</span>
                       </div>
 
-                      <div className="mb-4 mt-2 flex items-start space-x-2 text-xs">
+                      <div className="mb-4 mt-2 flex items-center space-x-2 text-xs">
                         <CameraIcon className="h-3 w-3 shrink-0" />
                         <span>{photoData.camera}</span>
                       </div>
