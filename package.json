@@ -1,10 +1,10 @@
 {
   "name": "sidd-portfolio",
-  "description": "Sidd_'s portfolio, including coding projects and photography",
+  "description": "Sidd's portfolio, including coding projects and photography",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

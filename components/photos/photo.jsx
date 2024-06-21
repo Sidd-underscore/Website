@@ -138,20 +138,20 @@ export function Photo({ className, photoData, ...props }) {
                             "mt-2 flex w-full items-center rounded-lg text-sm",
                         })}
                       >
-                        <DownloadIcon className="mr-2" />
-                        Download image as{" "}
+                        <DownloadIcon className="mr-2 shrink-0" />
+                        Download as{" "}
                         <Select
                           defaultValue={downloadFormat}
                           onValueChange={setDownloadFormat}
                         >
                           <SelectTrigger
                             triggerButtonVariant="icon"
-                            className="w-fit space-x-2 border-none !text-xs shadow-none"
+                            className="w-fit border-none !pr-0 !pl-2 !text-xs shadow-none"
                           >
                             <SelectValue placeholder="Select an image format" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value=".jpg">JPG</SelectItem>
+                            <SelectItem value=".jpg">JPG <span className="text-xs">(with metadata)</span></SelectItem>
                             <SelectItem value=".png">PNG</SelectItem>
                           </SelectContent>
                         </Select>
