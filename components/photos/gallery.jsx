@@ -241,7 +241,7 @@ export function Gallery() {
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       >
       <div className="w-full items-center space-y-2 md:flex md:space-x-2 md:space-y-0">
-        <div className="pointer-events-none bg-white hover:bg-neutral-100 focus:bg-neutral-100 dark:bg-neutral-950 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 flex w-full items-center rounded-md border border-neutral-200 bg-transparent px-3 py-1 text-sm shadow-sm transition-colors hover:border-neutral-300 hover:ring-neutral-950 dark:border-neutral-800 dark:hover:border-neutral-700 dark:hover:ring-neutral-300">
+        <div className="pointer-events-none bg-opacity-90 dark:bg-opacity-75 backdrop-blur-md bg-white hover:bg-neutral-100 focus:bg-neutral-100 dark:bg-neutral-950 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 flex w-full items-center rounded-md border border-neutral-200 bg-transparent px-3 py-1 text-sm shadow-sm transition-colors hover:border-neutral-300 hover:ring-neutral-950 dark:border-neutral-800 dark:hover:border-neutral-700 dark:hover:ring-neutral-300">
           {searchIcon}
           <Input
             onChange={(event) => setSearchQuery(event.target.value)}

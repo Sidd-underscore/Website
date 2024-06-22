@@ -56,7 +56,7 @@ export function Photo({ className, photoData, ...props }) {
               quality={50}
               priority={true}
               className={cn(
-                "h-full w-full cursor-pointer rounded-lg",
+                "h-full w-full cursor-pointer rounded-lg max-w-none",
                 photoHasLoaded ? "inherit" : "hidden",
                 className,
               )}
@@ -70,7 +70,7 @@ export function Photo({ className, photoData, ...props }) {
             />
           </div>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="!max-w-[90vw]">
           <PhotoDialog photoData={photoData} />
         </DialogContent>
       </Dialog>
@@ -101,7 +101,7 @@ function PhotoDialog({ photoData }) {
           </div>
         </DialogTitle>
         <DialogDescription>
-          <div className="relative max-w-[28rem] overflow-auto sm:max-w-[32rem] md:max-w-[44rem] lg:max-w-[52rem] xl:max-w-[60rem]">
+          <div className="relative max-w-[90vw] w-full overflow-auto">
             <div className="relative flex max-h-full max-w-full items-center justify-center space-y-2 overflow-auto p-1 md:space-y-0">
               {!photoPreviewHasLoaded && (
                 <div
@@ -127,7 +127,7 @@ function PhotoDialog({ photoData }) {
               )}
 
               <Image
-                className={`${photoPreviewHasLoaded ? "inherit" : "hidden"} h-auto w-auto rounded-lg`}
+                className={`${photoPreviewHasLoaded ? "inherit" : "hidden"} max-w-none h-auto w-auto rounded-lg`}
                 src={photoData.staticPhoto}
                 alt={photoData.name}
                 title={photoData.name}
