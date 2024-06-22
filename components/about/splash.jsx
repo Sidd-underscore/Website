@@ -294,7 +294,7 @@ export function AboutSplash() {
           style={{ opacity: livestreamRingsOpacity, position: ringsPosition }}
           className="left-[50%] top-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-100 text-sm dark:border-pink-100/15 sm:h-[24rem] sm:w-[24rem] md:text-base"
         >
-          <p className="max-w-50 absolute -top-32 left-0 max-w-[40vw] opacity-90 sm:-left-20 sm:-top-20 md:-left-20 md:-top-14 lg:-left-36 lg:-top-20">
+          <p className="max-w-50 absolute -top-32 left-0 max-w-[30vw] sm:max-w-[40vw] opacity-90 sm:-left-20 sm:-top-20 md:-left-20 md:-top-14 lg:-left-36 lg:-top-20">
             I livestream weekly using OBS and PTZ Optics for the{" "}
             <Link
               href="https://themadeline.edu"
@@ -304,7 +304,7 @@ export function AboutSplash() {
               Madeleine Parish.
             </Link>
           </p>
-          <p className="absolute -top-24 right-0 max-w-[50vw] text-right opacity-90 sm:-right-28 md:-right-36 md:top-8 md:max-w-60 lg:-right-56 lg:top-24">
+          <p className="absolute -top-24 right-0 max-w-[30vw] sm:max-w-[40vw] text-right opacity-90 sm:-right-28 md:-right-36 md:top-8 md:max-w-60 lg:-right-56 lg:top-24">
             I also run other A/V positions, like mixing live sound during
             performances, for the Parish.
           </p>
@@ -346,15 +346,15 @@ export function AboutSplash() {
           className="left-[50%] top-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-200 dark:border-pink-200/40 sm:h-[18rem] sm:w-[18rem]"
         >
           <motion.div className="flex">
-          <div className="-ml-2 mt-16 h-fit bg-white dark:bg-neutral-950 sm:-ml-2 sm:mt-[3.5rem]">
+            <div className="-ml-2 mt-16 h-fit bg-white dark:bg-neutral-950 sm:-ml-2 sm:mt-[3.5rem]">
               <OBSLogo className="h-8 w-8 opacity-50 sm:h-9 sm:w-9 md:h-10 md:w-10" />
             </div>
 
-            <div className="ml-[5.75rem] mt-60 h-fit bg-white dark:bg-neutral-950 sm:ml-24 sm:mt-[16.5rem]">
+            <div className="ml-[5rem] mt-60 h-fit bg-white dark:bg-neutral-950 sm:ml-[5.5rem] sm:mt-[16.5rem]">
               <ETCLogo className="h-14 w-14 fill-black opacity-50 dark:*:fill-white" />
             </div>
 
-            <div className="ml-[5rem] mt-[3.5rem] h-fit bg-white dark:bg-neutral-950">
+            <div className="ml-14 mt-[3.5rem] h-fit bg-white dark:bg-neutral-950">
               <AudixLogo className="h-14 w-14 fill-neutral-950 stroke-neutral-950 text-black opacity-75 dark:fill-white dark:stroke-white dark:text-white" />
             </div>
           </motion.div>

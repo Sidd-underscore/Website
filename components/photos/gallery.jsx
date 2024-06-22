@@ -16,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { CameraIcon, SewingPinFilledIcon } from "@radix-ui/react-icons";
+import { motion, useAnimation } from 'framer-motion';
 
 export function Gallery() {
   const [searchIcon, setSearchIcon] = useState(<MagnifyingGlassIcon />);
@@ -32,6 +33,24 @@ export function Gallery() {
 
   const [searchLocation, setSearchLocation] = useState();
   const [locations, setLocations] = useState([]);
+
+  const [isInputSticky, setIsInputSticky] = useState(false);
+  const controls = useAnimation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 350) {
+        setIsInputSticky(true);
+        controls.start({ top: 0 });
+      } else {
+        setIsInputSticky(false);
+        controls.start({ top: '-100%' });
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [controls]);
 
   async function filterPhotos(data) {
     let photos = [...originalPhotosArray];
@@ -215,27 +234,36 @@ export function Gallery() {
 
   return (
     <div className="my-6">
+      <motion.div
+        className={`sticky z-20 ${isInputSticky ? 'shadow-lg mx-4 pt-20' : ''}`}
+        initial={{ top: '-100%' }}
+        animate={controls}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      >
       <div className="w-full items-center space-y-2 md:flex md:space-x-2 md:space-y-0">
-        <div className="pointer-events-none flex w-full items-center rounded-md border border-neutral-200 bg-transparent px-3 py-1 text-sm shadow-sm transition-colors hover:border-neutral-300 hover:ring-neutral-950 dark:border-neutral-800 dark:hover:border-neutral-700 dark:hover:ring-neutral-300">
+        <div className="pointer-events-none bg-white hover:bg-neutral-100 focus:bg-neutral-100 dark:bg-neutral-950 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800 flex w-full items-center rounded-md border border-neutral-200 bg-transparent px-3 py-1 text-sm shadow-sm transition-colors hover:border-neutral-300 hover:ring-neutral-950 dark:border-neutral-800 dark:hover:border-neutral-700 dark:hover:ring-neutral-300">
           {searchIcon}
           <Input
             onChange={(event) => setSearchQuery(event.target.value)}
-            className="pointer-events-auto !border-transparent !bg-transparent pr-16 shadow-none !ring-0"
+            className="pointer-events-auto !border-transparent pr-16 shadow-none !ring-0"
             placeholder="Search photos... (by name, description, camera, and more!)"
           />
         </div>
-        <DatePickerWithRange
-          date={date}
-          setDate={(e) => {
-            setSearchIcon(<Loading />);
-            setDate(e === undefined ? "removeSearchDateFilter" : e);
-            filterPhotos({
-              filterDate: e === undefined ? "removeSearchDateFilter" : e,
-            });
-          }}
-          className="h-auto px-3 py-3 text-sm shadow-sm"
-        />
+        {!isInputSticky && (
+    <DatePickerWithRange
+      date={date}
+      setDate={(e) => {
+        setSearchIcon(<Loading />);
+        setDate(e === undefined ? "removeSearchDateFilter" : e);
+        filterPhotos({
+          filterDate: e === undefined ? "removeSearchDateFilter" : e,
+        });
+      }}
+      className="h-auto md:px-3 md:py-3 text-sm shadow-sm"
+    />
+  )}
       </div>
+      </motion.div>
       <div className="mt-2 sm:flex justify-between space-y-2 sm:space-y-0 sm:space-x-2">
         <Select
           defaultValue="removeSearchCameraFilter"
