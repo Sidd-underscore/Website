@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { achievements } from "@/lib/achievements";
-import { CalendarIcon, CardStackIcon } from "@radix-ui/react-icons";
+import { CalendarIcon, CardStackIcon, PaperPlaneIcon } from "@radix-ui/react-icons";
 import { TrophyIcon } from "@heroicons/react/20/solid";
 
 export function Achievements() {
@@ -37,7 +37,7 @@ export function Achievements() {
             key={achievement.id}
             className="project group relative rounded-lg transition-colors"
           >
-            <div className="project-content">
+            <div className="project-content h-full">
               <div className="z-30 flex h-full flex-col justify-between px-5 py-4">
                 <div>
                   <h3 className={`mb-3 text-2xl font-semibold`}>
@@ -62,6 +62,13 @@ export function Achievements() {
                       <span className="flex items-center space-x-2">
                         <CardStackIcon className="h-4 w-4 shrink-0" />
                         <span>Membership by Invitation</span>
+                      </span>
+                    )}
+
+{achievement.type === "certification" && (
+                      <span className="flex items-center space-x-2">
+                        <PaperPlaneIcon className="-rotate-[45deg] h-4 w-4 shrink-0" />
+                        <span>Certification</span>
                       </span>
                     )}
                   </p>

@@ -166,7 +166,7 @@ export function AboutSplash() {
   }, [avatarLeft, avatarTop, avatarSize, shouldNavbarLogoHover, setNavbarLogo]);
 
   return (
-    <div ref={containerRef} className="-m-6 h-[500vh] md:-m-12 2xl:-m-24">
+    <div ref={containerRef} className="relative -m-6 h-[500vh] md:-m-12 2xl:-m-24">
       <motion.section className="relative text-neutral-950 dark:text-white">
         <motion.div className="relative z-20 flex h-[calc(100vh_-_192px)] w-full flex-col items-center justify-center px-12 py-12 lg:px-24">
           <motion.p
@@ -227,19 +227,21 @@ export function AboutSplash() {
               />
             </g>
           </motion.svg>
-          <Blob index={1} className="-left-[10rem] bottom-[42rem]" />
-          <Blob index={2} className="right-0 top-[60rem]" />
+
+          <Blob index={1} className="hidden md:block  -left-[10rem] bottom-[42rem]" />
+          <Blob index={2} className="hidden md:block right-0 top-[60rem]" />
+
         </motion.div>
 
         {/* Code */}
         <motion.div
           style={{ opacity: codeRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-100 dark:border-pink-100/15 sm:h-[24rem] sm:w-[24rem]"
+          className="text-sm md:text-base left-[50%] top-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-100 dark:border-pink-100/15 sm:h-[24rem] sm:w-[24rem]"
         >
-          <p className="absolute -top-16 left-8 max-w-40 opacity-90 sm:-left-10 sm:-top-10 md:-left-20 md:-top-14">
+          <p className="absolute -top-32 left-0 max-w-40 opacity-90 sm:-left-10 sm:-top-10 md:-left-20 md:-top-14">
             I code and design user interfaces
           </p>
-          <p className="absolute right-8 top-2 max-w-40 text-right opacity-90 sm:-right-28 md:-right-44 md:top-20">
+          <p className="absolute right-0 -top-20 max-w-40 text-right opacity-90 sm:-right-28 md:-right-44 md:top-20">
             using tools like Next.js, TailwindCSS and Radix UI.
           </p>
           <p className="absolute -bottom-16 left-14 max-w-72 text-left opacity-90 sm:-bottom-4 sm:-left-28 xl:-bottom-10 xl:-left-48">
@@ -248,15 +250,15 @@ export function AboutSplash() {
 
           <motion.div className="flex">
             <div className="mt-56 h-fit bg-white dark:bg-neutral-950 sm:mt-64">
-              <TailwindCssIcon className="h-10 w-10 opacity-50" />
+              <TailwindCssIcon className="h-8 w-8 sm:h-9 sm:w-9 md:w-10 md:h-10 opacity-50" />
             </div>
 
-            <div className="-mt-4 ml-28 h-fit bg-white dark:bg-neutral-950 sm:-mt-6 sm:ml-36">
-              <RadixUIIcon className="h-10 w-10 text-black opacity-50 dark:text-white" />
+            <div className="-mt-4 ml-[7.5rem] h-fit bg-white dark:bg-neutral-950 sm:-mt-6 sm:ml-36">
+              <RadixUIIcon className="h-8 w-8 sm:h-9 sm:w-9 md:w-10 md:h-10 text-black opacity-50 dark:text-white" />
             </div>
 
-            <div className="ml-20 mt-56 h-fit bg-white dark:bg-neutral-950 sm:ml-28 sm:mt-64">
-              <GitHubIcon className="h-10 w-10 fill-black opacity-50 dark:*:fill-white" />
+            <div className="ml-24 mt-56 h-fit bg-white dark:bg-neutral-950 sm:ml-28 sm:mt-64">
+              <GitHubIcon className="h-8 w-8 sm:h-9 sm:w-9 md:w-10 md:h-10 fill-black opacity-50 dark:*:fill-white" />
             </div>
           </motion.div>
         </motion.div>
@@ -266,48 +268,48 @@ export function AboutSplash() {
         >
           <motion.div className="flex">
             <div className="-ml-2 mt-16 h-fit bg-white dark:bg-neutral-950 sm:-ml-2 sm:mt-[3.5rem]">
-              <VisualStudioCodeIcon className="h-10 w-10 opacity-50" />
+              <VisualStudioCodeIcon className="h-8 w-8 sm:h-9 sm:w-9 md:w-10 md:h-10 opacity-50" />
             </div>
 
-            <div className="ml-24 mt-20 h-fit bg-white dark:bg-neutral-950 sm:ml-24 sm:mt-[16.5rem]">
-              <NextJSLogo className="h-10 w-10 fill-black opacity-50 dark:*:fill-white" />
+            <div className="ml-[5.75rem] mt-60 h-fit bg-white dark:bg-neutral-950 sm:ml-24 sm:mt-[16.5rem]">
+              <NextJSLogo className="h-8 w-8 sm:h-9 sm:w-9 md:w-10 md:h-10 fill-black opacity-50 dark:*:fill-white" />
             </div>
 
-            <div className="h-fit bg-white dark:bg-neutral-950 sm:ml-[5rem] sm:mt-[3.5rem]">
-              <ReactLogo className="h-10 w-10 text-black opacity-50 dark:text-white" />
+            <div className="ml-20 mt-16 h-fit bg-white dark:bg-neutral-950 sm:ml-[5rem] sm:mt-[3.5rem]">
+              <ReactLogo className="h-8 w-8 sm:h-9 sm:w-9 md:w-10 md:h-10 text-black opacity-50 dark:text-white" />
             </div>
           </motion.div>
         </motion.div>
         <motion.div
           style={{ opacity: codeRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[11rem] w-[11rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-300 dark:border-pink-300/75 sm:h-[12rem] sm:w-[12rem]"
+          className="left-[50%] top-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-300 dark:border-pink-300/75 sm:h-[12rem] sm:w-[12rem]"
         ></motion.div>
 
         {/* Livestreaming */}
         <motion.div
           style={{ opacity: livestreamRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[24rem] w-[24rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-100 dark:border-pink-100/15"
+          className="text-sm md:text-base left-[50%] top-[50%] h-[24rem] w-[24rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-100 dark:border-pink-100/15"
         >
-          <p className="max-w-50 absolute opacity-90 sm:-left-20 sm:-top-20 md:-left-20 md:-top-14 lg:-left-36 lg:-top-20">
+          <p className="-top-32 left-4 max-w-50 absolute max-w-[40vw] opacity-90 sm:-left-20 sm:-top-20 md:-left-20 md:-top-14 lg:-left-36 lg:-top-20">
             I livestream weekly using OBS and PTZ Optics for the{" "}
             <Link
               href="https://themadeline.edu"
-              className="!inline w-fit text-right !text-base"
+              className="!inline w-fit text-right text-xs md:text-base"
               target="_blank"
             >
               Madeleine Parish.
             </Link>
           </p>
-          <p className="absolute right-0 max-w-60 text-right opacity-90 sm:-right-28 md:-right-36 md:top-12 lg:-right-56 lg:top-24">
+          <p className="-top-20 right-0 absolute max-w-[50vw] md:max-w-60 text-right opacity-90 sm:-right-28 md:-right-36 md:top-12 lg:-right-56 lg:top-24">
             I also run other A/V positions, like mixing live sound during
-            performances for the Parish and other venues.
+            performances, for the Parish.
           </p>
-          <p className="absolute -bottom-10 max-w-72 text-left opacity-90 sm:-bottom-24 sm:-left-28 lg:-bottom-20 lg:-left-56 lg:max-w-80">
+          <p className="absolute -bottom-20 max-w-72 text-left opacity-90 sm:-bottom-24 sm:-left-28 lg:-bottom-20 lg:-left-56 lg:max-w-80">
             I also love designing lights in theatres and blackboxes. I will lead
             this department at{" "}
             <Link
               href="https://www.pps.net/lincoln"
-              className="!inline w-fit text-right !text-base"
+              className="!inline w-fit text-left text-xs md:text-base"
               target="_blank"
             >
               Lincoln High School
@@ -341,7 +343,7 @@ export function AboutSplash() {
         >
           <motion.div className="flex">
             <div className="-ml-2 mt-[3.5rem] h-fit bg-white dark:bg-neutral-950">
-              <OBSLogo className="h-10 w-10 opacity-50" />
+              <OBSLogo className="h-8 w-8 sm:h-9 sm:w-9 md:w-10 md:h-10 opacity-50" />
             </div>
 
             <div className="ml-20 mt-[16.5rem] h-fit bg-white dark:bg-neutral-950">
@@ -359,15 +361,15 @@ export function AboutSplash() {
         ></motion.div>
 
         {/* Misc */}
-        <motion.div
+        {/* <motion.div
           style={{ opacity: miscRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[24rem] w-[24rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-100 dark:border-pink-100/15"
+          className="text-sm md:text-base left-[50%] top-[50%] h-[24rem] w-[24rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-100 dark:border-pink-100/15"
         >
-          <p className="absolute max-w-40 opacity-90 sm:-left-10 sm:-top-10 md:-left-20 md:-top-14">
+          <p className="absolute max-w-40 opacity-90 -top-10 sm:-left-10 sm:-top-10 md:-left-20 md:-top-14">
             I generally love tech, photography, and lighting design.
           </p>
-          <p className="absolute right-0 max-w-40 text-right opacity-90 sm:-right-28 md:-right-44 md:top-20">
-            I&apos;m an avid learner and an enthousiastic person in general,
+          <p className="absolute -right-28 max-w-40 text-right opacity-90 sm:-right-28 md:-right-44 md:top-20">
+            I&apos;m an avid learner and an enthusiastic person in general,
           </p>
           <p className="absolute -bottom-10 max-w-56 text-left opacity-90 sm:-bottom-4 sm:-left-36 xl:-bottom-10 xl:-left-48">
             hoping to, at the end of the day, help people and learn something
@@ -381,13 +383,13 @@ export function AboutSplash() {
         <motion.div
           style={{ opacity: miscRingsOpacity, position: ringsPosition }}
           className="left-[50%] top-[50%] h-[12rem] w-[12rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-300 dark:border-pink-300/75"
-        ></motion.div>
+        ></motion.div> */}
 
         <motion.div
           style={{
             opacity: finalImageDecorationOpacity,
           }}
-          className="relative mt-[350vh]"
+          className="relative md:mt-[350vh]"
         >
           <Blob
             className={`left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] ${shouldFinalImageDecorationFix ? "!fixed" : "absolute"}`}
