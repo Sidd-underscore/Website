@@ -56,7 +56,7 @@ export function Photo({ className, photoData, ...props }) {
               quality={50}
               priority={true}
               className={cn(
-                "h-full w-full cursor-pointer rounded-lg max-w-none",
+                "h-full w-full max-w-none cursor-pointer rounded-lg",
                 photoHasLoaded ? "inherit" : "hidden",
                 className,
               )}
@@ -82,7 +82,7 @@ function PhotoDialog({ photoData }) {
   const [downloadFormat, setDownloadFormat] = useState(".png");
   const [photoPreviewHasLoaded, setPhotoPreviewHasLoaded] = useState(false);
 
-  const isDesktop = useIsDesktop()
+  const isDesktop = useIsDesktop();
 
   return (
     <>
@@ -101,7 +101,7 @@ function PhotoDialog({ photoData }) {
           </div>
         </DialogTitle>
         <DialogDescription>
-          <div className="relative max-w-[90vw] w-full overflow-auto">
+          <div className="relative w-full max-w-[90vw] overflow-auto">
             <div className="relative flex max-h-full max-w-full items-center justify-center space-y-2 overflow-auto p-1 md:space-y-0">
               {!photoPreviewHasLoaded && (
                 <div
@@ -109,13 +109,15 @@ function PhotoDialog({ photoData }) {
                   style={
                     photoData.staticPhoto.height > photoData.staticPhoto.width
                       ? {
-                          height: photoData.staticPhoto.height / (isDesktop ? 4 : 10),
+                          height:
+                            photoData.staticPhoto.height / (isDesktop ? 4 : 10),
                           aspectRatio:
                             photoData.staticPhoto.width /
                             photoData.staticPhoto.height,
                         }
                       : {
-                          width: photoData.staticPhoto.width / (isDesktop ? 4 : 10),
+                          width:
+                            photoData.staticPhoto.width / (isDesktop ? 4 : 10),
                           aspectRatio:
                             photoData.staticPhoto.width /
                             photoData.staticPhoto.height,
@@ -127,7 +129,7 @@ function PhotoDialog({ photoData }) {
               )}
 
               <Image
-                className={`${photoPreviewHasLoaded ? "inherit" : "hidden"} max-w-none h-auto w-auto rounded-lg`}
+                className={`${photoPreviewHasLoaded ? "inherit" : "hidden"} h-auto w-auto max-w-none rounded-lg`}
                 src={photoData.staticPhoto}
                 alt={photoData.name}
                 title={photoData.name}
@@ -139,10 +141,12 @@ function PhotoDialog({ photoData }) {
                 style={
                   photoData.staticPhoto.height > photoData.staticPhoto.width
                     ? {
-                        height: photoData.staticPhoto.height / (isDesktop ? 4 : 10),
+                        height:
+                          photoData.staticPhoto.height / (isDesktop ? 4 : 10),
                       }
                     : {
-                        width: photoData.staticPhoto.width / (isDesktop ? 4 : 10),
+                        width:
+                          photoData.staticPhoto.width / (isDesktop ? 4 : 10),
                       }
                 }
               />
@@ -151,7 +155,7 @@ function PhotoDialog({ photoData }) {
                 <PopoverTrigger asChild>
                   <Button
                     variant="secondary"
-                    className="absolute right-4 top-4 aspect-square h-auto w-auto rounded-full p-2 flex justify-center items-center backdrop-blur-sm"
+                    className="absolute right-4 top-4 flex aspect-square h-auto w-auto items-center justify-center rounded-full p-2 backdrop-blur-sm"
                     size="icon"
                   >
                     <InfoCircledIcon className="h-5 w-5" />
@@ -213,10 +217,13 @@ function PhotoDialog({ photoData }) {
                         <SelectValue placeholder="Select an image format" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value=".jpg">
-                          JPG <span className="text-xs">(metadata)</span>
-                        </SelectItem>
                         <SelectItem value=".png">PNG</SelectItem>
+                        <SelectItem value=".jpg">
+                          JPG{" "}
+                          {photoData.jpgHasMetadata != false && (
+                            <span className="text-xs">(metadata)</span>
+                          )}
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </a>
