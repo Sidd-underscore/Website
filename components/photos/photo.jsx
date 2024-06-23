@@ -3,6 +3,7 @@
 import {
   CalendarIcon,
   CameraIcon,
+  CropIcon,
   DownloadIcon,
   InfoCircledIcon,
   SewingPinFilledIcon,
@@ -110,14 +111,28 @@ function PhotoDialog({ photoData }) {
                     photoData.staticPhoto.height > photoData.staticPhoto.width
                       ? {
                           height:
-                            photoData.staticPhoto.height / (isDesktop ? 4 : 10),
+                            photoData.staticPhoto.height /
+                            (photoData.staticPhoto.width < 3071
+                              ? isDesktop
+                                ? 4
+                                : 10
+                              : isDesktop
+                                ? 6
+                                : 12),
                           aspectRatio:
                             photoData.staticPhoto.width /
                             photoData.staticPhoto.height,
                         }
                       : {
                           width:
-                            photoData.staticPhoto.width / (isDesktop ? 4 : 10),
+                            photoData.staticPhoto.width /
+                            (photoData.staticPhoto.width < 3071
+                              ? isDesktop
+                                ? 4
+                                : 10
+                              : isDesktop
+                                ? 6
+                                : 12),
                           aspectRatio:
                             photoData.staticPhoto.width /
                             photoData.staticPhoto.height,
@@ -142,11 +157,25 @@ function PhotoDialog({ photoData }) {
                   photoData.staticPhoto.height > photoData.staticPhoto.width
                     ? {
                         height:
-                          photoData.staticPhoto.height / (isDesktop ? 4 : 10),
+                          photoData.staticPhoto.height /
+                          (photoData.staticPhoto.width < 3071
+                            ? isDesktop
+                              ? 4
+                              : 10
+                            : isDesktop
+                              ? 6
+                              : 12),
                       }
                     : {
                         width:
-                          photoData.staticPhoto.width / (isDesktop ? 4 : 10),
+                          photoData.staticPhoto.width /
+                          (photoData.staticPhoto.width < 3071
+                            ? isDesktop
+                              ? 4
+                              : 10
+                            : isDesktop
+                              ? 6
+                              : 12),
                       }
                 }
               />
@@ -192,6 +221,14 @@ function PhotoDialog({ photoData }) {
                   <div className="mb-4 mt-2 flex items-center space-x-2 text-xs">
                     <CameraIcon className="h-3 w-3 shrink-0" />
                     <span>{photoData.camera}</span>
+                  </div>
+
+                  <div className="mb-4 mt-2 flex items-center space-x-2 text-xs">
+                    <CropIcon className="h-3 w-3 shrink-0" />
+                    <span>
+                      {photoData.staticPhoto.width} x{" "}
+                      {photoData.staticPhoto.height}
+                    </span>
                   </div>
 
                   <a
