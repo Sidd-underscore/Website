@@ -8,7 +8,7 @@ import { Blob } from "@/components/ui/blob";
 
 export default function Home() {
   return (
-    <div className="mt-5 w-full text-left">
+    <div className="-mt-6 w-full text-left">
       <p>Hi, I&apos;m</p>
       <h1 className="text-7xl font-bold">Sidd!</h1>
 
