@@ -17,6 +17,7 @@ export default function Home() {
         <strong className="group cursor-pointer md:ml-2">
           <Link
             href="/about"
+            underlineLink={false}
             className="mt-2 inline-flex items-center border-none sm:ml-2 sm:mt-0 md:ml-0"
           >
             More{" "}

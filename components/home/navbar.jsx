@@ -5,22 +5,30 @@ import { ThemeSwitcher } from "@/components/ui/theme-switcher";
 import { useNavbarLogo } from "@/lib/utils";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
-
-export function NavItem({ item, underline }) {
-  return (
-    <Link
-      className={underline === false ? "border-none" : undefined}
-      href={item.link}
-    >
-      {item.label}
-    </Link>
-  );
-}
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export function Navbar() {
   const { navbarLogo, setNavbarLogo } = useNavbarLogo();
   const path = usePathname();
+  const [hoveredPath, setHoveredPath] = useState(path);
+
+  useEffect(() => {
+    setHoveredPath(path)
+  }, [path])
+
+  const navItems = [
+    {
+      ...navbarLogo,
+    },
+    {
+      link: "/about",
+      label: "About Me",
+      useMagneticUnderline: true,
+      customCss: "ml-4"
+    },
+    { link: "/photos", label: "Photography", useMagneticUnderline: true },
+  ];
 
   useEffect(() => {
     if (path != "/about") {
@@ -42,26 +50,50 @@ export function Navbar() {
 
   return (
     <div className="fixed left-0 top-0 z-50 flex w-screen items-center justify-center lg:top-4 ">
-      <div className="fixed top-0 h-10 w-screen bg-gradient-to-b from-neutral-50 to:transparent via-transparent dark:from-neutral-950" />
+      <div className="to:transparent fixed top-0 h-10 w-screen bg-gradient-to-b from-neutral-50 via-transparent dark:from-neutral-950" />
 
       <nav
         data-element-reference="nav"
-        className="flex w-screen lg:mx-10 xl:max-w-6xl max-w-7xl items-center justify-between rounded-none border-b border-neutral-500/50 bg-neutral-100/75 px-4 py-2 text-xs shadow-md hover:shadow-lg backdrop-blur-md transition md:text-sm lg:rounded-3xl lg:border dark:border-white/10 dark:bg-neutral-900/75"
+        className="flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-neutral-500/50 bg-white/80 px-4 py-2 text-xs shadow-md backdrop-blur-md transition hover:shadow-lg dark:border-white/10 dark:bg-neutral-900/75 md:text-sm lg:mx-10 lg:rounded-3xl lg:border xl:max-w-6xl"
       >
         <p className="flex items-center space-x-4">
-          <NavItem underline={false} item={navbarLogo} />
-          <NavItem
-            underline={false}
-            item={{
-              link: "/about",
-              label: (
-                <span className="ml-6 border-b border-pink-400 text-sm transition-all hover:border-pink-500 dark:border-pink-200 dark:text-pink-200 dark:hover:border-pink-300 dark:hover:text-pink-300">
-                  About Me
-                 </span>
-              ),
-            }}
-          />
-          <NavItem item={{ link: "/photos", label: "Photography" }} />
+          {navItems.map((item) => (
+            <motion.span layout key={item.link}>
+              <Link
+                onMouseEnter={() => item.useMagneticUnderline && setHoveredPath(item.link)}
+                onMouseLeave={() => item.useMagneticUnderline && setHoveredPath(path)}
+                underlineLink={false}
+                href={item.link}
+                data-active={item.link === hoveredPath}
+                className={`${item.useMagneticUnderline ? "relative" : ""} ${item.customCss} group`}
+              >
+                {item.label}
+                {item.useMagneticUnderline && item.link === hoveredPath && (
+                  <>
+                  <motion.div
+                    className={`absolute bottom-0 left-0 -z-10 h-[1.5px] rounded-full bg-pink-400 group-hover:bg-pink-500 dark:bg-pink-200 group-hover:dark:bg-pink-300`}
+                    layoutId="navbar"
+                    aria-hidden="true"
+                    style={{
+                      width: "100%",
+                    }}
+                    transition={{ type: "spring", duration: 0.4 }}
+                  />
+                  <motion.div
+                    className={`absolute bottom-0 blur-lg -left-1 -z-10 h-[1.25em] rounded-full bg-pink-500 dark:bg-pink-300`}
+                    layoutId="navbar1"
+                    aria-hidden="true"
+                    style={{
+                      width: "110%",
+                      opacity: .25
+                    }}
+                    transition={{ type: "spring", duration: 0.4 }}
+                  />
+                  </>
+                )}
+              </Link>
+            </motion.span>
+          ))}
         </p>
         <ThemeSwitcher />
       </nav>

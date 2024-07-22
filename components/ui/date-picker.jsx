@@ -23,7 +23,7 @@ export function DatePicker() {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[240px] justify-start text-left font-normal",
+            "w-[240px] justify-start text-left font-normal hover:border-neutral-300 dark:hover:border-neutral-700",
             !date && "text-muted-foreground",
           )}
         >
@@ -52,7 +52,7 @@ export function DatePickerWithRange({ className, date, setDate }) {
             id="date"
             variant={"outline"}
             className={cn(
-              "w-full md:w-[300px] justify-start text-left font-normal",
+              "w-full md:w-[300px] justify-start text-left font-normal hover:border-neutral-300 dark:hover:border-neutral-700",
               !date && "text-neutral-400",
               className,
             )}
