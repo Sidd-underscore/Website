@@ -139,10 +139,8 @@
 
 /* For hydration errors */
 
-p ul {
-  background-color: red !important;
-}
-
-button button {
+p ul,
+button button,
+p div {
   background-color: red !important;
 }

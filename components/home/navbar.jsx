@@ -46,7 +46,7 @@ export function Navbar() {
         ),
       });
     }
-  }, [path, setNavbarLogo]);
+  }, [path]);
 
   return (
     <div className="fixed left-0 top-0 z-50 flex w-screen items-center justify-center lg:top-4 ">
@@ -62,7 +62,7 @@ export function Navbar() {
               <Link
                 onMouseEnter={() => item.useMagneticUnderline && setHoveredPath(item.link)}
                 onMouseLeave={() => item.useMagneticUnderline && setHoveredPath(path)}
-                underlineLink={false}
+                
                 href={item.link}
                 data-active={item.link === hoveredPath}
                 className={`${item.useMagneticUnderline ? "relative" : ""} ${item.customCss} group`}

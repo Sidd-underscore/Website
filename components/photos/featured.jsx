@@ -32,7 +32,7 @@ export function FeaturedPhotos() {
     trueResult.push(
       <Link
         href="/photos"
-        underlineLink={false}
+        
         className="flex h-96 min-w-[289.13px] items-center justify-center rounded-lg backdrop-blur-md bg-neutral-300/40 border-neutral-400/50 dark:bg-neutral-800/40 border dark:border-neutral-700/50"
       >
         <div className="text-center text-2xl font-bold">View all</div>
