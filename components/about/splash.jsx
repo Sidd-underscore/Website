@@ -8,7 +8,7 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 import { useTheme } from "next-themes";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AudixLogo,
   ETCLogo,
@@ -107,25 +107,25 @@ export function AboutSplash() {
 
   const codeRingsOpacity = useTransform(
     scrollYProgressOfContainer,
-    [0.1, 0.2, 0.3, 0.4],
+    [0.1, 0.2, 0.35, 0.4],
     [0, 1, 1, 0],
   );
 
   const livestreamRingsOpacity = useTransform(
     scrollYProgressOfContainer,
-    [0.35, 0.45, 0.55, 0.65],
+    [0.35, 0.4, 0.55, 0.6],
     [0, 1, 1, 0],
   );
 
   const miscRingsOpacity = useTransform(
     scrollYProgressOfContainer,
-    [0.6, 0.7, 0.8, 0.9],
+    [0.55, 0.6, 0.75, 0.8],
     [0, 1, 1, 0],
   );
 
   const finalImageDecorationOpacity = useTransform(
     scrollYProgressOfContainer,
-    [0.85, 0.9],
+    [0.80, 0.9],
     [0, 1],
   );
 
@@ -139,31 +139,45 @@ export function AboutSplash() {
 
   useMotionValueEvent(scrollYProgressOfContainer, "change", (latest) => {
     setShouldNavbarLogoHover(latest < 0.01);
-    setShouldFinalImageDecorationFix(latest > 0.9);
+    setShouldFinalImageDecorationFix(latest > 0.95);
   });
 
+  const prevValues = useRef({ avatarLeft, avatarTop, avatarSize, shouldNavbarLogoHover });
+
   useEffect(() => {
-    setNavbarLogo({
-      link: "/",
-      label: (
-        <motion.img
-          style={{
-            left: avatarLeft,
-            top: avatarTop,
-            width: avatarSize,
-            height: avatarSize,
-          }}
-          alt="sidd's logo"
-          src="/images/sidd.png"
-          className={`fixed transition-[width_height] ${
-            shouldNavbarLogoHover === true
-              ? "hover:absolute hover:!-left-2 hover:!top-0 hover:!h-[72px] hover:!w-[72px] hover:-rotate-12 hover:[filter:drop-shadow(1px_0_0_white)_drop-shadow(0_1px_0_white)_drop-shadow(-1px_0_0_white)_drop-shadow(0_-1px_0_white)] dark:hover:[filter:drop-shadow(1px_0_0_#09090b)_drop-shadow(0_1px_0_#09090b)_drop-shadow(-1px_0_0_#09090b)_drop-shadow(0_-1px_0_#09090b)]"
-              : undefined
-          }`}
-        />
-      ),
-    });
+    const { avatarLeft: prevLeft, avatarTop: prevTop, avatarSize: prevSize, shouldNavbarLogoHover: prevHover } = prevValues.current;
+
+    if (
+      prevLeft !== avatarLeft ||
+      prevTop !== avatarTop ||
+      prevSize !== avatarSize ||
+      prevHover !== shouldNavbarLogoHover
+    ) {
+      setNavbarLogo({
+        link: "/",
+        label: (
+          <motion.img
+            style={{
+              left: avatarLeft,
+              top: avatarTop,
+              width: avatarSize,
+              height: avatarSize,
+            }}
+            alt="sidd's logo"
+            src="/images/sidd.png"
+            className={`fixed transition-[width_height] ${
+              shouldNavbarLogoHover === true
+                ? "hover:absolute hover:!-left-2 hover:!top-0 hover:!h-[72px] hover:!w-[72px] hover:-rotate-12 hover:[filter:drop-shadow(1px_0_0_white)_drop-shadow(0_1px_0_white)_drop-shadow(-1px_0_0_white)_drop-shadow(0_-1px_0_white)] dark:hover:[filter:drop-shadow(1px_0_0_#09090b)_drop-shadow(0_1px_0_#09090b)_drop-shadow(-1px_0_0_#09090b)_drop-shadow(0_-1px_0_#09090b)]"
+                : undefined
+            }`}
+          />
+        ),
+      });
+
+      prevValues.current = { avatarLeft, avatarTop, avatarSize, shouldNavbarLogoHover };
+    }
   }, [avatarLeft, avatarTop, avatarSize, shouldNavbarLogoHover, setNavbarLogo]);
+
 
   return (
     <div

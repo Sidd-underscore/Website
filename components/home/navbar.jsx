@@ -13,10 +13,6 @@ export function Navbar() {
   const path = usePathname();
   const [hoveredPath, setHoveredPath] = useState(path);
 
-  useEffect(() => {
-    setHoveredPath(path)
-  }, [path])
-
   const navItems = [
     {
       ...navbarLogo,
@@ -25,7 +21,7 @@ export function Navbar() {
       link: "/about",
       label: "About Me",
       useMagneticUnderline: true,
-      customCss: "ml-4"
+      customCss: "ml-6"
     },
     { link: "/photos", label: "Photography", useMagneticUnderline: true },
   ];
@@ -46,6 +42,8 @@ export function Navbar() {
         ),
       });
     }
+
+    setHoveredPath(path)
   }, [path]);
 
   return (
@@ -56,7 +54,7 @@ export function Navbar() {
         data-element-reference="nav"
         className="flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-neutral-500/50 bg-white/80 px-4 py-2 text-xs shadow-md backdrop-blur-md transition hover:shadow-lg dark:border-white/10 dark:bg-neutral-900/75 md:text-sm lg:mx-10 lg:rounded-3xl lg:border xl:max-w-6xl"
       >
-        <p className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4">
           {navItems.map((item) => (
             <motion.span layout key={item.link}>
               <Link
@@ -69,7 +67,6 @@ export function Navbar() {
               >
                 {item.label}
                 {item.useMagneticUnderline && item.link === hoveredPath && (
-                  <>
                   <motion.div
                     className={`absolute bottom-0 left-0 -z-10 h-[1.5px] rounded-full bg-pink-400 group-hover:bg-pink-500 dark:bg-pink-200 group-hover:dark:bg-pink-300`}
                     layoutId="navbar"
@@ -79,22 +76,26 @@ export function Navbar() {
                     }}
                     transition={{ type: "spring", duration: 0.4 }}
                   />
+                 
+                )}
+
+                {item.link === hoveredPath && (
+                  
                   <motion.div
-                    className={`absolute bottom-0 blur-lg -left-1 -z-10 h-[1.25em] rounded-full bg-pink-500 dark:bg-pink-300`}
+                    className={`absolute bottom-0 blur-lg left-0 -z-10 h-[1.25em] rounded-full bg-pink-500 dark:bg-pink-300`}
                     layoutId="navbar1"
                     aria-hidden="true"
                     style={{
-                      width: "110%",
+                      width: "100%",
                       opacity: .25
                     }}
                     transition={{ type: "spring", duration: 0.4 }}
                   />
-                  </>
                 )}
               </Link>
             </motion.span>
           ))}
-        </p>
+        </div>
         <ThemeSwitcher />
       </nav>
     </div>
