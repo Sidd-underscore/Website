@@ -30,8 +30,6 @@ export function TailwindIndicator() {
   );
 }
 
-
-
 export default function RootLayout({ children }) {
   return (
     <ViewTransitions>

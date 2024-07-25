@@ -36,7 +36,7 @@ export function Navbar() {
             width={250}
             height={250}
             quality={100}
-            className="absolute left-3 top-2.5 h-8 w-8 transition-[width_height] hover:-left-2 hover:top-0 hover:h-[72px] hover:w-[72px] hover:-rotate-12 hover:[filter:drop-shadow(1px_0_0_white)_drop-shadow(0_1px_0_white)_drop-shadow(-1px_0_0_white)_drop-shadow(0_-1px_0_white)] dark:hover:[filter:drop-shadow(1px_0_0_#09090b)_drop-shadow(0_1px_0_#09090b)_drop-shadow(-1px_0_0_#09090b)_drop-shadow(0_-1px_0_#09090b)]"
+            className="flex absolute left-3 top-2.5 h-8 w-8 transition-[width_height] hover:-left-2 hover:top-0 hover:h-[72px] hover:w-[72px] hover:-rotate-12 hover:[filter:drop-shadow(1px_0_0_white)_drop-shadow(0_1px_0_white)_drop-shadow(-1px_0_0_white)_drop-shadow(0_-1px_0_white)] dark:hover:[filter:drop-shadow(1px_0_0_#09090b)_drop-shadow(0_1px_0_#09090b)_drop-shadow(-1px_0_0_#09090b)_drop-shadow(0_-1px_0_#09090b)]"
             src="/images/sidd.png"
           />
         ),
@@ -52,9 +52,9 @@ export function Navbar() {
 
       <nav
         data-element-reference="nav"
-        className="flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-neutral-500/50 bg-white/80 px-4 py-2 text-xs shadow-md backdrop-blur-md transition hover:shadow-lg dark:border-white/10 dark:bg-neutral-900/75 md:text-sm lg:mx-10 lg:rounded-3xl lg:border xl:max-w-6xl"
+        className="flex w-screen max-w-7xl items-center justify-between rounded-none border-b bg-white/80 border-neutral-300/75 px-4 py-2 text-xs backdrop-blur-md transition dark:border-white/10 dark:bg-neutral-900/75 md:text-sm lg:mx-10 lg:rounded-3xl lg:border xl:max-w-6xl"
       >
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center">
           {navItems.map((item) => (
             <motion.span layout key={item.link}>
               <Link
@@ -63,12 +63,13 @@ export function Navbar() {
                 
                 href={item.link}
                 data-active={item.link === hoveredPath}
-                className={`${item.useMagneticUnderline ? "relative" : ""} ${item.customCss} group`}
+                className={`${item.useMagneticUnderline ? "relative" : ""} ${item.customCss} group px-2 h-full`}
               >
+                <span className="w-fit">
                 {item.label}
                 {item.useMagneticUnderline && item.link === hoveredPath && (
                   <motion.div
-                    className={`absolute bottom-0 left-0 -z-10 h-[1.5px] rounded-full bg-pink-400 group-hover:bg-pink-500 dark:bg-pink-200 group-hover:dark:bg-pink-300`}
+                    className={`!pointer-events-none !cursor-default bottom-0 left-0 -z-10 h-[1.5px] rounded-full bg-pink-400 group-hover:bg-pink-500 dark:bg-pink-200 group-hover:dark:bg-pink-300`}
                     layoutId="navbar"
                     aria-hidden="true"
                     style={{
@@ -80,18 +81,18 @@ export function Navbar() {
                 )}
 
                 {item.link === hoveredPath && (
-                  
                   <motion.div
-                    className={`absolute bottom-0 blur-lg left-0 -z-10 h-[1.25em] rounded-full bg-pink-500 dark:bg-pink-300`}
+                    className={`!pointer-events-none !cursor-default absolute bottom-0.5 blur-lg ${hoveredPath === "/" ? "left-3" : "left-0"} -z-10 h-[1.25em] rounded-full bg-pink-500 dark:bg-pink-300`}
                     layoutId="navbar1"
                     aria-hidden="true"
                     style={{
-                      width: "100%",
+                      width: hoveredPath === "/" ? "98%" : "100%",
                       opacity: .25
                     }}
                     transition={{ type: "spring", duration: 0.4 }}
                   />
                 )}
+                </span>
               </Link>
             </motion.span>
           ))}
