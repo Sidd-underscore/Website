@@ -24,11 +24,15 @@ export function DatePicker() {
           variant={"outline"}
           className={cn(
             "w-[240px] justify-start text-left font-normal hover:border-neutral-300 dark:hover:border-neutral-700",
-            !date && "text-muted-foreground",
+            !date && "text-neutral-400",
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {date ? (
+            format(date, "PPP")
+          ) : (
+            <span>Pick a date</span>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
@@ -52,8 +56,8 @@ export function DatePickerWithRange({ className, date, setDate }) {
             id="date"
             variant={"outline"}
             className={cn(
-              "w-full md:w-[300px] justify-start text-left font-normal hover:border-neutral-300 dark:hover:border-neutral-700",
-              !date && "text-neutral-400",
+              "w-full justify-start text-left font-normal hover:border-neutral-300 dark:hover:border-neutral-700 md:w-[300px]",
+              !date || !date.to && !date.from && "text-neutral-400", 
               className,
             )}
           >

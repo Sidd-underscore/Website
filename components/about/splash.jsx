@@ -86,7 +86,7 @@ export function AboutSplash() {
       windowWidth / 60,
       windowWidth / 45,
       windowWidth / 40,
-      windowWidth / 2 - navRect.left - 60,
+      windowWidth / 2 - navRect.left - 70,
     ],
   );
 

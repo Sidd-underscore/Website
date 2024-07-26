@@ -1,6 +1,6 @@
 "use client";
 
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { Cross2Icon, MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Input } from "@/components/ui/input";
 import { Photo } from "@/components/photos/photo";
 import originalPhotosArray from "@/lib/photos";
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/select";
 import { CameraIcon, SewingPinFilledIcon } from "@radix-ui/react-icons";
 import { motion, useAnimation } from "framer-motion";
+import { Button } from "../ui/button";
 
 export function Gallery() {
   const [searchIcon, setSearchIcon] = useState(<MagnifyingGlassIcon />);
@@ -231,6 +232,20 @@ export function Gallery() {
     return () => clearTimeout(timeOutId);
   }, [searchQuery]);
 
+  function clearFilters() {
+    setSearchCamera("");
+    setSearchLocation("");
+    setSearchQuery("");
+    console.log("clearing filters");
+    setDate(null);
+    filterPhotos({
+      searchQuery: "",
+      filterDate: null,
+      filterCamera: "",
+      filterLocation: "",
+    });
+  }
+
   return (
     <div className="my-6">
       <motion.div
@@ -240,13 +255,22 @@ export function Gallery() {
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
         <div className="w-full items-center space-y-2 md:flex md:space-x-2 md:space-y-0">
-          <div className="pointer-events-none flex w-full items-center rounded-md border border-neutral-200 bg-transparent bg-white bg-opacity-90 px-3 py-1 text-sm shadow-sm backdrop-blur-md transition-colors hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-opacity-75 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
+          <div className="flex w-full items-center rounded-md border border-neutral-200 bg-transparent bg-white bg-opacity-90 py-1 pl-3 pr-1 text-sm shadow-sm backdrop-blur-md transition-colors hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-opacity-75 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
             {searchIcon}
             <Input
               onChange={(event) => setSearchQuery(event.target.value)}
+              value={searchQuery}
               className="pointer-events-auto !border-transparent pr-16 shadow-none !ring-0"
               placeholder="Search photos... (by name, description, camera, and more!)"
             />
+            <Button
+              variant="icon"
+              className="z-20 aspect-square border-none p-0 text-neutral-400 hover:text-inherit"
+              onClick={() => clearFilters()}
+              title="Clear all search filters"
+            >
+              <Cross2Icon />
+            </Button>
           </div>
           {!isInputSticky && (
             <DatePickerWithRange
@@ -349,13 +373,23 @@ export function Gallery() {
         {searchError === false ? (
           <>
             <div className={"flex w-1/2 flex-col space-y-4"}>
-              {photos1?.map((photo) => (
-                <Photo key={photo.name} className="h-auto" photoData={photo} />
+              {photos1?.map((photo, index) => (
+                <Photo
+                  key={photo.name}
+                  priority={index > 4 ? true : false}
+                  className="h-auto"
+                  photoData={photo}
+                />
               ))}
             </div>
             <div className={"flex w-1/2 flex-col space-y-4"}>
-              {photos2?.map((photo) => (
-                <Photo key={photo.name} className="h-auto" photoData={photo} />
+              {photos2?.map((photo, index) => (
+                <Photo
+                  key={photo.name}
+                  priority={index > 4 ? true : false}
+                  className="h-auto"
+                  photoData={photo}
+                />
               ))}
             </div>
           </>
@@ -366,21 +400,7 @@ export function Gallery() {
             </p>
             <p
               onClick={() => {
-                setSearchCamera();
-                setSearchLocation();
-                setSearchQuery();
-                setDate();
-                let anotherTemp1 = [];
-                let anotherTemp2 = [];
-                for (let i = 0; i < originalPhotosArray.length; i += 1) {
-                  if (i % 2 === 0) {
-                    anotherTemp1.push(originalPhotosArray[i]);
-                  } else {
-                    anotherTemp2.push(originalPhotosArray[i]);
-                  }
-                }
-                setPhotos1(() => anotherTemp1);
-                setPhotos2(() => anotherTemp2);
+                clearFilters();
               }}
               className="w-full cursor-pointer text-center text-sm underline"
             >
