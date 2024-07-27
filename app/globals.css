@@ -41,7 +41,7 @@
 }
 
 body[data-scroll-locked] {
-  @apply mt-12 xl:mt-24 !important;
+  @apply mt-12 2xl:mt-24 !important;
 }
 
 /* Cards in home page. Hover effect made by the illustrious Hyperplexed! https://codepen.io/Hyperplexed/pen/MWQeYLW */

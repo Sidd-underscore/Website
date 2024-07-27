@@ -25,6 +25,8 @@ export function Gallery() {
   const [photos1, setPhotos1] = useState();
   const [photos2, setPhotos2] = useState();
 
+  const [everyDateThatsInThePhotosArray, setEveryDateThatsInThePhotosArray] = useState([]);
+
   const [searchError, setSearchError] = useState(false);
   const [date, setDate] = useState();
   const [searchQuery, setSearchQuery] = useState("");
@@ -180,11 +182,12 @@ export function Gallery() {
     if (photos.length === 0) return setSearchError(true);
     else setSearchError(false);
 
-    // update the camera and location menus
+    // update the camera, location, and date storage
     var tempCameras = [];
     var tempLocations = [];
+    var tempDates = [];
     originalPhotosArray.forEach((photo) => {
-      const { camera, location } = photo;
+      const { camera, location, date } = photo;
 
       if (!tempCameras.includes(camera)) {
         tempCameras.push(camera);
@@ -193,10 +196,18 @@ export function Gallery() {
       if (!tempLocations.includes(location)) {
         tempLocations.push(location);
       }
+      var photoDate = new Date(date);
+      // if the date is not in the array, add it BUT do not factor in the TIME only the DAY (even if it's the same day but two different times, only one addition to the array)
+      const dateWithoutTime = new Date(photoDate.getFullYear(), photoDate.getMonth(), photoDate.getDate());
+      const dateString = dateWithoutTime.toISOString().split('T')[0];
+      if (!tempDates.includes(dateString)) {
+        tempDates.push(date);
+      }
     });
 
     setCameras(() => tempCameras);
     setLocations(() => tempLocations);
+    setEveryDateThatsInThePhotosArray(() => tempDates);
 
     for (let i = 0; i < photos.length; i += 1) {
       if (i % 2 === 0) {
@@ -236,7 +247,6 @@ export function Gallery() {
     setSearchCamera("");
     setSearchLocation("");
     setSearchQuery("");
-    console.log("clearing filters");
     setDate(null);
     filterPhotos({
       searchQuery: "",
@@ -282,6 +292,7 @@ export function Gallery() {
                   filterDate: e === undefined ? "removeSearchDateFilter" : e,
                 });
               }}
+              availableDates={everyDateThatsInThePhotosArray}
               className="h-auto text-sm shadow-sm md:px-3 md:py-3"
             />
           )}

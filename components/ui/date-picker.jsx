@@ -47,7 +47,7 @@ export function DatePicker() {
   );
 }
 
-export function DatePickerWithRange({ className, date, setDate }) {
+export function DatePickerWithRange({ className, date, setDate, availableDates }) {
   return (
     <div className={"grid gap-2"}>
       <Popover>
@@ -84,6 +84,7 @@ export function DatePickerWithRange({ className, date, setDate }) {
             selected={date}
             onSelect={setDate}
             numberOfMonths={2}
+            availableDates={availableDates}
           />
         </PopoverContent>
       </Popover>
