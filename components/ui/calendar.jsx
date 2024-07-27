@@ -62,7 +62,7 @@ function Calendar({ className, classNames, showOutsideDays = true, availableDate
         )
       }}
       modifiersClassNames={{
-        available: "bg-neutral-100 hover:bg-neutral-300 dark:hover:bg-neutral-700 dark:hover:text-white text-neutral-900 dark:bg-neutral-800 dark:text-neutral-50"
+        available: "bg-neutral-200 hover:bg-neutral-300 dark:hover:bg-neutral-600 dark:hover:text-white text-neutral-900 dark:bg-neutral-700 dark:text-neutral-50"
       }}
       {...props}
     />
