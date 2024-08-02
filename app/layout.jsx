@@ -59,6 +59,6 @@ export default function RootLayout({ children }) {
           <SpeedInsights />
         </body>
       </html>
-    </ViewTransitions>
+     </ViewTransitions>
   );
 }
