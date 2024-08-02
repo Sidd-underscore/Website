@@ -14,8 +14,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function DatePicker() {
-  const [date, setDate] = React.useState();
+export function DatePicker({className, date, setDate, availableDates}) {
 
   return (
     <Popover>
@@ -41,13 +40,14 @@ export function DatePicker() {
           selected={date}
           onSelect={setDate}
           initialFocus
+          availableDates={availableDates}
         />
       </PopoverContent>
     </Popover>
   );
 }
 
-export function DatePickerWithRange({ className, date, setDate }) {
+export function DatePickerWithRange({ className, date, setDate, availableDates }) {
   return (
     <div className={"grid gap-2"}>
       <Popover>
@@ -57,7 +57,7 @@ export function DatePickerWithRange({ className, date, setDate }) {
             variant={"outline"}
             className={cn(
               "w-full justify-start text-left font-normal hover:border-neutral-300 dark:hover:border-neutral-700 md:w-[300px]",
-              !date || !date.to && !date.from && "text-neutral-400", 
+              (!date || date === "removeSearchDateFilter") && "!text-neutral-400",   
               className,
             )}
           >
@@ -84,6 +84,7 @@ export function DatePickerWithRange({ className, date, setDate }) {
             selected={date}
             onSelect={setDate}
             numberOfMonths={2}
+            availableDates={availableDates}
           />
         </PopoverContent>
       </Popover>

@@ -7,6 +7,8 @@ import {
   DownloadIcon,
   InfoCircledIcon,
   SewingPinFilledIcon,
+  StarFilledIcon,
+  StarIcon,
 } from "@radix-ui/react-icons";
 import {
   Dialog,
@@ -20,7 +22,7 @@ import { formatRelative, fromUnixTime, formatDistance, format } from "date-fns";
 import { Button, buttonVariants } from "../ui/button";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -34,43 +36,142 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useIsDesktop } from "@/lib/hooks";
+import { motion } from "framer-motion";
 
-export function Photo({ className, photoData, ...props }) {
+export function Photo({ className, photoData, width, height, ...props }) {
   const [photoHasLoaded, setPhotoHasLoaded] = useState(false);
+
+  return (
+    <div className={`relative w-full ${className.parent}`}>
+      {!photoHasLoaded && (
+        <div
+          className={cn(
+            "max-h-full max-w-full animate-pulse rounded-lg bg-neutral-200 dark:bg-neutral-900",
+            className.loader,
+          )}
+          style={{
+            width: photoData.staticPhoto.width,
+            aspectRatio:
+              photoData.staticPhoto.width / photoData.staticPhoto.height,
+          }}
+        />
+      )}
+      <Image
+        quality={50}
+        className={cn(
+          "h-full w-full max-w-none cursor-pointer rounded-lg select-none",
+          photoHasLoaded ? "inherit" : "hidden",
+          className.photo,
+        )}
+        src={photoData.staticPhoto}
+        onLoad={() => setPhotoHasLoaded(true)}
+        alt={photoData.name || ""}
+        title={photoData.name || ""}
+        width={width || 0}
+        height={height || 0}
+        {...props}
+      />
+    </div>
+  );
+}
+
+export function AdvancedPhoto({ className, photoData, ...props }) {
+  const [photoHasLoaded, setPhotoHasLoaded] = useState(false);
+  const [photoIsInLocalStorage, setPhotoIsInLocalStorage] = useState(false);
+
+  useEffect(() => {
+    const favorites = JSON.parse(localStorage.getItem("favoritePhotos")) || [];
+
+    var i;
+    for (i = 0; i < favorites.length; i++) {
+      if (favorites[i].name === photoData.name) {
+        return setPhotoIsInLocalStorage(true);
+      }
+    }
+  }, [photoData]);
 
   return (
     <>
       <Dialog key={photoData.name}>
-        <DialogTrigger asChild={true}>
-          <div className="relative w-full">
-            {!photoHasLoaded && (
-              <div
-                className={`max-h-full max-w-full animate-pulse rounded-lg bg-neutral-200 dark:bg-neutral-900`}
-                style={{
-                  width: photoData.staticPhoto.width,
-                  aspectRatio:
-                    photoData.staticPhoto.width / photoData.staticPhoto.height,
-                }}
-              />
-            )}
-            <Image
-              quality={50}
-              priority={true}
-              className={cn(
-                "h-full w-full max-w-none cursor-pointer rounded-lg",
-                photoHasLoaded ? "inherit" : "hidden",
-                className,
+        <motion.div
+          initial="initial"
+          whileHover="animate"
+          className="group relative w-full overflow-hidden"
+        >
+          <DialogTrigger asChild={true}>
+            <div>
+              {/* Loader for the image before it has loaded */}
+              {!photoHasLoaded && (
+                <div
+                  className={`max-h-full max-w-full animate-pulse rounded-lg bg-neutral-200 dark:bg-neutral-900`}
+                  style={{
+                    width: photoData.staticPhoto.width,
+                    aspectRatio:
+                      photoData.staticPhoto.width /
+                      photoData.staticPhoto.height,
+                  }}
+                />
               )}
-              src={photoData.staticPhoto}
-              onLoad={() => setPhotoHasLoaded(true)}
-              alt={photoData.name}
-              title={photoData.name}
-              width={0}
-              height={0}
-              {...props}
+              <Image
+                quality={50}
+                className={cn(
+                  "h-full w-full max-w-none cursor-pointer select-none rounded-lg",
+                  photoHasLoaded ? "inherit" : "hidden",
+                  className,
+                )}
+                src={photoData.staticPhoto}
+                onLoad={() => setPhotoHasLoaded(true)}
+                alt={photoData.name}
+                title={photoData.name}
+                width={0}
+                height={0}
+                {...props}
+              />
+            </div>
+          </DialogTrigger>
+          <motion.div
+            transition={{ duration: 0.2 }}
+            className="absolute right-2 top-2 cursor-pointer transition hover:!opacity-100"
+            variants={{
+              animate: { opacity: 0.75 },
+              initial: { opacity: 0 },
+            }}
+            onClick={() => {
+              const favorites =
+                JSON.parse(localStorage.getItem("favoritePhotos")) || [];
+
+              const isFavorite = favorites.some(favorite => favorite.name === photoData.name && favorite.path === photoData.path);
+
+              if (!isFavorite) {
+                favorites.push({name: photoData.name, path: photoData.path});
+                localStorage.setItem(
+                  "favoritePhotos",
+                  JSON.stringify(favorites),
+                );
+                setPhotoIsInLocalStorage(true);
+                window.dispatchEvent(new Event("favoritePhotosUpdated"));
+              } else {
+                // Remove photo from favorites if it's already there
+                const updatedFavorites = favorites.filter(favorite => favorite.name !== photoData.name || favorite.path !== photoData.path);
+                localStorage.setItem(
+                  "favoritePhotos",
+                  JSON.stringify(updatedFavorites),
+                );
+                setPhotoIsInLocalStorage(false);
+                window.dispatchEvent(new Event("favoritePhotosUpdated"));
+              }
+            }}
+            title={
+              photoIsInLocalStorage
+                ? "Remove photo from favorites"
+                : "Add photo to favorites"
+            }
+          >
+            <StarFilledIcon
+              className={`h-6 w-6 ${photoIsInLocalStorage ? "stroke-pink-500 text-pink-200" : "stroke-neutral-500 text-neutral-50"}`}
             />
-          </div>
-        </DialogTrigger>
+          </motion.div>
+        </motion.div>
         <DialogContent className="!max-w-[90vw]">
           <PhotoDialog photoData={photoData} />
         </DialogContent>
@@ -144,7 +245,7 @@ function PhotoDialog({ photoData }) {
               )}
 
               <Image
-                className={`${photoPreviewHasLoaded ? "inherit" : "hidden"} h-auto w-auto max-w-none rounded-lg`}
+                className={`${photoPreviewHasLoaded ? "inherit" : "hidden"} select-none h-auto w-auto max-w-none rounded-lg`}
                 src={photoData.staticPhoto}
                 alt={photoData.name}
                 title={photoData.name}

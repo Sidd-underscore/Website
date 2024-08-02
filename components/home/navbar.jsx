@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 
 export function Navbar() {
   const { navbarLogo, setNavbarLogo } = useNavbarLogo();
-  const path = usePathname();
+  const path = "/" + usePathname().split("/")[1];
   const [hoveredPath, setHoveredPath] = useState(path);
 
   const navItems = [

@@ -6,7 +6,7 @@ import { DayPicker } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
-function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
+function Calendar({ className, classNames, showOutsideDays = true, availableDates, ...props }) {
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -36,7 +36,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
         ),
         day: cn(
           buttonVariants({ variant: "ghost" }),
-          "h-8 w-8 p-0 font-normal aria-selected:opacity-100 border-none",
+          "h-[30px] w-[30px] m-0.5 p-0 font-normal aria-selected:opacity-100 border-none",
         ),
         day_range_start: "dark:hover:!bg-neutral-50 dark:!bg-neutral-50 !text-white dark:!text-neutral-950 hover:text-white day-range-start",
         day_range_end: "dark:hover:!bg-neutral-50 dark:!bg-neutral-50 !text-white dark:!text-neutral-950 hover:text-white day-range-end",
@@ -55,6 +55,14 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
       components={{
         IconLeft: ({ ...props }) => <ChevronLeftIcon className="h-4 w-4" />,
         IconRight: ({ ...props }) => <ChevronRightIcon className="h-4 w-4" />,
+      }}
+      modifiers={{
+        available: (date) => availableDates?.some(availableDate => 
+          new Date(availableDate * 1000).toDateString() === date.toDateString()
+        )
+      }}
+      modifiersClassNames={{
+        available: "bg-neutral-200 hover:bg-neutral-300 dark:hover:bg-neutral-600 dark:hover:text-white text-neutral-900 dark:bg-neutral-700 dark:text-neutral-50"
       }}
       {...props}
     />

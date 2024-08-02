@@ -1,10 +1,10 @@
 import { PhotosMain } from "@/components/photos/main";
 
 export const metadata = {
-  title: "Photography",
+  title: "Favorites / Photography",
 };
 
-export default function PhotosPage() {
+export default function AlbumsPage() {
 
   return (
     <>
