@@ -89,11 +89,7 @@ function PreviewGrid({ photos }) {
           width={150}
           height={150}
           photoData={{ staticPhoto: photo.staticPhoto }}
-          className={{
-            photo: `aspect-square h-full w-full object-cover rounded-none ${photos.length === 3 && index === 2 ? "col-span-2" : ""} ${index === 0 ? "rounded-tl-md" : index === 1 ? "rounded-tr-md" : index === 2 ? "rounded-bl-md" : "rounded-br-md"}`,
-            parent: `aspect-square h-full w-full object-cover ${photos.length === 3 && index === 2 ? "col-span-2" : ""} ${index === 0 ? "rounded-tl-md" : index === 1 ? "rounded-tr-md" : index === 2 ? "rounded-bl-md" : "rounded-br-md"}`,
-            loader: `aspect-square h-full w-full bg-neutral-50 object-cover dark:bg-neutral-700 ${photos.length === 3 && index === 2 ? "col-span-2" : ""} ${index === 0 ? "rounded-tl-md" : index === 1 ? "rounded-tr-md" : index === 2 ? "rounded-bl-md" : "rounded-br-md"}`,
-          }}
+          className={`aspect-square h-full w-full object-cover rounded-none ${photos.length === 3 && index === 2 ? "col-span-2" : ""} ${index === 0 ? "rounded-tl-md" : index === 1 ? "rounded-tr-md" : index === 2 ? "rounded-bl-md" : "rounded-br-md"}`}
         />
       ))}
     </div>

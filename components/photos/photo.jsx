@@ -42,12 +42,12 @@ export function Photo({ className, photoData, width, height, ...props }) {
   const [photoHasLoaded, setPhotoHasLoaded] = useState(false);
 
   return (
-    <div className={`relative w-full ${className.parent}`}>
+    <div className={cn("relative w-full", className)}>
       {!photoHasLoaded && (
         <div
           className={cn(
             "max-h-full max-w-full animate-pulse rounded-lg bg-neutral-200 dark:bg-neutral-900",
-            className.loader,
+            className,
           )}
           style={{
             width: photoData.staticPhoto.width,
@@ -61,7 +61,7 @@ export function Photo({ className, photoData, width, height, ...props }) {
         className={cn(
           "h-full w-full max-w-none cursor-pointer rounded-lg select-none",
           photoHasLoaded ? "inherit" : "hidden",
-          className.photo,
+          className,
         )}
         src={photoData.staticPhoto}
         onLoad={() => setPhotoHasLoaded(true)}

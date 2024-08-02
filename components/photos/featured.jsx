@@ -11,7 +11,7 @@ export function FeaturedPhotos() {
 
   useEffect(() => {
     let result = [];
-    let trueResult = [];
+    let tempPhotos = [];
     let arr = [...originalPhotosArray];
 
     const len = arr.length;
@@ -25,32 +25,32 @@ export function FeaturedPhotos() {
     }
 
     result.forEach((photo) => {
-      trueResult.push(
-        <Photo className="h-96 w-fit max-w-none" photoData={photo} />,
+      tempPhotos.push(
+        <Photo
+          className="w-fit h-96 max-w-none"
+          priority={true}
+          photoData={photo}
+        />,
       );
     });
-    trueResult.push(
+
+    tempPhotos.push(
       <Link
         href="/photos"
-        
-        className="flex h-96 min-w-[289.13px] items-center justify-center rounded-lg backdrop-blur-md bg-neutral-300/40 border-neutral-400/50 dark:bg-neutral-800/40 border dark:border-neutral-700/50"
+        className="flex h-96 min-w-[289.13px] items-center justify-center rounded-lg border border-neutral-400/50 bg-neutral-300/40 backdrop-blur-md dark:border-neutral-700/50 dark:bg-neutral-800/40"
       >
         <div className="text-center text-2xl font-bold">View all</div>
       </Link>,
     );
-    setPhotos(trueResult);
+
+    setPhotos(tempPhotos);
   }, []);
 
   return (
     <div className="my-32 w-full text-left">
       <h2 className="text-4xl font-semibold">Featured Photos</h2>
 
-      <PhotoGallery
-        photos={photos}
-        photoComponent={({ photoData }) => (
-          <Photo className="h-96 w-fit max-w-none" photoData={photoData} />
-        )}
-      />
+      <PhotoGallery photos={photos} />
     </div>
   );
 }

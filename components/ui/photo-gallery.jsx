@@ -37,9 +37,8 @@ export function PhotoGallery({ photos, scroll = 250 }) {
       </div>
 
       <div className="flex items-center justify-between">
-        {" "}
         <Button
-          variant="icon"
+          variant="ghost"
           size="icon"
           className="active:scale-90"
           onClick={(e) => scrollRight()}
@@ -47,7 +46,7 @@ export function PhotoGallery({ photos, scroll = 250 }) {
           <ArrowLeftIcon />
         </Button>
         <Button
-          variant="icon"
+          variant="ghost"
           size="icon"
           className="active:scale-90"
           onClick={(e) => scrollLeft()}
