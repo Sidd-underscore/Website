@@ -1,26 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { achievements } from "@/lib/achievements";
 import { CalendarIcon, CardStackIcon, PaperPlaneIcon } from "@radix-ui/react-icons";
 import { TrophyIcon } from "@heroicons/react/20/solid";
 
-export function Achievements() {
-  const projectsElement = useRef(null);
-
-  useEffect(() => {
-    projectsElement.current.onmousemove = (e) => {
-      for (const card of document.getElementsByClassName("project")) {
-        const rect = card.getBoundingClientRect(),
-          x = e.clientX - rect.left,
-          y = e.clientY - rect.top;
-
-        card.style.setProperty("--mouse-x", `${x}px`);
-        card.style.setProperty("--mouse-y", `${y}px`);
-      }
-    };
-  });
-
+export function Achievements() {  
   return (
     <div className="my-32 w-full text-left">
       <h2 className="text-4xl font-semibold">Competitions, Awards, and the Rest</h2>
@@ -29,15 +13,14 @@ export function Achievements() {
       </p>
 
       <div
-        ref={projectsElement}
-        className="projects mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2"
+        className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2"
       >
         {achievements.map((achievement) => (
           <div
             key={achievement.id}
-            className="project group relative rounded-lg transition-colors"
+            className="group relative h-full rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50"
           >
-            <div className="project-content h-full">
+            <div className="h-full">
               <div className="z-30 flex h-full flex-col justify-between px-5 py-4">
                 <div>
                   <h3 className={`mb-3 text-2xl font-semibold`}>
@@ -45,7 +28,7 @@ export function Achievements() {
                   </h3>
                   <p className="flex items-center space-x-2 text-xs opacity-75">
                     <span className="flex items-center space-x-2">
-                      <CalendarIcon className="h-4 w-4 shrink-0" />
+                      <CalendarIcon rootClassName="h-4 w-4 shrink-0" />
                       <span>{achievement.date}</span>
                     </span>
 

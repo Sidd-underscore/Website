@@ -26,10 +26,15 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "background-move": {
+          "0%, 100%": { "background-position": "22% 0%" },
+          "50%": { "background-position": "79% 100%" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "background-move": "background-move 5s ease infinite"
       },
     },
   },

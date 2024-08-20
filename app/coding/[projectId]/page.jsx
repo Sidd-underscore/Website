@@ -4,17 +4,17 @@ import { projects } from "@/lib/projects";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/components/ui/separator";
 
-export async function generateMetadata({ params }, parent) {
+export async function generateMetadata({ params }) {
   const { projectId } = params;
   const project = projects.find((e) => e.id === projectId);
 
   return {
-    title: project.name + " / Projects",
+    title: project.name + " / Coding",
     description: project.description,
   };
 }
 
-export default function ProjectPage({ params }) {
+export default function CodingProjectPage({ params }) {
   const { projectId } = params;
   const project = projects.find((e) => e.id === projectId);
 

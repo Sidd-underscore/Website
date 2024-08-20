@@ -23,7 +23,21 @@ export function Navbar() {
       useMagneticUnderline: true,
       customCss: "ml-6",
     },
-    { link: "/photos", label: "Photography", useMagneticUnderline: true },
+    {
+      link: "/coding",
+      label: "Coding",
+      useMagneticUnderline: true,
+    },
+    {
+      link: "/design",
+      label: "Design",
+      useMagneticUnderline: true,
+    },
+    {
+      link: "/photos",
+      label: "Photography",
+      useMagneticUnderline: true,
+    },
   ];
 
   useEffect(() => {
@@ -54,7 +68,7 @@ export function Navbar() {
         data-element-reference="nav"
         className="flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-neutral-500/50 bg-white/80 px-4 py-2 text-xs shadow-md backdrop-blur-md transition hover:shadow-lg dark:border-white/10 dark:bg-neutral-900/75 md:text-sm lg:mx-10 lg:rounded-3xl lg:border xl:max-w-6xl"
       >
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center">
           {navItems.map((item) => (
             <motion.span layout key={item.link}>
               <Link
@@ -66,18 +80,15 @@ export function Navbar() {
                 }
                 href={item.link}
                 data-active={item.link === hoveredPath}
-                className={`${item.useMagneticUnderline ? "relative" : ""} ${item.customCss} group`}
+                className={`${item.useMagneticUnderline ? "relative" : ""} ${item.customCss} group px-2`}
               >
                 {item.label}
                 {item.useMagneticUnderline && item.link === hoveredPath && (
                   <motion.div
-                    className={`absolute bottom-0 left-0 -z-10 h-[1.5px] rounded-full bg-pink-400 group-hover:bg-pink-500 dark:bg-pink-200 group-hover:dark:bg-pink-300`}
+                    className={`absolute bottom-0 left-0 -z-10 mx-2 w-[calc(100%_-_16px)] h-[1.5px] rounded-full bg-pink-400 group-hover:bg-pink-500 dark:bg-pink-200 group-hover:dark:bg-pink-300`}
                     layoutId="navbar"
                     aria-hidden="true"
-                    style={{
-                      width: "100%",
-                    }}
-                    transition={{ type: "spring", duration: 0.4 }}
+                                       transition={{ type: "spring", duration: 0.4 }}
                   />
                 )}
 

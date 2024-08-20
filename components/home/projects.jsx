@@ -16,17 +16,17 @@ export function Projects() {
       </p>
 
       <div
-        className={`projects relative mt-12 grid w-full grid-flow-row grid-cols-1 gap-6 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3`}
+        className={`relative mt-12 grid w-full grid-flow-row grid-cols-1 gap-6 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3`}
       >
         {projects.map((project) => (
           <div
             onMouseEnter={() => setProjectHovered(project.name)}
             onMouseLeave={() => setProjectHovered(false)}
             key={project.name}
-            className={`project duration-400 group relative flex h-60 flex-col rounded-lg transition-all hover:h-[26rem] hover:!bg-transparent hover:before:bg-none hover:after:bg-none lg:hover:h-60 ${projectHovered && projectHovered != project.name ? "opacity-50" : ""}`}
+            className={`border border-neutral-300/50 bg-neutral-200/25 dark:border-neutral-700/50 dark:bg-neutral-800/50 duration-400 group relative flex h-60 flex-col rounded-lg transition-all hover:h-[26rem] hover:!bg-transparent hover:before:bg-none hover:after:bg-none lg:hover:h-60 ${projectHovered && projectHovered != project.name ? "opacity-50" : ""}`}
           >
-            <div className="project-content duration-250 h-64 border border-transparent transition-all ease-out group-hover:z-40 lg:group-hover:-mt-6 group-hover:h-[20rem] lg:group-hover:w-[32rem] group-hover:border-neutral-200 group-hover:bg-white group-hover:shadow-2xl dark:group-hover:border-neutral-700 dark:group-hover:bg-neutral-900 lg:group-hover:absolute lg:group-hover:-ml-6">
-              <div className="absolute -m-2.5 h-full w-full rounded-md opacity-0 transition duration-500 group-hover:opacity-100">
+            <div className="rounded-md duration-200 h-64 border border-transparent transition-all group-hover:z-40 lg:group-hover:-mt-6 group-hover:h-[20rem] lg:group-hover:w-[32rem] group-hover:border-neutral-200 group-hover:bg-white group-hover:shadow-2xl dark:group-hover:border-neutral-700 dark:group-hover:bg-neutral-900 lg:group-hover:absolute lg:group-hover:-ml-6">
+              <div className="absolute h-full w-full rounded-md opacity-0 transition duration-200 group-hover:opacity-100">
                 <svg className="h-full w-full rounded-md blur-[1px]">
                   <filter id="noise-filter">
                     <feGaussianBlur stdDeviation="4" result="blur" />
@@ -43,7 +43,7 @@ export function Projects() {
                   <rect
                     width="100%"
                     height="100%"
-                    className="opacity-0 group-hover:opacity-75"
+                    className="opacity-0 group-hover:opacity-75 rounded-md"
                     rx={6}
                   />
 
@@ -82,7 +82,7 @@ export function Projects() {
                   </h3>
 
                   <p
-                    className={`relative m-0 max-h-20 overflow-hidden text-ellipsis text-sm opacity-75 transition-all group-hover:max-h-none group-hover:text-base group-hover:opacity-100 group-hover:after:hidden after:dark:bg-[linear-gradient(90deg,rgba(23,23,23,0)0%,rgba(23,23,23,1)50%,rgba(23,23,23,1)100%)]`}
+                    className={`relative m-0 max-h-20 overflow-hidden text-ellipsis text-sm opacity-75 transition-all duration-200 group-hover:max-h-none group-hover:text-base group-hover:opacity-100 group-hover:after:hidden after:dark:bg-[linear-gradient(90deg,rgba(23,23,23,0)0%,rgba(23,23,23,1)50%,rgba(23,23,23,1)100%)]`}
                   >
                     {project.description}
                   </p>

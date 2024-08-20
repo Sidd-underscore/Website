@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+import { Archivo, } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/home/footer";
 import { Navbar } from "@/components/home/navbar";
@@ -8,7 +8,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { AppProvider } from "@/lib/utils";
 import { ViewTransitions } from "next-view-transitions";
 
-const inter = Inter({ subsets: ["latin"] });
+const archivo = Archivo({ subsets: ["latin"] });
 
 export const metadata = {
   title: { default: "Sidd", template: "%s / Sidd" },
@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
     <ViewTransitions>
       <html lang="en" suppressHydrationWarning>
         <body
-          className={`${inter.className} justify-left mt-12 flex flex-col items-center p-6 !pb-0 scrollbar-track-rounded-none dark:bg-neutral-950 dark:text-white md:p-12 2xl:p-24`}
+          className={`${archivo.className} overflow-x-hidden justify-left mt-12 flex flex-col items-center p-6 !pb-0 scrollbar-track-rounded-none dark:bg-neutral-950 dark:text-white md:p-12 2xl:p-24`}
         >
           <ThemeProvider
             attribute="class"

@@ -1,32 +1,16 @@
 "use client";
 
 import { Link } from "@/components/ui/link";
-import { useEffect, useRef } from "react";
 import { work } from "@/lib/work";
 import { SewingPinFilledIcon, CalendarIcon } from "@radix-ui/react-icons";
 
 export function Work() {
-  const worksElement = useRef(null);
-
-  useEffect(() => {
-    worksElement.current.onmousemove = (e) => {
-      for (const card of document.getElementsByClassName("project")) {
-        const rect = card.getBoundingClientRect(),
-          x = e.clientX - rect.left,
-          y = e.clientY - rect.top;
-
-        card.style.setProperty("--mouse-x", `${x}px`);
-        card.style.setProperty("--mouse-y", `${y}px`);
-      }
-    };
-  });
-
   return (
-    <div ref={worksElement} className="my-32 w-full text-left">
+    <div className="my-32 w-full text-left">
       <h2 className="text-4xl font-semibold">Work Experience</h2>
       <p className="mt-1 text-sm">
-        The best testament of knowledge is putting it in practice. My
-        full CV can be found{" "}
+        The best testament of knowledge is putting it in practice. My full CV
+        can be found{" "}
         <Link
           className="!inline w-fit"
           target="_blank"
@@ -37,14 +21,14 @@ export function Work() {
         .
       </p>
 
-      <div className="projects mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3">
         {work.map((workItem) => (
           <div
             key={workItem.name}
-            className="project group relative h-full rounded-lg transition-colors"
+            className="group relative h-full rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50"
           >
-            <div className="project-content h-full">
-              <div className="flex z-30 h-full flex-col justify-between px-5 py-4 text-left">
+            <div className="h-full">
+              <div className="z-30 flex h-full flex-col justify-between px-5 py-4 text-left">
                 <div>
                   <h3 className={`mb-3 text-2xl font-semibold`}>
                     {workItem.name}
@@ -66,7 +50,9 @@ export function Work() {
                   <div className={`m-4 text-sm`}>
                     <ul className="list-disc text-left">
                       {workItem.details.map((item) => (
-                        <li className="opacity-75" key={item}>{item}</li>
+                        <li className="opacity-75" key={item}>
+                          {item}
+                        </li>
                       ))}
                     </ul>
                   </div>

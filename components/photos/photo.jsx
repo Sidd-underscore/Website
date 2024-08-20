@@ -319,7 +319,7 @@ function PhotoDialog({ photoData }) {
                     <span>{photoData.location}</span>
                   </div>
 
-                  <div className="mb-4 mt-2 flex items-center space-x-2 text-xs">
+                  <div className="mt-2 flex items-center space-x-2 text-xs">
                     <CameraIcon className="h-3 w-3 shrink-0" />
                     <span>{photoData.camera}</span>
                   </div>
