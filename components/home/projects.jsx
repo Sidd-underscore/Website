@@ -18,7 +18,7 @@ export function Projects() {
       <div
         className={`relative mt-12 grid w-full grid-flow-row grid-cols-1 gap-6 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3`}
       >
-        {projects.map((project) => (
+        {projects.map((project, index) => (
           <div
             onMouseEnter={() => setProjectHovered(project.name)}
             onMouseLeave={() => setProjectHovered(false)}

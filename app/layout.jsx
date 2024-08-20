@@ -45,7 +45,7 @@ export default function RootLayout({ children }) {
           >
             <AppProvider>
               <Navbar />
-              <main className="min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none">
+              <main className="min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none lg:mt-8 xl:mt-10 2xl:mt-0">
                 {children}
               </main>
               <Footer />

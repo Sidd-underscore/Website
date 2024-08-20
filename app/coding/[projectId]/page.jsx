@@ -22,7 +22,6 @@ export default function CodingProjectPage({ params }) {
     <>
       <h1 className="text-5xl font-bold">{project.name}</h1>
 
-      <p className="mt-2">{project.description}</p>
       <Link className="mt-2 w-fit space-x-1" target="_blank" href={project.url}>
         <span>Go to project</span> <ArrowTopRightIcon />
       </Link>
