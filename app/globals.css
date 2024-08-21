@@ -41,7 +41,7 @@
 }
 
 body[data-scroll-locked] {
-  @apply mt-12 2xl:mt-24 !important;
+  @apply mt-6 2xl:mt-24 px-6 !important;
 }
 
 /* For hydration errors */
