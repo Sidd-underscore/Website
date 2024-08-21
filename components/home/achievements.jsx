@@ -28,7 +28,7 @@ export function Achievements() {
                   </h3>
                   <p className="flex items-center space-x-2 text-xs opacity-75">
                     <span className="flex items-center space-x-2">
-                      <CalendarIcon rootClassName="h-4 w-4 shrink-0" />
+                      <CalendarIcon className="h-4 w-4 shrink-0" />
                       <span>{achievement.date}</span>
                     </span>
 
