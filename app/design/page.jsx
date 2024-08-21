@@ -12,7 +12,7 @@ export default function CodingAndDesignPage() {
   return (
     <>
       <DesignSplash />
-      <Projects />
+      <Projects defaultProjectTypes={[ "design", "coding", "website" ]} />
     </>
   );
 }

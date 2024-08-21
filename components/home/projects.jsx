@@ -4,7 +4,7 @@ import { Link } from "@/components/ui/link";
 import { useEffect, useState } from "react";
 import { projects } from "@/lib/projects";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn, formatArrayIntoSentence } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,8 +16,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MixerVerticalIcon } from "@radix-ui/react-icons";
 
-export function Projects({ className, defaultProjectTypes, defaultTechnologies }) {
-
+export function Projects({
+  className,
+  defaultProjectTypes,
+  defaultTechnologies,
+}) {
   function gatherAllProjectData() {
     const types = [];
     const technologies = [];
@@ -35,7 +38,7 @@ export function Projects({ className, defaultProjectTypes, defaultTechnologies }
         }
       });
     });
-    return {types, technologies};
+    return { types, technologies };
   }
 
   const [projectHovered, setProjectHovered] = useState(false);
@@ -56,42 +59,53 @@ export function Projects({ className, defaultProjectTypes, defaultTechnologies }
         if (!projectTypesToShow.includes(type)) {
           allTypesIncluded = false;
           break;
-        } 
+        }
       }
-  
+
       let allTechnologiesIncluded = true;
       for (let tech of project.technologies) {
         if (!projectTechnologiesToShow.includes(tech)) {
           allTechnologiesIncluded = false;
           break;
         }
-        
       }
-  
+
       return allTypesIncluded && allTechnologiesIncluded;
     });
-  
+
     setProjectsToDisplay(tempProjects);
   }, [projectTypesToShow, projectTechnologiesToShow]);
-  
-  
 
   return (
     <div className={cn("my-32 w-full text-left", className)}>
-      <div className="flex justify-between">
+      <div className="flex items-end justify-between">
         <div>
-          <h2 className="text-4xl font-semibold">Projects</h2>
+          <h2 className="text-4xl font-semibold capitalize">
+            {formatArrayIntoSentence(defaultProjectTypes || [])} Projects{" "}
+            {defaultTechnologies
+              ? "(" + formatArrayIntoSentence(defaultTechnologies || []) + ")"
+              : null}
+          </h2>
           <p className="mt-1 text-sm">
-            Here are some things that I have coded! All, or at least most of
-            them, are open-source :)
+            Here are some things that I have coded that are{" "}
+            {formatArrayIntoSentence(
+              defaultProjectTypes || [],
+              undefined,
+              ", or ",
+            ) + " "}
+            project types
+            {defaultTechnologies
+              ? ` and use ${defaultTechnologies ? formatArrayIntoSentence(defaultTechnologies || [], undefined, ", or ") : null}`
+              : null}
+            ! All of them are open-source :) 
           </p>
         </div>
 
         <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="h-10 w-10 p-0">
-                <MixerVerticalIcon />
+              <Button variant="outline" className="h-10 space-x-2">
+                <MixerVerticalIcon /> <span>Filter</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 capitalize">
@@ -124,7 +138,9 @@ export function Projects({ className, defaultProjectTypes, defaultTechnologies }
                           technology,
                         ])
                       : setProjectTechnologiesToShow(
-                          projectTechnologiesToShow.filter((t) => t != technology),
+                          projectTechnologiesToShow.filter(
+                            (t) => t != technology,
+                          ),
                         )
                   }
                 >
