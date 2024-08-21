@@ -1,31 +1,152 @@
 "use client";
 
 import { Link } from "@/components/ui/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { projects } from "@/lib/projects";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MixerVerticalIcon } from "@radix-ui/react-icons";
 
-export function Projects() {
+export function Projects({ className, defaultProjectTypes, defaultTechnologies }) {
+
+  function gatherAllProjectData() {
+    const types = [];
+    const technologies = [];
+
+    projects.forEach((project) => {
+      project.type.forEach((type) => {
+        if (!types.includes(type)) {
+          types.push(type);
+        }
+      });
+
+      project.technologies.forEach((technology) => {
+        if (!technologies.includes(technology)) {
+          technologies.push(technology);
+        }
+      });
+    });
+    return {types, technologies};
+  }
+
   const [projectHovered, setProjectHovered] = useState(false);
+
+  const [projectTypesToShow, setProjectTypesToShow] = useState(
+    defaultProjectTypes || gatherAllProjectData().types,
+  );
+  const [projectTechnologiesToShow, setProjectTechnologiesToShow] = useState(
+    defaultTechnologies || gatherAllProjectData().technologies,
+  );
+
+  const [projectsToDisplay, setProjectsToDisplay] = useState([]);
+
+  useEffect(() => {
+    let tempProjects = [...projects].filter((project) => {
+      let allTypesIncluded = true;
+      for (let type of project.type) {
+        if (!projectTypesToShow.includes(type)) {
+          allTypesIncluded = false;
+          break;
+        } 
+      }
+  
+      let allTechnologiesIncluded = true;
+      for (let tech of project.technologies) {
+        if (!projectTechnologiesToShow.includes(tech)) {
+          allTechnologiesIncluded = false;
+          break;
+        }
+        
+      }
+  
+      return allTypesIncluded && allTechnologiesIncluded;
+    });
+  
+    setProjectsToDisplay(tempProjects);
+  }, [projectTypesToShow, projectTechnologiesToShow]);
+  
+  
+
   return (
-    <div className="my-32 w-full text-left">
-      <h2 className="text-4xl font-semibold">Projects</h2>
-      <p className="mt-1 text-sm">
-        Here are some things that I have coded! All, or at least most of them,
-        are open-source :)
-      </p>
+    <div className={cn("my-32 w-full text-left", className)}>
+      <div className="flex justify-between">
+        <div>
+          <h2 className="text-4xl font-semibold">Projects</h2>
+          <p className="mt-1 text-sm">
+            Here are some things that I have coded! All, or at least most of
+            them, are open-source :)
+          </p>
+        </div>
+
+        <div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="h-10 w-10 p-0">
+                <MixerVerticalIcon />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56 capitalize">
+              <DropdownMenuLabel>Types</DropdownMenuLabel>
+              {gatherAllProjectData().types.map((type) => (
+                <DropdownMenuCheckboxItem
+                  key={type}
+                  checked={projectTypesToShow?.includes(type)}
+                  onCheckedChange={(e) =>
+                    e
+                      ? setProjectTypesToShow([...projectTypesToShow, type])
+                      : setProjectTypesToShow(
+                          projectTypesToShow.filter((t) => t != type),
+                        )
+                  }
+                >
+                  {type}
+                </DropdownMenuCheckboxItem>
+              ))}
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>Technologies</DropdownMenuLabel>
+              {gatherAllProjectData().technologies.map((technology) => (
+                <DropdownMenuCheckboxItem
+                  key={technology}
+                  checked={projectTechnologiesToShow?.includes(technology)}
+                  onCheckedChange={(e) =>
+                    e
+                      ? setProjectTechnologiesToShow([
+                          ...projectTechnologiesToShow,
+                          technology,
+                        ])
+                      : setProjectTechnologiesToShow(
+                          projectTechnologiesToShow.filter((t) => t != technology),
+                        )
+                  }
+                >
+                  {technology}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
 
       <div
         className={`relative mt-12 grid w-full grid-flow-row grid-cols-1 gap-6 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3`}
       >
-        {projects.map((project, index) => (
+        {projectsToDisplay.map((project, index) => (
           <div
             onMouseEnter={() => setProjectHovered(project.name)}
             onMouseLeave={() => setProjectHovered(false)}
             key={project.name}
-            className={`border border-neutral-300/50 bg-neutral-200/25 dark:border-neutral-700/50 dark:bg-neutral-800/50 duration-400 group relative flex h-60 flex-col rounded-lg transition-all hover:h-[26rem] hover:!bg-transparent hover:before:bg-none hover:after:bg-none lg:hover:h-60 ${projectHovered && projectHovered != project.name ? "opacity-50" : ""}`}
+            className={`duration-400 group relative flex h-60 flex-col rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-all hover:h-[26rem] hover:!bg-transparent hover:before:bg-none hover:after:bg-none dark:border-neutral-700/50 dark:bg-neutral-800/50 lg:hover:h-60 ${index === 2 && projectHovered == project.name ? "xl:-ml-12" : ""} ${projectHovered && projectHovered != project.name ? "opacity-50" : ""}`}
           >
-            <div className="rounded-md duration-200 h-64 border border-transparent transition-all group-hover:z-40 lg:group-hover:-mt-6 group-hover:h-[20rem] lg:group-hover:w-[32rem] group-hover:border-neutral-200 group-hover:bg-white group-hover:shadow-2xl dark:group-hover:border-neutral-700 dark:group-hover:bg-neutral-900 lg:group-hover:absolute lg:group-hover:-ml-6">
+            <div className="h-64 rounded-md border border-transparent transition-all duration-200 group-hover:z-40 group-hover:h-[20rem] group-hover:border-neutral-200 group-hover:bg-white group-hover:shadow-2xl dark:group-hover:border-neutral-700 dark:group-hover:bg-neutral-900 lg:group-hover:absolute lg:group-hover:-ml-6 lg:group-hover:-mt-6 lg:group-hover:w-[32rem]">
               <div className="absolute h-full w-full rounded-md opacity-0 transition duration-200 group-hover:opacity-100">
                 <svg className="h-full w-full rounded-md blur-[1px]">
                   <filter id="noise-filter">
@@ -43,7 +164,7 @@ export function Projects() {
                   <rect
                     width="100%"
                     height="100%"
-                    className="opacity-0 group-hover:opacity-75 rounded-md"
+                    className="rounded-md opacity-0 group-hover:opacity-75"
                     rx={6}
                   />
 

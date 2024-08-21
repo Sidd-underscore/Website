@@ -9,7 +9,7 @@ export async function generateMetadata({ params }) {
   const project = projects.find((e) => e.id === projectId);
 
   return {
-    title: project.name + " / Coding",
+    title: project.name + " / Projects",
     description: project.description,
   };
 }
