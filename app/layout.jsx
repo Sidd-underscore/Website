@@ -13,6 +13,7 @@ const archivo = Archivo({ subsets: ["latin"] });
 export const metadata = {
   title: { default: "Sidd", template: "%s / Sidd" },
   description: "I code, take photos and live stream.",
+  metadataBase: new URL('https://sidd-website.vercel.app'),
 };
 
 export function TailwindIndicator() {
@@ -45,7 +46,7 @@ export default function RootLayout({ children }) {
           >
             <AppProvider>
               <Navbar />
-              <main className="min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none lg:mt-8 xl:mt-10 2xl:mt-0">
+              <main className="min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none mt-6 lg:mt-8 xl:mt-10 2xl:mt-0">
                 {children}
               </main>
               <Footer />

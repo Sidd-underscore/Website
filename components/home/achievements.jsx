@@ -1,20 +1,25 @@
 "use client";
 
 import { achievements } from "@/lib/achievements";
-import { CalendarIcon, CardStackIcon, PaperPlaneIcon } from "@radix-ui/react-icons";
+import {
+  CalendarIcon,
+  CardStackIcon,
+  PaperPlaneIcon,
+} from "@radix-ui/react-icons";
 import { TrophyIcon } from "@heroicons/react/20/solid";
 
-export function Achievements() {  
+export function Achievements() {
   return (
     <div className="my-32 w-full text-left">
-      <h2 className="text-4xl font-semibold">Competitions, Awards, and the Rest</h2>
+      <h2 className="text-4xl font-semibold">
+        Competitions, Awards, and the Rest
+      </h2>
       <p className="mt-1 text-sm">
-        Here lies all the recognition I have received for my work or other experience. Thank you so much to all these awesome organizations! 
+        Here lies all the recognition I have received for my work or other
+        experience. Thank you so much to all these awesome organizations!
       </p>
 
-      <div
-        className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2"
-      >
+      <div className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2">
         {achievements.map((achievement) => (
           <div
             key={achievement.id}
@@ -28,7 +33,7 @@ export function Achievements() {
                   </h3>
                   <p className="flex items-center space-x-2 text-xs opacity-75">
                     <span className="flex items-center space-x-2">
-                      <CalendarIcon rootClassName="h-4 w-4 shrink-0" />
+                      <CalendarIcon className="h-4 w-4 shrink-0" />
                       <span>{achievement.date}</span>
                     </span>
 
@@ -48,9 +53,9 @@ export function Achievements() {
                       </span>
                     )}
 
-{achievement.type === "certification" && (
+                    {achievement.type === "certification" && (
                       <span className="flex items-center space-x-2">
-                        <PaperPlaneIcon className="-rotate-[45deg] h-4 w-4 shrink-0" />
+                        <PaperPlaneIcon className="h-4 w-4 shrink-0 -rotate-[45deg]" />
                         <span>Certification</span>
                       </span>
                     )}
