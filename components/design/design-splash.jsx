@@ -30,12 +30,12 @@ export default function DesignSplash() {
   return (
     <div className="relative mb-96 mt-8">
       <div className="z-20">
-        <div className="relative">
+        <div className="relative my-24">
           <TextBox textContent="I have been passionate about design since a young age." />
         </div>
 
-        <div className="mt-20 text-2xl">
-          <p className="space-x-0.5 leading-loose">
+        <div className="text-2xl">
+          <p className="space-x-0.5 leading-loose text-balance">
             <span>
               Whether it be <ColorBox>Halloween decorations</ColorBox>,{" "}
               <ColorBox>event organizing</ColorBox>, or{" "}
@@ -83,9 +83,9 @@ export function TextBox({ textContent }) {
   const inputParentRef = useRef(null);
   const inputRef = useRef(null);
 
-  const [width, setWidth] = useState(1020);
+  const [width, setWidth] = useState();
   const [height, setHeight] = useState(98);
-  const [top, setTop] = useState(36);
+  const [top, setTop] = useState(-150);
   const [left, setLeft] = useState(0);
   const [rotation, setRotation] = useState(0);
   const [fontSize, setFontSize] = useState(36);
@@ -132,25 +132,39 @@ export function TextBox({ textContent }) {
   };
 
   useEffect(() => {
-    let currentIndex = 0;
-    let animationFrameId;
-
-    const typeText = () => {
-      if (currentIndex < textContent.length) {
-        setText((prevText) => prevText + textContent[currentIndex - 1]);
-        adjustFontSize();
-        currentIndex++;
-
-        setTimeout(() => {
-          animationFrameId = requestAnimationFrame(typeText);
-        }, 100);
-      }
-    };
-
-    animationFrameId = requestAnimationFrame(typeText);
-
-    return () => cancelAnimationFrame(animationFrameId);
+    if (textContent) {
+      let currentIndex = 0;
+      let lastTypedText = '';
+      let lastTime = 0;
+      const typingDelay = 50;
+  
+      const typeText = (time) => {
+        if (time - lastTime >= typingDelay) {
+          const currentTypedText = textContent.substring(0, currentIndex + 1);
+  
+          if (lastTypedText !== currentTypedText) {
+            setText(currentTypedText);
+            adjustFontSize();
+            lastTypedText = currentTypedText;
+            currentIndex++;
+            adjustFontSize();
+          }
+  
+          lastTime = time;
+        }
+  
+        if (currentIndex < textContent.length) {
+          requestAnimationFrame(typeText);
+        }
+      };
+  
+      const animationFrameId = requestAnimationFrame(typeText);
+  
+      return () => cancelAnimationFrame(animationFrameId);
+    }
   }, [textContent]);
+  
+  
 
   const handleDrag = (e) => {
     e.preventDefault();
@@ -284,12 +298,13 @@ export function TextBox({ textContent }) {
     document.addEventListener("mouseup", onMouseUp);
   };
 
+
   return (
     <div
       ref={inputParentRef}
-      className="relative mt-10"
+      className="absolute z-10 mt-10"
       style={{
-        width,
+        width: width || "100%",
         height,
         top,
         left,
