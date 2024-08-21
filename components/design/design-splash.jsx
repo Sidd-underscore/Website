@@ -4,29 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import { Button, buttonVariants } from "../ui/button";
 import { Input } from "../ui/input";
 import { Calendar } from "../ui/calendar";
-import { Loading } from "../ui/loading";
 import { ThemeSwitcher } from "../ui/theme-switcher";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import {
   CalendarIcon,
   CameraIcon,
-  CaretSortIcon,
-  ChevronDownIcon,
   CropIcon,
   DownloadIcon,
-  InfoCircledIcon,
   MagnifyingGlassIcon,
   SewingPinFilledIcon,
 } from "@radix-ui/react-icons";
 import { DatePickerWithRange } from "../ui/date-picker";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -38,7 +25,6 @@ import {
 } from "../ui/select";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { formatRelative, fromUnixTime, formatDistance, format } from "date-fns";
-import { SiddWordMark } from "../home/footer";
 
 export default function DesignSplash() {
   return (

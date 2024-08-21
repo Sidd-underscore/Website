@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
-import { DayPicker } from "react-day-picker";
+import { DayPicker, getDefaultClassNames } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
@@ -13,53 +13,48 @@ function Calendar({
   availableDates,
   ...props
 }) {
-
+  const defaultClassNames = getDefaultClassNames();
   const className = {
-    root: "!border-neutral-200 dark:!border-neutral-800 px-8",
-    months: "flex flex-col sm:flex-row space-y-4 sm:space-y-0",
-    month: "space-y-4 mx-2",
-    month_caption: "flex justify-center pt-1 relative items-center",
-    caption_label: "text-sm font-medium",
-    nav: "flex items-center",
-  
+    root: cn("", defaultClassNames.root),
+    months: cn(props.mode === "range" ? "flex" : "", defaultClassNames.months),
+    month: cn(props.mode === "range" ? "mx-2" : "", defaultClassNames.month),
+    month_caption: cn(
+      "mx-2 mt-2 mb-3 font-medium",
+      defaultClassNames.month_caption,
+    ),
+    caption_label: cn("", defaultClassNames.caption_label),
+    nav: cn("", defaultClassNames.nav),
+
     button_previous: cn(
       buttonVariants({ variant: "ghost" }),
-      "h-[calc(100%-8px)] top-1 bottom-1 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 absolute left-1 rounded-sm",
+      "absolute p-0 h-7 w-7 right-12 top-4",
+      cn("", defaultClassNames.button_previous),
     ),
     button_next: cn(
       buttonVariants({ variant: "ghost" }),
-      "h-[calc(100%-8px)] top-1 bottom-1 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 absolute right-1 rounded-sm",
+      "absolute p-0 h-7 w-7 right-4 top-4",
+      cn("", defaultClassNames.button_previous),
     ),
-  
-    month_grid: "w-full border-collapse space-y-1",
-    weekdays: "flex justify-around",
-    weekday:
-      "text-neutral-500 rounded-md w-8 font-normal text-[0.8rem] dark:text-neutral-400",
-    week: "flex w-full mt-2",
-    day: cn(
-      "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected=true])]:!bg-neutral-50 [&:has([aria-selected].day-outside)]:bg-neutral-50/50 [&:has([aria-selected].day-range-end)]:rounded-r-md",
-      props.mode === "range"
-        ? "[&:has(>.day-range-end)]:rounded-r-md [&:has(>.day-range-start)]:rounded-l-md first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md"
-        : "[&:has([aria-selected])]:rounded-md",
-    ),
+
+    month_grid: cn("text-center text-xs", defaultClassNames.month_grid),
+    weekdays: cn("text-neutral-400", defaultClassNames.weekdays),
+    weekday: cn("", defaultClassNames.weekday),
+    week: cn("", defaultClassNames.week),
+    day: cn("", defaultClassNames.day),
     day_button: cn(
       buttonVariants({ variant: "ghost" }),
-      "h-[30px] w-[30px] m-0.5 p-0 font-normal aria-selected:opacity-100 border-none",
+      "group-data-[today]/today:bg-neutral-100 dark:group-data-[today]/today:bg-neutral-400 group-data-[today]/today:hover:bg-neutral-300 group-data-[today]/today:hover:text-black group-data-[today]/today:text-black h-7 w-7 p-0 m-0.5 text-xs rounded-md group-data-[selected]/selected:!bg-neutral-200 dark:group-data-[selected]/selected:!bg-neutral-50 group-data-[selected]/selected:!text-black group-data-[selected]/selected:hover:!bg-neutral-300 group-data-[selected]/selected:hover:!text-black",
+      defaultClassNames.day_button,
     ),
-    range_start:
-      "text-white dark:text-neutral-950 hover:text-white day-range-start",
-    range_end: "text-white dark:text-neutral-950 hover:text-white day-range-end",
-    selected: cn(
-      "text-neutral-50 hover:text-neutral-50 focus:text-neutral-50 dark:text-neutral-900 dark:hover:text-neutral-900 dark:focus:!text-neutral-900",
-      props.mode === "range" ? "" : "rounded-md",
-    ),
-    today:
-      "bg-neutral-100 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-50 rounded-md",
-    outside: "day-outside text-neutral-500 opacity-50",
-    disabled: "text-neutral-500 opacity-50 dark:text-neutral-400",
-    range_middle: "",
-    hidden: "invisible",
-    ...classNames
+    range_start: cn("", defaultClassNames.range_start),
+    range_end: cn("", defaultClassNames.range_end),
+    selected: cn("group/selected", defaultClassNames.selected),
+    today: cn("group/today", defaultClassNames.today),
+    outside: cn("opacity-25", defaultClassNames.outside),
+    disabled: cn("", defaultClassNames.disabled),
+    range_middle: cn("", defaultClassNames.range_middle),
+    hidden: cn("", defaultClassNames.hidden),
+    ...classNames,
   };
 
   return (
@@ -83,10 +78,19 @@ function Calendar({
               new Date(availableDate * 1000).toDateString() ===
               date.toDateString(),
           ),
+          notAvailable: (date) =>
+            availableDates?.some(
+              (availableDate) =>
+                new Date(availableDate * 1000).toDateString() !=
+                date.toDateString(),
+            ),
       }}
       modifiersClassNames={{
         available: cn(
-          "bg-neutral-200 hover:bg-neutral-300 dark:hover:bg-neutral-600 dark:hover:text-white text-neutral-900 dark:bg-neutral-700 dark:text-neutral-50",
+          "opacity-100",
+        ),
+        notAvailable: cn(
+          "opacity-25",
         ),
       }}
       {...props}

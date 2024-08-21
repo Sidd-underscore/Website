@@ -8,7 +8,7 @@ import {
   useMotionValueEvent,
 } from "framer-motion";
 import { useTheme } from "next-themes";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   AudixLogo,
   ETCLogo,
@@ -25,7 +25,6 @@ import {
 } from "../ui/icons";
 import { Link } from "../ui/link";
 import Image from "next/image";
-import { Blob } from "../ui/blob";
 
 // i wanted to separate the sections into files but ended up being lazy lmao sorry future me
 
@@ -244,11 +243,6 @@ export function AboutSplash() {
               />
             </g>
           </motion.svg>
-          <Blob
-            index={1}
-            className="-left-[10rem] bottom-[42rem]  hidden md:block"
-          />
-          <Blob index={2} className="right-0 top-[60rem] hidden md:block" />
         </motion.div>
 
         {/* Code */}
@@ -301,7 +295,7 @@ export function AboutSplash() {
         <motion.div
           style={{ opacity: codeRingsOpacity, position: ringsPosition }}
           className="left-[50%] top-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-300 dark:border-pink-300/75 sm:h-[12rem] sm:w-[12rem]"
-        ></motion.div>
+        />
 
         {/* Livestreaming */}
         <motion.div
@@ -376,7 +370,7 @@ export function AboutSplash() {
         <motion.div
           style={{ opacity: livestreamRingsOpacity, position: ringsPosition }}
           className="left-[50%] top-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-300 dark:border-pink-300/75 sm:h-[12rem] sm:w-[12rem]"
-        ></motion.div>
+        />
 
         {/* Misc */}
         <motion.div
@@ -397,23 +391,11 @@ export function AboutSplash() {
         <motion.div
           style={{ opacity: miscRingsOpacity, position: ringsPosition }}
           className="left-[50%] top-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-200 dark:border-pink-200/40 sm:h-[18rem] sm:w-[18rem]"
-        ></motion.div>
+        />
         <motion.div
           style={{ opacity: miscRingsOpacity, position: ringsPosition }}
           className="left-[50%] top-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-300 dark:border-pink-300/75 sm:h-[12rem] sm:w-[12rem]"
-        ></motion.div>
-
-        <motion.div
-          style={{
-            opacity: finalImageDecorationOpacity,
-          }}
-          className="relative md:mt-[350vh]"
-        >
-          <Blob
-            className={`left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] ${shouldFinalImageDecorationFix ? "!fixed" : "absolute"}`}
-            index={4}
-          />
-        </motion.div>
+        />
       </motion.section>
     </div>
   );
