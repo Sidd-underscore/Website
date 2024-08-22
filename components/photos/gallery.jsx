@@ -7,7 +7,7 @@ export function Gallery({ photos1, photos2 }) {
       {photos1?.map((photo, index) => (
           <AdvancedPhoto
             key={photo.name}
-            priority={index < 4 ? true : false}
+            priority={true}
             className="h-auto"
             photoData={photo}
           />
@@ -17,7 +17,7 @@ export function Gallery({ photos1, photos2 }) {
         {photos2?.map((photo, index) => (
           <AdvancedPhoto
             key={photo.name}
-            priority={index < 4 ? true : false}
+            priority={true}
             className="h-auto"
             photoData={photo}
           />

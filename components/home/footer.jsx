@@ -6,8 +6,12 @@ import { useState } from "react";
 export function Footer() {
   const [socialsText, setSocialsText] = useState("Check out my socials!");
   return (
-    <div className="relative w-full overflow-hidden">
-      <div className="absolute left-0 right-0 -mt-20 h-[48rem] bg-[radial-gradient(circle_at_50%_50%,#f5f5f5,transparent,transparent)] dark:bg-[radial-gradient(circle_at_50%_50%,#262626,transparent,transparent)]" />
+    <div className="no-max-w relative w-screen">
+      <div className="absolute -top-24 left-0 right-0 z-10 h-48 bg-gradient-to-t from-transparent via-neutral-50 to-transparent dark:from-transparent dark:via-neutral-950 dark:to-transparent" />
+
+      <div className="relative -hidden">
+        <div className="absolute left-0 right-0 h-[10rem] bg-[radial-gradient(circle_at_50%_150%,#f5f5f5,transparent,transparent)] dark:bg-[radial-gradient(circle_at_50%_150%,#262626,transparent,transparent)]" />
+      </div>
       <footer className="relative z-10 flex flex-col items-center justify-around p-4 text-center md:flex-row">
         <div className="w-full flex-col justify-center space-y-2 text-center text-xs">
           <p>{socialsText}</p>

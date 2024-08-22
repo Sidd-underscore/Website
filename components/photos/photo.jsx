@@ -59,7 +59,7 @@ export function Photo({ className, photoData, width, height, ...props }) {
       <Image
         quality={50}
         className={cn(
-          "h-full w-full max-w-none cursor-pointer rounded-lg select-none",
+          "h-full w-full max-w-none rounded-lg select-none",
           photoHasLoaded ? "inherit" : "hidden",
           className,
         )}

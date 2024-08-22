@@ -62,7 +62,7 @@ export function Navbar() {
 
   return (
     <div className="fixed left-0 top-0 z-50 flex w-screen items-center justify-center lg:top-4">
-      <div className="to:transparent fixed top-0 h-10 w-screen bg-gradient-to-b from-neutral-50 via-transparent dark:from-neutral-950" />
+      <div className="fixed top-0 h-10 w-screen bg-gradient-to-b from-neutral-50 to-transparent dark:from-neutral-950" />
 
       <nav
         data-element-reference="nav"
@@ -85,10 +85,10 @@ export function Navbar() {
                 {item.label}
                 {item.useMagneticUnderline && item.link === hoveredPath && (
                   <motion.div
-                    className={`absolute bottom-0 left-0 -z-10 mx-2 w-[calc(100%_-_16px)] h-[1.5px] rounded-full bg-pink-400 group-hover:bg-pink-500 dark:bg-pink-200 group-hover:dark:bg-pink-300`}
+                    className={`absolute bottom-0 left-0 -z-10 mx-2 h-[1.5px] w-[calc(100%_-_16px)] rounded-full bg-pink-400 group-hover:bg-pink-500 dark:bg-pink-200 group-hover:dark:bg-pink-300`}
                     layoutId="navbar"
                     aria-hidden="true"
-                                       transition={{ type: "spring", duration: 0.4 }}
+                    transition={{ type: "spring", duration: 0.4 }}
                   />
                 )}
 
