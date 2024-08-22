@@ -1,4 +1,4 @@
-import { Archivo, } from "next/font/google";
+import { Archivo } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/home/footer";
 import { Navbar } from "@/components/home/navbar";
@@ -13,7 +13,14 @@ const archivo = Archivo({ subsets: ["latin"] });
 export const metadata = {
   title: { default: "Sidd", template: "%s / Sidd" },
   description: "I code, take photos and live stream.",
-  metadataBase: new URL('https://sidd-website.vercel.app'),
+  metadataBase: new URL("https://sidd-website.vercel.app"),
+};
+
+export const viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f8f8f8" },
+    { media: "(prefers-color-scheme: dark)", color: "#212529" },
+  ],
 };
 
 export function TailwindIndicator() {
@@ -36,17 +43,12 @@ export default function RootLayout({ children }) {
     <ViewTransitions>
       <html lang="en" suppressHydrationWarning>
         <body
-          className={`${archivo.className} overflow-x-hidden justify-left mt-12 flex flex-col items-center p-6 !pb-0 scrollbar-track-rounded-none dark:bg-neutral-950 dark:text-white md:p-12 2xl:p-24`}
+          className={`${archivo.className} justify-left mt-12 flex flex-col items-center overflow-x-hidden p-6 !pb-0 scrollbar-track-rounded-none dark:bg-neutral-950 dark:text-white md:p-12 2xl:p-24`}
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+          <ThemeProvider>
             <AppProvider>
               <Navbar />
-              <main className="min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none mt-6 lg:mt-8 xl:mt-10 2xl:mt-0">
+              <main className="mt-6 min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none lg:mt-8 xl:mt-10 2xl:mt-0">
                 {children}
               </main>
               <Footer />
@@ -54,12 +56,11 @@ export default function RootLayout({ children }) {
               {/* For screen sizes */}
               <TailwindIndicator />
             </AppProvider>
-
           </ThemeProvider>
           <Analytics />
           <SpeedInsights />
         </body>
       </html>
-     </ViewTransitions>
+    </ViewTransitions>
   );
 }

@@ -8,7 +8,7 @@ export const metadata = {
   description: `I have been designing for over ${year - 2019} years. Learn more about my journey here!`,
 };
 
-export default function CodingAndDesignPage() {
+export default function DesignPage() {
   return (
     <>
       <DesignSplash />
