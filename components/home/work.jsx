@@ -2,27 +2,124 @@
 
 import { Link } from "@/components/ui/link";
 import { work } from "@/lib/work";
-import { SewingPinFilledIcon, CalendarIcon } from "@radix-ui/react-icons";
+import {
+  SewingPinFilledIcon,
+  CalendarIcon,
+  MixerVerticalIcon,
+} from "@radix-ui/react-icons";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { cn, formatArrayIntoSentence } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
-export function Work() {
+export function Work({ className, defaultWorkTypes }) {
+  function gatherAllWorkData() {
+    const types = [];
+
+    work.forEach((workItem) => {
+      workItem.type.forEach((type) => {
+        if (!types.includes(type)) {
+          types.push(type);
+        }
+      });
+    });
+    return { types };
+  }
+
+  const [workTypesToShow, setWorkTypesToShow] = useState(
+    defaultWorkTypes || gatherAllWorkData().types,
+  );
+
+  const [worksToDisplay, setWorksToDisplay] = useState([]);
+
+  useEffect(() => {
+    let tempWorks = work.filter((workItem) => {
+      const anyTypeIncluded = workItem.type.some((type) =>
+        workTypesToShow.includes(type),
+      );
+      return anyTypeIncluded;
+    });
+
+    setWorksToDisplay(tempWorks);
+  }, [workTypesToShow]);
+
   return (
-    <div className="my-32 w-full text-left">
-      <h2 className="text-4xl font-semibold">Work Experience</h2>
-      <p className="mt-1 text-sm">
-        The best testament of knowledge is putting it in practice. My full CV
-        can be found{" "}
-        <Link
-          className="!inline w-fit"
-          target="_blank"
-          href="https://docs.google.com/document/d/1pvQcjzzaIq11oYS_XvRQHYKZNvDmu8OxrgsjTjLtX4w/view"
-        >
-          here
-        </Link>
-        .
-      </p>
-
-      <div className="mt-12 grid w-full grid-flow-row grid-cols-1 text-center gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3">
-        {work.map((workItem) => (
+    <div className={cn("my-32 w-full text-left", className)}>
+      <div className="flex items-end justify-between">
+        <div>
+          <h2 className="text-4xl font-semibold">
+            {formatArrayIntoSentence(
+              defaultWorkTypes || [],
+              undefined,
+              undefined,
+              true,
+            )}{" "}
+            Work Experience
+          </h2>
+          <p className="mt-1 text-sm">
+            The best testament of knowledge is putting it in practice. Here is
+            some of my work experience
+            {defaultWorkTypes
+              ? "that are " +
+                formatArrayIntoSentence(
+                  defaultWorkTypes || [],
+                  undefined,
+                  ", or ",
+                ) +
+                " related"
+              : null}
+            ! My full CV can be found{" "}
+            <Link
+              className="!inline w-fit"
+              target="_blank"
+              href="https://docs.google.com/document/d/1pvQcjzzaIq11oYS_XvRQHYKZNvDmu8OxrgsjTjLtX4w/view"
+            >
+              here
+            </Link>
+            .
+          </p>
+        </div>
+        <div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="h-9 w-9 space-x-2 p-0 md:w-auto md:px-4 md:py-2"
+              >
+                <MixerVerticalIcon />{" "}
+                <span className="hidden md:block">Filter</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56 capitalize">
+              <DropdownMenuLabel>Types</DropdownMenuLabel>
+              {gatherAllWorkData().types.map((type) => (
+                <DropdownMenuCheckboxItem
+                  key={type}
+                  checked={workTypesToShow?.includes(type)}
+                  onCheckedChange={(e) =>
+                    e
+                      ? setWorkTypesToShow([...workTypesToShow, type])
+                      : setWorkTypesToShow(
+                          workTypesToShow.filter((t) => t != type),
+                        )
+                  }
+                >
+                  {type}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+      <div className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-4 text-center md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3">
+        {worksToDisplay.map((workItem) => (
           <div
             key={workItem.name}
             className="group relative h-full rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50"

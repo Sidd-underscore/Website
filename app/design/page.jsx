@@ -12,7 +12,7 @@ export default function DesignPage() {
   return (
     <>
       <DesignSplash />
-      <Projects defaultProjectTypes={[ "design", "coding", "website" ]} />
+      <Projects defaultProjectTypes={[ "design", "coding", "website" ]} defaultTechnologies={[ "Nextjs", "TailwindCSS" ]} />
     </>
   );
 }

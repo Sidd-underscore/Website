@@ -53,24 +53,15 @@ export function Projects({
   const [projectsToDisplay, setProjectsToDisplay] = useState([]);
 
   useEffect(() => {
-    let tempProjects = [...projects].filter((project) => {
-      let allTypesIncluded = true;
-      for (let type of project.type) {
-        if (!projectTypesToShow.includes(type)) {
-          allTypesIncluded = false;
-          break;
-        }
-      }
+    let tempProjects = projects.filter((project) => {
+      const anyTypeIncluded = project.type.some((type) =>
+        projectTypesToShow.includes(type),
+      );
+      const anyTechnologyIncluded = project.technologies.some((tech) =>
+        projectTechnologiesToShow.includes(tech),
+      );
 
-      let allTechnologiesIncluded = true;
-      for (let tech of project.technologies) {
-        if (!projectTechnologiesToShow.includes(tech)) {
-          allTechnologiesIncluded = false;
-          break;
-        }
-      }
-
-      return allTypesIncluded && allTechnologiesIncluded;
+      return anyTypeIncluded && anyTechnologyIncluded;
     });
 
     setProjectsToDisplay(tempProjects);
@@ -80,32 +71,42 @@ export function Projects({
     <div className={cn("my-32 w-full text-left", className)}>
       <div className="flex items-end justify-between">
         <div>
-          <h2 className="text-4xl font-semibold capitalize">
-            {formatArrayIntoSentence(defaultProjectTypes || [])} Projects{" "}
-            {defaultTechnologies
-              ? "(" + formatArrayIntoSentence(defaultTechnologies || []) + ")"
-              : null}
-          </h2>
-          <p className="mt-1 text-sm">
-            Here are some things that I have coded that are{" "}
+          <h2 className="text-4xl font-semibold">
             {formatArrayIntoSentence(
               defaultProjectTypes || [],
               undefined,
-              ", or ",
-            ) + " "}
-            project types
+              undefined,
+              true,
+            )}{" "}
+            Projects
+          </h2>
+          <p className="mt-1 text-sm">
+            Here are some things that I have coded
+            {defaultProjectTypes
+              ? " that are " +
+                formatArrayIntoSentence(
+                  defaultProjectTypes || [],
+                  undefined,
+                  ", or ",
+                ) +
+                " related"
+              : null}
             {defaultTechnologies
               ? ` and use ${defaultTechnologies ? formatArrayIntoSentence(defaultTechnologies || [], undefined, ", or ") : null}`
               : null}
-            ! All of them are open-source :) 
+            ! All of them are open-source :)
           </p>
         </div>
 
         <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="h-10 space-x-2">
-                <MixerVerticalIcon /> <span>Filter</span>
+              <Button
+                variant="outline"
+                className="h-9 w-9 space-x-2 p-0 md:w-auto md:px-4 md:py-2"
+              >
+                <MixerVerticalIcon />{" "}
+                <span className="hidden md:block">Filter</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 capitalize">
@@ -153,7 +154,7 @@ export function Projects({
       </div>
 
       <div
-        className={`relative mt-12 grid w-full grid-flow-row grid-cols-1 text-center gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3`}
+        className={`relative mt-12 grid w-full grid-flow-row grid-cols-1 gap-4 text-center md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3`}
       >
         {projectsToDisplay.map((project, index) => (
           <div
