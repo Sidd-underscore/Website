@@ -19,7 +19,7 @@ export function Achievements() {
         experience. Thank you so much to all these awesome organizations!
       </p>
 
-      <div className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2">
+      <div className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-4 text-left lg:mb-0 lg:grid-cols-2">
         {achievements.map((achievement) => (
           <div
             key={achievement.id}

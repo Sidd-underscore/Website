@@ -21,7 +21,7 @@ export function Work() {
         .
       </p>
 
-      <div className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-14 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-12 grid w-full grid-flow-row grid-cols-1 text-center gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3">
         {work.map((workItem) => (
           <div
             key={workItem.name}

@@ -153,7 +153,7 @@ export function Projects({
       </div>
 
       <div
-        className={`relative mt-12 grid w-full grid-flow-row grid-cols-1 gap-6 text-center md:gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3`}
+        className={`relative mt-12 grid w-full grid-flow-row grid-cols-1 text-center gap-4 md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3`}
       >
         {projectsToDisplay.map((project, index) => (
           <div
