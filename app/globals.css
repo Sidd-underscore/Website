@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  @apply scrollbar-thin scrollbar-track-neutral-200 scrollbar-thumb-neutral-400 scrollbar-track-rounded scrollbar-thumb-rounded dark:scrollbar-track-neutral-900 dark:scrollbar-thumb-neutral-600;
-}
-
 .dark {
   @apply [--accent-color-lighter:#e969ee30] [--accent-color:#f472b6] [--transparent-color:black];
 }
