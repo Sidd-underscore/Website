@@ -69,7 +69,7 @@ export function Projects({
 
   return (
     <div className={cn("my-32 w-full text-left", className)}>
-      <div className="flex items-end justify-between">
+      <div className="space-x-2 flex items-end justify-between">
         <div>
           <h2 className="text-4xl font-semibold">
             {formatArrayIntoSentence(

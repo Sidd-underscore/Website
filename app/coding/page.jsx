@@ -15,7 +15,7 @@ export default function CodingAndDesignPage() {
       <h1 className="text-5xl font-bold">Coding</h1>
       <Projects />
       <Work defaultWorkTypes={["coding"]} />
-      <Achievements />
+      <Achievements defaultAchievementTypes={["coding"]} />
     </>
   );
 }
