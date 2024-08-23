@@ -6,7 +6,7 @@ export const metadata = {
 
 export default function PhotosPage() {
   return (
-    <div className="no-max-w">
+    <div className="2xl no-max-w">
       <PhotosSplash />
     </div>
   );

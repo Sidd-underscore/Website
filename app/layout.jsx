@@ -44,7 +44,7 @@ export default function RootLayout({ children }) {
           <ThemeProvider>
             <AppProvider>
               <Navbar />
-              <main className="mt-6 min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none lg:mt-8 xl:mt-10 2xl:mt-0">
+              <main className="mt-6 min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none has-[.2xl_no-max-w]:2xl:max-w-none lg:mt-8 xl:mt-10 2xl:mt-0">
                 {children}
               </main>
               <Footer />

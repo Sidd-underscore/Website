@@ -18,7 +18,7 @@ export function PhotosSplash() {
 
   return (
     <div
-      className="relative -mx-6 h-screen overflow-hidden md:-mx-12 2xl:-mx-24"
+      className="relative h-screen overflow-hidden 2xl:-mx-24"
       onMouseMove={linkHovered ? handleMouseMove : null}
     >
       <div className="mx-auto max-w-5xl">
@@ -34,18 +34,22 @@ export function PhotosSplash() {
           showcased here are completely unedited, save for cropping.
         </p>
 
-        <Button asChild className="mt-8 space-x-2 hover:space-x-4 transition-all duration-200" variant="secondary">
+        <Button
+          asChild
+          className="mt-8 space-x-2 group"
+          variant="secondary"
+        >
           <Link
             href="/photos/gallery"
             onMouseEnter={() => setLinkHovered(true)}
             onMouseLeave={() => setLinkHovered(false)}
           >
-            <span>Enter the gallery</span> <ArrowRightIcon className="ml-2 h-4 w-4" />
+            <span>Enter the gallery</span>{" "}
+            <ArrowRightIcon className="group-hover:ml-4 transition-all duration-200 ml-2 h-4 w-4" />
           </Link>
         </Button>
 
         <FeaturedPhotos />
-
       </div>
 
       {/* Scattered photos on the side */}
@@ -91,7 +95,7 @@ export function PhotosSplash() {
         return (
           <Image
             key={key}
-            className={`absolute h-48 w-auto select-none rounded-lg transition-transform duration-200`}
+            className={`hidden 2xl:block absolute h-48 w-auto select-none ease-out rounded-lg transition-transform duration-200`}
             style={{ ...initialPosition, ...adjustedPosition }}
             src={photoData.staticPhoto}
             alt={photoData.name}
@@ -103,7 +107,6 @@ export function PhotosSplash() {
           />
         );
       })}
-
     </div>
   );
 }
