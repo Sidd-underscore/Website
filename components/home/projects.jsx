@@ -1,7 +1,7 @@
 "use client";
 
 import { Link } from "@/components/ui/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { projects } from "@/lib/projects";
 import Image from "next/image";
 import { cn, formatArrayIntoSentence } from "@/lib/utils";
@@ -15,12 +15,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MixerVerticalIcon } from "@radix-ui/react-icons";
+import autoAnimate from "@formkit/auto-animate";
 
 export function Projects({
   className,
   defaultProjectTypes,
   defaultTechnologies,
 }) {
+  const parent = useRef(null);
+
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current);
+  }, [parent]);
+
   function gatherAllProjectData() {
     const types = [];
     const technologies = [];
@@ -69,7 +76,7 @@ export function Projects({
 
   return (
     <div className={cn("my-32 w-full text-left", className)}>
-      <div className="space-x-2 flex items-end justify-between">
+      <div className="flex items-end justify-between space-x-2">
         <div>
           <h2 className="text-4xl font-semibold">
             {formatArrayIntoSentence(
@@ -154,6 +161,7 @@ export function Projects({
       </div>
 
       <div
+        ref={parent}
         className={`relative mt-12 grid w-full grid-flow-row grid-cols-1 gap-4 text-center md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3`}
       >
         {projectsToDisplay.map((project, index) => (

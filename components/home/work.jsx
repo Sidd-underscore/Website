@@ -13,13 +13,20 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn, formatArrayIntoSentence } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import autoAnimate from "@formkit/auto-animate";
 
 export function Work({ className, defaultWorkTypes }) {
+  const parent = useRef(null);
+
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current)
+  }, [parent])
+
+
   function gatherAllWorkData() {
     const types = [];
 
@@ -118,7 +125,7 @@ export function Work({ className, defaultWorkTypes }) {
           </DropdownMenu>
         </div>
       </div>
-      <div className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-4 text-center md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3">
+      <div ref={parent} className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-4 text-center md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3">
         {worksToDisplay.map((workItem) => (
           <div
             key={workItem.name}

@@ -7,7 +7,7 @@ import {
   PaperPlaneIcon,
 } from "@radix-ui/react-icons";
 import { TrophyIcon } from "@heroicons/react/20/solid";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn, formatArrayIntoSentence } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,12 +15,18 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MixerVerticalIcon } from "@radix-ui/react-icons";
+import autoAnimate from "@formkit/auto-animate";
 
 export function Achievements({ className, defaultAchievementTypes }) {
+  const parent = useRef(null);
+
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current)
+  }, [parent])
+
   function gatherAllAchievementData() {
     const types = [];
 
@@ -113,7 +119,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
         </div>
       </div>
 
-      <div className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-4 text-left lg:mb-0 lg:grid-cols-2">
+      <div ref={parent} className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-4 text-left lg:mb-0 lg:grid-cols-2">
         {achievementsToDisplay.map((achievement) => (
           <div
             key={achievement.id}
