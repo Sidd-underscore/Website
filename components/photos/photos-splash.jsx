@@ -41,11 +41,12 @@ export function PhotosSplash() {
         >
           <Link
             href="/photos/gallery"
+            className="transition"
             onMouseEnter={() => setLinkHovered(true)}
             onMouseLeave={() => setLinkHovered(false)}
           >
             <span>Enter the gallery</span>{" "}
-            <ArrowRightIcon className="group-hover:ml-4 transition-all duration-200 ml-2 h-4 w-4" />
+            <ArrowRightIcon className="group-hover:ml-4 transition-all ml-2 h-4 w-4" />
           </Link>
         </Button>
 

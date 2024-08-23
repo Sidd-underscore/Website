@@ -25,6 +25,8 @@ import {
 } from "../ui/icons";
 import { Link } from "../ui/link";
 import Image from "next/image";
+import { Button } from "../ui/button";
+import { EnvelopeClosedIcon, EnvelopeOpenIcon } from "@radix-ui/react-icons";
 
 // i wanted to separate the sections into files but ended up being lazy lmao sorry future me
 
@@ -124,7 +126,7 @@ export function AboutSplash() {
 
   const finalImageDecorationOpacity = useTransform(
     scrollYProgressOfContainer,
-    [0.80, 0.9],
+    [0.8, 0.9],
     [0, 1],
   );
 
@@ -132,19 +134,53 @@ export function AboutSplash() {
     pos >= 0.1 ? "fixed" : "relative",
   );
 
+  const finalImageDecorationPosition = useTransform(
+    scrollYProgressOfContainer,
+    (pos) => (pos >= 0.8 ? "fixed" : "relative"),
+  );
+
+  const [codeRingsDisplay, setCodeRingsDisplay] = useState("none");
+  const [livestreamRingsDisplay, setLivestreamRingsDisplay] = useState("none");
+  const [miscRingsDisplay, setMiscRingsDisplay] = useState("none");
+  const [finalImageDecorationDisplay, setFinalImageDecorationDisplay] =
+    useState("none");
+
+  useMotionValueEvent(codeRingsOpacity, "change", (latest) => {
+    setCodeRingsDisplay(latest > 0 ? "block" : "none");
+  });
+
+  useMotionValueEvent(livestreamRingsOpacity, "change", (latest) => {
+    setLivestreamRingsDisplay(latest > 0 ? "block" : "none");
+  });
+
+  useMotionValueEvent(miscRingsOpacity, "change", (latest) => {
+    setMiscRingsDisplay(latest > 0 ? "block" : "none");
+  });
+
+  useMotionValueEvent(finalImageDecorationOpacity, "change", (latest) => {
+    setFinalImageDecorationDisplay(latest > 0 ? "block" : "none");
+  });
+
   const [shouldNavbarLogoHover, setShouldNavbarLogoHover] = useState(true);
-  const [shouldFinalImageDecorationFix, setShouldFinalImageDecorationFix] =
-    useState(false);
+
+  const prevValues = useRef({
+    avatarLeft,
+    avatarTop,
+    avatarSize,
+    shouldNavbarLogoHover,
+  });
 
   useMotionValueEvent(scrollYProgressOfContainer, "change", (latest) => {
     setShouldNavbarLogoHover(latest < 0.01);
-    setShouldFinalImageDecorationFix(latest > 0.95);
   });
 
-  const prevValues = useRef({ avatarLeft, avatarTop, avatarSize, shouldNavbarLogoHover });
-
   useEffect(() => {
-    const { avatarLeft: prevLeft, avatarTop: prevTop, avatarSize: prevSize, shouldNavbarLogoHover: prevHover } = prevValues.current;
+    const {
+      avatarLeft: prevLeft,
+      avatarTop: prevTop,
+      avatarSize: prevSize,
+      shouldNavbarLogoHover: prevHover,
+    } = prevValues.current;
 
     if (
       prevLeft !== avatarLeft ||
@@ -173,10 +209,14 @@ export function AboutSplash() {
         ),
       });
 
-      prevValues.current = { avatarLeft, avatarTop, avatarSize, shouldNavbarLogoHover };
+      prevValues.current = {
+        avatarLeft,
+        avatarTop,
+        avatarSize,
+        shouldNavbarLogoHover,
+      };
     }
   }, [avatarLeft, avatarTop, avatarSize, shouldNavbarLogoHover, setNavbarLogo]);
-
 
   return (
     <div
@@ -247,8 +287,12 @@ export function AboutSplash() {
 
         {/* Code */}
         <motion.div
-          style={{ opacity: codeRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-100 text-sm dark:border-pink-100/15 sm:h-[24rem] sm:w-[24rem] md:text-base"
+          style={{
+            display: codeRingsDisplay,
+            opacity: codeRingsOpacity,
+            position: ringsPosition,
+          }}
+          className="left-[50%] top-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-100 text-sm dark:border-pink-100/15 sm:h-[24rem] sm:w-[24rem] md:text-base"
         >
           <p className="absolute -top-32 left-0 max-w-40 opacity-90 sm:-left-10 sm:-top-10 md:-left-20 md:-top-14">
             I code and design user interfaces
@@ -275,8 +319,12 @@ export function AboutSplash() {
           </motion.div>
         </motion.div>
         <motion.div
-          style={{ opacity: codeRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-200 dark:border-pink-200/40 sm:h-[18rem] sm:w-[18rem]"
+          style={{
+            display: codeRingsDisplay,
+            opacity: codeRingsOpacity,
+            position: ringsPosition,
+          }}
+          className="left-[50%] top-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-200 dark:border-pink-200/40 sm:h-[18rem] sm:w-[18rem]"
         >
           <motion.div className="flex">
             <div className="-ml-2 mt-16 h-fit bg-white dark:bg-neutral-950 sm:-ml-2 sm:mt-[3.5rem]">
@@ -293,26 +341,41 @@ export function AboutSplash() {
           </motion.div>
         </motion.div>
         <motion.div
-          style={{ opacity: codeRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-300 dark:border-pink-300/75 sm:h-[12rem] sm:w-[12rem]"
-        />
+          style={{
+            display: codeRingsDisplay,
+            opacity: codeRingsOpacity,
+            position: ringsPosition,
+          }}
+          className="relative left-[50%] top-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-300 dark:border-pink-300/75 sm:h-[12rem] sm:w-[12rem]"
+        >
+          <Link
+            href="/coding"
+            className="absolute left-[50%] sm:ml-48 w-24 top-[22rem] sm:top-[20rem] translate-x-[-50%] translate-y-[-50%]"
+          >
+            Learn more
+          </Link>
+        </motion.div>
 
         {/* Livestreaming */}
         <motion.div
-          style={{ opacity: livestreamRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-100 text-sm dark:border-pink-100/15 sm:h-[24rem] sm:w-[24rem] md:text-base"
+          style={{
+            display: livestreamRingsDisplay,
+            opacity: livestreamRingsOpacity,
+            position: ringsPosition,
+          }}
+          className="left-[50%] top-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-100 text-sm dark:border-pink-100/15 sm:h-[24rem] sm:w-[24rem] md:text-base"
         >
-          <p className="max-w-50 absolute -top-32 left-0 max-w-[30vw] sm:max-w-[40vw] opacity-90 sm:-left-20 sm:-top-20 md:-left-20 md:-top-14 lg:-left-36 lg:-top-20">
+          <p className="max-w-50 absolute -top-32 left-0 max-w-[30vw] opacity-90 sm:-left-20 sm:-top-20 sm:max-w-[40vw] md:-left-20 md:-top-14 lg:-left-36 lg:-top-20">
             I livestream weekly using OBS and PTZ Optics for the{" "}
             <Link
-              href="https://themadeline.edu"
+              href="https://themadeleine.edu"
               className="!inline w-fit text-right text-xs md:text-base"
               target="_blank"
             >
               Madeleine Parish.
             </Link>
           </p>
-          <p className="absolute -top-24 right-0 max-w-[30vw] sm:max-w-[40vw] text-right opacity-90 sm:-right-28 md:-right-36 md:top-8 md:max-w-60 lg:-right-56 lg:top-24">
+          <p className="absolute -top-24 right-0 max-w-[30vw] text-right opacity-90 sm:-right-28 sm:max-w-[40vw] md:-right-36 md:top-8 md:max-w-60 lg:-right-56 lg:top-24">
             I also run other A/V positions, like mixing live sound during
             performances, for the Parish.
           </p>
@@ -350,8 +413,12 @@ export function AboutSplash() {
           </motion.div>
         </motion.div>
         <motion.div
-          style={{ opacity: livestreamRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-200 dark:border-pink-200/40 sm:h-[18rem] sm:w-[18rem]"
+          style={{
+            display: livestreamRingsDisplay,
+            opacity: livestreamRingsOpacity,
+            position: ringsPosition,
+          }}
+          className="left-[50%] top-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-200 dark:border-pink-200/40 sm:h-[18rem] sm:w-[18rem]"
         >
           <motion.div className="flex">
             <div className="-ml-2 mt-16 h-fit bg-white dark:bg-neutral-950 sm:-ml-2 sm:mt-[3.5rem]">
@@ -368,14 +435,22 @@ export function AboutSplash() {
           </motion.div>
         </motion.div>
         <motion.div
-          style={{ opacity: livestreamRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-300 dark:border-pink-300/75 sm:h-[12rem] sm:w-[12rem]"
-        />
+          style={{
+            display: livestreamRingsDisplay,
+            opacity: livestreamRingsOpacity,
+            position: ringsPosition,
+          }}
+          className="left-[50%] top-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-300 dark:border-pink-300/75 sm:h-[12rem] sm:w-[12rem]"
+        ></motion.div>
 
         {/* Misc */}
         <motion.div
-          style={{ opacity: miscRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-100 text-sm dark:border-pink-100/15 sm:h-[24rem] sm:w-[24rem] md:text-base"
+          style={{
+            display: miscRingsDisplay,
+            opacity: miscRingsOpacity,
+            position: ringsPosition,
+          }}
+          className="left-[50%] top-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-100 text-sm dark:border-pink-100/15 sm:h-[24rem] sm:w-[24rem] md:text-base"
         >
           <p className="absolute -top-20 left-4 max-w-40 opacity-90 sm:-left-10 sm:-top-10 md:-left-20 md:-top-14">
             I generally love tech, photography, and lighting design.
@@ -389,14 +464,39 @@ export function AboutSplash() {
           </p>
         </motion.div>
         <motion.div
-          style={{ opacity: miscRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-200 dark:border-pink-200/40 sm:h-[18rem] sm:w-[18rem]"
+          style={{
+            display: miscRingsDisplay,
+            opacity: miscRingsOpacity,
+            position: ringsPosition,
+          }}
+          className="left-[50%] top-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-200 dark:border-pink-200/40 sm:h-[18rem] sm:w-[18rem]"
         />
         <motion.div
-          style={{ opacity: miscRingsOpacity, position: ringsPosition }}
-          className="left-[50%] top-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-300 dark:border-pink-300/75 sm:h-[12rem] sm:w-[12rem]"
+          style={{
+            display: miscRingsDisplay,
+            opacity: miscRingsOpacity,
+            position: ringsPosition,
+          }}
+          className="left-[50%] top-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-300 dark:border-pink-300/75 sm:h-[12rem] sm:w-[12rem]"
         />
       </motion.section>
+
+      <motion.div
+        style={{
+          display: finalImageDecorationDisplay,
+          opacity: finalImageDecorationOpacity,
+          position: finalImageDecorationPosition,
+        }}
+        className="text-center left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] mt-[5rem]"
+      >
+        <Button asChild className="group mt-8" variant="secondary">
+          <Link href="mailto:hello@sidd.studio">
+            <EnvelopeClosedIcon className="mr-2 block h-4 w-4 group-hover:invisible group-hover:hidden" />
+            <EnvelopeOpenIcon className="invisible mr-2 hidden h-4 w-4 group-hover:visible group-hover:block" />
+            <span>Contact me!</span>
+          </Link>
+        </Button>
+      </motion.div>
     </div>
   );
 }

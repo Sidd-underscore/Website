@@ -1,3 +1,4 @@
+import { CodingSplash } from "@/components/coding/coding-splash";
 import { Achievements } from "@/components/home/achievements";
 import { Projects } from "@/components/home/projects";
 import { Work } from "@/components/home/work";
@@ -13,6 +14,7 @@ export default function CodingAndDesignPage() {
   return (
     <>
       <h1 className="text-5xl font-bold">Coding</h1>
+      <CodingSplash />
       <Projects />
       <Work defaultWorkTypes={["coding"]} />
       <Achievements defaultAchievementTypes={["coding"]} />
