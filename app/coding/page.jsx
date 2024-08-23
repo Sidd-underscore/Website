@@ -1,4 +1,4 @@
-import { CodingSplash } from "@/components/coding/coding-splash";
+import { CodingSplash } from "@/components/coding/splash";
 import { Achievements } from "@/components/home/achievements";
 import { Projects } from "@/components/home/projects";
 import { Work } from "@/components/home/work";

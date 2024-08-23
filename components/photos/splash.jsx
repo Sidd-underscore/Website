@@ -18,7 +18,7 @@ export function PhotosSplash() {
 
   return (
     <div
-      className="relative h-screen overflow-hidden 2xl:-mx-24"
+      className="relative h-full min-h-screen overflow-hidden 2xl:-mx-24"
       onMouseMove={linkHovered ? handleMouseMove : null}
     >
       <div className="mx-auto max-w-5xl">

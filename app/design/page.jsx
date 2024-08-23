@@ -1,4 +1,4 @@
-import DesignSplash from "@/components/design/design-splash";
+import DesignSplash from "@/components/design/splash";
 import { Projects } from "@/components/home/projects";
 
 const year = new Date().getFullYear();

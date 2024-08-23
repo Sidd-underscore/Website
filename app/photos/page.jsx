@@ -1,4 +1,4 @@
-import { PhotosSplash } from "@/components/photos/photos-splash";
+import { PhotosSplash } from "@/components/photos/splash";
 
 export const metadata = {
   title: "Photography",
