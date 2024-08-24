@@ -1,18 +1,16 @@
-import { Achievements } from "@/components/home/achievements";
-import { Projects } from "@/components/home/projects";
 import { Work } from "@/components/home/work";
 
 const year = new Date().getFullYear();
 
 export const metadata = {
-  title: "Projects",
-  description: `I have been coding and designing for over ${year - 2019} years. Learn more about my some of the projects I've been working on here!`,
+  title: "Work",
+  description: `A list of my work experiences.`,
 };
 
-export default function CodingAndDesignPage() {
+export default function WorkPage() {
   return (
     <>
-      <Projects className="m-0"/>
+      <Work className="m-0"/>
     </>
   );
 }
