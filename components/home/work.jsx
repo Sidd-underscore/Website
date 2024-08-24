@@ -133,25 +133,25 @@ export function Work({ className, defaultWorkTypes }) {
           >
             <div className="h-full">
               <div className="z-30 flex h-full flex-col justify-between px-5 py-4 text-left">
-                <div>
+                <div className="space-y-1">
                   <h3 className={`mb-3 text-2xl font-semibold`}>
                     {workItem.name}
                   </h3>
                   <p
-                    className={`m-0 flex items-start space-x-2 text-sm opacity-50`}
+                    className={`m-0 flex items-center space-x-2 text-sm opacity-50`}
                   >
                     <SewingPinFilledIcon className="h-4 w-4 shrink-0" />
                     <span>{workItem.location}</span>
                   </p>
 
                   <p
-                    className={`m-0 flex items-start space-x-2 text-sm opacity-50`}
+                    className={`m-0 flex items-center space-x-2 text-sm opacity-50`}
                   >
                     <CalendarIcon className="h-4 w-4 shrink-0" />
                     <span>{workItem.dates}</span>
                   </p>
 
-                  <div className={`m-4 text-sm`}>
+                  <div className={`!m-4 text-sm`}>
                     <ul className="list-disc text-left">
                       {workItem.details.map((item) => (
                         <li className="opacity-75" key={item}>
@@ -161,7 +161,18 @@ export function Work({ className, defaultWorkTypes }) {
                     </ul>
                   </div>
                 </div>
+             
+                <div className="mt-4 flex justify-center md:justify-start">
+                  <Link
+                    className="w-fit group-hover:border-pink-200 group-hover:text-pink-200 group-hover:hover:border-pink-300 group-hover:hover:text-pink-300"
+                    href={"/work/" + workItem.id}
+                  >
+                    Learn more
+                  </Link>
+                </div>
               </div>
+
+              
             </div>
           </div>
         ))}
