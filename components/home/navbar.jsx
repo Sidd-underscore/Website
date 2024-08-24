@@ -80,7 +80,7 @@ export function Navbar() {
                 }
                 href={item.link}
                 data-active={item.link === hoveredPath}
-                className={`${item.useMagneticUnderline ? "relative" : ""} ${item.customCss} group px-2`}
+                className={`relative ${item.customCss} group px-2`}
               >
                 {item.label}
                 {item.useMagneticUnderline && item.link === hoveredPath && (
