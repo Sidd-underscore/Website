@@ -50,7 +50,7 @@ export function Navbar() {
             width={250}
             height={250}
             quality={100}
-            className="absolute left-3 top-2.5 h-8 w-8 transition-[width_height] hover:-left-2 hover:top-0 hover:h-[72px] hover:w-[72px] hover:-rotate-12 hover:[filter:drop-shadow(1px_0_0_white)_drop-shadow(0_1px_0_white)_drop-shadow(-1px_0_0_white)_drop-shadow(0_-1px_0_white)] dark:hover:[filter:drop-shadow(1px_0_0_#09090b)_drop-shadow(0_1px_0_#09090b)_drop-shadow(-1px_0_0_#09090b)_drop-shadow(0_-1px_0_#09090b)]"
+            className="absolute left-3 top-2.5 h-8 w-8 transition-[width_height] hover:-left-2 hover:top-0 hover:h-[72px] hover:w-[72px] hover:-rotate-12 [filter:drop-shadow(1px_0_0_white)_drop-shadow(0_1px_0_white)_drop-shadow(-1px_0_0_white)_drop-shadow(0_-1px_0_white)] dark:[filter:drop-shadow(1px_0_0_#09090b)_drop-shadow(0_1px_0_#09090b)_drop-shadow(-1px_0_0_#09090b)_drop-shadow(0_-1px_0_#09090b)]"
             src="/images/sidd.png"
           />
         ),
@@ -66,7 +66,7 @@ export function Navbar() {
 
       <nav
         data-element-reference="nav"
-        className="flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-neutral-500/50 bg-pink-50/75 px-4 py-2 text-xs shadow-md backdrop-blur-lg md:backdrop-blur-md transition hover:shadow-lg dark:border-white/10 dark:bg-neutral-900/75 md:text-sm lg:mx-10 lg:rounded-3xl lg:border xl:max-w-6xl"
+        className="flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-pink-300/50 bg-pink-50/50 px-4 py-2 text-xs shadow-sm backdrop-blur-lg md:backdrop-blur-md transition hover:shadow-lg dark:border-white/10 dark:bg-neutral-900/75 md:text-sm lg:mx-10 lg:rounded-3xl lg:border xl:max-w-6xl"
       >
         <div className="flex items-center">
           {navItems.map((item) => (
