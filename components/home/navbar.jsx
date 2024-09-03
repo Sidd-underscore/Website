@@ -66,7 +66,7 @@ export function Navbar() {
 
       <nav
         data-element-reference="nav"
-        className="flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-neutral-500/50 bg-pink-50/50 px-4 py-2 text-xs shadow-md backdrop-blur-md transition hover:shadow-lg dark:border-white/10 dark:bg-neutral-900/75 md:text-sm lg:mx-10 lg:rounded-3xl lg:border xl:max-w-6xl"
+        className="flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-neutral-500/50 bg-pink-50/75 px-4 py-2 text-xs shadow-md backdrop-blur-lg md:backdrop-blur-md transition hover:shadow-lg dark:border-white/10 dark:bg-neutral-900/75 md:text-sm lg:mx-10 lg:rounded-3xl lg:border xl:max-w-6xl"
       >
         <div className="flex items-center">
           {navItems.map((item) => (

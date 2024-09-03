@@ -13,7 +13,7 @@ const archivo = Archivo({ subsets: ["latin"] });
 export const metadata = {
   title: { default: "Sidd", template: "%s / Sidd" },
   description: "I code, take photos and live stream.",
-  metadataBase: new URL("https://sidd-website.vercel.app"),
+  metadataBase: new URL("https://sidd.studio"),
 };
 
 export function TailwindIndicator() {
@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
         <meta name="theme-color" content="#ffffff" />
       </head>
         <body
-          className={`${archivo.className} justify-left mt-12 flex flex-col items-center overflow-x-hidden p-6 !pb-0 dark:bg-neutral-950 dark:text-white md:p-12 2xl:p-24`}
+          className={`${archivo.className} overscroll-y-contain justify-left mt-12 flex flex-col items-center overflow-x-hidden p-6 !pb-0 dark:bg-neutral-950 dark:text-white md:p-12 2xl:p-24`}
         >
           <ThemeProvider>
             <AppProvider>

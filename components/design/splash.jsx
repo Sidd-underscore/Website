@@ -30,12 +30,12 @@ export default function DesignSplash() {
   return (
     <div className="relative mb-96 mt-8">
       <div className="z-20">
-        <div className="relative my-24">
+        <div className="relative my-24 overscroll-y-contain">
           <TextBox textContent="I have been passionate about design since a young age." />
         </div>
 
         <div className="text-2xl">
-          <p className="space-x-0.5 leading-loose text-balance">
+          <p className="space-x-0.5 text-balance leading-loose">
             <span>
               Whether it be <ColorBox>Halloween decorations</ColorBox>,{" "}
               <ColorBox>event organizing</ColorBox>, or{" "}
@@ -134,14 +134,14 @@ export function TextBox({ textContent }) {
   useEffect(() => {
     if (textContent) {
       let currentIndex = 0;
-      let lastTypedText = '';
+      let lastTypedText = "";
       let lastTime = 0;
       const typingDelay = 50;
-  
+
       const typeText = (time) => {
         if (time - lastTime >= typingDelay) {
           const currentTypedText = textContent.substring(0, currentIndex + 1);
-  
+
           if (lastTypedText !== currentTypedText) {
             setText(currentTypedText);
             adjustFontSize();
@@ -149,155 +149,153 @@ export function TextBox({ textContent }) {
             currentIndex++;
             adjustFontSize();
           }
-  
+
           lastTime = time;
         }
-  
+
         if (currentIndex < textContent.length) {
           requestAnimationFrame(typeText);
         }
       };
-  
+
       const animationFrameId = requestAnimationFrame(typeText);
-  
+
       return () => cancelAnimationFrame(animationFrameId);
     }
   }, [textContent]);
-  
-  
+
+
+  function toggleScrolling(enable) {
+    document.body.style.overflow = enable ? "hidden" : "auto";
+    document.body.style.height = enable ? "100%" : "auto";
+  }
 
   const handleDrag = (e) => {
     e.preventDefault();
-    const startX = e.clientX;
-    const startY = e.clientY;
+    const isTouch = e.type === "touchstart";
+    const startX = isTouch ? e.touches[0].clientX : e.clientX;
+    const startY = isTouch ? e.touches[0].clientY : e.clientY;
     let startTop = top;
     let startLeft = left;
 
-    let animationFrameId = null;
+    const onMove = (moveEvent) => {
+      toggleScrolling(true);
 
-    const onMouseMove = (moveEvent) => {
-      const deltaX = moveEvent.clientX - startX;
-      const deltaY = moveEvent.clientY - startY;
-
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
-
-      animationFrameId = requestAnimationFrame(() => {
-        setTop(startTop + deltaY);
-        setLeft(startLeft + deltaX);
-      });
+      const moveX = isTouch ? moveEvent.touches[0].clientX : moveEvent.clientX;
+      const moveY = isTouch ? moveEvent.touches[0].clientY : moveEvent.clientY;
+      const deltaX = moveX - startX;
+      const deltaY = moveY - startY;
+      setTop(startTop + deltaY);
+      setLeft(startLeft + deltaX);
     };
 
-    const onMouseUp = () => {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUp);
+    const stopMove = () => {
+      toggleScrolling(false);
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", stopMove);
+      document.removeEventListener("touchmove", onMove);
+      document.removeEventListener("touchend", stopMove);
     };
 
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseup", onMouseUp);
-  };
-
-  const handleRotate = (e) => {
-    e.preventDefault();
-    const centerX = left + width / 2;
-    const centerY = top + height / 2;
-
-    const getAngle = (x, y) => {
-      return Math.atan2(y - centerY, x - centerX) * (180 / Math.PI);
-    };
-
-    const startX = e.clientX;
-    const startY = e.clientY;
-    const startAngle = getAngle(startX, startY);
-
-    const onMouseMove = (moveEvent) => {
-      const currentAngle = getAngle(moveEvent.clientX, moveEvent.clientY);
-
-      const angleDiff =
-        (currentAngle - (lastAngle !== null ? lastAngle : startAngle)) *
-        rotationSensitivity;
-      setRotation((prevRotation) => prevRotation + angleDiff);
-      setLastAngle(currentAngle);
-    };
-
-    const onMouseUp = () => {
-      setLastAngle(null);
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUp);
-    };
-
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseup", onMouseUp);
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", stopMove);
+    document.addEventListener("touchmove", onMove);
+    document.addEventListener("touchend", stopMove);
   };
 
   const handleResize = (e, direction) => {
     e.preventDefault();
-    const startX = e.clientX;
-    const startY = e.clientY;
+    const isTouch = e.type === "touchstart";
+    const startX = isTouch ? e.touches[0].clientX : e.clientX;
+    const startY = isTouch ? e.touches[0].clientY : e.clientY;
     const startWidth = width;
     const startHeight = height;
     const startLeft = left;
     const startTop = top;
 
-    let animationFrameId = null;
+    const onMove = (moveEvent) => {
+      toggleScrolling(true);
 
-    const onMouseMove = (moveEvent) => {
-      const deltaX = moveEvent.clientX - startX;
-      const deltaY = moveEvent.clientY - startY;
-
+      const moveX = isTouch ? moveEvent.touches[0].clientX : moveEvent.clientX;
+      const moveY = isTouch ? moveEvent.touches[0].clientY : moveEvent.clientY;
       let newWidth = startWidth;
       let newHeight = startHeight;
       let newLeft = startLeft;
       let newTop = startTop;
 
       if (direction.includes("e")) {
-        newWidth = startWidth + deltaX;
+        newWidth = startWidth + (moveX - startX);
       }
       if (direction.includes("s")) {
-        newHeight = startHeight + deltaY;
+        newHeight = startHeight + (moveY - startY);
       }
       if (direction.includes("w")) {
-        newWidth = startWidth - deltaX;
-        newLeft = startLeft + deltaX;
+        newWidth = startWidth - (moveX - startX);
+        newLeft = startLeft + (moveX - startX);
       }
       if (direction.includes("n")) {
-        newHeight = startHeight - deltaY;
-        newTop = startTop + deltaY;
+        newHeight = startHeight - (moveY - startY);
+        newTop = startTop + (moveY - startY);
       }
 
       newWidth = newWidth < 50 ? 50 : newWidth;
       newHeight = newHeight < 50 ? 50 : newHeight;
 
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
+      setWidth(newWidth);
+      setHeight(newHeight);
+      setLeft(newLeft);
+      setTop(newTop);
 
-      animationFrameId = requestAnimationFrame(() => {
-        setWidth(newWidth);
-        setHeight(newHeight);
-        setLeft(newLeft);
-        setTop(newTop);
-
-        adjustFontSize();
-      });
+      adjustFontSize();
     };
 
-    const onMouseUp = () => {
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
-      document.removeEventListener("mousemove", onMouseMove);
-      document.removeEventListener("mouseup", onMouseUp);
+    const stopMove = () => {
+      toggleScrolling(false);
+
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", stopMove);
+      document.removeEventListener("touchmove", onMove);
+      document.removeEventListener("touchend", stopMove);
     };
 
-    document.addEventListener("mousemove", onMouseMove);
-    document.addEventListener("mouseup", onMouseUp);
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", stopMove);
+    document.addEventListener("touchmove", onMove);
+    document.addEventListener("touchend", stopMove);
   };
 
+  const handleRotate = (e) => {
+    e.preventDefault();
+    const isTouch = e.type === "touchstart";
+    const startX = isTouch ? e.touches[0].clientX : e.clientX;
+    const startY = isTouch ? e.touches[0].clientY : e.clientY;
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+    const startAngle =
+      Math.atan2(startY - centerY, startX - centerX) * (180 / Math.PI);
+
+    const onMove = (moveEvent) => {
+      toggleScrolling(true);
+      const moveX = isTouch ? moveEvent.touches[0].clientX : moveEvent.clientX;
+      const moveY = isTouch ? moveEvent.touches[0].clientY : moveEvent.clientY;
+      const angle =
+        Math.atan2(moveY - centerY, moveX - centerX) * (180 / Math.PI);
+      setRotation((prevRotation) => prevRotation + angle - startAngle);
+    };
+
+    const stopMove = () => {
+      toggleScrolling(false);
+      document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("mouseup", stopMove);
+      document.removeEventListener("touchmove", onMove);
+      document.removeEventListener("touchend", stopMove);
+    };
+
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", stopMove);
+    document.addEventListener("touchmove", onMove);
+    document.addEventListener("touchend", stopMove);
+  };
 
   return (
     <div
@@ -326,45 +324,54 @@ export function TextBox({ textContent }) {
 
       {/* Edge resize handles */}
       <div
-        className="absolute -left-1 -top-1 z-20 h-3 w-3 cursor-nw-resize border-2 border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
+        className="absolute -left-2 -top-2 z-20 h-5 w-5 cursor-nw-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 dark:border-neutral-950 dark:bg-white md:-left-1 md:-top-1 md:h-3 md:w-3 md:rounded-none"
         onMouseDown={(e) => handleResize(e, "nw")}
+        onTouchStart={(e) => handleResize(e, "nw")}
       />
       <div
-        className="absolute -right-1 -top-1 z-20 h-3 w-3 cursor-ne-resize border-2 border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
+        className="absolute -right-2 -top-2 z-20 h-5 w-5 cursor-ne-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 dark:border-neutral-950 dark:bg-white md:-right-1 md:-top-1 md:h-3 md:w-3 md:rounded-none"
         onMouseDown={(e) => handleResize(e, "ne")}
+        onTouchStart={(e) => handleResize(e, "ne")}
       />
       <div
-        className="absolute -bottom-1 -left-1 z-20 h-3 w-3 cursor-sw-resize border-2 border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
+        className="absolute -bottom-2 -left-2 z-20 h-5 w-5 cursor-sw-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 dark:border-neutral-950 dark:bg-white md:-bottom-1 md:-left-1 md:h-3 md:w-3 md:rounded-none"
         onMouseDown={(e) => handleResize(e, "sw")}
+        onTouchStart={(e) => handleResize(e, "sw")}
       />
       <div
-        className="absolute -bottom-1 -right-1 z-20 h-3 w-3 cursor-se-resize border-2 border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
+        className="absolute -bottom-2 -right-2 z-20 h-5 w-5 cursor-se-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 dark:border-neutral-950 dark:bg-white md:-bottom-1 md:-right-1 md:h-3 md:w-3 md:rounded-none"
         onMouseDown={(e) => handleResize(e, "se")}
+        onTouchStart={(e) => handleResize(e, "se")}
       />
 
       {/* Rotate handle */}
-      <div className="absolute -top-6 left-0 right-0 z-20 mx-auto h-6 w-0.5 bg-neutral-950 dark:bg-white" />
+      <div className="absolute -top-6 left-0 right-0 z-20 mx-auto h-6 w-1.5 bg-neutral-950 border-2 border-white dark:border-neutral-950 dark:bg-white" />
       <div
-        className="absolute -top-8 left-0 right-0 z-20 mx-auto h-3 w-3 cursor-crosshair rounded-full border-2 border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
+        className="absolute -top-8 left-0 right-0 z-20 mx-auto h-5 w-5 md:h-3 md:w-3 cursor-crosshair rounded-full border-2 border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
         onMouseDown={handleRotate}
+        onTouchStart={handleRotate}
       />
 
       {/* Drag handles */}
       <div
-        className="absolute -left-0.5 top-0 z-10 h-full w-1 cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
+        className="absolute -left-0.5 top-0 z-10 h-full w-1.5 md:w-1 cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
         onMouseDown={handleDrag}
+        onTouchStart={handleDrag}
       />
       <div
-        className="absolute -left-0.5 -right-0.5 top-0 z-10 h-1 w-full cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
+        className="absolute -left-0.5 -right-0.5 top-0 z-10 h-1.5 md:h-1 w-full cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
         onMouseDown={handleDrag}
+        onTouchStart={handleDrag}
       />
       <div
-        className="absolute -right-0.5 top-0 z-10 h-full w-1 cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
+        className="absolute -right-0.5 top-0 z-10 h-full w-1.5 md:w-1 cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
         onMouseDown={handleDrag}
+        onTouchStart={handleDrag}
       />
       <div
-        className="absolute -left-0.5 -right-0.5 bottom-0 z-10 h-1 w-full cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
+        className="absolute -left-0.5 -right-0.5 bottom-0 z-10 h-1.5 md:h-1 w-full cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
         onMouseDown={handleDrag}
+        onTouchStart={handleDrag}
       />
     </div>
   );
@@ -374,7 +381,7 @@ export function UIGallery() {
   const [date, setDate] = useState(null);
   return (
     <>
-      <div className="flex w-1/2 flex-col items-end justify-end space-y-4">
+      <div className="hidden md:flex w-1/2 max-w-[100vw] flex-col items-end justify-end space-y-4">
         <ThemeSwitcher className="" />
 
         <Button className="" variant="destructive">
@@ -416,7 +423,7 @@ export function UIGallery() {
         </div>
       </div>
 
-      <div className="flex max-h-fit flex-col items-end">
+      <div className="hidden md:flex max-h-fit flex-col items-end overflow-x-hidden">
         <div className="flex flex-col space-y-4">
           <div className="ml-auto w-96">
             <Tabs defaultValue="gallery">
