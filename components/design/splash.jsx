@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, buttonVariants } from "../ui/button";
 import { Input } from "../ui/input";
-import { Calendar } from "../ui/calendar";
 import { ThemeSwitcher } from "../ui/theme-switcher";
 import {
   CalendarIcon,
@@ -25,8 +24,14 @@ import {
 } from "../ui/select";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { formatRelative, fromUnixTime, formatDistance, format } from "date-fns";
+import { HexColorPicker } from "react-colorful";
+import { useTheme } from "next-themes";
+import { shouldTextBeBlack } from "@/lib/utils";
 
 export default function DesignSplash() {
+  const {theme} = useTheme()
+  const [color, setColor] = useState("#000");
+
   return (
     <div className="relative mb-96 mt-8">
       <div className="z-20">
@@ -37,9 +42,9 @@ export default function DesignSplash() {
         <div className="text-2xl">
           <p className="space-x-0.5 text-balance leading-loose">
             <span>
-              Whether it be <ColorBox>Halloween decorations</ColorBox>,{" "}
-              <ColorBox>event organizing</ColorBox>, or{" "}
-              <ColorBox>furniture layouts</ColorBox>, qualities such as
+              Whether it be <ColorBox color={color}>Halloween decorations</ColorBox>,{" "}
+              <ColorBox color={color}>event organizing</ColorBox>, or{" "}
+              <ColorBox color={color}>furniture layouts</ColorBox>, qualities such as
             </span>{" "}
             <i>prototyping</i>
             <span> and</span> <i>iterating</i>
@@ -63,15 +68,21 @@ export default function DesignSplash() {
       </div>
       {/* Assortment of UI things  */}
       <div className="absolute -bottom-80 -right-12 flex w-full space-x-4">
-        <UIGallery />
+        <UIGallery color={color} setColor={setColor} />
       </div>
     </div>
   );
 }
 
-export function ColorBox({ children }) {
+export function ColorBox({ children, color }) {
+  const [textColor, setTextColor] = useState("#fff");
+
+  useEffect(() => {
+    setTextColor(shouldTextBeBlack(color) ? "white" : "black");
+    console.log(color);
+  }, [color]);
   return (
-    <span className="mx-0.5 rounded-full bg-neutral-950 px-2.5 py-1 text-white dark:bg-white dark:text-black">
+    <span style={{backgroundColor: color, textColor}} className="mx-0.5 rounded-full px-2.5 py-1"> 
       {children}
     </span>
   );
@@ -313,7 +324,7 @@ export function TextBox({ textContent }) {
       <textarea
         type="text"
         ref={inputRef}
-        className="h-full w-full resize-none overflow-hidden p-4 outline-none ring-0 focus:outline-none focus:ring-0"
+        className="h-full w-full bg-transparent resize-none overflow-hidden p-4 outline-none ring-0 focus:outline-none focus:ring-0"
         value={text}
         onChange={(e) => {
           setText(e.target.value);
@@ -377,7 +388,7 @@ export function TextBox({ textContent }) {
   );
 }
 
-export function UIGallery() {
+export function UIGallery({color, setColor}) {
   const [date, setDate] = useState(null);
   return (
     <>
@@ -442,11 +453,15 @@ export function UIGallery() {
           </div>
 
           <div className="flex space-x-4">
-            <div className="relative">
-              <Calendar
-                mode="single"
-                rootClassName="rounded-md border border-neutral-100 bg-white dark:border-neutral-800 dark:bg-neutral-950"
-              />
+            <div>
+            <div className="rounded-md border border-neutral-200 h-full p-4 flex flex-col justify-between dark:border-neutral-800">
+                  <p className="mb-2 text-base font-medium">
+                    Pick a Color
+                  </p>
+
+                  <HexColorPicker color={color} onChange={setColor} />
+
+                </div>
             </div>
 
             <div>

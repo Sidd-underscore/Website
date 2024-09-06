@@ -47,3 +47,11 @@ button button,
 p div {
   background-color: red !important;
 }
+
+/* For color picker */
+
+.react-colorful__pointer.react-colorful__saturation-pointer{
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 50% !important;
+}
