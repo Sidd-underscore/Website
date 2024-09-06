@@ -40,8 +40,10 @@ export function Work({ className, defaultWorkTypes }) {
     return { types };
   }
 
+  const workData = gatherAllWorkData()
+
   const [workTypesToShow, setWorkTypesToShow] = useState(
-    defaultWorkTypes || gatherAllWorkData().types,
+    defaultWorkTypes || workData.types,
   );
 
   const [worksToDisplay, setWorksToDisplay] = useState([]);
@@ -106,7 +108,7 @@ export function Work({ className, defaultWorkTypes }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 capitalize">
               <DropdownMenuLabel>Types</DropdownMenuLabel>
-              {gatherAllWorkData().types.map((type) => (
+              {workData.types.map((type) => (
                 <DropdownMenuCheckboxItem
                   key={type}
                   checked={workTypesToShow?.includes(type)}

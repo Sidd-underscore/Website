@@ -16,6 +16,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MixerVerticalIcon } from "@radix-ui/react-icons";
 import autoAnimate from "@formkit/auto-animate";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export function Projects({
   className,
@@ -48,13 +54,15 @@ export function Projects({
     return { types, technologies };
   }
 
+  const projectData = gatherAllProjectData();
+
   const [projectHovered, setProjectHovered] = useState(false);
 
   const [projectTypesToShow, setProjectTypesToShow] = useState(
-    defaultProjectTypes || gatherAllProjectData().types,
+    defaultProjectTypes || projectData.types,
   );
   const [projectTechnologiesToShow, setProjectTechnologiesToShow] = useState(
-    defaultTechnologies || gatherAllProjectData().technologies,
+    defaultTechnologies || projectData.technologies,
   );
 
   const [projectsToDisplay, setProjectsToDisplay] = useState([]);
@@ -116,10 +124,11 @@ export function Projects({
                 <span className="hidden md:block">Filter</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 capitalize">
+            <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>Types</DropdownMenuLabel>
-              {gatherAllProjectData().types.map((type) => (
+              {projectData.types.map((type) => (
                 <DropdownMenuCheckboxItem
+                  className="capitalize"
                   key={type}
                   checked={projectTypesToShow?.includes(type)}
                   onCheckedChange={(e) =>
@@ -135,9 +144,10 @@ export function Projects({
               ))}
               <DropdownMenuSeparator />
               <DropdownMenuLabel>Technologies</DropdownMenuLabel>
-              {gatherAllProjectData().technologies.map((technology) => (
+              {projectData.technologies.map((technology) => (
                 <DropdownMenuCheckboxItem
-                  key={technology}
+                  key={technology.name}
+                  className="flex items-center space-x-2"
                   checked={projectTechnologiesToShow?.includes(technology)}
                   onCheckedChange={(e) =>
                     e
@@ -152,7 +162,8 @@ export function Projects({
                         )
                   }
                 >
-                  {technology}
+                  <span className>{technology.icon}</span>
+                  <span>{technology.name}</span>
                 </DropdownMenuCheckboxItem>
               ))}
             </DropdownMenuContent>
@@ -212,17 +223,6 @@ export function Projects({
               </div>
               <div className="z-20 flex h-full w-full flex-col justify-between px-5 py-4 group-hover:text-white group-hover:drop-shadow-lg">
                 <div className="z-10">
-                  <p className="-ml-1 mb-3 font-mono text-xs">
-                    {project.technologies.map((technology) => (
-                      <span
-                        className="mx-1 rounded-full border border-neutral-300 bg-neutral-200 px-3 py-1 transition-none group-hover:border-neutral-200 group-hover:bg-neutral-200/75 group-hover:text-black dark:border-neutral-600 dark:bg-neutral-800 dark:group-hover:border-neutral-500/75 dark:group-hover:bg-neutral-700/50 dark:group-hover:text-white"
-                        key={technology}
-                      >
-                        {technology}
-                      </span>
-                    ))}
-                  </p>
-
                   <h3 className={`mb-3 text-2xl font-semibold`}>
                     {project.name}
                   </h3>
@@ -233,6 +233,7 @@ export function Projects({
                     {project.description}
                   </p>
                 </div>
+
                 <div className="mt-4 flex justify-center md:justify-start">
                   <Link
                     className="w-fit group-hover:border-pink-200 group-hover:text-pink-200 group-hover:hover:border-pink-300 group-hover:hover:text-pink-300"
@@ -240,6 +241,21 @@ export function Projects({
                   >
                     More about this project
                   </Link>
+                </div>
+
+                <div className="absolute bottom-2 right-2 flex items-center -space-x-3 group-hover:space-x-2 font-mono text-xs transition-all group-hover:bottom-4 group-hover:right-4">
+                  {project.technologies.map((technology) => (
+                    <div key={technology.name} className="relative">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-neutral-300 bg-neutral-100 p-0 text-md transition hover:border-neutral-400 hover:bg-neutral-200 dark:border-neutral-500 dark:bg-neutral-700 dark:hover:border-neutral-400 dark:hover:bg-neutral-600">
+                            {technology.icon}
+                          </TooltipTrigger>
+                          <TooltipContent>{technology.name}</TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

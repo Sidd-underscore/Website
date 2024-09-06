@@ -40,8 +40,10 @@ export function Achievements({ className, defaultAchievementTypes }) {
     return { types };
   }
 
+  const achievementData = gatherAllAchievementData()
+
   const [achievementTypesToShow, setAchievementTypesToShow] = useState(
-    defaultAchievementTypes || gatherAllAchievementData().types,
+    defaultAchievementTypes || achievementData.types,
   );
 
   const [achievementsToDisplay, setAchievementsToDisplay] = useState([]);
@@ -96,7 +98,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 capitalize">
               <DropdownMenuLabel>Types</DropdownMenuLabel>
-              {gatherAllAchievementData().types.map((type) => (
+              {achievementData.types.map((type) => (
                 <DropdownMenuCheckboxItem
                   key={type}
                   checked={achievementTypesToShow?.includes(type)}
