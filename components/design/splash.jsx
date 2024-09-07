@@ -9,8 +9,11 @@ import {
   CameraIcon,
   CropIcon,
   DownloadIcon,
+  FontBoldIcon,
+  FontItalicIcon,
   MagnifyingGlassIcon,
   SewingPinFilledIcon,
+  UnderlineIcon,
 } from "@radix-ui/react-icons";
 import { DatePickerWithRange } from "../ui/date-picker";
 import {
@@ -26,11 +29,21 @@ import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { formatRelative, fromUnixTime, formatDistance, format } from "date-fns";
 import { HexColorPicker } from "react-colorful";
 import { useTheme } from "next-themes";
-import { shouldTextBeBlack } from "@/lib/utils";
+import { adjustTextColor } from "@/lib/utils";
+import { Separator } from "../ui/separator";
+import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
 export default function DesignSplash() {
-  const {theme} = useTheme()
-  const [color, setColor] = useState("#000");
+  const { theme } = useTheme();
+  const [colorBoxBackgroundColor, setColorBoxBackgroundColor] =
+    useState("#000000");
+const [endTextStyles, setEndTextStyles] = useState(["font-bold"]);
+
+  useEffect(() => {
+    setColorBoxBackgroundColor(() =>
+      theme === "dark" ? "#ffffff" : "#000000",
+    );
+  }, []);
 
   return (
     <div className="relative mb-96 mt-8">
@@ -42,9 +55,19 @@ export default function DesignSplash() {
         <div className="text-2xl">
           <p className="space-x-0.5 text-balance leading-loose">
             <span>
-              Whether it be <ColorBox color={color}>Halloween decorations</ColorBox>,{" "}
-              <ColorBox color={color}>event organizing</ColorBox>, or{" "}
-              <ColorBox color={color}>furniture layouts</ColorBox>, qualities such as
+              Whether it be{" "}
+              <ColorBox backgroundColor={colorBoxBackgroundColor}>
+                Halloween decorations
+              </ColorBox>
+              ,{" "}
+              <ColorBox backgroundColor={colorBoxBackgroundColor}>
+                event organizing
+              </ColorBox>
+              , or{" "}
+              <ColorBox backgroundColor={colorBoxBackgroundColor}>
+                furniture layouts
+              </ColorBox>
+              , qualities such as
             </span>{" "}
             <i>prototyping</i>
             <span> and</span> <i>iterating</i>
@@ -62,27 +85,35 @@ export default function DesignSplash() {
         <div className="mt-10 text-4xl">
           <p>
             ...where I found my love for <br />
-            <strong>User Interface Design</strong>.
+            <span className={endTextStyles.toString().replaceAll(",", " ")}>User Interface Design</span>.
           </p>
         </div>
       </div>
       {/* Assortment of UI things  */}
       <div className="absolute -bottom-80 -right-12 flex w-full space-x-4">
-        <UIGallery color={color} setColor={setColor} />
+        <UIGallery
+          colorBoxBackgroundColor={colorBoxBackgroundColor}
+          setColorBoxBackgroundColor={setColorBoxBackgroundColor}
+          endTextStyles={endTextStyles}
+          setEndTextStyles={setEndTextStyles}
+        />
       </div>
     </div>
   );
 }
 
-export function ColorBox({ children, color }) {
-  const [textColor, setTextColor] = useState("#fff");
+export function ColorBox({ children, backgroundColor }) {
+  const [color, setColor] = useState(adjustTextColor(backgroundColor));
 
   useEffect(() => {
-    setTextColor(shouldTextBeBlack(color) ? "white" : "black");
-    console.log(color);
-  }, [color]);
+    setColor(() => adjustTextColor(backgroundColor));
+  }, [backgroundColor]);
+
   return (
-    <span style={{backgroundColor: color, textColor}} className="mx-0.5 rounded-full px-2.5 py-1"> 
+    <span
+      style={{ backgroundColor, color }}
+      className="mx-0.5 rounded-full px-2.5 py-1 transition-all"
+    >
       {children}
     </span>
   );
@@ -98,13 +129,9 @@ export function TextBox({ textContent }) {
   const [height, setHeight] = useState(98);
   const [top, setTop] = useState(-150);
   const [left, setLeft] = useState(0);
-  const [rotation, setRotation] = useState(0);
   const [fontSize, setFontSize] = useState(36);
 
-  const MIN_FONT_SIZE = 10;
-
-  const rotationSensitivity = 0.25;
-  const [lastAngle, setLastAngle] = useState(null);
+  const minFontSize = 10;
 
   useEffect(() => {
     if (inputParentRef.current) {
@@ -134,7 +161,7 @@ export function TextBox({ textContent }) {
       input.style.fontSize = `${currentFontSize}px`;
     }
 
-    while (isOverflowing() && currentFontSize > MIN_FONT_SIZE) {
+    while (isOverflowing() && currentFontSize > minFontSize) {
       currentFontSize -= 1;
       input.style.fontSize = `${currentFontSize}px`;
     }
@@ -174,7 +201,6 @@ export function TextBox({ textContent }) {
       return () => cancelAnimationFrame(animationFrameId);
     }
   }, [textContent]);
-
 
   function toggleScrolling(enable) {
     document.body.style.overflow = enable ? "hidden" : "auto";
@@ -275,39 +301,6 @@ export function TextBox({ textContent }) {
     document.addEventListener("touchend", stopMove);
   };
 
-  const handleRotate = (e) => {
-    e.preventDefault();
-    const isTouch = e.type === "touchstart";
-    const startX = isTouch ? e.touches[0].clientX : e.clientX;
-    const startY = isTouch ? e.touches[0].clientY : e.clientY;
-    const centerX = left + width / 2;
-    const centerY = top + height / 2;
-    const startAngle =
-      Math.atan2(startY - centerY, startX - centerX) * (180 / Math.PI);
-
-    const onMove = (moveEvent) => {
-      toggleScrolling(true);
-      const moveX = isTouch ? moveEvent.touches[0].clientX : moveEvent.clientX;
-      const moveY = isTouch ? moveEvent.touches[0].clientY : moveEvent.clientY;
-      const angle =
-        Math.atan2(moveY - centerY, moveX - centerX) * (180 / Math.PI);
-      setRotation((prevRotation) => prevRotation + angle - startAngle);
-    };
-
-    const stopMove = () => {
-      toggleScrolling(false);
-      document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("mouseup", stopMove);
-      document.removeEventListener("touchmove", onMove);
-      document.removeEventListener("touchend", stopMove);
-    };
-
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", stopMove);
-    document.addEventListener("touchmove", onMove);
-    document.addEventListener("touchend", stopMove);
-  };
-
   return (
     <div
       ref={inputParentRef}
@@ -317,14 +310,13 @@ export function TextBox({ textContent }) {
         height,
         top,
         left,
-        transform: `rotate(${rotation}deg)`,
         fontSize: `${fontSize}px`,
       }}
     >
       <textarea
         type="text"
         ref={inputRef}
-        className="h-full w-full bg-transparent resize-none overflow-hidden p-4 outline-none ring-0 focus:outline-none focus:ring-0"
+        className="h-full w-full resize-none overflow-hidden bg-transparent p-4 outline-none ring-0 focus:outline-none focus:ring-0"
         value={text}
         onChange={(e) => {
           setText(e.target.value);
@@ -355,32 +347,24 @@ export function TextBox({ textContent }) {
         onTouchStart={(e) => handleResize(e, "se")}
       />
 
-      {/* Rotate handle */}
-      <div className="absolute -top-6 left-0 right-0 z-20 mx-auto h-6 w-1.5 bg-neutral-950 border-2 border-white dark:border-neutral-950 dark:bg-white" />
-      <div
-        className="absolute -top-8 left-0 right-0 z-20 mx-auto h-5 w-5 md:h-3 md:w-3 cursor-crosshair rounded-full border-2 border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
-        onMouseDown={handleRotate}
-        onTouchStart={handleRotate}
-      />
-
       {/* Drag handles */}
       <div
-        className="absolute -left-0.5 top-0 z-10 h-full w-1.5 md:w-1 cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
+        className="absolute -left-0.5 top-0 z-10 h-full w-1.5 cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white md:w-1"
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className="absolute -left-0.5 -right-0.5 top-0 z-10 h-1.5 md:h-1 w-full cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
+        className="absolute -left-0.5 -right-0.5 top-0 z-10 h-1.5 w-full cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white md:h-1"
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className="absolute -right-0.5 top-0 z-10 h-full w-1.5 md:w-1 cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
+        className="absolute -right-0.5 top-0 z-10 h-full w-1.5 cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white md:w-1"
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className="absolute -left-0.5 -right-0.5 bottom-0 z-10 h-1.5 md:h-1 w-full cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white"
+        className="absolute -left-0.5 -right-0.5 bottom-0 z-10 h-1.5 w-full cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white md:h-1"
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
@@ -388,16 +372,32 @@ export function TextBox({ textContent }) {
   );
 }
 
-export function UIGallery({color, setColor}) {
+export function UIGallery({ colorBoxBackgroundColor, setColorBoxBackgroundColor, endTextStyles, setEndTextStyles }) {
   const [date, setDate] = useState(null);
   return (
     <>
-      <div className="hidden md:flex w-1/2 max-w-[100vw] flex-col items-end justify-end space-y-4">
+      <div className="hidden w-1/2 max-w-[100vw] flex-col items-end justify-end space-y-4 md:flex">
         <ThemeSwitcher className="" />
 
-        <Button className="" variant="destructive">
-          Delete
-        </Button>
+        <div className="flex space-x-4">
+          <ToggleGroup onValueChange={setEndTextStyles} value={endTextStyles} type="multiple">
+            <ToggleGroupItem value="font-bold">
+              <FontBoldIcon />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="italic">
+              <FontItalicIcon />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="underline">
+              <UnderlineIcon />
+            </ToggleGroupItem>
+          </ToggleGroup>
+
+          <Separator orientation="vertical" />
+
+          <Button className="" variant="destructive">
+            Delete
+          </Button>
+        </div>
 
         <Select>
           <SelectTrigger className="w-[280px]">
@@ -434,7 +434,7 @@ export function UIGallery({color, setColor}) {
         </div>
       </div>
 
-      <div className="hidden md:flex max-h-fit flex-col items-end overflow-x-hidden">
+      <div className="hidden max-h-fit flex-col items-end overflow-x-hidden md:flex">
         <div className="flex flex-col space-y-4">
           <div className="ml-auto w-96">
             <Tabs defaultValue="gallery">
@@ -454,14 +454,11 @@ export function UIGallery({color, setColor}) {
 
           <div className="flex space-x-4">
             <div>
-            <div className="rounded-md border border-neutral-200 h-full p-4 flex flex-col justify-between dark:border-neutral-800">
-                  <p className="mb-2 text-base font-medium">
-                    Pick a Color
-                  </p>
+              <div className="flex h-full flex-col justify-between rounded-md border border-neutral-200 p-4 dark:border-neutral-800">
+                <p className="mb-2 text-base font-medium">Pick a Color</p>
 
-                  <HexColorPicker color={color} onChange={setColor} />
-
-                </div>
+                <HexColorPicker color={colorBoxBackgroundColor} onChange={setColorBoxBackgroundColor} />
+              </div>
             </div>
 
             <div>
