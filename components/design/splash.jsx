@@ -22,6 +22,7 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
+  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
@@ -37,7 +38,7 @@ export default function DesignSplash() {
   const { theme } = useTheme();
   const [colorBoxBackgroundColor, setColorBoxBackgroundColor] =
     useState("#000000");
-const [endTextStyles, setEndTextStyles] = useState(["font-bold"]);
+  const [endTextStyles, setEndTextStyles] = useState(["font-bold"]);
 
   useEffect(() => {
     setColorBoxBackgroundColor(() =>
@@ -85,7 +86,10 @@ const [endTextStyles, setEndTextStyles] = useState(["font-bold"]);
         <div className="mt-10 text-4xl">
           <p>
             ...where I found my love for <br />
-            <span className={endTextStyles.toString().replaceAll(",", " ")}>User Interface Design</span>.
+            <span className={endTextStyles.toString().replaceAll(",", " ")}>
+              User Interface Design
+            </span>
+            .
           </p>
         </div>
       </div>
@@ -372,7 +376,12 @@ export function TextBox({ textContent }) {
   );
 }
 
-export function UIGallery({ colorBoxBackgroundColor, setColorBoxBackgroundColor, endTextStyles, setEndTextStyles }) {
+export function UIGallery({
+  colorBoxBackgroundColor,
+  setColorBoxBackgroundColor,
+  endTextStyles,
+  setEndTextStyles,
+}) {
   const [date, setDate] = useState(null);
   return (
     <>
@@ -380,7 +389,11 @@ export function UIGallery({ colorBoxBackgroundColor, setColorBoxBackgroundColor,
         <ThemeSwitcher className="" />
 
         <div className="flex space-x-4">
-          <ToggleGroup onValueChange={setEndTextStyles} value={endTextStyles} type="multiple">
+          <ToggleGroup
+            onValueChange={setEndTextStyles}
+            value={endTextStyles}
+            type="multiple"
+          >
             <ToggleGroupItem value="font-bold">
               <FontBoldIcon />
             </ToggleGroupItem>
@@ -410,11 +423,15 @@ export function UIGallery({ colorBoxBackgroundColor, setColorBoxBackgroundColor,
               <SelectItem value="santa">Santa Monica, CA</SelectItem>
               <SelectItem value="cabo">Cabo San Lucas, MX</SelectItem>
             </SelectGroup>
+            <SelectSeparator />
+
             <SelectGroup>
               <SelectLabel>Forest</SelectLabel>
               <SelectItem value="yukon">Yukon, CA</SelectItem>
               <SelectItem value="denali">Denali, AL</SelectItem>
             </SelectGroup>
+            <SelectSeparator />
+            
             <SelectGroup>
               <SelectLabel>Cold</SelectLabel>
               <SelectItem value="oslo">Oslo, NO</SelectItem>
@@ -457,7 +474,10 @@ export function UIGallery({ colorBoxBackgroundColor, setColorBoxBackgroundColor,
               <div className="flex h-full flex-col justify-between rounded-md border border-neutral-200 p-4 dark:border-neutral-800">
                 <p className="mb-2 text-base font-medium">Pick a Color</p>
 
-                <HexColorPicker color={colorBoxBackgroundColor} onChange={setColorBoxBackgroundColor} />
+                <HexColorPicker
+                  color={colorBoxBackgroundColor}
+                  onChange={setColorBoxBackgroundColor}
+                />
               </div>
             </div>
 
@@ -495,30 +515,13 @@ export function UIGallery({ colorBoxBackgroundColor, setColorBoxBackgroundColor,
                     <span>1024 x 1080</span>
                   </div>
 
-                  <a
-                    href="#"
-                    className={buttonVariants({
-                      variant: "outline",
-                      size: "md",
-                      className:
-                        "mt-2 flex w-full items-center rounded-lg text-sm",
-                    })}
+                  <Button
+                    variant="outline"
+                    className="mt-2 flex w-full items-center rounded-lg text-sm"
                   >
                     <DownloadIcon className="mr-2 shrink-0" />
-                    Download as{" "}
-                    <Select>
-                      <SelectTrigger
-                        triggerButtonVariant="icon"
-                        className="w-fit border-none !pl-2 !pr-0 !text-xs shadow-none"
-                      >
-                        <SelectValue defaultValue=".png" placeholder="PNG" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value=".png">PNG</SelectItem>
-                        <SelectItem value=".jpg">JPG</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </a>
+                    Download as PNG
+                  </Button>
                 </div>
               </div>
 

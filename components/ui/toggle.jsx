@@ -16,7 +16,7 @@ const toggleVariants = cva(
           "border border-neutral-200 bg-transparent shadow-sm hover:bg-neutral-100 hover:text-neutral-900 dark:border-neutral-800 dark:hover:bg-neutral-800 dark:hover:text-neutral-50",
       },
       size: {
-        default: "h-9 px-3",
+        default: "h-8 px-2",
         sm: "h-8 px-2",
         lg: "h-10 px-3",
       },
