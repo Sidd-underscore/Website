@@ -2,20 +2,38 @@ import { Separator } from "@/components/ui/separator";
 import { work } from "@/lib/work";
 import { Work } from "@/components/home/work";
 import { CalendarIcon, SewingPinFilledIcon } from "@radix-ui/react-icons";
+import NotFound from "@/app/not-found";
 
 export async function generateMetadata({ params }) {
   const { workId } = params;
   const workItem = work.find((e) => e.id === workId);
 
+  if (!workItem) {
+    return {
+      title: "Work not found",
+      description: "No work found at this URL.",
+    };
+  }
+
   return {
-    title: workItem.name + " / Projects",
+    title: workItem.name + " / Work",
     description: workItem.description,
   };
 }
 
-export default function CodingProjectPage({ params }) {
+export default function WorkPage({ params }) {
   const { workId } = params;
   const workItem = work.find((e) => e.id === workId);
+
+  if (!workItem) {
+    return (
+      <>
+        <NotFound prefix="Work" />
+        <Separator className="-mb-10 mt-10" />
+        <Work />
+      </>
+    );
+  }
 
   return (
     <>

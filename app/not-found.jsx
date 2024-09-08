@@ -1,12 +1,12 @@
 import { Link } from 'next-view-transitions'
 
-export default function NotFound() {
+export default function NotFound({prefix}) {
   return (
     <div>
       <h1 className="text-5xl font-bold">
-        <code className="text-6xl">404</code> Not Found
+        <code className="text-6xl">404</code> {prefix} Not Found
       </h1>
-      <p>Could not find the requested page :(</p>
+      <p>Could not find the requested {prefix || "page"} :(</p>
 
       <div className="flex items-start space-x-2 mt-4">
         <details>
