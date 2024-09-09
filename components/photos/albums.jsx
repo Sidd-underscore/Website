@@ -60,7 +60,7 @@ function AlbumLink({ category, previewPhotos, totalPhotos }) {
   return (
     <Link
       href={`/photos/albums/${category}`}
-      className="group relative aspect-square h-full w-full overflow-hidden rounded-lg border border-neutral-300 bg-neutral-200 !text-black dark:!text-white transition hover:border-neutral-400 hover:!text-inherit dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-700"
+      className="group relative aspect-square h-full w-full overflow-hidden rounded-lg border border-neutral-300 bg-neutral-200 !text-black transition hover:border-neutral-400 hover:!text-inherit dark:border-neutral-800 dark:bg-neutral-900 dark:!text-white dark:hover:border-neutral-700"
     >
       <PreviewGrid photos={previewPhotos} />
       <AlbumInfo category={category} totalPhotos={totalPhotos} />
@@ -89,7 +89,7 @@ function PreviewGrid({ photos }) {
           width={150}
           height={150}
           photoData={{ staticPhoto: photo.staticPhoto }}
-          className={`aspect-square h-full w-full object-cover rounded-none ${photos.length === 3 && index === 2 ? "col-span-2" : ""} ${index === 0 ? "rounded-tl-md" : index === 1 ? "rounded-tr-md" : index === 2 ? "rounded-bl-md" : "rounded-br-md"}`}
+          className={`aspect-square h-full w-full rounded-none object-cover ${photos.length === 3 && index === 2 ? "col-span-2" : ""} ${index === 0 ? "rounded-tl-md" : index === 1 ? "rounded-tr-md" : index === 2 ? "rounded-bl-md" : "rounded-br-md"}`}
         />
       ))}
     </div>

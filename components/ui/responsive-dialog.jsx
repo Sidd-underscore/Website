@@ -37,7 +37,11 @@ export function DialogContent({ children, className, ...props }) {
   const isDesktop = useIsDesktop();
 
   if (isDesktop) {
-    return <DesktopDialogContent className={className} {...props}>{children}</DesktopDialogContent>;
+    return (
+      <DesktopDialogContent className={className} {...props}>
+        {children}
+      </DesktopDialogContent>
+    );
   }
 
   return (
@@ -99,12 +103,12 @@ export function DialogFooter({ children, ...props }) {
   return <DrawerFooter {...props}>{children}</DrawerFooter>;
 }
 
-export function DialogClose({children, ...props}) {
+export function DialogClose({ children, ...props }) {
   const isDesktop = useIsDesktop();
 
   if (isDesktop) {
-    return <DesktopDialogClose {...props}>{children}</DesktopDialogClose>
+    return <DesktopDialogClose {...props}>{children}</DesktopDialogClose>;
   }
 
-  return <DrawerClose {...props}>{children}</DrawerClose>
+  return <DrawerClose {...props}>{children}</DrawerClose>;
 }

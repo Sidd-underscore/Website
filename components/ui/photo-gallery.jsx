@@ -30,9 +30,7 @@ export function PhotoGallery({ photos, scroll = 250 }) {
         className="mx-0.5 mt-4 flex space-x-4 overflow-x-auto py-2"
       >
         {photos.map((photo, index) => (
-          <span key={index}>
-            {photo}
-          </span>
+          <span key={index}>{photo}</span>
         ))}
       </div>
 

@@ -79,6 +79,7 @@ DrawerTitle.displayName = DrawerPrimitive.Title.displayName;
 const DrawerDescription = React.forwardRef(({ className, ...props }, ref) => (
   <DrawerPrimitive.Description
     ref={ref}
+    asChild={true}
     className={cn("text-sm text-neutral-500 dark:text-neutral-400", className)}
     {...props}
   />

@@ -10,7 +10,7 @@ export const metadata = {
 export default function WorkPage() {
   return (
     <>
-      <Work className="m-0"/>
+      <Work className="m-0" />
     </>
   );
 }

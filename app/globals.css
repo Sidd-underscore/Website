@@ -37,7 +37,7 @@
 }
 
 body.flex[data-scroll-locked] {
-  @apply  mt-12 p-6 !pb-0 md:p-12 2xl:p-24 [overflow:visible!important] [overscroll-behavior:initial!important]
+  @apply mt-12 p-6 !pb-0 [overflow:visible!important] [overscroll-behavior:initial!important] md:p-12 2xl:p-24;
 }
 
 /* For hydration errors */
@@ -50,7 +50,7 @@ p div {
 
 /* For color picker */
 
-.react-colorful__pointer.react-colorful__saturation-pointer{
+.react-colorful__pointer.react-colorful__saturation-pointer {
   width: 16px !important;
   height: 16px !important;
   border-radius: 50% !important;

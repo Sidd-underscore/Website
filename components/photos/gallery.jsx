@@ -4,7 +4,7 @@ export function Gallery({ photos1, photos2 }) {
   return (
     <>
       <div className={"flex w-1/2 flex-col space-y-4"}>
-      {photos1?.map((photo, index) => (
+        {photos1?.map((photo, index) => (
           <AdvancedPhoto
             key={photo.name}
             priority={true}

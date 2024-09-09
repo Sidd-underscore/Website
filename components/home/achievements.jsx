@@ -24,8 +24,8 @@ export function Achievements({ className, defaultAchievementTypes }) {
   const parent = useRef(null);
 
   useEffect(() => {
-    parent.current && autoAnimate(parent.current)
-  }, [parent])
+    parent.current && autoAnimate(parent.current);
+  }, [parent]);
 
   function gatherAllAchievementData() {
     const types = [];
@@ -40,7 +40,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
     return { types };
   }
 
-  const achievementData = gatherAllAchievementData()
+  const achievementData = gatherAllAchievementData();
 
   const [achievementTypesToShow, setAchievementTypesToShow] = useState(
     defaultAchievementTypes || achievementData.types,
@@ -62,7 +62,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
 
   return (
     <div className={cn("my-32 w-full text-left", className)}>
-      <div className="space-x-2 flex items-end justify-between">
+      <div className="flex items-end justify-between space-x-2">
         <div>
           <h2 className="text-4xl font-semibold">
             {defaultAchievementTypes
@@ -79,7 +79,11 @@ export function Achievements({ className, defaultAchievementTypes }) {
             experience{" "}
             {defaultAchievementTypes
               ? " in relation to " +
-                formatArrayIntoSentence(defaultAchievementTypes, undefined, ", or ")
+                formatArrayIntoSentence(
+                  defaultAchievementTypes,
+                  undefined,
+                  ", or ",
+                )
               : ""}
             . Thank you so much to all these awesome organizations!
           </p>
@@ -121,7 +125,10 @@ export function Achievements({ className, defaultAchievementTypes }) {
         </div>
       </div>
 
-      <div ref={parent} className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-4 text-left lg:mb-0 lg:grid-cols-2">
+      <div
+        ref={parent}
+        className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-4 text-left lg:mb-0 lg:grid-cols-2"
+      >
         {achievementsToDisplay.map((achievement) => (
           <div
             key={achievement.id}

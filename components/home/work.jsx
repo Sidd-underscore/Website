@@ -23,9 +23,8 @@ export function Work({ className, defaultWorkTypes }) {
   const parent = useRef(null);
 
   useEffect(() => {
-    parent.current && autoAnimate(parent.current)
-  }, [parent])
-
+    parent.current && autoAnimate(parent.current);
+  }, [parent]);
 
   function gatherAllWorkData() {
     const types = [];
@@ -40,7 +39,7 @@ export function Work({ className, defaultWorkTypes }) {
     return { types };
   }
 
-  const workData = gatherAllWorkData()
+  const workData = gatherAllWorkData();
 
   const [workTypesToShow, setWorkTypesToShow] = useState(
     defaultWorkTypes || workData.types,
@@ -61,7 +60,7 @@ export function Work({ className, defaultWorkTypes }) {
 
   return (
     <div className={cn("my-32 w-full text-left", className)}>
-      <div className="space-x-2 flex items-end justify-between">
+      <div className="flex items-end justify-between space-x-2">
         <div>
           <h2 className="text-4xl font-semibold">
             {formatArrayIntoSentence(
@@ -127,7 +126,10 @@ export function Work({ className, defaultWorkTypes }) {
           </DropdownMenu>
         </div>
       </div>
-      <div ref={parent} className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-4 text-center md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3">
+      <div
+        ref={parent}
+        className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-4 text-center md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3"
+      >
         {worksToDisplay.map((workItem) => (
           <div
             key={workItem.name}
@@ -163,7 +165,7 @@ export function Work({ className, defaultWorkTypes }) {
                     </ul>
                   </div>
                 </div>
-             
+
                 <div className="mt-4 flex justify-center md:justify-start">
                   <Link
                     className="w-fit group-hover:border-pink-200 group-hover:text-pink-200 group-hover:hover:border-pink-300 group-hover:hover:text-pink-300"
@@ -173,8 +175,6 @@ export function Work({ className, defaultWorkTypes }) {
                   </Link>
                 </div>
               </div>
-
-              
             </div>
           </div>
         ))}

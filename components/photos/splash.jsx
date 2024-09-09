@@ -34,11 +34,7 @@ export function PhotosSplash() {
           showcased here are completely unedited, save for cropping.
         </p>
 
-        <Button
-          asChild
-          className="mt-8 space-x-2 group"
-          variant="secondary"
-        >
+        <Button asChild className="group mt-8 space-x-2" variant="secondary">
           <Link
             href="/photos/gallery"
             className="transition"
@@ -46,7 +42,7 @@ export function PhotosSplash() {
             onMouseLeave={() => setLinkHovered(false)}
           >
             <span>Enter the gallery</span>{" "}
-            <ArrowRightIcon className="group-hover:ml-4 transition-all ml-2 h-4 w-4" />
+            <ArrowRightIcon className="ml-2 h-4 w-4 transition-all group-hover:ml-4" />
           </Link>
         </Button>
 
@@ -96,7 +92,7 @@ export function PhotosSplash() {
         return (
           <Image
             key={key}
-            className={`hidden 2xl:block absolute h-48 w-auto select-none ease-out rounded-lg transition-transform duration-200`}
+            className={`absolute hidden h-48 w-auto select-none rounded-lg transition-transform duration-200 ease-out 2xl:block`}
             style={{ ...initialPosition, ...adjustedPosition }}
             src={photoData.staticPhoto}
             alt={photoData.name}

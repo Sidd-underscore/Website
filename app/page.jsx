@@ -9,9 +9,7 @@ export default function Home() {
   return (
     <div className="w-full text-left">
       <p>Hi, I&apos;m</p>
-      <h1 className="space-x-1 text-9xl font-bold text-pink-300 pl-2">
-        sidd
-      </h1>
+      <h1 className="space-x-1 pl-2 text-9xl font-bold text-pink-300">sidd</h1>
 
       <p className="mt-12 items-center sm:flex">
         I code, film videos, take photos, enjoy working light boards, and live

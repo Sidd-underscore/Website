@@ -22,12 +22,13 @@ export function CodingSplash() {
         Through this journey, I&apos;ve has the amazing opportunity to work with{" "}
         <Link href="https://replit.com">Replit</Link> as a community ambassador
         (&quot;Replit Rep&quot;). This allowed me to meet many amazing designers
-        and developers, ultimately teaching me how to collaborate and work on code with other people remotely. I also worked with many clients through{" "}
+        and developers, ultimately teaching me how to collaborate and work on
+        code with other people remotely. I also worked with many clients through{" "}
         <Link href="https://replit.com/bounties">Replit Bounties</Link>.
       </p>
       <p>
-        Today, I mainly design websites for me, school, or
-        clients. I work freelance (<Link href="mailto:hello@sidd.studio">contact me!</Link>)
+        Today, I mainly design websites for me, school, or clients. I work
+        freelance (<Link href="mailto:hello@sidd.studio">contact me!</Link>)
         from my home in Portland, Oregon, while also being a high school
         student. I use Figma to brainstorm ideas, Next.js to build them, and
         Vercel to deploy them.

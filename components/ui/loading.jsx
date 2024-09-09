@@ -1,6 +1,6 @@
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
-export function Loading({className,  ...props }) {
+export function Loading({ className, ...props }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

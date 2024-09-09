@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import originalPhotosArray from "@/lib/photos";
 import { useState, useEffect, useCallback } from "react"; // Import useCallback
 import { Loading } from "../ui/loading";
-import { cn } from "@/lib/utils";
+import { cn, useTabs } from "@/lib/utils";
 import { DatePickerWithRange } from "../ui/date-picker";
 import {
   Select,
@@ -50,6 +50,13 @@ export function PhotosMain({ params }) {
 
   const [isInputSticky, setIsInputSticky] = useState(false);
   const controls = useAnimation();
+
+  const { setActiveTab } = useTabs();
+
+  useEffect(() => {
+    // ensure that the correct tab is active
+    setActiveTab(albumId ? "gallery" : path);
+  }, [albumId, setActiveTab, path]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -405,57 +412,51 @@ export function PhotosMain({ params }) {
       </div>
 
       <Tabs
-        defaultValue={albumId ? "gallery" : path}
         value={albumId ? "gallery" : path}
+        defaultValue={albumId ? "gallery" : path}
         className="mt-6 w-full"
       >
         {!albumId && (
           <TabsList className="w-full">
-            <TabsTrigger className="w-1/3" value="gallery" asChild>
-              <a
-                href={`/photos/gallery`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  router.replace("/photos/gallery", undefined, {
-                    shallow: true,
-                  });
-                }}
-              >
-                Gallery
-              </a>
+            <TabsTrigger
+              className="w-1/3"
+              value="gallery"
+              onClick={(e) => {
+                router.push("/photos/gallery", undefined, {
+                  shallow: true,
+                });
+              }}
+            >
+              Gallery
             </TabsTrigger>
-            <TabsTrigger className="w-1/3" value="albums" asChild>
-              <a
-                href={`/photos/albums`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  router.replace("/photos/albums", undefined, {
-                    shallow: true,
-                  });
-                }}
-              >
-                Albums
-              </a>
+            <TabsTrigger
+              className="w-1/3"
+              value="albums"
+              onClick={(e) => {
+                router.push("/photos/albums", undefined, {
+                  shallow: true,
+                });
+              }}
+            >
+              Albums
             </TabsTrigger>
-            <TabsTrigger className="w-1/3" value="favorites" asChild>
-              <a
-                href={`/photos/favorites`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  router.replace("/photos/favorites", undefined, {
-                    shallow: true,
-                  });
-                }}
-              >
-                Favorites
-              </a>
+            <TabsTrigger
+              className="w-1/3"
+              value="favorites"
+              onClick={(e) => {
+                router.push("/photos/favorites", undefined, {
+                  shallow: true,
+                });
+              }}
+            >
+              Favorites
             </TabsTrigger>
           </TabsList>
         )}
         <div className="">
           <TabsContent value="gallery">
-          <div className="flex w-full justify-center gap-4 py-4 pt-2">
-          {searchError === false ? (
+            <div className="flex w-full justify-center gap-4 py-4 pt-2">
+              {searchError === false ? (
                 <Gallery photos1={photos1} photos2={photos2} />
               ) : (
                 <div>

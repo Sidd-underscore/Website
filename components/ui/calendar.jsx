@@ -78,20 +78,16 @@ function Calendar({
               new Date(availableDate * 1000).toDateString() ===
               date.toDateString(),
           ),
-          notAvailable: (date) =>
-            availableDates?.some(
-              (availableDate) =>
-                new Date(availableDate * 1000).toDateString() !=
-                date.toDateString(),
-            ),
+        notAvailable: (date) =>
+          availableDates?.some(
+            (availableDate) =>
+              new Date(availableDate * 1000).toDateString() !=
+              date.toDateString(),
+          ),
       }}
       modifiersClassNames={{
-        available: cn(
-          "opacity-100",
-        ),
-        notAvailable: cn(
-          "opacity-25",
-        ),
+        available: cn("opacity-100"),
+        notAvailable: cn("opacity-25"),
       }}
       {...props}
     />

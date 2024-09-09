@@ -7,7 +7,7 @@ export const metadata = {
 
 export default function LightshowsPage() {
   return (
-    <div className="no-max-w -m-6 md:-m-12 2xl:-m-24 !mb-0">
+    <div className="no-max-w -m-6 !mb-0 md:-m-12 2xl:-m-24">
       <LightshowSplash />
     </div>
   );

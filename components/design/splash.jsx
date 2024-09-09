@@ -30,7 +30,7 @@ import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { formatRelative, fromUnixTime, formatDistance, format } from "date-fns";
 import { HexColorPicker } from "react-colorful";
 import { useTheme } from "next-themes";
-import { adjustTextColor } from "@/lib/utils";
+import { adjustTextColor, useTabs } from "@/lib/utils";
 import { Separator } from "../ui/separator";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 
@@ -383,6 +383,13 @@ export function UIGallery({
   setEndTextStyles,
 }) {
   const [date, setDate] = useState(null);
+  const {setActiveTab} = useTabs();
+
+  useEffect(() => {
+    // ensure that the correct tab is active
+    setActiveTab("account");
+  }, [setActiveTab]);
+
   return (
     <>
       <div className="hidden w-1/2 max-w-[100vw] flex-col items-end justify-end space-y-4 md:flex">
@@ -431,7 +438,7 @@ export function UIGallery({
               <SelectItem value="denali">Denali, AL</SelectItem>
             </SelectGroup>
             <SelectSeparator />
-            
+
             <SelectGroup>
               <SelectLabel>Cold</SelectLabel>
               <SelectItem value="oslo">Oslo, NO</SelectItem>
@@ -454,16 +461,16 @@ export function UIGallery({
       <div className="hidden max-h-fit flex-col items-end overflow-x-hidden md:flex">
         <div className="flex flex-col space-y-4">
           <div className="ml-auto w-96">
-            <Tabs defaultValue="gallery">
+            <Tabs defaultValue="account">
               <TabsList className="flex w-full justify-around">
-                <TabsTrigger className="w-full" value="gallery">
-                  Gallery
+                <TabsTrigger className="w-full" value="account">
+                  My Account
                 </TabsTrigger>
-                <TabsTrigger className="w-full" value="albums">
-                  Albums
+                <TabsTrigger className="w-full" value="security">
+                  Security
                 </TabsTrigger>
-                <TabsTrigger className="w-full" value="favorites">
-                  Favorites
+                <TabsTrigger className="w-full" value="advanced">
+                  Advanced
                 </TabsTrigger>
               </TabsList>
             </Tabs>

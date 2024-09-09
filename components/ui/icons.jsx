@@ -98,7 +98,7 @@ export function VisualStudioCodeIcon({ ...props }) {
             fill="#1F9CF0"
           />
         </g>
-        <g style={{ "mixBlendMode": "overlay" }} opacity="0.25">
+        <g style={{ mixBlendMode: "overlay" }} opacity="0.25">
           <path
             fillRule="evenodd"
             clipRule="evenodd"
@@ -500,7 +500,10 @@ export function ETCLogo({ ...props }) {
           <path d="M0 841.89h595.28V0H0z" />
         </clipPath>
       </defs>
-      <g clipPath="url(#etc_a)" transform="matrix(1.33333 0 0 -1.33333 0 1122.52)">
+      <g
+        clipPath="url(#etc_a)"
+        transform="matrix(1.33333 0 0 -1.33333 0 1122.52)"
+      >
         <path
           d="M0 0a6.097 6.097 0 010-12.194A6.097 6.097 0 010 0"
           fill="#6798c7"

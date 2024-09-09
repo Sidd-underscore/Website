@@ -2,8 +2,8 @@ import { AboutSplash } from "@/components/about/splash";
 
 export const metadata = {
   title: "About me",
-  description: "Who am I...?"
-}
+  description: "Who am I...?",
+};
 
 export default function AboutPage() {
   return (

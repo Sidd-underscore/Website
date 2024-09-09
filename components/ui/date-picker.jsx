@@ -13,8 +13,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-export function DatePicker({className, date, setDate, availableDates}) {
-
+export function DatePicker({ className, date, setDate, availableDates }) {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -26,11 +25,7 @@ export function DatePicker({className, date, setDate, availableDates}) {
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? (
-            format(date, "PPP")
-          ) : (
-            <span>Pick a date</span>
-          )}
+          {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
@@ -46,7 +41,12 @@ export function DatePicker({className, date, setDate, availableDates}) {
   );
 }
 
-export function DatePickerWithRange({ className, date, setDate, availableDates }) {
+export function DatePickerWithRange({
+  className,
+  date,
+  setDate,
+  availableDates,
+}) {
   return (
     <div className={"grid gap-2"}>
       <Popover>
@@ -56,7 +56,8 @@ export function DatePickerWithRange({ className, date, setDate, availableDates }
             variant={"outline"}
             className={cn(
               "w-full justify-start text-left font-normal hover:border-neutral-300 dark:hover:border-neutral-700 md:w-[300px]",
-              (!date || date === "removeSearchDateFilter") && "!text-neutral-400",   
+              (!date || date === "removeSearchDateFilter") &&
+                "!text-neutral-400",
               className,
             )}
           >

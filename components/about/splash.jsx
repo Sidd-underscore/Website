@@ -350,7 +350,7 @@ export function AboutSplash() {
         >
           <Link
             href="/coding"
-            className="absolute left-[50%] sm:ml-48 w-24 top-[22rem] sm:top-[20rem] translate-x-[-50%] translate-y-[-50%]"
+            className="absolute left-[50%] top-[22rem] w-24 translate-x-[-50%] translate-y-[-50%] sm:top-[20rem] sm:ml-48"
           >
             Learn more
           </Link>
@@ -487,7 +487,7 @@ export function AboutSplash() {
           opacity: finalImageDecorationOpacity,
           position: finalImageDecorationPosition,
         }}
-        className="text-center left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] mt-[5rem]"
+        className="left-[50%] top-[50%] mt-[5rem] translate-x-[-50%] translate-y-[-50%] text-center"
       >
         <Button asChild className="group mt-8" variant="secondary">
           <Link href="mailto:hello@sidd.studio">

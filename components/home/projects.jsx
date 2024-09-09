@@ -243,15 +243,22 @@ export function Projects({
                   </Link>
                 </div>
 
-                <div className="absolute bottom-2 right-2 flex items-center -space-x-3 group-hover:space-x-2 font-mono text-xs transition-all group-hover:bottom-4 group-hover:right-4">
+                <div className="absolute bottom-2 right-2 flex items-center -space-x-3 font-mono text-xs transition-all group-hover:bottom-4 group-hover:right-4 group-hover:space-x-2">
                   {project.technologies.map((technology) => (
                     <div key={technology.name} className="relative">
                       <TooltipProvider>
                         <Tooltip>
-                          <TooltipTrigger className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-neutral-300 bg-neutral-100 p-0 text-md transition hover:border-neutral-400 hover:bg-neutral-200 dark:border-neutral-500 dark:bg-neutral-700 dark:hover:border-neutral-400 dark:hover:bg-neutral-600">
+                          <TooltipTrigger
+                            onClick={() => {
+                              setProjectTechnologiesToShow([technology]);
+                            }}
+                            className="text-md flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-neutral-300 bg-neutral-200 p-0 transition hover:border-neutral-400 hover:bg-neutral-200 group-hover:border-neutral-300/10 group-hover:bg-neutral-100/10 dark:border-neutral-800 dark:bg-neutral-900 dark:hover:border-neutral-600 dark:hover:bg-neutral-600/50 dark:group-hover:bg-neutral-900/50"
+                          >
                             {technology.icon}
                           </TooltipTrigger>
-                          <TooltipContent>{technology.name}</TooltipContent>
+                          <TooltipContent>
+                            Click to only show projects with {technology.name}
+                          </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
                     </div>

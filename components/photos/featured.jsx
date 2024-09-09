@@ -27,7 +27,7 @@ export function FeaturedPhotos() {
     result.forEach((photo) => {
       tempPhotos.push(
         <Photo
-          className="w-fit h-96 max-w-none"
+          className="h-96 w-fit max-w-none"
           priority={true}
           photoData={photo}
         />,

@@ -38,7 +38,7 @@ export default function WorkPage({ params }) {
   return (
     <>
       <h1 className="text-5xl font-bold">{workItem.name}</h1>
-      <p className="mt-2 md:flex w-fit items-center space-y-2 md:space-y-0 md:space-x-2 text-sm opacity-50">
+      <p className="mt-2 w-fit items-center space-y-2 text-sm opacity-50 md:flex md:space-x-2 md:space-y-0">
         <span className={`m-0 flex items-center space-x-2`}>
           <SewingPinFilledIcon className="h-4 w-4 shrink-0" />
           <span>{workItem.location}</span>

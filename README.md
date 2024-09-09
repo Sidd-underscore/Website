@@ -24,6 +24,4 @@ And hosted on:
 
 - Vercel! The greatest one-stop-shop for hosting cool shit online, for free :) (unsponsored)
 
-
-
 That's about it! Feel free to continue your journey.

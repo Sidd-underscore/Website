@@ -53,7 +53,7 @@ function Scene() {
         const textHeight = boundingBox.max.y - boundingBox.min.y;
 
         const scale = Math.min(5 / textWidth, 5 / textHeight);
-        const textMaterial = new THREE.MeshPhongMaterial({ color: 0xFFC0CB });
+        const textMaterial = new THREE.MeshPhongMaterial({ color: 0xffc0cb });
         const textMesh = new THREE.Mesh(textGeometry, textMaterial);
         textMesh.scale.set(scale, scale, scale);
         textMeshRef.current = textMesh;

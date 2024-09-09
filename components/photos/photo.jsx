@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  BookmarkIcon,
   CalendarIcon,
   CameraIcon,
   CropIcon,
@@ -59,7 +60,7 @@ export function Photo({ className, photoData, width, height, ...props }) {
       <Image
         quality={50}
         className={cn(
-          "h-full w-full max-w-none rounded-lg select-none",
+          "h-full w-full max-w-none select-none rounded-lg",
           photoHasLoaded ? "inherit" : "hidden",
           className,
         )}
@@ -140,10 +141,14 @@ export function AdvancedPhoto({ className, photoData, ...props }) {
               const favorites =
                 JSON.parse(localStorage.getItem("favoritePhotos")) || [];
 
-              const isFavorite = favorites.some(favorite => favorite.name === photoData.name && favorite.path === photoData.path);
+              const isFavorite = favorites.some(
+                (favorite) =>
+                  favorite.name === photoData.name &&
+                  favorite.path === photoData.path,
+              );
 
               if (!isFavorite) {
-                favorites.push({name: photoData.name, path: photoData.path});
+                favorites.push({ name: photoData.name, path: photoData.path });
                 localStorage.setItem(
                   "favoritePhotos",
                   JSON.stringify(favorites),
@@ -152,7 +157,11 @@ export function AdvancedPhoto({ className, photoData, ...props }) {
                 window.dispatchEvent(new Event("favoritePhotosUpdated"));
               } else {
                 // Remove photo from favorites if it's already there
-                const updatedFavorites = favorites.filter(favorite => favorite.name !== photoData.name || favorite.path !== photoData.path);
+                const updatedFavorites = favorites.filter(
+                  (favorite) =>
+                    favorite.name !== photoData.name ||
+                    favorite.path !== photoData.path,
+                );
                 localStorage.setItem(
                   "favoritePhotos",
                   JSON.stringify(updatedFavorites),
@@ -172,7 +181,7 @@ export function AdvancedPhoto({ className, photoData, ...props }) {
             />
           </motion.div>
         </motion.div>
-        <DialogContent className="!max-w-[90vw]">
+        <DialogContent className="md:!max-w-[90vw]">
           <PhotoDialog photoData={photoData} />
         </DialogContent>
       </Dialog>
@@ -189,25 +198,108 @@ function PhotoDialog({ photoData }) {
   return (
     <>
       <DialogHeader>
-        <DialogTitle className="mb-2 items-center space-y-2 md:flex md:space-y-0">
-          <span className="mr-2">{photoData.name}</span>{" "}
-          <div className="flex items-center justify-center md:justify-normal">
-            {photoData.tags.map((tag, index) => (
-              <span
-                className="mx-1 text-nowrap rounded-full bg-neutral-100 px-2 py-0.5 font-mono text-xs font-light transition dark:bg-neutral-700/50"
-                key={tag + index}
+        <DialogTitle className="mb-2 items-center justify-center md:justify-start space-x-2 flex">
+          <span>{photoData.name}</span>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="ghost"
+                className="flex h-[1.25em] w-[1.25em] items-center justify-center rounded-full p-0"
               >
-                {tag}
-              </span>
-            ))}
-          </div>
+                <InfoCircledIcon className="h-5 w-5" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent
+              align="center"
+              sideOffset={12}
+              className="m-2 w-[calc(100vw_-_1rem)] md:m-0 md:w-auto md:max-w-[300px]"
+            >
+              <div>{photoData.description}</div>
+
+              <div className="mt-4 flex items-center space-x-2 text-xs">
+                <CalendarIcon className="h-4 w-4 shrink-0" />
+                <span>
+                  {formatRelative(fromUnixTime(photoData.date), Date.now())} at{" "}
+                  {format(fromUnixTime(photoData.date), "h:mm a")} (
+                  {formatDistance(fromUnixTime(photoData.date), Date.now(), {
+                    addSuffix: true,
+                  })}
+                  )
+                </span>
+              </div>
+
+              <div className="mt-2 flex items-center space-x-2 text-xs">
+                <SewingPinFilledIcon className="h-3 w-3 shrink-0" />
+                <span>{photoData.location}</span>
+              </div>
+
+              <div className="mt-2 flex items-center space-x-2 text-xs">
+                <CameraIcon className="h-3 w-3 shrink-0" />
+                <span>{photoData.camera}</span>
+              </div>
+
+              <div className="mt-2 flex items-center space-x-2 text-xs">
+                <CropIcon className="h-3 w-3 shrink-0" />
+                <span>
+                  {photoData.staticPhoto.width} x {photoData.staticPhoto.height}
+                </span>
+              </div>
+
+              <div className="mb-4 mt-2 flex items-center space-x-2 text-xs">
+                <BookmarkIcon className="h-3 w-3 shrink-0" />
+                <span className="flex items-center justify-center md:justify-normal">
+                  {photoData.tags.map((tag, index) => (
+                    <span
+                      className="mr-1.5 text-nowrap rounded-full bg-neutral-100 px-2 py-0.5 transition dark:bg-neutral-700/50"
+                      key={tag + index}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </span>
+              </div>
+
+              <a
+                download={true}
+                href={photoData.path.replace(".png", downloadFormat)}
+                className={buttonVariants({
+                  variant: "outline",
+                  size: "md",
+                  className: "mt-2 flex w-full items-center rounded-lg text-sm",
+                })}
+              >
+                <DownloadIcon className="mr-2 shrink-0" />
+                Download as{" "}
+                <Select
+                  defaultValue={downloadFormat}
+                  onValueChange={setDownloadFormat}
+                >
+                  <SelectTrigger
+                    triggerButtonVariant="icon"
+                    className="w-fit border-none !pl-2 !pr-0 !text-xs shadow-none"
+                  >
+                    <SelectValue placeholder="Select an image format" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value=".png">PNG</SelectItem>
+                    <SelectItem value=".jpg">
+                      JPG{" "}
+                      {photoData.jpgHasMetadata != false && (
+                        <span className="text-xs">(metadata)</span>
+                      )}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </a>
+            </PopoverContent>
+          </Popover>
         </DialogTitle>
         <DialogDescription>
-          <div className="relative w-full max-w-[90vw] overflow-auto">
-            <div className="relative flex max-h-full max-w-full items-center justify-center space-y-2 overflow-auto p-1 md:space-y-0">
+          <div className="relative w-full overflow-auto md:max-w-[90vw]">
+            <div className="relative flex max-h-full max-w-full items-center justify-center space-y-2 overflow-auto md:space-y-0">
               {!photoPreviewHasLoaded && (
                 <div
-                  className={`flex max-h-full w-full animate-pulse items-center justify-center rounded-lg bg-neutral-200 dark:bg-neutral-900`}
+                  className={`flex max-h-full w-full animate-pulse items-center justify-center rounded-md bg-neutral-200 dark:bg-neutral-900`}
                   style={
                     photoData.staticPhoto.height > photoData.staticPhoto.width
                       ? {
@@ -245,7 +337,7 @@ function PhotoDialog({ photoData }) {
               )}
 
               <Image
-                className={`${photoPreviewHasLoaded ? "inherit" : "hidden"} select-none h-auto w-auto max-w-none rounded-lg`}
+                className={`${photoPreviewHasLoaded ? "inherit" : "hidden"} h-auto w-auto select-none rounded-md`}
                 src={photoData.staticPhoto}
                 alt={photoData.name}
                 title={photoData.name}
@@ -280,93 +372,6 @@ function PhotoDialog({ photoData }) {
                       }
                 }
               />
-
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="secondary"
-                    className="absolute right-4 top-4 flex aspect-square h-auto w-auto items-center justify-center rounded-full p-2 backdrop-blur-sm"
-                    size="icon"
-                  >
-                    <InfoCircledIcon className="h-5 w-5" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent
-                  align="end"
-                  sideOffset={12}
-                  className="max-w-[300px]"
-                >
-                  <div>{photoData.description}</div>
-
-                  <div className="mt-4 flex items-center space-x-2 text-xs">
-                    <CalendarIcon className="h-4 w-4 shrink-0" />
-                    <span>
-                      {formatRelative(fromUnixTime(photoData.date), Date.now())}{" "}
-                      at {format(fromUnixTime(photoData.date), "h:mm a")} (
-                      {formatDistance(
-                        fromUnixTime(photoData.date),
-                        Date.now(),
-                        {
-                          addSuffix: true,
-                        },
-                      )}
-                      )
-                    </span>
-                  </div>
-
-                  <div className="mt-2 flex items-center space-x-2 text-xs">
-                    <SewingPinFilledIcon className="h-3 w-3 shrink-0" />
-                    <span>{photoData.location}</span>
-                  </div>
-
-                  <div className="mt-2 flex items-center space-x-2 text-xs">
-                    <CameraIcon className="h-3 w-3 shrink-0" />
-                    <span>{photoData.camera}</span>
-                  </div>
-
-                  <div className="mb-4 mt-2 flex items-center space-x-2 text-xs">
-                    <CropIcon className="h-3 w-3 shrink-0" />
-                    <span>
-                      {photoData.staticPhoto.width} x{" "}
-                      {photoData.staticPhoto.height}
-                    </span>
-                  </div>
-
-                  <a
-                    download={true}
-                    href={photoData.path.replace(".png", downloadFormat)}
-                    className={buttonVariants({
-                      variant: "outline",
-                      size: "md",
-                      className:
-                        "mt-2 flex w-full items-center rounded-lg text-sm",
-                    })}
-                  >
-                    <DownloadIcon className="mr-2 shrink-0" />
-                    Download as{" "}
-                    <Select
-                      defaultValue={downloadFormat}
-                      onValueChange={setDownloadFormat}
-                    >
-                      <SelectTrigger
-                        triggerButtonVariant="icon"
-                        className="w-fit border-none !pl-2 !pr-0 !text-xs shadow-none"
-                      >
-                        <SelectValue placeholder="Select an image format" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value=".png">PNG</SelectItem>
-                        <SelectItem value=".jpg">
-                          JPG{" "}
-                          {photoData.jpgHasMetadata != false && (
-                            <span className="text-xs">(metadata)</span>
-                          )}
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </a>
-                </PopoverContent>
-              </Popover>
             </div>
           </div>
         </DialogDescription>

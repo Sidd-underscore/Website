@@ -25,7 +25,7 @@ export function ThemeMetaUpdater() {
     if (theme) {
       document
         .querySelector('meta[name="theme-color"]')
-        .setAttribute('content', theme === 'dark' ? '#141414' : '#fce7f3');
+        .setAttribute("content", theme === "dark" ? "#141414" : "#fce7f3");
     }
   }, [theme]);
 

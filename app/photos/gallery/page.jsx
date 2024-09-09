@@ -5,7 +5,6 @@ export const metadata = {
 };
 
 export default function AlbumsPage() {
-
   return (
     <>
       <h1 className="text-5xl font-bold">Photography</h1>
