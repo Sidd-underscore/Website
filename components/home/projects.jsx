@@ -96,7 +96,7 @@ export function Projects({
             Projects
           </h2>
           <p className="mt-1 text-sm">
-            Here are some things that I have coded
+            Here are some things that I have worked on
             {defaultProjectTypes
               ? " that are " +
                 formatArrayIntoSentence(

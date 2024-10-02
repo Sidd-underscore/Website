@@ -8,6 +8,20 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
+export function SiddNavbarLogo({ ...props }) {
+  return (
+    <Image
+      alt="Sidd's logo"
+      width={250}
+      height={250}
+      quality={100}
+      className="duration-500 absolute bottom-1 left-1 top-1 h-11 w-auto rounded-full grayscale transition-all hover:grayscale-0 hover:!invert-0 dark:invert"
+      src="/images/sidd.png"
+      {...props}
+    />
+  );
+}
+
 export function Navbar() {
   const { navbarLogo, setNavbarLogo } = useNavbarLogo();
   const path = "/" + usePathname().split("/")[1];
@@ -44,16 +58,7 @@ export function Navbar() {
     if (path != "/about") {
       setNavbarLogo({
         link: "/",
-        label: (
-          <Image
-            alt="Sidd's logo"
-            width={250}
-            height={250}
-            quality={100}
-            className="absolute left-3 top-2.5 h-8 w-8 transition-[width_height] [filter:drop-shadow(1px_0_0_white)_drop-shadow(0_1px_0_white)_drop-shadow(-1px_0_0_white)_drop-shadow(0_-1px_0_white)] hover:-left-2 hover:top-0 hover:h-[72px] hover:w-[72px] hover:-rotate-12 dark:[filter:drop-shadow(1px_0_0_#09090b)_drop-shadow(0_1px_0_#09090b)_drop-shadow(-1px_0_0_#09090b)_drop-shadow(0_-1px_0_#09090b)]"
-            src="/images/sidd.png"
-          />
-        ),
+        label: <SiddNavbarLogo />,
       });
     }
 

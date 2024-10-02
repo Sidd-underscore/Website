@@ -41,7 +41,7 @@ export default function ProjectPage({ params }) {
       <h1 className="text-5xl font-bold">{project.name}</h1>
 
       <Link
-        className="mt-2 flex w-fit space-x-2"
+        className="mt-2 flex items-center w-fit space-x-2"
         target="_blank"
         href={project.url}
       >

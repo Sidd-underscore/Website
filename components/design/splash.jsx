@@ -116,7 +116,7 @@ export function ColorBox({ children, backgroundColor }) {
   return (
     <span
       style={{ backgroundColor, color }}
-      className="mx-0.5 rounded-full px-2.5 py-1 transition-all"
+      className="mx-0.5 rounded-full px-2.5 py-1 transition-[color]"
     >
       {children}
     </span>

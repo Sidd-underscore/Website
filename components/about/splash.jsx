@@ -200,11 +200,7 @@ export function AboutSplash() {
             }}
             alt="sidd's logo"
             src="/images/sidd.png"
-            className={`fixed transition-[width_height] ${
-              shouldNavbarLogoHover === true
-                ? "hover:absolute hover:!-left-2 hover:!top-0 hover:!h-[72px] hover:!w-[72px] hover:-rotate-12 hover:[filter:drop-shadow(1px_0_0_white)_drop-shadow(0_1px_0_white)_drop-shadow(-1px_0_0_white)_drop-shadow(0_-1px_0_white)] dark:hover:[filter:drop-shadow(1px_0_0_#09090b)_drop-shadow(0_1px_0_#09090b)_drop-shadow(-1px_0_0_#09090b)_drop-shadow(0_-1px_0_#09090b)]"
-                : undefined
-            }`}
+            className={`fixed hover:transition-all hover:duration-500 grayscale dark:invert hover:grayscale-0 hover:!invert-0 left-1 top-1 bottom-1 h-11 w-auto rounded-full`}
           />
         ),
       });
