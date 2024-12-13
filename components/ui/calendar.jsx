@@ -42,14 +42,17 @@ function Calendar({
     week: cn("", defaultClassNames.week),
     day: cn("", defaultClassNames.day),
     day_button: cn(
-      buttonVariants({ variant: "ghost" }),
-      "group-data-[today]/today:bg-neutral-100 dark:group-data-[today]/today:bg-neutral-400 group-data-[today]/today:hover:bg-neutral-300 group-data-[today]/today:hover:text-black group-data-[today]/today:text-black h-7 w-7 p-0 m-0.5 text-xs rounded-md group-data-[selected]/selected:!bg-neutral-200 dark:group-data-[selected]/selected:!bg-neutral-50 group-data-[selected]/selected:!text-black group-data-[selected]/selected:hover:!bg-neutral-300 group-data-[selected]/selected:hover:!text-black",
+      buttonVariants({ variant: "secondary" }),
+      "opacity-50 group-data-[day]/available:opacity-100 group-data-[day]/available:bg-neutral-700 group-data-[today]/today:bg-neutral-100 dark:group-data-[today]/today:bg-neutral-400 group-data-[today]/today:opacity-100 group-data-[today]/today:hover:bg-neutral-300 group-data-[today]/today:hover:text-black group-data-[today]/today:text-black h-7 w-7 p-0 m-0.5 text-xs rounded-md group-data-[selected]/selected:!bg-neutral-200 dark:group-data-[selected]/selected:!bg-neutral-50 group-data-[selected]/selected:!text-black group-data-[selected]/selected:hover:!bg-neutral-300 group-data-[selected]/selected:hover:!text-black",
       defaultClassNames.day_button,
     ),
     range_start: cn("", defaultClassNames.range_start),
     range_end: cn("", defaultClassNames.range_end),
     selected: cn("group/selected", defaultClassNames.selected),
-    today: cn("group/today", defaultClassNames.today),
+    today: cn(
+      "group/today dark:text-white opacity-100",
+      defaultClassNames.today,
+    ),
     outside: cn("opacity-25", defaultClassNames.outside),
     disabled: cn("", defaultClassNames.disabled),
     range_middle: cn("", defaultClassNames.range_middle),
@@ -72,22 +75,20 @@ function Calendar({
         },
       }}
       modifiers={{
-        available: (date) =>
-          availableDates?.some(
-            (availableDate) =>
-              new Date(availableDate * 1000).toDateString() ===
-              date.toDateString(),
-          ),
-        notAvailable: (date) =>
-          availableDates?.some(
-            (availableDate) =>
-              new Date(availableDate * 1000).toDateString() !=
-              date.toDateString(),
-          ),
+        available: (date) => {
+          if (!availableDates) return true;
+          else {
+            return availableDates?.some(
+              (availableDate) =>
+                new Date(availableDate * 1000).toDateString() ===
+                date.toDateString(),
+            );
+          }
+        },
+      
       }}
       modifiersClassNames={{
-        available: cn("opacity-100"),
-        notAvailable: cn("opacity-25"),
+        available: "group/available",
       }}
       {...props}
     />

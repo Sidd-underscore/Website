@@ -5,7 +5,8 @@ import { ArrowTopRightIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/components/ui/separator";
 import NotFound from "@/app/not-found";
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const { projectId } = params;
   const project = projects.find((e) => e.id === projectId);
 
@@ -22,7 +23,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default function ProjectPage({ params }) {
+export default async function ProjectPage(props) {
+  const params = await props.params;
   const { projectId } = params;
   const project = projects.find((e) => e.id === projectId);
 

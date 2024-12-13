@@ -1,24 +1,48 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "./button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 
-export function PhotoGallery({ photos, scroll = 250 }) {
+export function PhotoGallery({ photos }) {
   const gallery = useRef(null);
+  const photosRef = useRef([]);
+  const [visibleImageIndex, setVisibleImageIndex] = useState(0); // Track visible image
+
+  useEffect(() => {
+    photosRef.current = photosRef.current.slice(0, photos.length);
+  }, [photos]);
+
+  function updateVisibleImage() {
+    if (!gallery.current || photos.length === 0) return;
+
+    const scrollLeft = gallery.current.scrollLeft;
+    const clientWidth = gallery.current.clientWidth;
+    const imageWidth = photosRef.current[0]?.offsetWidth || 0;
+    const padding = 32;
+
+    const index = Math.floor(scrollLeft / (imageWidth + padding));
+    setVisibleImageIndex(Math.max(0, Math.min(index, photos.length - 1)));
+  }
+
+  useEffect(() => {
+    updateVisibleImage();
+  }, [photos, photosRef.current]);
 
   function scrollLeft() {
-    if (!gallery.current) return false;
-    gallery.current.scrollTo({
-      left: gallery.current.scrollLeft + scroll,
+    if (!gallery.current) return;
+    const imageWidth = photosRef.current[visibleImageIndex]?.offsetWidth || 0;
+    gallery.current.scrollBy({
+      left: imageWidth + 16,
       behavior: "smooth",
     });
   }
 
   function scrollRight() {
-    if (!gallery.current) return false;
-    gallery.current.scrollTo({
-      left: gallery.current.scrollLeft - scroll,
+    if (!gallery.current) return;
+    const imageWidth = photosRef.current[visibleImageIndex]?.offsetWidth || 0;
+    gallery.current.scrollBy({
+      left: -(imageWidth + 16),
       behavior: "smooth",
     });
   }
@@ -27,10 +51,13 @@ export function PhotoGallery({ photos, scroll = 250 }) {
     <div>
       <div
         ref={gallery}
-        className="mx-0.5 mt-4 flex space-x-4 overflow-x-auto py-2"
+        onScroll={updateVisibleImage}
+        className="mx-0.5 mt-4 flex max-h-[26rem] space-x-4 overflow-x-auto py-2"
       >
         {photos.map((photo, index) => (
-          <span key={index}>{photo}</span>
+          <span ref={(el) => (photosRef.current[index] = el)} key={index}>
+            {photo}
+          </span>
         ))}
       </div>
 
@@ -39,15 +66,16 @@ export function PhotoGallery({ photos, scroll = 250 }) {
           variant="ghost"
           size="icon"
           className="active:scale-90"
-          onClick={(e) => scrollRight()}
+          onClick={scrollRight}
         >
           <ArrowLeftIcon />
         </Button>
+
         <Button
           variant="ghost"
           size="icon"
           className="active:scale-90"
-          onClick={(e) => scrollLeft()}
+          onClick={scrollLeft}
         >
           <ArrowRightIcon />
         </Button>

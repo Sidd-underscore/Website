@@ -1,53 +1,51 @@
 import originalPhotosArray from "@/lib/photos";
 import { Link } from "@/components/ui/link";
 import { Photo } from "./photo";
+import { useMemo, useState } from "react";
 
 export function Albums({ categories }) {
-  // Local variable to keep track of photos already used in album previews
-  let usedPhotos = [];
+  const albums = useMemo(() => {
+    // Track used photos across all albums
+    const globalUsedPhotos = new Set();
 
-  const albums = categories.map((category) => {
-    // Filter photos that belong to the current category
-    const photosInCategory = originalPhotosArray.filter(
-      (photo) => photo.tags && photo.tags.includes(category),
-    );
+    return categories.map((category) => {
+      const photosInCategory = originalPhotosArray.filter(
+        (photo) => photo.tags && photo.tags.includes(category)
+      );
 
-    const previews = [];
-    const localUsedPhotos = [...usedPhotos]; // Use an array instead of Set
+      const previews = [];
+      const availablePhotos = photosInCategory.filter(
+        (photo) => !globalUsedPhotos.has(photo.name)
+      );
 
-    // Filter out photos that have already been used in other album previews
-    const availablePhotos = photosInCategory.filter(
-      (photo) => !localUsedPhotos.includes(photo.name),
-    );
+      for (let i = 0; i < Math.min(4, photosInCategory.length); i++) {
+        let selectedPhoto;
+        if (availablePhotos.length > 0) {
+          const randomIndex = Math.floor(Math.random() * availablePhotos.length);
+          selectedPhoto = availablePhotos.splice(randomIndex, 1)[0];
+        } else {
+          // If no unique photos, select from all category photos
+          const uniqueCategoryPhotos = photosInCategory.filter(
+            (photo) => !previews.some(p => p.name === photo.name)
+          );
+          const randomIndex = Math.floor(Math.random() * uniqueCategoryPhotos.length);
+          selectedPhoto = uniqueCategoryPhotos[randomIndex];
+        }
 
-    // Select up to 4 photos for the preview
-    for (let i = 0; i < 4 && i < photosInCategory.length; i++) {
-      if (availablePhotos.length > 0) {
-        // If there are unused photos, select a random one
-        const randomIndex = Math.floor(Math.random() * availablePhotos.length);
-        const selectedPhoto = availablePhotos.splice(randomIndex, 1)[0];
         previews.push(selectedPhoto);
-        // Mark the selected photo as used in the local array
-        localUsedPhotos.push(selectedPhoto.name);
-      } else {
-        // If all photos in this category have been used, select a random one from the category
-        const randomIndex = Math.floor(Math.random() * photosInCategory.length);
-        previews.push(photosInCategory[randomIndex]);
+        globalUsedPhotos.add(selectedPhoto.name);
       }
-    }
 
-    // Update the usedPhotos variable
-    usedPhotos = localUsedPhotos;
-
-    return (
-      <AlbumLink
-        key={category}
-        category={category}
-        previewPhotos={previews}
-        totalPhotos={photosInCategory.length}
-      />
-    );
-  });
+      return (
+        <AlbumLink
+          key={`album-${category}`}
+          category={category}
+          previewPhotos={previews}
+          totalPhotos={photosInCategory.length}
+        />
+      );
+    });
+  }, [categories]);
 
   return (
     <div className="grid grid-cols-2 gap-4 py-4 pt-2 sm:grid-cols-3 md:grid-cols-4">
@@ -62,34 +60,38 @@ function AlbumLink({ category, previewPhotos, totalPhotos }) {
       href={`/photos/albums/${category}`}
       className="group relative aspect-square h-full w-full overflow-hidden rounded-lg border border-neutral-300 bg-neutral-200 !text-black transition hover:border-neutral-400 hover:!text-inherit dark:border-neutral-800 dark:bg-neutral-900 dark:!text-white dark:hover:border-neutral-700"
     >
-      <PreviewGrid photos={previewPhotos} />
+      <PreviewGrid 
+        category={category} 
+        photos={previewPhotos} 
+      />
       <AlbumInfo category={category} totalPhotos={totalPhotos} />
     </Link>
   );
 }
 
-function PreviewGrid({ photos }) {
+function PreviewGrid({ category, photos }) {
   return (
     <div
-      className={`relative grid h-full max-h-full w-full max-w-full gap-1 p-1 opacity-15 transition group-hover:opacity-25 dark:opacity-25 dark:group-hover:opacity-35 ${
+      className={`relative grid h-full max-h-full w-full max-w-full  opacity-15 transition group-hover:opacity-25 dark:opacity-25 dark:group-hover:opacity-35 ${
         photos.length === 1
           ? "grid-cols-1 grid-rows-1"
           : photos.length === 2
-            ? "grid-cols-2 grid-rows-1"
-            : "grid-cols-2 grid-rows-2"
+          ? "grid-cols-2 grid-rows-1"
+          : "grid-cols-2 grid-rows-2"
       }`}
     >
       {photos.map((photo, index) => (
         <Photo
-          key={index}
-          priority={true}
-          quality={50}
-          src={photo.staticPhoto}
+          key={`${category}-${photo.name}-${index}`}
           alt=""
           width={150}
           height={150}
-          photoData={{ staticPhoto: photo.staticPhoto }}
-          className={`aspect-square h-full w-full rounded-none object-cover ${photos.length === 3 && index === 2 ? "col-span-2" : ""} ${index === 0 ? "rounded-tl-md" : index === 1 ? "rounded-tr-md" : index === 2 ? "rounded-bl-md" : "rounded-br-md"}`}
+          photoData={photo}
+          className={`aspect-square h-full w-full rounded-none object-cover ${
+            photos.length === 3 && index === 1 
+              ? "row-span-2" 
+              : ""
+          }`}
         />
       ))}
     </div>
@@ -101,8 +103,12 @@ function AlbumInfo({ category, totalPhotos }) {
     <div className="absolute inset-0 flex items-center justify-center">
       <div className="text-center drop-shadow-lg">
         <p className="text-lg font-semibold capitalize">{category}</p>
-        <p className="font-mono text-sm">{totalPhotos} photos</p>
+        <p className="font-mono text-sm">
+          {totalPhotos} photo{totalPhotos > 1 && "s"}
+        </p>
       </div>
     </div>
   );
 }
+
+export default Albums;

@@ -105,6 +105,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
               {achievementData.types.map((type) => (
                 <DropdownMenuCheckboxItem
                   key={type}
+                  onSelect={event => event.preventDefault()}
                   checked={achievementTypesToShow?.includes(type)}
                   onCheckedChange={(e) =>
                     e
@@ -127,9 +128,10 @@ export function Achievements({ className, defaultAchievementTypes }) {
 
       <div
         ref={parent}
-        className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-4 text-left lg:mb-0 lg:grid-cols-2"
+        className={`relative mt-12 w-full ${achievementsToDisplay.length > 0 ? "grid grid-flow-row grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3" : ""} text-center md:text-left lg:mb-0`}
       >
-        {achievementsToDisplay.map((achievement) => (
+        {achievementsToDisplay.length > 0 ? (
+          achievementsToDisplay.map((achievement) => (
           <div
             key={achievement.id}
             className="group relative h-full rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50"
@@ -182,7 +184,23 @@ export function Achievements({ className, defaultAchievementTypes }) {
               </div>
             </div>
           </div>
-        ))}
+        ))
+        ) : (
+          <p className="w-full text-center text-neutral-400">
+            No achievements found... Try{" "}
+            <span
+              className="cursor-pointer underline"
+              onClick={() => {
+                setAchievementTypesToShow(gatherAllAchievementData().types);
+               
+              }}
+            >
+              clearing the filters
+            </span>
+            ?
+          </p>
+        )}
+        
       </div>
     </div>
   );

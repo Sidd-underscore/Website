@@ -1,28 +1,23 @@
 import { AdvancedPhoto } from "@/components/photos/photo";
+import Masonry from "react-masonry-css";
 
-export function Gallery({ photos1, photos2 }) {
+export function Gallery({ photos }) {
   return (
     <>
-      <div className={"flex w-1/2 flex-col space-y-4"}>
-        {photos1?.map((photo, index) => (
+      <Masonry
+        breakpointCols={3}
+        className="flex w-auto -ml-4"
+        columnClassName="pl-4 [background-clip:padding-box]"
+      >
+        {photos?.map((photo, index) => (
           <AdvancedPhoto
             key={photo.name}
-            priority={true}
-            className="h-auto"
+            priority="true"
+            className="h-auto mb-4"
             photoData={photo}
           />
         ))}
-      </div>
-      <div className={"flex w-1/2 flex-col space-y-4"}>
-        {photos2?.map((photo, index) => (
-          <AdvancedPhoto
-            key={photo.name}
-            priority={true}
-            className="h-auto"
-            photoData={photo}
-          />
-        ))}
-      </div>
+      </Masonry>
     </>
   );
 }

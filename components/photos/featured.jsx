@@ -1,15 +1,17 @@
 "use client";
 
 import originalPhotosArray from "@/lib/photos";
-import { Photo } from "./photo";
+import { AdvancedPhoto } from "./photo";
 import { Link } from "../ui/link";
 import { useEffect, useState } from "react";
 import { PhotoGallery } from "../ui/photo-gallery";
+import { UpdateIcon } from "@radix-ui/react-icons";
+import { Button } from "../ui/button";
 
 export function FeaturedPhotos() {
   const [photos, setPhotos] = useState([]);
 
-  useEffect(() => {
+  function getPhotos() {
     let result = [];
     let tempPhotos = [];
     let arr = [...originalPhotosArray];
@@ -26,9 +28,9 @@ export function FeaturedPhotos() {
 
     result.forEach((photo) => {
       tempPhotos.push(
-        <Photo
+        <AdvancedPhoto
           className="h-96 w-fit max-w-none"
-          priority={true}
+          priority="true"
           photoData={photo}
         />,
       );
@@ -44,11 +46,24 @@ export function FeaturedPhotos() {
     );
 
     setPhotos(tempPhotos);
+  }
+  useEffect(() => {
+    getPhotos();
   }, []);
 
   return (
     <div className="my-32 w-full text-left">
-      <h2 className="text-4xl font-semibold">Featured Photos</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="text-4xl font-semibold">Featured Photos</h2>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => getPhotos()}
+          title="Refresh photos"
+        >
+          <UpdateIcon />
+        </Button>
+      </div>
 
       <PhotoGallery photos={photos} />
     </div>

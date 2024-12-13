@@ -1,3 +1,11 @@
+// -------------
+// WARNING FOR NEXTJS FANS
+// Im so sorry loyal Nextjs fans, but using next/image simply is taking too long. Please forgive my transgression of using the native <img /> component 🙏🏼🙏🏼
+// If you can fix this file to make it nice and performant I will give you a cookie (real)
+// -------------
+
+/* eslint @next/next/no-img-element: 0 */
+
 "use client";
 
 import {
@@ -9,7 +17,6 @@ import {
   InfoCircledIcon,
   SewingPinFilledIcon,
   StarFilledIcon,
-  StarIcon,
 } from "@radix-ui/react-icons";
 import {
   Dialog,
@@ -21,8 +28,7 @@ import {
 } from "../ui/responsive-dialog";
 import { formatRelative, fromUnixTime, formatDistance, format } from "date-fns";
 import { Button, buttonVariants } from "../ui/button";
-import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { cn, shimmer, toBase64 } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import {
   Select,
@@ -36,40 +42,37 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useIsDesktop } from "@/lib/hooks";
 import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
 
 export function Photo({ className, photoData, width, height, ...props }) {
-  const [photoHasLoaded, setPhotoHasLoaded] = useState(false);
+  const { theme } = useTheme();
+  const [hasImageFinishedLoading, setHasImageFinishedLoading] = useState(false);
 
   return (
-    <div className={cn("relative w-full", className)}>
-      {!photoHasLoaded && (
-        <div
+    <div className={cn("relative w-full")}>
+      {!hasImageFinishedLoading && (
+        <img
           className={cn(
-            "max-h-full max-w-full animate-pulse rounded-lg bg-neutral-200 dark:bg-neutral-900",
+            "h-full w-full max-w-none cursor-pointer select-none rounded-lg",
             className,
           )}
-          style={{
-            width: photoData.staticPhoto.width,
-            aspectRatio:
-              photoData.staticPhoto.width / photoData.staticPhoto.height,
-          }}
+          src={`data:image/svg+xml;base64,${toBase64(shimmer(photoData.staticPhoto.width, photoData.staticPhoto.height, theme))}`}
+          alt={photoData.name}
+          title={photoData.name}
+          {...props}
         />
       )}
-      <Image
-        quality={50}
+      <img
         className={cn(
-          "h-full w-full max-w-none select-none rounded-lg",
-          photoHasLoaded ? "inherit" : "hidden",
+          "h-full w-full max-w-none cursor-pointer select-none rounded-lg transition",
+          hasImageFinishedLoading ? "opacity-100" : "opacity-0",
           className,
         )}
-        src={photoData.staticPhoto}
-        onLoad={() => setPhotoHasLoaded(true)}
-        alt={photoData.name || ""}
-        title={photoData.name || ""}
-        width={width || 0}
-        height={height || 0}
+        src={photoData.path}
+        alt={photoData.name}
+        title={photoData.name}
+        onLoad={() => setHasImageFinishedLoading(true)}
         {...props}
       />
     </div>
@@ -77,8 +80,9 @@ export function Photo({ className, photoData, width, height, ...props }) {
 }
 
 export function AdvancedPhoto({ className, photoData, ...props }) {
-  const [photoHasLoaded, setPhotoHasLoaded] = useState(false);
+  const { theme } = useTheme();
   const [photoIsInLocalStorage, setPhotoIsInLocalStorage] = useState(false);
+  const [hasImageFinishedLoading, setHasImageFinishedLoading] = useState(false);
 
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem("favoritePhotos")) || [];
@@ -91,52 +95,53 @@ export function AdvancedPhoto({ className, photoData, ...props }) {
     }
   }, [photoData]);
 
+  if (photoData === "loading") return; // TODO: figure out how the heck this happens
+
   return (
     <>
       <Dialog key={photoData.name}>
         <motion.div
           initial="initial"
-          whileHover="animate"
+          whileHover="hover"
+          whileFocus="hover"
           className="group relative w-full overflow-hidden"
         >
           <DialogTrigger asChild={true}>
-            <div>
-              {/* Loader for the image before it has loaded */}
-              {!photoHasLoaded && (
-                <div
-                  className={`max-h-full max-w-full animate-pulse rounded-lg bg-neutral-200 dark:bg-neutral-900`}
-                  style={{
-                    width: photoData.staticPhoto.width,
-                    aspectRatio:
-                      photoData.staticPhoto.width /
-                      photoData.staticPhoto.height,
-                  }}
+            <div className="relative">
+              {!hasImageFinishedLoading && (
+                <img
+                  className={cn(
+                    "h-full w-full max-w-none cursor-pointer select-none rounded-lg",
+                    className,
+                  )}
+                  src={`data:image/svg+xml;base64,${toBase64(shimmer(photoData.staticPhoto.width, photoData.staticPhoto.height, theme))}`}
+                  alt={photoData.name}
+                  title={photoData.name}
+                  {...props}
                 />
               )}
-              <Image
-                quality={50}
+              <img
                 className={cn(
-                  "h-full w-full max-w-none cursor-pointer select-none rounded-lg",
-                  photoHasLoaded ? "inherit" : "hidden",
+                  "h-full w-full max-w-none cursor-pointer select-none rounded-lg transition",
+                  hasImageFinishedLoading ? "opacity-100" : "opacity-0",
                   className,
                 )}
-                src={photoData.staticPhoto}
-                onLoad={() => setPhotoHasLoaded(true)}
+                src={photoData.path}
                 alt={photoData.name}
                 title={photoData.name}
-                width={0}
-                height={0}
+                onLoad={() => setHasImageFinishedLoading(true)}
                 {...props}
               />
             </div>
           </DialogTrigger>
           <motion.div
             transition={{ duration: 0.2 }}
-            className="absolute right-2 top-2 cursor-pointer transition hover:!opacity-100"
+            className="absolute cursor-pointer"
             variants={{
-              animate: { opacity: 0.75 },
-              initial: { opacity: 0 },
+              hover: { opacity: 100, top: 8, right: 8, scale: 1 },
+              initial: { opacity: 0, top: -20, right: -20, scale: 0.5 },
             }}
+            whileTap={{ scale: photoIsInLocalStorage ? 0.8 : 1.2 }}
             onClick={() => {
               const favorites =
                 JSON.parse(localStorage.getItem("favoritePhotos")) || [];
@@ -177,7 +182,7 @@ export function AdvancedPhoto({ className, photoData, ...props }) {
             }
           >
             <StarFilledIcon
-              className={`h-6 w-6 ${photoIsInLocalStorage ? "stroke-pink-500 text-pink-200" : "stroke-neutral-500 text-neutral-50"}`}
+              className={`h-7 w-7 drop-shadow ${photoIsInLocalStorage ? "stroke-amber-500 text-amber-200" : "stroke-neutral-500 text-neutral-50"}`}
             />
           </motion.div>
         </motion.div>
@@ -191,14 +196,11 @@ export function AdvancedPhoto({ className, photoData, ...props }) {
 
 function PhotoDialog({ photoData }) {
   const [downloadFormat, setDownloadFormat] = useState(".png");
-  const [photoPreviewHasLoaded, setPhotoPreviewHasLoaded] = useState(false);
-
-  const isDesktop = useIsDesktop();
 
   return (
     <>
       <DialogHeader>
-        <DialogTitle className="mb-2 items-center justify-center md:justify-start space-x-2 flex">
+        <DialogTitle className="mb-2 flex items-center justify-center space-x-2 md:justify-start">
           <span>{photoData.name}</span>
           <Popover>
             <PopoverTrigger asChild>
@@ -295,84 +297,12 @@ function PhotoDialog({ photoData }) {
           </Popover>
         </DialogTitle>
         <DialogDescription>
-          <div className="relative w-full overflow-auto md:max-w-[90vw]">
-            <div className="relative flex max-h-full max-w-full items-center justify-center space-y-2 overflow-auto md:space-y-0">
-              {!photoPreviewHasLoaded && (
-                <div
-                  className={`flex max-h-full w-full animate-pulse items-center justify-center rounded-md bg-neutral-200 dark:bg-neutral-900`}
-                  style={
-                    photoData.staticPhoto.height > photoData.staticPhoto.width
-                      ? {
-                          height:
-                            photoData.staticPhoto.height /
-                            (photoData.staticPhoto.width < 3071
-                              ? isDesktop
-                                ? 4
-                                : 10
-                              : isDesktop
-                                ? 6
-                                : 12),
-                          aspectRatio:
-                            photoData.staticPhoto.width /
-                            photoData.staticPhoto.height,
-                        }
-                      : {
-                          width:
-                            photoData.staticPhoto.width /
-                            (photoData.staticPhoto.width < 3071
-                              ? isDesktop
-                                ? 4
-                                : 10
-                              : isDesktop
-                                ? 6
-                                : 12),
-                          aspectRatio:
-                            photoData.staticPhoto.width /
-                            photoData.staticPhoto.height,
-                        }
-                  }
-                >
-                  Loading high-res photo...
-                </div>
-              )}
-
-              <Image
-                className={`${photoPreviewHasLoaded ? "inherit" : "hidden"} h-auto w-auto select-none rounded-md`}
-                src={photoData.staticPhoto}
-                alt={photoData.name}
-                title={photoData.name}
-                onLoad={() => setPhotoPreviewHasLoaded(true)}
-                width={0}
-                height={0}
-                quality={100}
-                priority={true}
-                style={
-                  photoData.staticPhoto.height > photoData.staticPhoto.width
-                    ? {
-                        height:
-                          photoData.staticPhoto.height /
-                          (photoData.staticPhoto.width < 3071
-                            ? isDesktop
-                              ? 4
-                              : 10
-                            : isDesktop
-                              ? 6
-                              : 12),
-                      }
-                    : {
-                        width:
-                          photoData.staticPhoto.width /
-                          (photoData.staticPhoto.width < 3071
-                            ? isDesktop
-                              ? 4
-                              : 10
-                            : isDesktop
-                              ? 6
-                              : 12),
-                      }
-                }
-              />
-            </div>
+          <div className="relative flex max-h-full max-w-full items-center justify-center space-y-2 overflow-auto md:space-y-0">
+            <img
+              className={`${photoData.staticPhoto.width > photoData.staticPhoto.height ? "max-h-[80vh]" : "max-h-[75vh]"} w-auto select-none rounded-md`}
+              src={photoData.path}
+              alt={photoData.name}
+            />
           </div>
         </DialogDescription>
       </DialogHeader>

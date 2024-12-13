@@ -38,8 +38,11 @@ export function PhotosMain({ params }) {
   const { albumId } = useParams();
 
   const [searchIcon, setSearchIcon] = useState(<MagnifyingGlassIcon />);
+
   const [photos1, setPhotos1] = useState();
   const [photos2, setPhotos2] = useState();
+  const [fullPhotosArray, setFullPhotosArray] = useState();
+
   const [everyDateThatsInThePhotosArray, setEveryDateThatsInThePhotosArray] =
     useState([]);
   const [albumCategories, setAlbumCategories] = useState([]);
@@ -234,6 +237,7 @@ export function PhotosMain({ params }) {
 
       setPhotos1(anotherTemp1);
       setPhotos2(anotherTemp2);
+      setFullPhotosArray(photos);
       setSearchIcon(<MagnifyingGlassIcon />);
     },
     [filters, setFilters, albumId],
@@ -457,7 +461,7 @@ export function PhotosMain({ params }) {
           <TabsContent value="gallery">
             <div className="flex w-full justify-center gap-4 py-4 pt-2">
               {searchError === false ? (
-                <Gallery photos1={photos1} photos2={photos2} />
+                <Gallery photos={fullPhotosArray} />
               ) : (
                 <div>
                   <p className="w-full py-4 text-center text-sm text-neutral-400">

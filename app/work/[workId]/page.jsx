@@ -4,7 +4,8 @@ import { Work } from "@/components/home/work";
 import { CalendarIcon, SewingPinFilledIcon } from "@radix-ui/react-icons";
 import NotFound from "@/app/not-found";
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(props) {
+  const params = await props.params;
   const { workId } = params;
   const workItem = work.find((e) => e.id === workId);
 
@@ -21,7 +22,8 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default function WorkPage({ params }) {
+export default async function WorkPage(props) {
+  const params = await props.params;
   const { workId } = params;
   const workItem = work.find((e) => e.id === workId);
 

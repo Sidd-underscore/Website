@@ -52,6 +52,11 @@ export function Navbar() {
       label: "Photography",
       useMagneticUnderline: true,
     },
+    {
+      link: "/lightshows",
+      label: "Lightshows",
+      useMagneticUnderline: true,
+    }
   ];
 
   useEffect(() => {
@@ -71,7 +76,7 @@ export function Navbar() {
 
       <nav
         data-element-reference="nav"
-        className="flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-pink-300/50 bg-pink-50/50 px-4 py-2 text-xs shadow-sm backdrop-blur-lg transition hover:shadow-lg dark:border-white/10 dark:bg-neutral-900/75 md:text-sm md:backdrop-blur-md lg:mx-10 lg:rounded-3xl lg:border xl:max-w-6xl"
+        className="flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-pink-300/50 bg-white/85 px-4 py-2 text-xs shadow-lg transition dark:border-white/10 dark:bg-neutral-900/75 md:text-sm md:backdrop-blur-md lg:mx-10 lg:rounded-3xl lg:border xl:max-w-6xl"
       >
         <div className="flex items-center">
           {navItems.map((item) => (

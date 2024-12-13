@@ -1,7 +1,8 @@
 import { PhotosMain } from "@/components/photos/main";
 import { projects } from "@/lib/projects";
 
-export async function generateMetadata({ params }, parent) {
+export async function generateMetadata(props, parent) {
+  const params = await props.params;
   const { albumId } = params;
 
   return {
@@ -12,7 +13,8 @@ export async function generateMetadata({ params }, parent) {
   };
 }
 
-export default function AlbumPage({ params }) {
+export default async function AlbumPage(props) {
+  const params = await props.params;
   const { albumId } = params;
 
   return (

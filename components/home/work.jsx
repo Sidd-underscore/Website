@@ -110,6 +110,7 @@ export function Work({ className, defaultWorkTypes }) {
               {workData.types.map((type) => (
                 <DropdownMenuCheckboxItem
                   key={type}
+                  onSelect={event => event.preventDefault()}
                   checked={workTypesToShow?.includes(type)}
                   onCheckedChange={(e) =>
                     e
@@ -128,9 +129,10 @@ export function Work({ className, defaultWorkTypes }) {
       </div>
       <div
         ref={parent}
-        className="mt-12 grid w-full grid-flow-row grid-cols-1 gap-4 text-center md:text-left lg:mb-0 lg:grid-cols-2 xl:grid-cols-3"
+        className={`relative mt-12 w-full ${worksToDisplay.length > 0 ? "grid grid-flow-row grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3" : ""} text-center md:text-left lg:mb-0`}
       >
-        {worksToDisplay.map((workItem) => (
+        {worksToDisplay.length > 0 ? (
+          worksToDisplay.map((workItem) => (
           <div
             key={workItem.name}
             className="group relative h-full rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50"
@@ -177,7 +179,22 @@ export function Work({ className, defaultWorkTypes }) {
               </div>
             </div>
           </div>
-        ))}
+        ))
+       ) : (
+          <p className="w-full text-center text-neutral-400">
+            No relevant work items found... Try{" "}
+            <span
+              className="cursor-pointer underline"
+              onClick={() => {
+                setWorkTypesToShow(gatherAllWorkData().types);
+              }}
+            >
+              clearing the filters
+            </span>
+            ?
+          </p>
+        )}
+        
       </div>
     </div>
   );
