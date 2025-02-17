@@ -2,11 +2,11 @@
 
 import originalPhotosArray from "@/lib/photos";
 import { AdvancedPhoto } from "./photo";
-import { Link } from "../ui/link";
+import { Link } from "@/components/ui/link";
 import { useEffect, useState } from "react";
-import { PhotoGallery } from "../ui/photo-gallery";
+import { PhotoGallery } from "@/components/ui/photo-gallery";
 import { UpdateIcon } from "@radix-ui/react-icons";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 export function FeaturedPhotos() {
   const [photos, setPhotos] = useState([]);
