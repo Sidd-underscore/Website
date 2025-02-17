@@ -449,7 +449,7 @@ export function UIGallery({
         </Select>
 
         <DatePickerWithRange className="" date={date} setDate={setDate} />
-        <div className="bg-opacity-90 flex w-96 items-center rounded-md border border-neutral-200 bg-transparent bg-white pr-1 pl-3 text-sm shadow-xs hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
+        <div className="bg-opacity-90 flex w-96 items-center rounded-md border border-neutral-200 bg-white pr-1 pl-3 text-sm shadow-xs hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
           <MagnifyingGlassIcon />
           <Input
             className="pointer-events-auto border-transparent! ring-0! shadow-none"
