@@ -15,7 +15,7 @@ export default function NotFound({ prefix }) {
           </summary>
           <iframe
             src="https://cal.games"
-            className="w-68 absolute -ml-2 h-[434px] rounded-lg bg-transparent dark:m-2 dark:ml-0"
+            className="absolute -ml-2 h-[434px] w-68 rounded-lg bg-transparent dark:m-2 dark:ml-0"
           />
         </details>
         <span>or</span>

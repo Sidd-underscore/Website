@@ -12,9 +12,7 @@ export default function DesignPage() {
   return (
     <>
       <DesignSplash />
-      <Projects
-        defaultProjectTypes={["design", "website"]}
-      />
+      <Projects defaultProjectTypes={["design", "website"]} />
     </>
   );
 }

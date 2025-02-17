@@ -17,7 +17,7 @@ export default function Home() {
         <strong className="group cursor-pointer md:ml-2">
           <Link
             href="/about"
-            className="mt-2 inline-flex items-center border-none sm:ml-2 sm:mt-0 md:ml-0"
+            className="mt-2 inline-flex items-center border-none sm:mt-0 sm:ml-2 md:ml-0"
           >
             More{" "}
             <ArrowRightIcon className="ml-1 h-4 w-4 transition-all group-hover:ml-2" />

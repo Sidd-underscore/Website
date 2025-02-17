@@ -43,7 +43,7 @@ function Calendar({
     day: cn("", defaultClassNames.day),
     day_button: cn(
       buttonVariants({ variant: "secondary" }),
-      "opacity-50 group-data-[day]/available:opacity-100 group-data-[day]/available:bg-neutral-700 group-data-[today]/today:bg-neutral-100 dark:group-data-[today]/today:bg-neutral-400 group-data-[today]/today:opacity-100 group-data-[today]/today:hover:bg-neutral-300 group-data-[today]/today:hover:text-black group-data-[today]/today:text-black h-7 w-7 p-0 m-0.5 text-xs rounded-md group-data-[selected]/selected:!bg-neutral-200 dark:group-data-[selected]/selected:!bg-neutral-50 group-data-[selected]/selected:!text-black group-data-[selected]/selected:hover:!bg-neutral-300 group-data-[selected]/selected:hover:!text-black",
+      "opacity-50 group-data-day/available:opacity-100 group-data-day/available:bg-neutral-700 group-data-today/today:bg-neutral-100 dark:group-data-today/today:bg-neutral-400 group-data-today/today:opacity-100 hover:group-data-today/today:bg-neutral-300 hover:group-data-today/today:text-black group-data-today/today:text-black h-7 w-7 p-0 m-0.5 text-xs rounded-md group-data-selected/selected:bg-neutral-200! dark:group-data-selected/selected:bg-neutral-50! group-data-selected/selected:text-black! hover:group-data-selected/selected:bg-neutral-300! hover:group-data-selected/selected:text-black!",
       defaultClassNames.day_button,
     ),
     range_start: cn("", defaultClassNames.range_start),
@@ -85,7 +85,6 @@ function Calendar({
             );
           }
         },
-      
       }}
       modifiersClassNames={{
         available: "group/available",

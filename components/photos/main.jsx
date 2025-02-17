@@ -1,34 +1,48 @@
 "use client";
 
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { motion, useAnimation } from "framer-motion";
+import { useParams, usePathname, useRouter } from "next/navigation";
+
 import {
   ChevronLeftIcon,
   Cross2Icon,
   MagnifyingGlassIcon,
+  CaretSortIcon,
+  GlobeIcon,
+  ListBulletIcon,
+  CheckIcon,
+  CameraIcon,
+  SewingPinFilledIcon,
 } from "@radix-ui/react-icons";
+
 import { Input } from "@/components/ui/input";
-import originalPhotosArray from "@/lib/photos";
-import { useState, useEffect, useCallback } from "react"; // Import useCallback
-import { Loading } from "../ui/loading";
-import { cn, useTabs } from "@/lib/utils";
-import { DatePickerWithRange } from "../ui/date-picker";
+import { Loading } from "@/components/ui/loading";
+import { DatePickerWithRange } from "@/components/ui/date-picker";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
 } from "@/components/ui/select";
-import { CameraIcon, SewingPinFilledIcon } from "@radix-ui/react-icons";
-import { motion, useAnimation } from "framer-motion";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Link } from "@/components/ui/link";
+
+import { cn, useTabs } from "@/lib/utils";
+import originalPhotosArray from "@/lib/photos";
+import { LOCATION_HIERARCHY } from "@/lib/photos";
+
 import { Albums } from "./albums";
-import { Gallery } from "./gallery";
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
-import { useFilters } from "./search-context";
+import { PhotoViews, ViewModeToggle } from "./views";
+import { PhotoGlobe } from "./globe";
 import { Favorites } from "./favorites";
-import { useParams } from "next/navigation";
-import { Link } from "../ui/link";
+import { useFilters, filterPhotos } from "./search-context";
 
 export function PhotosMain({ params }) {
   const { filters, setFilters } = useFilters();
@@ -56,8 +70,21 @@ export function PhotosMain({ params }) {
 
   const { setActiveTab } = useTabs();
 
+  const [sortOrder, setSortOrder] = useState("newest");
+  const [viewMode, setViewMode] = useState("gallery");
+
+  const sortPhotos = (photos) => {
+    if (!photos) return [];
+    return [...photos].sort((a, b) => {
+      if (sortOrder === "newest") {
+        return b.date - a.date;
+      } else {
+        return a.date - b.date;
+      }
+    });
+  };
+
   useEffect(() => {
-    // ensure that the correct tab is active
     setActiveTab(albumId ? "gallery" : path);
   }, [albumId, setActiveTab, path]);
 
@@ -80,94 +107,71 @@ export function PhotosMain({ params }) {
     const uniqueCameras = [
       ...new Set(originalPhotosArray.map((photo) => photo.camera)),
     ];
-    const uniqueLocations = [
-      ...new Set(originalPhotosArray.map((photo) => photo.location)),
-    ];
+
+    const uniqueLocations = new Set();
+    originalPhotosArray.forEach((photo) => {
+      uniqueLocations.add(photo.location);
+    });
+
+    Object.keys(LOCATION_HIERARCHY).forEach((parentLocation) => {
+      uniqueLocations.add(parentLocation);
+    });
+
     setCameras(uniqueCameras);
-    setLocations(uniqueLocations);
+    setLocations([...uniqueLocations]);
   }, []);
 
-  const filterPhotos = useCallback(
+  const filteredPhotos = useMemo(() => {
+    // First filter by album if we're in an album view
+    let photos = albumId
+      ? originalPhotosArray.filter(
+          (photo) => photo.tags && photo.tags.includes(albumId),
+        )
+      : originalPhotosArray;
+
+    // Then apply the rest of the filters
+    return filterPhotos(photos, {
+      ...filters,
+      location:
+        filters.location && LOCATION_HIERARCHY[filters.location]
+          ? [...LOCATION_HIERARCHY[filters.location], filters.location]
+          : filters.location,
+    });
+  }, [originalPhotosArray, filters, albumId]);
+
+  const processedDates = useMemo(() => {
+    const tempDates = new Set();
+    filteredPhotos.forEach((photo) => {
+      tempDates.add(photo.date);
+    });
+    return Array.from(tempDates);
+  }, [filteredPhotos]);
+
+  const processedCategories = useMemo(() => {
+    const tagCount = {};
+    filteredPhotos.forEach((photo) => {
+      photo.tags?.forEach((tag) => {
+        tagCount[tag] = (tagCount[tag] || 0) + 1;
+      });
+    });
+    return Object.entries(tagCount)
+      .sort((a, b) => b[1] - a[1])
+      .map(([tag]) => tag);
+  }, [filteredPhotos]);
+
+  const applyFilters = useCallback(
     async (data) => {
-      let photos = [...originalPhotosArray];
-      let query = data?.query || filters.query;
-      let dateQuery =
+      const query = data?.query || filters.query;
+      const dateQuery =
         data?.filterDate !== undefined ? data.filterDate : filters.date;
-      let cameraQuery =
+      const cameraQuery =
         data?.filterCamera !== undefined ? data.filterCamera : filters.camera;
-      let locationQuery =
+      const locationQuery =
         data?.filterLocation !== undefined
           ? data.filterLocation
           : filters.location;
 
-      // First and foremost, remove photos that are not in the album if an album is selected
-      if (albumId) {
-        photos = photos.filter((photo) => photo.tags.includes(albumId));
-      }
-
-      // Ensure that if filters are cleared, they are treated as empty
-      if (!dateQuery && !cameraQuery && !locationQuery && query === "") {
-        photos = [...originalPhotosArray]; // No filters applied
-
-        // Do the album filtering again
-        if (albumId) {
-          photos = photos.filter((photo) => photo.tags.includes(albumId));
-        }
-      } else {
-        // First, remove photos outside of date range if it exists
-        if (dateQuery && dateQuery !== "removeSearchDateFilter") {
-          photos = photos.filter((photo) => {
-            let photoDate = new Date(photo.date * 1000);
-            let from = dateQuery.from ? new Date(dateQuery.from) : undefined;
-            let to = dateQuery.to ? new Date(dateQuery.to) : undefined;
-
-            let withinRange = photoDate >= from && photoDate <= to;
-            let comparableByFrom =
-              !from || photoDate.toDateString() === from.toDateString();
-            let comparableByTo =
-              !to || photoDate.toDateString() === to.toDateString();
-
-            return withinRange || (comparableByFrom && comparableByTo);
-          });
-        }
-
-        // Next, filter out unwanted cameras
-        if (cameraQuery && cameraQuery !== "removeCameraFilter") {
-          photos = photos.filter((photo) => cameraQuery.includes(photo.camera));
-        }
-
-        // Next, filter out unwanted locations
-        if (locationQuery && locationQuery !== "removeLocationFilter") {
-          photos = photos.filter((photo) =>
-            locationQuery.includes(photo.location),
-          );
-        }
-
-        // Then, search for text matches
-        if (query) {
-          photos = photos.filter((photo) => {
-            for (let key in photo) {
-              if (Array.isArray(photo[key])) {
-                if (
-                  photo[key].some((item) =>
-                    item.toLowerCase().includes(query.toLowerCase()),
-                  )
-                ) {
-                  return true;
-                }
-              } else if (
-                typeof photo[key] === "string" &&
-                photo[key].toLowerCase().includes(query.toLowerCase())
-              ) {
-                return true;
-              }
-            }
-            return false;
-          });
-        }
-      }
-
-      setSearchError(photos.length === 0);
+      setSearchError(filteredPhotos.length === 0);
 
       setFilters((prev) => ({
         ...prev,
@@ -177,57 +181,48 @@ export function PhotosMain({ params }) {
         date: dateQuery,
       }));
 
-      let tempDates = [];
-      originalPhotosArray.forEach((photo) => {
-        // if an album is selected, only add dates from photos that are in that album
-        if (albumId) {
-          if (photo.tags.includes(albumId)) {
-            let photoDate = new Date(photo.date * 1000);
-            const dateWithoutTime = new Date(
-              photoDate.getFullYear(),
-              photoDate.getMonth(),
-              photoDate.getDate(),
-            );
-            const dateString = dateWithoutTime.toISOString().split("T")[0];
-            if (!tempDates.includes(dateString)) {
-              tempDates.push(photo.date);
-            }
+      setEveryDateThatsInThePhotosArray(processedDates);
+      setAlbumCategories(processedCategories);
+
+      const sortedPhotos = sortPhotos(filteredPhotos);
+      const [temp1, temp2] = sortedPhotos.reduce(
+        ([arr1, arr2], photo, i) => {
+          if (i % 2 === 0) {
+            arr1.push(photo);
+          } else {
+            arr2.push(photo);
           }
-        } else {
-          let photoDate = new Date(photo.date * 1000);
-          const dateWithoutTime = new Date(
-            photoDate.getFullYear(),
-            photoDate.getMonth(),
-            photoDate.getDate(),
-          );
-          const dateString = dateWithoutTime.toISOString().split("T")[0];
-          if (!tempDates.includes(dateString)) {
-            tempDates.push(photo.date);
-          }
-        }
-      });
-
-      setEveryDateThatsInThePhotosArray(tempDates);
-
-      // Find the 10 most common tags associated with the photos and add each one to the albumCategories array
-      let tempAlbumCategoriesCounts = {};
-      photos.forEach((photo) => {
-        if (photo.tags) {
-          photo.tags.forEach((tag) => {
-            tempAlbumCategoriesCounts[tag] =
-              (tempAlbumCategoriesCounts[tag] || 0) + 1;
-          });
-        }
-      });
-
-      const sortedTags = Object.entries(tempAlbumCategoriesCounts).sort(
-        (a, b) => b[1] - a[1],
+          return [arr1, arr2];
+        },
+        [[], []],
       );
-      setAlbumCategories(sortedTags.map((tag) => tag[0]));
+
+      setPhotos1(temp1);
+      setPhotos2(temp2);
+      setFullPhotosArray(sortedPhotos);
+      setSearchIcon(<MagnifyingGlassIcon />);
+    },
+    [filters, filteredPhotos, processedDates, processedCategories, sortPhotos],
+  );
+
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      if (filters.query !== undefined) {
+        setSearchIcon(<Loading />);
+        applyFilters({ query: filters.query });
+      }
+    }, 300);
+
+    return () => clearTimeout(debounceTimeout);
+  }, [filters.query, applyFilters]);
+
+  useEffect(() => {
+    if (fullPhotosArray) {
+      const sortedPhotos = sortPhotos(fullPhotosArray);
 
       let anotherTemp1 = [];
       let anotherTemp2 = [];
-      photos.forEach((photo, index) => {
+      sortedPhotos.forEach((photo, index) => {
         if (index % 2 === 0) {
           anotherTemp1.push(photo);
         } else {
@@ -237,19 +232,15 @@ export function PhotosMain({ params }) {
 
       setPhotos1(anotherTemp1);
       setPhotos2(anotherTemp2);
-      setFullPhotosArray(photos);
-      setSearchIcon(<MagnifyingGlassIcon />);
-    },
-    [filters, setFilters, albumId],
-  );
+      setFullPhotosArray(sortedPhotos);
+    }
+  }, [sortOrder]);
 
-  // when query changes, wait a bit for typing to stop then filter
   useEffect(() => {
     setSearchIcon(<Loading />);
 
     const theTimeOut = setTimeout(() => {
-      // Only call filterPhotos if the query has changed
-      filterPhotos({ query: filters.query });
+      applyFilters({ query: filters.query });
     }, 500);
     return () => clearTimeout(theTimeOut);
   }, [filters.query]);
@@ -270,12 +261,12 @@ export function PhotosMain({ params }) {
 
   const handleCameraChange = (value) => {
     setFilters((prev) => ({ ...prev, camera: value }));
-    filterPhotos({ filterCamera: value });
+    applyFilters({ filterCamera: value });
   };
 
   const handleLocationChange = (value) => {
     setFilters((prev) => ({ ...prev, location: value }));
-    filterPhotos({ filterLocation: value });
+    applyFilters({ filterLocation: value });
   };
 
   const handleDateChange = (newDate) => {
@@ -283,7 +274,11 @@ export function PhotosMain({ params }) {
     const updatedDate =
       newDate === undefined ? "removeSearchDateFilter" : newDate;
     setFilters((prev) => ({ ...prev, date: updatedDate }));
-    filterPhotos({ filterDate: updatedDate });
+    applyFilters({ filterDate: updatedDate });
+  };
+
+  const handleSortChange = (value) => {
+    setSortOrder(value);
   };
 
   return (
@@ -321,13 +316,13 @@ export function PhotosMain({ params }) {
         animate={controls}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
-        <div className="w-full items-center space-y-2 md:flex md:space-x-2 md:space-y-0">
-          <div className="flex w-full items-center rounded-md border border-neutral-200 bg-transparent bg-white bg-opacity-90 py-1 pl-3 pr-1 text-sm shadow-sm backdrop-blur-md transition-colors hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950 dark:bg-opacity-75 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
+        <div className="w-full items-center space-y-2 md:flex md:space-y-0 md:space-x-2">
+          <div className="py- flex w-full items-center rounded-md border border-neutral-200 bg-white/75 pr-1 pl-3 text-sm shadow-xs backdrop-blur-md transition-colors hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950/75 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
             {searchIcon}
             <Input
               onChange={handleSearchChange}
               value={filters.query}
-              className="pointer-events-auto !border-transparent pr-16 shadow-none !ring-0"
+              className="pointer-events-auto border-transparent! pr-16 ring-0! shadow-none"
               placeholder="Search photos... (by name, description, camera, and more!)"
             />
             <Button
@@ -339,17 +334,31 @@ export function PhotosMain({ params }) {
               <Cross2Icon />
             </Button>
           </div>
-          {!isInputSticky && (
-            <DatePickerWithRange
-              date={filters.date}
-              setDate={handleDateChange}
-              availableDates={everyDateThatsInThePhotosArray}
-              className="h-auto text-sm shadow-sm md:px-3 md:py-3"
-            />
-          )}
+          <div className="flex items-center space-x-2 rounded-md text-sm">
+            <ViewModeToggle viewMode={viewMode} onChange={setViewMode} />
+            <Select value={sortOrder} onValueChange={handleSortChange}>
+              <SelectTrigger className="w-32 rounded-sm px-3 py-2 font-normal bg-white/75 backdrop-blur-md shadow-xs dark:bg-neutral-950/75">
+                <p className="flex items-center space-x-2">
+                  <span>
+                    {sortOrder === "newest" ? "Newest first" : "Oldest first"}
+                  </span>
+                </p>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="newest">Newest first</SelectItem>
+                <SelectItem value="oldest">Oldest first</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </motion.div>
-      <div className="mt-2 justify-between space-y-2 sm:flex sm:space-x-2 sm:space-y-0">
+      <div className="mt-2 justify-between space-y-2 sm:flex sm:space-y-0 sm:space-x-2">
+        <DatePickerWithRange
+          date={filters.date}
+          setDate={handleDateChange}
+          availableDates={everyDateThatsInThePhotosArray}
+          className="h-auto text-sm shadow-xs"
+        />
         <Select
           value={filters.camera || "removeCameraFilter"}
           onValueChange={handleCameraChange}
@@ -382,37 +391,59 @@ export function PhotosMain({ params }) {
           </SelectContent>
         </Select>
 
-        <Select
-          value={filters.location || "removeLocationFilter"}
-          onValueChange={handleLocationChange}
-        >
-          <SelectTrigger
-            className={cn(
-              "h-auto w-full px-3 py-2 font-normal",
-              (filters.location === undefined ||
-                filters.location === "removeLocationFilter") &&
-                "text-neutral-400",
-            )}
+        <div className="flex gap-2">
+          <Select
+            value={filters.location || "removeLocationFilter"}
+            onValueChange={handleLocationChange}
           >
-            <p className="flex items-center space-x-2">
-              <SewingPinFilledIcon className="h-3 w-3" />
-              <span>
-                {filters.location === undefined ||
-                filters.location === "removeLocationFilter"
-                  ? "Select a location..."
-                  : filters.location}
-              </span>
-            </p>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="removeLocationFilter">No filter</SelectItem>
-            {locations.map((location) => (
-              <SelectItem key={location} value={location}>
-                {location}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+            <SelectTrigger
+              className={cn(
+                "h-auto w-full px-3 py-2 font-normal",
+                (filters.location === undefined ||
+                  filters.location === "removeLocationFilter") &&
+                  "text-neutral-400",
+              )}
+            >
+              <p className="flex items-center space-x-2">
+                <SewingPinFilledIcon className="h-3 w-3" />
+                <span>
+                  {filters.location === undefined ||
+                  filters.location === "removeLocationFilter"
+                    ? "Select a location..."
+                    : filters.location}
+                </span>
+              </p>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="removeLocationFilter">No filter</SelectItem>
+              {locations.map((location) => (
+                <SelectItem key={location} value={location}>
+                  {location}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className="aspect-square h-9 w-9"
+              >
+                <GlobeIcon className="h-4 w-4" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-96 p-0" align="end">
+              <div className="h-96">
+                <PhotoGlobe
+                  onLocationClick={handleLocationChange}
+                  showArcs={false}
+                />
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
       </div>
 
       <Tabs
@@ -457,11 +488,12 @@ export function PhotosMain({ params }) {
             </TabsTrigger>
           </TabsList>
         )}
+
         <div className="">
           <TabsContent value="gallery">
             <div className="flex w-full justify-center gap-4 py-4 pt-2">
               {searchError === false ? (
-                <Gallery photos={fullPhotosArray} />
+                <PhotoViews photos={fullPhotosArray} viewMode={viewMode} />
               ) : (
                 <div>
                   <p className="w-full py-4 text-center text-sm text-neutral-400">

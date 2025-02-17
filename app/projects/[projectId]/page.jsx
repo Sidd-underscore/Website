@@ -32,7 +32,7 @@ export default async function ProjectPage(props) {
     return (
       <>
         <NotFound prefix="Project" />
-        <Separator className="-mb-10 mt-10" />
+        <Separator className="mt-10 -mb-10" />
         <Projects />
       </>
     );
@@ -43,7 +43,7 @@ export default async function ProjectPage(props) {
       <h1 className="text-5xl font-bold">{project.name}</h1>
 
       <Link
-        className="mt-2 flex items-center w-fit space-x-2"
+        className="mt-2 flex w-fit items-center space-x-2"
         target="_blank"
         href={project.url}
       >
@@ -52,7 +52,7 @@ export default async function ProjectPage(props) {
 
       <div className="mt-10">{project.longDescription}</div>
 
-      <Separator className="-mb-10 mt-10" />
+      <Separator className="mt-10 -mb-10" />
       <Projects />
     </>
   );

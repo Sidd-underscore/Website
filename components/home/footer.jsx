@@ -7,10 +7,10 @@ export function Footer() {
   const [socialsText, setSocialsText] = useState("Check out my socials!");
   return (
     <div className="no-max-w relative w-screen">
-      <div className="absolute -top-24 left-0 right-0 z-10 h-48 bg-gradient-to-t from-transparent via-neutral-50 to-transparent dark:from-transparent dark:via-neutral-950 dark:to-transparent" />
+      <div className="absolute -top-24 right-0 left-0 z-10 h-48 bg-linear-to-t from-transparent via-neutral-50 to-transparent dark:from-transparent dark:via-neutral-950 dark:to-transparent" />
 
-      <div className="relative -hidden">
-        <div className="absolute left-0 right-0 h-[10rem] bg-[radial-gradient(circle_at_50%_150%,#f5f5f5,transparent,transparent)] dark:bg-[radial-gradient(circle_at_50%_150%,#262626,transparent,transparent)]" />
+      <div className="-hidden relative">
+        <div className="absolute right-0 left-0 h-[10rem] bg-[radial-gradient(circle_at_50%_150%,#f5f5f5,transparent,transparent)] dark:bg-[radial-gradient(circle_at_50%_150%,#262626,transparent,transparent)]" />
       </div>
       <footer className="relative z-10 flex flex-col items-center justify-around p-4 text-center md:flex-row">
         <div className="w-full flex-col justify-center space-y-2 text-center text-xs">
@@ -90,7 +90,7 @@ export function Footer() {
                 <path
                   d="M250.346 28.075A32.18 32.18 0 0 0 227.69 5.418C207.824 0 127.87 0 127.87 0S47.912.164 28.046 5.582A32.18 32.18 0 0 0 5.39 28.24c-6.009 35.298-8.34 89.084.165 122.97a32.18 32.18 0 0 0 22.656 22.657c19.866 5.418 99.822 5.418 99.822 5.418s79.955 0 99.82-5.418a32.18 32.18 0 0 0 22.657-22.657c6.338-35.348 8.291-89.1-.164-123.134Z"
                   className="fill-current"
-                  />
+                />
                 <path
                   fill="#FFF"
                   d="m102.421 128.06 66.328-38.418-66.328-38.418z"
@@ -149,33 +149,33 @@ export function SiddWordMark({ className }) {
       {/* Vertical */}
 
       {/* s */}
-      <div className="absolute left-[9.5px] top-0 h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute left-[56px] top-0 h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[9.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[56px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
 
       {/* i */}
-      <div className="absolute left-[81.5px] top-0 h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute left-[99.5px] top-0 h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute left-[115px] top-0 h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute left-[133.5px] top-0 h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[81.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[99.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[115px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[133.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
 
       {/* d */}
-      <div className="absolute left-[145px] top-0 h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute left-[161.5px] top-0 h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute left-[187px] top-0 h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute left-[202.5px] top-0 h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[145px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[161.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[187px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[202.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
 
       {/* d */}
-      <div className="absolute left-[215.5px] top-0 h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute left-[231.5px] top-0 h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute left-[257.5px] top-0 h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute left-[272.5px] top-0 h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[215.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[231.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[257.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[272.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
 
       {/* Horizontal */}
-      <div className="absolute -left-2 -right-2 top-[18px] h-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute -left-2 -right-2 bottom-[21px] h-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-[18px] -right-2 -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute -right-2 bottom-[21px] -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
 
-      <div className="absolute -left-2 -right-2 top-[43px] h-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute -left-2 -right-2 bottom-[32.5px] h-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-[43px] -right-2 -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute -right-2 bottom-[32.5px] -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
 
       <span className="relative z-10 font-mono text-9xl font-bold">sidd</span>
     </div>

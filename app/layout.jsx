@@ -39,12 +39,12 @@ export default function RootLayout({ children }) {
           <meta name="theme-color" content="#ffffff" />
         </head>
         <body
-          className={`${archivo.className} justify-left mt-12 flex flex-col items-center overflow-x-hidden overscroll-y-contain p-6 !pb-0 dark:bg-neutral-950 dark:text-white md:p-12 2xl:p-24`}
+          className={`${archivo.className} justify-left mt-12 flex flex-col items-center overflow-x-hidden overscroll-y-contain p-6 pb-0! md:p-12 2xl:p-24 dark:bg-neutral-950 dark:text-white`}
         >
           <ThemeProvider>
             <AppProvider>
               <Navbar />
-              <main className="mt-6 min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none lg:mt-8 xl:mt-10 2xl:mt-0 has-[.2xl_no-max-w]:2xl:max-w-none">
+              <main className="mt-6 min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none lg:mt-8 xl:mt-10 2xl:mt-0 2xl:has-[.2xl_no-max-w]:max-w-none">
                 {children}
               </main>
               <Footer />

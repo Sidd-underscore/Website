@@ -15,7 +15,7 @@ export function SiddNavbarLogo({ ...props }) {
       width={250}
       height={250}
       quality={100}
-      className="duration-500 absolute bottom-1 left-1 top-1 h-11 w-auto rounded-full grayscale transition-all hover:grayscale-0 hover:!invert-0 dark:invert"
+      className="absolute top-1 bottom-1 left-1 h-11 w-auto rounded-full grayscale transition-all duration-500 hover:grayscale-0 hover:invert-0! dark:invert"
       src="/images/sidd.png"
       {...props}
     />
@@ -56,7 +56,7 @@ export function Navbar() {
       link: "/lightshows",
       label: "Lightshows",
       useMagneticUnderline: true,
-    }
+    },
   ];
 
   useEffect(() => {
@@ -71,12 +71,12 @@ export function Navbar() {
   }, [path]);
 
   return (
-    <div className="fixed left-0 top-0 z-50 flex w-screen items-center justify-center lg:top-4">
-      <div className="fixed top-0 h-10 w-screen bg-gradient-to-b from-neutral-50 to-transparent dark:from-neutral-950" />
+    <div className="fixed top-0 left-0 z-50 flex w-screen items-center justify-center lg:top-4">
+      <div className="fixed top-0 h-10 w-screen bg-linear-to-b from-neutral-50 to-transparent dark:from-neutral-950" />
 
       <nav
         data-element-reference="nav"
-        className="flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-pink-300/50 bg-white/85 px-4 py-2 text-xs shadow-lg transition dark:border-white/10 dark:bg-neutral-900/75 md:text-sm md:backdrop-blur-md lg:mx-10 lg:rounded-3xl lg:border xl:max-w-6xl"
+        className="flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-pink-300/50 bg-white/85 px-4 py-2 text-xs shadow-lg transition md:text-sm md:backdrop-blur-md lg:mx-10 lg:rounded-3xl lg:border xl:max-w-6xl dark:border-white/10 dark:bg-neutral-900/75"
       >
         <div className="flex items-center">
           {navItems.map((item) => (
@@ -95,10 +95,11 @@ export function Navbar() {
                 {item.label}
                 {item.useMagneticUnderline && item.link === hoveredPath && (
                   <motion.div
-                    className={`absolute bottom-0 left-0 -z-10 mx-2 h-[1.5px] w-[calc(100%_-_16px)] rounded-full bg-pink-400 group-hover:bg-pink-500 dark:bg-pink-200 group-hover:dark:bg-pink-300`}
+                    className={`absolute -bottom-1 left-0 -z-10 mx-2 h-[1.5px] w-[calc(100%_-_16px)] rounded-full bg-pink-400 group-hover:bg-pink-500 dark:bg-pink-200 dark:group-hover:bg-pink-300`}
                     layoutId="navbar"
+                    style={{ opacity: 0.75 }}
                     aria-hidden="true"
-                    transition={{ type: "spring", duration: 0.4 }}
+                    transition={{ type: "spring", duration: 0.25 }}
                   />
                 )}
 
@@ -111,7 +112,7 @@ export function Navbar() {
                       width: "100%",
                       opacity: 0.25,
                     }}
-                    transition={{ type: "spring", duration: 0.4 }}
+                    transition={{ type: "spring", duration: 0.25 }}
                   />
                 )}
               </Link>

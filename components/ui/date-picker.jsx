@@ -55,9 +55,9 @@ export function DatePickerWithRange({
             id="date"
             variant={"outline"}
             className={cn(
-              "w-full justify-start text-left font-normal hover:border-neutral-300 dark:hover:border-neutral-700 md:w-[300px]",
+              "w-full justify-start text-left font-normal hover:border-neutral-300 md:w-[300px] dark:hover:border-neutral-700",
               (!date || date === "removeSearchDateFilter") &&
-                "!text-neutral-400",
+                "text-neutral-400!",
               className,
             )}
           >

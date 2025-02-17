@@ -85,7 +85,7 @@ export function Work({ className, defaultWorkTypes }) {
               : null}
             ! My full CV can be found{" "}
             <Link
-              className="!inline w-fit"
+              className="inline! w-fit"
               target="_blank"
               href="https://docs.google.com/document/d/1pvQcjzzaIq11oYS_XvRQHYKZNvDmu8OxrgsjTjLtX4w/view"
             >
@@ -110,7 +110,7 @@ export function Work({ className, defaultWorkTypes }) {
               {workData.types.map((type) => (
                 <DropdownMenuCheckboxItem
                   key={type}
-                  onSelect={event => event.preventDefault()}
+                  onSelect={(event) => event.preventDefault()}
                   checked={workTypesToShow?.includes(type)}
                   onCheckedChange={(e) =>
                     e
@@ -133,54 +133,54 @@ export function Work({ className, defaultWorkTypes }) {
       >
         {worksToDisplay.length > 0 ? (
           worksToDisplay.map((workItem) => (
-          <div
-            key={workItem.name}
-            className="group relative h-full rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50"
-          >
-            <div className="h-full">
-              <div className="z-30 flex h-full flex-col justify-between px-5 py-4 text-left">
-                <div className="space-y-1">
-                  <h3 className={`mb-3 text-2xl font-semibold`}>
-                    {workItem.name}
-                  </h3>
-                  <p
-                    className={`m-0 flex items-center space-x-2 text-sm opacity-50`}
-                  >
-                    <SewingPinFilledIcon className="h-4 w-4 shrink-0" />
-                    <span>{workItem.location}</span>
-                  </p>
+            <div
+              key={workItem.name}
+              className="group relative h-full rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50"
+            >
+              <div className="h-full">
+                <div className="z-30 flex h-full flex-col justify-between px-5 py-4 text-left">
+                  <div className="space-y-1">
+                    <h3 className={`mb-3 text-2xl font-semibold`}>
+                      {workItem.name}
+                    </h3>
+                    <p
+                      className={`m-0 flex items-center space-x-2 text-sm opacity-50`}
+                    >
+                      <SewingPinFilledIcon className="h-4 w-4 shrink-0" />
+                      <span>{workItem.location}</span>
+                    </p>
 
-                  <p
-                    className={`m-0 flex items-center space-x-2 text-sm opacity-50`}
-                  >
-                    <CalendarIcon className="h-4 w-4 shrink-0" />
-                    <span>{workItem.dates}</span>
-                  </p>
+                    <p
+                      className={`m-0 flex items-center space-x-2 text-sm opacity-50`}
+                    >
+                      <CalendarIcon className="h-4 w-4 shrink-0" />
+                      <span>{workItem.dates}</span>
+                    </p>
 
-                  <div className={`!m-4 text-sm`}>
-                    <ul className="list-disc text-left">
-                      {workItem.details.map((item) => (
-                        <li className="opacity-75" key={item}>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
+                    <div className={`m-4! text-sm`}>
+                      <ul className="list-disc text-left">
+                        {workItem.details.map((item) => (
+                          <li className="opacity-75" key={item}>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                </div>
 
-                <div className="mt-4 flex justify-center md:justify-start">
-                  <Link
-                    className="w-fit group-hover:border-pink-200 group-hover:text-pink-200 group-hover:hover:border-pink-300 group-hover:hover:text-pink-300"
-                    href={"/work/" + workItem.id}
-                  >
-                    Learn more
-                  </Link>
+                  <div className="mt-4 flex justify-center md:justify-start">
+                    <Link
+                      className="w-fit group-hover:border-pink-200 group-hover:text-pink-200 hover:group-hover:border-pink-300 hover:group-hover:text-pink-300"
+                      href={"/work/" + workItem.id}
+                    >
+                      Learn more
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))
-       ) : (
+          ))
+        ) : (
           <p className="w-full text-center text-neutral-400">
             No relevant work items found... Try{" "}
             <span
@@ -194,7 +194,6 @@ export function Work({ className, defaultWorkTypes }) {
             ?
           </p>
         )}
-        
       </div>
     </div>
   );

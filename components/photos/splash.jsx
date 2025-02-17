@@ -1,11 +1,12 @@
 "use client";
-import photos from "@/lib/photos";
+import photos, { LOCATION_COORDS } from "@/lib/photos";
 import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
 import { Link } from "../ui/link";
 import { Button } from "../ui/button";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { FeaturedPhotos } from "./featured";
+import { PhotoGlobe } from "./globe";
 
 export function PhotosSplash() {
   const buttonRef = useRef(null);
@@ -38,10 +39,10 @@ export function PhotosSplash() {
   }, []);
 
   const photoKeys = [
-    "Ivy Posing (Pt. 1)",
-    "Fall Salad",
+    "Ivy Posing",
+    "Baby Swallow-Tailed Gull",
     "Delicate Parsley",
-    "Sunny Laziness",
+    "Sunlit Facade",
     "Rearview Mirror",
     "Sunset Bridge",
     "Lions Gate Bridge",
@@ -54,6 +55,7 @@ export function PhotosSplash() {
     <div className="relative h-full min-h-screen overflow-hidden 2xl:-mx-24">
       <div className="mx-auto max-w-5xl">
         <h1 className="text-5xl font-bold">Photography</h1>
+
         <p className="mt-6">
           Being able to capture a moment in time is my favorite way of
           documenting life.
@@ -87,6 +89,12 @@ export function PhotosSplash() {
           </Link>
         </Button>
         <FeaturedPhotos />
+
+        <h2 className="mt-4 text-4xl font-bold">
+          {photos.length} photos taken in {Object.keys(LOCATION_COORDS).length}{" "}
+          places around the world!
+        </h2>
+        <PhotoGlobe />
       </div>
       {/* Scattered photos on the side */}
       {photoKeys.map((key, index) => {
@@ -124,7 +132,7 @@ export function PhotosSplash() {
         return (
           <Image
             key={key}
-            className={`absolute hidden h-48 w-auto select-none rounded-lg transition-transform duration-200 ease-out 2xl:block`}
+            className={`absolute hidden h-48 w-auto rounded-lg transition-transform duration-200 ease-out select-none 2xl:block`}
             style={{ ...initialPosition, ...adjustedPosition }}
             src={photoData.staticPhoto}
             alt={photoData.name}

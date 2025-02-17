@@ -200,7 +200,7 @@ export function AboutSplash() {
             }}
             alt="sidd's logo"
             src="/images/sidd.png"
-            className={`fixed hover:transition-all hover:duration-500 grayscale dark:invert hover:grayscale-0 hover:!invert-0 left-1 top-1 bottom-1 h-11 w-auto rounded-full`}
+            className={`fixed top-1 bottom-1 left-1 h-11 w-auto rounded-full grayscale hover:grayscale-0 hover:invert-0! hover:transition-all hover:duration-500 dark:invert`}
           />
         ),
       });
@@ -288,12 +288,12 @@ export function AboutSplash() {
             opacity: codeRingsOpacity,
             position: ringsPosition,
           }}
-          className="left-[50%] top-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-100 text-sm dark:border-pink-100/15 sm:h-[24rem] sm:w-[24rem] md:text-base"
+          className="top-[50%] left-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-100 text-sm select-none sm:h-[24rem] sm:w-[24rem] md:text-base dark:border-pink-100/15"
         >
-          <p className="absolute -top-32 left-0 max-w-40 opacity-90 sm:-left-10 sm:-top-10 md:-left-20 md:-top-14">
+          <p className="absolute -top-32 left-0 max-w-40 opacity-90 sm:-top-10 sm:-left-10 md:-top-14 md:-left-20">
             I code and design user interfaces
           </p>
-          <p className="absolute -top-20 right-0 max-w-40 text-right opacity-90 sm:-right-28 md:-right-44 md:top-20">
+          <p className="absolute -top-20 right-0 max-w-40 text-right opacity-90 sm:-right-28 md:top-20 md:-right-44">
             using tools like Next.js, TailwindCSS and Radix UI.
           </p>
           <p className="absolute -bottom-16 left-14 max-w-72 text-left opacity-90 sm:-bottom-4 sm:-left-28 xl:-bottom-10 xl:-left-48">
@@ -301,16 +301,16 @@ export function AboutSplash() {
           </p>
 
           <motion.div className="flex">
-            <div className="mt-56 h-fit bg-white dark:bg-neutral-950 sm:mt-64">
+            <div className="mt-56 h-fit bg-white sm:mt-64 dark:bg-neutral-950">
               <TailwindCssIcon className="h-8 w-8 opacity-50 sm:h-9 sm:w-9 md:h-10 md:w-10" />
             </div>
 
-            <div className="-mt-4 ml-[7.5rem] h-fit bg-white dark:bg-neutral-950 sm:-mt-6 sm:ml-36">
-              <RadixUIIcon className="h-8 w-8 text-black opacity-50 dark:text-white sm:h-9 sm:w-9 md:h-10 md:w-10" />
+            <div className="-mt-4 ml-[7.5rem] h-fit bg-white sm:-mt-6 sm:ml-36 dark:bg-neutral-950">
+              <RadixUIIcon className="h-8 w-8 text-black opacity-50 sm:h-9 sm:w-9 md:h-10 md:w-10 dark:text-white" />
             </div>
 
-            <div className="ml-24 mt-56 h-fit bg-white dark:bg-neutral-950 sm:ml-28 sm:mt-64">
-              <GitHubIcon className="h-8 w-8 fill-black opacity-50 dark:*:fill-white sm:h-9 sm:w-9 md:h-10 md:w-10" />
+            <div className="mt-56 ml-24 h-fit bg-white sm:mt-64 sm:ml-28 dark:bg-neutral-950">
+              <GitHubIcon className="h-8 w-8 fill-black opacity-50 sm:h-9 sm:w-9 md:h-10 md:w-10 dark:*:fill-white" />
             </div>
           </motion.div>
         </motion.div>
@@ -320,19 +320,19 @@ export function AboutSplash() {
             opacity: codeRingsOpacity,
             position: ringsPosition,
           }}
-          className="left-[50%] top-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-200 dark:border-pink-200/40 sm:h-[18rem] sm:w-[18rem]"
+          className="top-[50%] left-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-200 select-none sm:h-[18rem] sm:w-[18rem] dark:border-pink-200/40"
         >
           <motion.div className="flex">
-            <div className="-ml-2 mt-16 h-fit bg-white dark:bg-neutral-950 sm:-ml-2 sm:mt-[3.5rem]">
+            <div className="mt-16 -ml-2 h-fit bg-white sm:mt-[3.5rem] sm:-ml-2 dark:bg-neutral-950">
               <VisualStudioCodeIcon className="h-8 w-8 opacity-50 sm:h-9 sm:w-9 md:h-10 md:w-10" />
             </div>
 
-            <div className="ml-[5.75rem] mt-60 h-fit bg-white dark:bg-neutral-950 sm:ml-24 sm:mt-[16.5rem]">
-              <NextJSLogo className="h-8 w-8 fill-black opacity-50 dark:*:fill-white sm:h-9 sm:w-9 md:h-10 md:w-10" />
+            <div className="mt-60 ml-[5.75rem] h-fit bg-white sm:mt-[16.5rem] sm:ml-24 dark:bg-neutral-950">
+              <NextJSLogo className="h-8 w-8 fill-black opacity-50 sm:h-9 sm:w-9 md:h-10 md:w-10 dark:*:fill-white" />
             </div>
 
-            <div className="ml-20 mt-16 h-fit bg-white dark:bg-neutral-950 sm:ml-[5rem] sm:mt-[3.5rem]">
-              <ReactLogo className="h-8 w-8 text-black opacity-50 dark:text-white sm:h-9 sm:w-9 md:h-10 md:w-10" />
+            <div className="mt-16 ml-20 h-fit bg-white sm:mt-[3.5rem] sm:ml-[5rem] dark:bg-neutral-950">
+              <ReactLogo className="h-8 w-8 text-black opacity-50 sm:h-9 sm:w-9 md:h-10 md:w-10 dark:text-white" />
             </div>
           </motion.div>
         </motion.div>
@@ -342,11 +342,11 @@ export function AboutSplash() {
             opacity: codeRingsOpacity,
             position: ringsPosition,
           }}
-          className="relative left-[50%] top-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-300 dark:border-pink-300/75 sm:h-[12rem] sm:w-[12rem]"
+          className="relative top-[50%] left-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-300 select-none sm:h-[12rem] sm:w-[12rem] dark:border-pink-300/75"
         >
           <Link
             href="/coding"
-            className="absolute left-[50%] top-[22rem] w-24 translate-x-[-50%] translate-y-[-50%] sm:top-[20rem] sm:ml-48"
+            className="absolute top-[22rem] left-[50%] w-24 translate-x-[-50%] translate-y-[-50%] sm:top-[20rem] sm:ml-48"
           >
             Learn more
           </Link>
@@ -359,19 +359,19 @@ export function AboutSplash() {
             opacity: livestreamRingsOpacity,
             position: ringsPosition,
           }}
-          className="left-[50%] top-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-100 text-sm dark:border-pink-100/15 sm:h-[24rem] sm:w-[24rem] md:text-base"
+          className="top-[50%] left-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-100 text-sm select-none sm:h-[24rem] sm:w-[24rem] md:text-base dark:border-pink-100/15"
         >
-          <p className="max-w-50 absolute -top-32 left-0 max-w-[30vw] opacity-90 sm:-left-20 sm:-top-20 sm:max-w-[40vw] md:-left-20 md:-top-14 lg:-left-36 lg:-top-20">
+          <p className="absolute -top-32 left-0 max-w-50 max-w-[30vw] opacity-90 sm:-top-20 sm:-left-20 sm:max-w-[40vw] md:-top-14 md:-left-20 lg:-top-20 lg:-left-36">
             I livestream weekly using OBS and PTZ Optics for the{" "}
             <Link
               href="https://themadeleine.edu"
-              className="!inline w-fit text-right text-xs md:text-base"
+              className="inline! w-fit text-right text-xs md:text-base"
               target="_blank"
             >
               Madeleine Parish.
             </Link>
           </p>
-          <p className="absolute -top-24 right-0 max-w-[30vw] text-right opacity-90 sm:-right-28 sm:max-w-[40vw] md:-right-36 md:top-8 md:max-w-60 lg:-right-56 lg:top-24">
+          <p className="absolute -top-24 right-0 max-w-[30vw] text-right opacity-90 sm:-right-28 sm:max-w-[40vw] md:top-8 md:-right-36 md:max-w-60 lg:top-24 lg:-right-56">
             I also run other A/V positions, like mixing live sound during
             performances, for the Parish.
           </p>
@@ -380,7 +380,7 @@ export function AboutSplash() {
             this department at{" "}
             <Link
               href="https://www.pps.net/lincoln"
-              className="!inline w-fit text-left text-xs md:text-base"
+              className="inline! w-fit text-left text-xs md:text-base"
               target="_blank"
             >
               Lincoln High School
@@ -389,11 +389,11 @@ export function AboutSplash() {
           </p>
 
           <motion.div className="flex">
-            <div className="mt-56 h-fit bg-white dark:bg-neutral-950 sm:mt-64">
+            <div className="mt-56 h-fit bg-white sm:mt-64 dark:bg-neutral-950">
               <HarmanLogo className="h-16 w-16 opacity-75" />
             </div>
 
-            <div className="-mt-4 ml-[5.5rem] h-fit bg-white dark:bg-neutral-950 sm:-mt-6 sm:ml-[7.5rem]">
+            <div className="-mt-4 ml-[5.5rem] h-fit bg-white sm:-mt-6 sm:ml-[7.5rem] dark:bg-neutral-950">
               <Image
                 alt=""
                 src="/images/ptz.png"
@@ -403,7 +403,7 @@ export function AboutSplash() {
               />
             </div>
 
-            <div className="ml-14 mt-56 h-fit bg-white dark:bg-neutral-950 sm:ml-20 sm:mt-64">
+            <div className="mt-56 ml-14 h-fit bg-white sm:mt-64 sm:ml-20 dark:bg-neutral-950">
               <SoundcraftHarmanLogo className="h-24 w-24 fill-black opacity-75 dark:*:fill-white" />
             </div>
           </motion.div>
@@ -414,18 +414,18 @@ export function AboutSplash() {
             opacity: livestreamRingsOpacity,
             position: ringsPosition,
           }}
-          className="left-[50%] top-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-200 dark:border-pink-200/40 sm:h-[18rem] sm:w-[18rem]"
+          className="top-[50%] left-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-200 select-none sm:h-[18rem] sm:w-[18rem] dark:border-pink-200/40"
         >
           <motion.div className="flex">
-            <div className="-ml-2 mt-16 h-fit bg-white dark:bg-neutral-950 sm:-ml-2 sm:mt-[3.5rem]">
+            <div className="mt-16 -ml-2 h-fit bg-white sm:mt-[3.5rem] sm:-ml-2 dark:bg-neutral-950">
               <OBSLogo className="h-8 w-8 opacity-50 sm:h-9 sm:w-9 md:h-10 md:w-10" />
             </div>
 
-            <div className="ml-[5rem] mt-60 h-fit bg-white dark:bg-neutral-950 sm:ml-[5.5rem] sm:mt-[16.5rem]">
+            <div className="mt-60 ml-[5rem] h-fit bg-white sm:mt-[16.5rem] sm:ml-[5.5rem] dark:bg-neutral-950">
               <ETCLogo className="h-14 w-14 fill-black opacity-50 dark:*:fill-white" />
             </div>
 
-            <div className="ml-14 mt-[3.5rem] h-fit bg-white dark:bg-neutral-950">
+            <div className="mt-[3.5rem] ml-14 h-fit bg-white dark:bg-neutral-950">
               <AudixLogo className="h-14 w-14 fill-neutral-950 stroke-neutral-950 text-black opacity-75 dark:fill-white dark:stroke-white dark:text-white" />
             </div>
           </motion.div>
@@ -436,7 +436,7 @@ export function AboutSplash() {
             opacity: livestreamRingsOpacity,
             position: ringsPosition,
           }}
-          className="left-[50%] top-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-300 dark:border-pink-300/75 sm:h-[12rem] sm:w-[12rem]"
+          className="top-[50%] left-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-300 select-none sm:h-[12rem] sm:w-[12rem] dark:border-pink-300/75"
         ></motion.div>
 
         {/* Misc */}
@@ -446,12 +446,12 @@ export function AboutSplash() {
             opacity: miscRingsOpacity,
             position: ringsPosition,
           }}
-          className="left-[50%] top-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-100 text-sm dark:border-pink-100/15 sm:h-[24rem] sm:w-[24rem] md:text-base"
+          className="top-[50%] left-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-100 text-sm select-none sm:h-[24rem] sm:w-[24rem] md:text-base dark:border-pink-100/15"
         >
-          <p className="absolute -top-20 left-4 max-w-40 opacity-90 sm:-left-10 sm:-top-10 md:-left-20 md:-top-14">
+          <p className="absolute -top-20 left-4 max-w-40 opacity-90 sm:-top-10 sm:-left-10 md:-top-14 md:-left-20">
             I generally love tech, photography, and lighting design.
           </p>
-          <p className="absolute right-4 max-w-40 text-right opacity-90 sm:-right-28 md:-right-44 md:top-20">
+          <p className="absolute right-4 max-w-40 text-right opacity-90 sm:-right-28 md:top-20 md:-right-44">
             I&apos;m an avid learner and an enthusiastic person in general,
           </p>
           <p className="absolute -bottom-10 left-4 max-w-56 text-left opacity-90 sm:-bottom-4 sm:-left-36 xl:-bottom-10 xl:-left-48">
@@ -465,7 +465,7 @@ export function AboutSplash() {
             opacity: miscRingsOpacity,
             position: ringsPosition,
           }}
-          className="left-[50%] top-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-200 dark:border-pink-200/40 sm:h-[18rem] sm:w-[18rem]"
+          className="top-[50%] left-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-200 select-none sm:h-[18rem] sm:w-[18rem] dark:border-pink-200/40"
         />
         <motion.div
           style={{
@@ -473,7 +473,7 @@ export function AboutSplash() {
             opacity: miscRingsOpacity,
             position: ringsPosition,
           }}
-          className="left-[50%] top-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] select-none rounded-full border border-pink-300 dark:border-pink-300/75 sm:h-[12rem] sm:w-[12rem]"
+          className="top-[50%] left-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-300 select-none sm:h-[12rem] sm:w-[12rem] dark:border-pink-300/75"
         />
       </motion.section>
 
@@ -483,7 +483,7 @@ export function AboutSplash() {
           opacity: finalImageDecorationOpacity,
           position: finalImageDecorationPosition,
         }}
-        className="left-[50%] top-[50%] mt-[5rem] translate-x-[-50%] translate-y-[-50%] text-center"
+        className="top-[50%] left-[50%] mt-[5rem] translate-x-[-50%] translate-y-[-50%] text-center"
       >
         <Button asChild className="group mt-8" variant="secondary">
           <Link href="mailto:hello@sidd.studio">

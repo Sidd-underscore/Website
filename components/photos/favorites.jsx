@@ -23,7 +23,11 @@ export function Favorites({ photos }) {
     var tempPhotos2 = [];
 
     for (const photo of photos) {
-      if (favorites.some(fav => fav.name === photo.name && fav.path === photo.path)) {
+      if (
+        favorites.some(
+          (fav) => fav.name === photo.name && fav.path === photo.path,
+        )
+      ) {
         tempFavorites.push(photo);
       }
     }

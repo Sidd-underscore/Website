@@ -105,7 +105,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
               {achievementData.types.map((type) => (
                 <DropdownMenuCheckboxItem
                   key={type}
-                  onSelect={event => event.preventDefault()}
+                  onSelect={(event) => event.preventDefault()}
                   checked={achievementTypesToShow?.includes(type)}
                   onCheckedChange={(e) =>
                     e
@@ -132,59 +132,59 @@ export function Achievements({ className, defaultAchievementTypes }) {
       >
         {achievementsToDisplay.length > 0 ? (
           achievementsToDisplay.map((achievement) => (
-          <div
-            key={achievement.id}
-            className="group relative h-full rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50"
-          >
-            <div className="h-full">
-              <div className="z-30 flex h-full flex-col justify-between px-5 py-4">
-                <div>
-                  <h3 className={`mb-3 text-2xl font-semibold`}>
-                    {achievement.name}
-                  </h3>
-                  <p className="flex items-center space-x-2 text-xs opacity-75">
-                    <span className="flex items-center space-x-2">
-                      <CalendarIcon className="h-4 w-4 shrink-0" />
-                      <span>{achievement.date}</span>
-                    </span>
-
-                    <span>•</span>
-
-                    {achievement.category === "award" && (
+            <div
+              key={achievement.id}
+              className="group relative h-full rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50"
+            >
+              <div className="h-full">
+                <div className="z-30 flex h-full flex-col justify-between px-5 py-4">
+                  <div>
+                    <h3 className={`mb-3 text-2xl font-semibold`}>
+                      {achievement.name}
+                    </h3>
+                    <p className="flex items-center space-x-2 text-xs opacity-75">
                       <span className="flex items-center space-x-2">
-                        <TrophyIcon className="h-4 w-4 shrink-0" />
-                        <span>{achievement.ranking}</span>
+                        <CalendarIcon className="h-4 w-4 shrink-0" />
+                        <span>{achievement.date}</span>
                       </span>
-                    )}
 
-                    {achievement.category === "membership" && (
-                      <span className="flex items-center space-x-2">
-                        <CardStackIcon className="h-4 w-4 shrink-0" />
-                        <span>Membership by Invitation</span>
-                      </span>
-                    )}
+                      <span>•</span>
 
-                    {achievement.category === "certification" && (
-                      <span className="flex items-center space-x-2">
-                        <PaperPlaneIcon className="h-4 w-4 shrink-0 -rotate-[45deg]" />
-                        <span>Certification</span>
-                      </span>
-                    )}
-                  </p>
-                  <div className={`m-4 text-sm`}>
-                    <ul className="list-disc text-left">
-                      {achievement.descriptions.map((description) => (
-                        <li className="opacity-75" key={description}>
-                          {description}
-                        </li>
-                      ))}
-                    </ul>
+                      {achievement.category === "award" && (
+                        <span className="flex items-center space-x-2">
+                          <TrophyIcon className="h-4 w-4 shrink-0" />
+                          <span>{achievement.ranking}</span>
+                        </span>
+                      )}
+
+                      {achievement.category === "membership" && (
+                        <span className="flex items-center space-x-2">
+                          <CardStackIcon className="h-4 w-4 shrink-0" />
+                          <span>Membership by Invitation</span>
+                        </span>
+                      )}
+
+                      {achievement.category === "certification" && (
+                        <span className="flex items-center space-x-2">
+                          <PaperPlaneIcon className="h-4 w-4 shrink-0 -rotate-[45deg]" />
+                          <span>Certification</span>
+                        </span>
+                      )}
+                    </p>
+                    <div className={`m-4 text-sm`}>
+                      <ul className="list-disc text-left">
+                        {achievement.descriptions.map((description) => (
+                          <li className="opacity-75" key={description}>
+                            {description}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))
+          ))
         ) : (
           <p className="w-full text-center text-neutral-400">
             No achievements found... Try{" "}
@@ -192,7 +192,6 @@ export function Achievements({ className, defaultAchievementTypes }) {
               className="cursor-pointer underline"
               onClick={() => {
                 setAchievementTypesToShow(gatherAllAchievementData().types);
-               
               }}
             >
               clearing the filters
@@ -200,7 +199,6 @@ export function Achievements({ className, defaultAchievementTypes }) {
             ?
           </p>
         )}
-        
       </div>
     </div>
   );

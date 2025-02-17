@@ -34,7 +34,7 @@ const TabsList = React.forwardRef(({ className, children, ...props }, ref) => (
   <TabsPrimitive.List
     ref={ref}
     className={cn(
-      "relative inline-flex h-9 select-none items-center justify-center rounded-lg bg-neutral-100 p-1 text-neutral-500 dark:bg-neutral-900 dark:text-neutral-400",
+      "relative inline-flex h-9 items-center justify-center rounded-lg bg-neutral-100 p-1 text-neutral-500 select-none dark:bg-neutral-900 dark:text-neutral-400",
       className,
     )}
     {...props}
@@ -55,7 +55,7 @@ const TabsTrigger = React.forwardRef(
         ref={tabRef}
         value={value}
         className={cn(
-          "relative inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-white transition-all hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-black dark:ring-offset-neutral-950 dark:hover:text-white dark:focus-visible:ring-neutral-300 dark:data-[state=active]:text-neutral-50",
+          "relative inline-flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap ring-offset-white transition-all hover:text-black focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-black dark:ring-offset-neutral-950 dark:hover:text-white dark:focus-visible:ring-neutral-300 dark:data-[state=active]:text-neutral-50",
           className,
         )}
         {...props}
@@ -64,7 +64,7 @@ const TabsTrigger = React.forwardRef(
           <span className="z-10">{children}</span>
           {isActive && (
             <motion.div
-              className="absolute bottom-0 left-0 rounded-md bg-white shadow dark:bg-neutral-800"
+              className="absolute bottom-0 left-0 rounded-md bg-white shadow-sm dark:bg-neutral-800"
               layoutId="tabsActive"
               aria-hidden="true"
               style={{
@@ -89,7 +89,7 @@ const TabsContent = React.forwardRef(({ className, value, ...props }, ref) => {
       ref={ref}
       value={value}
       className={cn(
-        "relative mt-2 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300",
+        "relative mt-2 ring-offset-white focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:outline-hidden dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300",
         className,
       )}
       {...props}

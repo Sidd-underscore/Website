@@ -31,7 +31,7 @@ export default async function WorkPage(props) {
     return (
       <>
         <NotFound prefix="Work" />
-        <Separator className="-mb-10 mt-10" />
+        <Separator className="mt-10 -mb-10" />
         <Work />
       </>
     );
@@ -40,7 +40,7 @@ export default async function WorkPage(props) {
   return (
     <>
       <h1 className="text-5xl font-bold">{workItem.name}</h1>
-      <p className="mt-2 w-fit items-center space-y-2 text-sm opacity-50 md:flex md:space-x-2 md:space-y-0">
+      <p className="mt-2 w-fit items-center space-y-2 text-sm opacity-50 md:flex md:space-y-0 md:space-x-2">
         <span className={`m-0 flex items-center space-x-2`}>
           <SewingPinFilledIcon className="h-4 w-4 shrink-0" />
           <span>{workItem.location}</span>
@@ -53,7 +53,7 @@ export default async function WorkPage(props) {
       </p>
       <div className="mt-10">{workItem.description}</div>
 
-      <Separator className="-mb-10 mt-10" />
+      <Separator className="mt-10 -mb-10" />
       <Work />
     </>
   );

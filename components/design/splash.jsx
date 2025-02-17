@@ -47,14 +47,14 @@ export default function DesignSplash() {
   }, []);
 
   return (
-    <div className="relative mb-96 mt-8">
+    <div className="relative mt-8 mb-96">
       <div className="z-20">
         <div className="relative my-24 overscroll-y-contain">
           <TextBox textContent="I have been passionate about design since a young age." />
         </div>
 
         <div className="text-2xl">
-          <p className="space-x-0.5 text-balance leading-loose">
+          <p className="space-x-0.5 leading-loose text-balance">
             <span>
               Whether it be{" "}
               <ColorBox backgroundColor={colorBoxBackgroundColor}>
@@ -94,7 +94,7 @@ export default function DesignSplash() {
         </div>
       </div>
       {/* Assortment of UI things  */}
-      <div className="absolute -bottom-80 -right-12 flex w-full space-x-4">
+      <div className="absolute -right-12 -bottom-80 flex w-full space-x-4">
         <UIGallery
           colorBoxBackgroundColor={colorBoxBackgroundColor}
           setColorBoxBackgroundColor={setColorBoxBackgroundColor}
@@ -320,7 +320,7 @@ export function TextBox({ textContent }) {
       <textarea
         type="text"
         ref={inputRef}
-        className="h-full w-full resize-none overflow-hidden bg-transparent p-4 outline-none ring-0 focus:outline-none focus:ring-0"
+        className="h-full w-full resize-none overflow-hidden bg-transparent p-4 ring-0 outline-hidden focus:ring-0 focus:outline-hidden"
         value={text}
         onChange={(e) => {
           setText(e.target.value);
@@ -331,44 +331,44 @@ export function TextBox({ textContent }) {
 
       {/* Edge resize handles */}
       <div
-        className="absolute -left-2 -top-2 z-20 h-5 w-5 cursor-nw-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 dark:border-neutral-950 dark:bg-white md:-left-1 md:-top-1 md:h-3 md:w-3 md:rounded-none"
+        className="absolute -top-2 -left-2 z-20 h-5 w-5 cursor-nw-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 md:-top-1 md:-left-1 md:h-3 md:w-3 md:rounded-none dark:border-neutral-950 dark:bg-white"
         onMouseDown={(e) => handleResize(e, "nw")}
         onTouchStart={(e) => handleResize(e, "nw")}
       />
       <div
-        className="absolute -right-2 -top-2 z-20 h-5 w-5 cursor-ne-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 dark:border-neutral-950 dark:bg-white md:-right-1 md:-top-1 md:h-3 md:w-3 md:rounded-none"
+        className="absolute -top-2 -right-2 z-20 h-5 w-5 cursor-ne-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 md:-top-1 md:-right-1 md:h-3 md:w-3 md:rounded-none dark:border-neutral-950 dark:bg-white"
         onMouseDown={(e) => handleResize(e, "ne")}
         onTouchStart={(e) => handleResize(e, "ne")}
       />
       <div
-        className="absolute -bottom-2 -left-2 z-20 h-5 w-5 cursor-sw-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 dark:border-neutral-950 dark:bg-white md:-bottom-1 md:-left-1 md:h-3 md:w-3 md:rounded-none"
+        className="absolute -bottom-2 -left-2 z-20 h-5 w-5 cursor-sw-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 md:-bottom-1 md:-left-1 md:h-3 md:w-3 md:rounded-none dark:border-neutral-950 dark:bg-white"
         onMouseDown={(e) => handleResize(e, "sw")}
         onTouchStart={(e) => handleResize(e, "sw")}
       />
       <div
-        className="absolute -bottom-2 -right-2 z-20 h-5 w-5 cursor-se-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 dark:border-neutral-950 dark:bg-white md:-bottom-1 md:-right-1 md:h-3 md:w-3 md:rounded-none"
+        className="absolute -right-2 -bottom-2 z-20 h-5 w-5 cursor-se-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 md:-right-1 md:-bottom-1 md:h-3 md:w-3 md:rounded-none dark:border-neutral-950 dark:bg-white"
         onMouseDown={(e) => handleResize(e, "se")}
         onTouchStart={(e) => handleResize(e, "se")}
       />
 
       {/* Drag handles */}
       <div
-        className="absolute -left-0.5 top-0 z-10 h-full w-1.5 cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white md:w-1"
+        className="absolute top-0 -left-0.5 z-10 h-full w-1.5 cursor-move border border-white bg-neutral-950 md:w-1 dark:border-neutral-950 dark:bg-white"
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className="absolute -left-0.5 -right-0.5 top-0 z-10 h-1.5 w-full cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white md:h-1"
+        className="absolute top-0 -right-0.5 -left-0.5 z-10 h-1.5 w-full cursor-move border border-white bg-neutral-950 md:h-1 dark:border-neutral-950 dark:bg-white"
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className="absolute -right-0.5 top-0 z-10 h-full w-1.5 cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white md:w-1"
+        className="absolute top-0 -right-0.5 z-10 h-full w-1.5 cursor-move border border-white bg-neutral-950 md:w-1 dark:border-neutral-950 dark:bg-white"
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className="absolute -left-0.5 -right-0.5 bottom-0 z-10 h-1.5 w-full cursor-move border border-white bg-neutral-950 dark:border-neutral-950 dark:bg-white md:h-1"
+        className="absolute -right-0.5 bottom-0 -left-0.5 z-10 h-1.5 w-full cursor-move border border-white bg-neutral-950 md:h-1 dark:border-neutral-950 dark:bg-white"
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
@@ -383,7 +383,7 @@ export function UIGallery({
   setEndTextStyles,
 }) {
   const [date, setDate] = useState(null);
-  const {setActiveTab} = useTabs();
+  const { setActiveTab } = useTabs();
 
   useEffect(() => {
     // ensure that the correct tab is active
@@ -449,10 +449,10 @@ export function UIGallery({
         </Select>
 
         <DatePickerWithRange className="" date={date} setDate={setDate} />
-        <div className="flex w-96 items-center rounded-md border border-neutral-200 bg-transparent bg-white bg-opacity-90 pl-3 pr-1 text-sm shadow-sm hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
+        <div className="bg-opacity-90 flex w-96 items-center rounded-md border border-neutral-200 bg-transparent bg-white pr-1 pl-3 text-sm shadow-xs hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
           <MagnifyingGlassIcon />
           <Input
-            className="pointer-events-auto !border-transparent shadow-none !ring-0"
+            className="pointer-events-auto border-transparent! ring-0! shadow-none"
             placeholder="Search photos..."
           />
         </div>
@@ -517,7 +517,7 @@ export function UIGallery({
                     <span>Canon PowerShot SX70 HS</span>
                   </div>
 
-                  <div className="mb-4 mt-2 flex items-center space-x-2 text-xs">
+                  <div className="mt-2 mb-4 flex items-center space-x-2 text-xs">
                     <CropIcon className="h-3 w-3 shrink-0" />
                     <span>1024 x 1080</span>
                   </div>

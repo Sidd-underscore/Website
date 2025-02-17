@@ -1,24 +1,79 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@plugin 'tailwindcss-animate';
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+@utility container {
+  margin-inline: auto;
+  padding-inline: 2rem;
+  @media (width >= --theme(--breakpoint-sm)) {
+    max-width: none;
+  }
+  @media (width >= 1400px) {
+    max-width: 1400px;
+  }
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
 
 .dark {
-  @apply [--accent-color-lighter:#e969ee30] [--accent-color:#f472b6] [--transparent-color:black];
+  @apply [--accent-color-lighter:#e969ee30] [--accent-color:var(--color-pink-300)] [--transparent-color:black];
 }
 
 .light {
-  @apply [--accent-color-lighter:#e969ee20] [--accent-color:#f384f7] [--transparent-color:white];
+  @apply [--accent-color-lighter:#e969ee20] [--accent-color:var(--color-pink-500)] [--transparent-color:white];
 }
 
-::-moz-selection {
+.dark ::selection {
   background-color: var(--accent-color);
   opacity: 1;
-  color: #fefefe;
+  color: var(--color-neutral-950);
 }
-::selection {
+
+.light ::selection {
   background-color: var(--accent-color);
   opacity: 1;
-  color: #fefefe;
+  color: var(--color-neutral-100);
 }
 
 .shimmer {
@@ -37,7 +92,7 @@
 }
 
 body.flex[data-scroll-locked] {
-  @apply mt-12 p-6 !pb-0 [overflow:visible!important] [overscroll-behavior:initial!important] md:p-12 2xl:p-24;
+  @apply mt-12 [overflow:visible!important] [overscroll-behavior:initial!important] p-6 pb-0! md:p-12 2xl:p-24;
 }
 
 /* For hydration errors */
