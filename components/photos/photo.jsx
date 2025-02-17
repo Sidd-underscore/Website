@@ -21,64 +21,31 @@ import {
 } from "../ui/responsive-dialog";
 import { formatRelative, fromUnixTime, formatDistance, format } from "date-fns";
 import { Button, buttonVariants } from "../ui/button";
-import { cn, shimmer, toBase64 } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { useEffect, useState, memo, useCallback } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
 
 export const Photo = memo(function Photo({ className, photoData, ...props }) {
-  const { theme } = useTheme();
-  const [hasImageFinishedLoading, setHasImageFinishedLoading] = useState(false);
-
-  const handleImageLoad = useCallback(() => {
-    setHasImageFinishedLoading(true);
-  }, []);
-
   return (
     <div className={cn("relative w-full")}>
-      {!hasImageFinishedLoading && (
-        <div
-          className={cn(
-            "h-full w-full max-w-none cursor-pointer rounded-lg select-none",
-            className,
-          )}
-          style={{
-            background: `url('data:image/svg+xml;base64,${toBase64(
-              shimmer(
-                photoData.staticPhoto.width,
-                photoData.staticPhoto.height,
-                theme,
-              ),
-            )}')`,
-            aspectRatio: `${photoData.staticPhoto.width} / ${photoData.staticPhoto.height}`,
-          }}
-        />
-      )}
+   
       <Image
         className={cn(
           "h-full w-full max-w-none cursor-pointer rounded-lg transition select-none",
-          hasImageFinishedLoading ? "opacity-100" : "opacity-0",
           className,
         )}
-        src={photoData.path}
+        src={photoData.staticPhoto}
         alt={photoData.name}
         width={photoData.staticPhoto.width}
         height={photoData.staticPhoto.height}
         quality={85}
         priority={false}
-        onLoad={handleImageLoad}
+        placeholder="blur"
         {...props}
       />
     </div>
@@ -90,9 +57,7 @@ export const AdvancedPhoto = memo(function AdvancedPhoto({
   photoData,
   ...props
 }) {
-  const { theme } = useTheme();
   const [photoIsInLocalStorage, setPhotoIsInLocalStorage] = useState(false);
-  const [hasImageFinishedLoading, setHasImageFinishedLoading] = useState(false);
 
   useEffect(() => {
     const checkFavorites = () => {
@@ -109,10 +74,6 @@ export const AdvancedPhoto = memo(function AdvancedPhoto({
     return () =>
       window.removeEventListener("favoritePhotosUpdated", checkFavorites);
   }, [photoData.name]);
-
-  const handleImageLoad = useCallback(() => {
-    setHasImageFinishedLoading(true);
-  }, []);
 
   const handleFavoriteClick = useCallback(() => {
     const favorites = JSON.parse(localStorage.getItem("favoritePhotos")) || [];
@@ -158,37 +119,19 @@ export const AdvancedPhoto = memo(function AdvancedPhoto({
       >
         <DialogTrigger asChild={true}>
           <div className="relative">
-            {!hasImageFinishedLoading && (
-              <div
-                className={cn(
-                  "h-full w-full max-w-none rounded-lg select-none",
-                  className,
-                )}
-                style={{
-                  background: `url('data:image/svg+xml;base64,${toBase64(
-                    shimmer(
-                      photoData.staticPhoto.width,
-                      photoData.staticPhoto.height,
-                      theme,
-                    ),
-                  )}')`,
-                  aspectRatio: `${photoData.staticPhoto.width} / ${photoData.staticPhoto.height}`,
-                }}
-              />
-            )}
+          
             <Image
               className={cn(
                 "h-full w-full max-w-none cursor-pointer rounded-lg transition select-none",
-                hasImageFinishedLoading ? "opacity-100" : "opacity-0",
                 className,
               )}
-              src={photoData.path}
+              src={photoData.staticPhoto}
               alt={photoData.name}
               width={photoData.staticPhoto.width}
               height={photoData.staticPhoto.height}
               quality={75}
               priority={false}
-              onLoad={handleImageLoad}
+              placeholder="blur"
               {...props}
             />
           </div>
@@ -289,54 +232,33 @@ function PhotoDialog({ photoData, className }) {
 
               <a
                 download={true}
-                href={photoData.path.replace(".png", downloadFormat)}
+                href={photoData.path}
                 className={buttonVariants({
                   variant: "outline",
-                  size: "md",
-                  className: "mt-2 flex w-full items-center rounded-lg text-sm",
+                  className: "flex w-full items-center rounded-lg text-sm",
                 })}
               >
                 <DownloadIcon className="mr-2 shrink-0" />
-                Download as{" "}
-                <Select
-                  defaultValue={downloadFormat}
-                  onValueChange={setDownloadFormat}
-                >
-                  <SelectTrigger
-                    triggerButtonVariant="icon"
-                    className="w-fit border-none pr-0! pl-2! text-xs! shadow-none"
-                  >
-                    <SelectValue placeholder="Select an image format" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value=".png">PNG</SelectItem>
-                    <SelectItem value=".jpg">
-                      JPG{" "}
-                      {photoData.jpgHasMetadata != false && (
-                        <span className="text-xs">(metadata)</span>
-                      )}
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                Download 
               </a>
             </PopoverContent>
           </Popover>
         </DialogTitle>
         <DialogDescription>
-          <div className="relative flex max-h-full max-w-full items-center justify-center space-y-2 overflow-auto md:space-y-0">
             <Image
               className={cn(
                 `${photoData.staticPhoto.width > photoData.staticPhoto.height ? "max-h-[80vh]" : "max-h-[75vh]"} w-auto max-w-[calc(36rem-8rem)] sm:max-w-[calc(36rem-4rem)] md:max-w-[calc(90vw-6rem)] 2xl:max-w-[calc(90vw-12rem)] rounded-md select-none`,
                 className,
               )}
-              src={photoData.path}
+              src={photoData.staticPhoto}
               alt={photoData.name}
               width={photoData.staticPhoto.width}
               height={photoData.staticPhoto.height}
+              style={{ aspectRatio: `${photoData.staticPhoto.width} / ${photoData.staticPhoto.height}`, height: photoData.staticPhoto.width}}
+              placeholder="blur"
               quality={100}
               priority={true}
             />
-          </div>
         </DialogDescription>
       </DialogHeader>
     </>
