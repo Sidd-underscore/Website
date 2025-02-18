@@ -6,7 +6,7 @@ import {
   useTransform,
   motion,
   useMotionValueEvent,
-} from "framer-motion";
+} from "motion/react";
 import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
 import {

@@ -1,12 +1,12 @@
-import { Archivo } from "next/font/google";
-import "./globals.css";
 import { Footer } from "@/components/home/footer";
 import { Navbar } from "@/components/home/navbar";
+import { TransitionLayout } from "@/components/home/transition-layout";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import { SpeedInsights } from "@vercel/speed-insights/next";
-import { Analytics } from "@vercel/analytics/react";
 import { AppProvider } from "@/lib/utils";
-import { ViewTransitions } from "next-view-transitions";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Archivo } from "next/font/google";
+import "./globals.css";
 
 const archivo = Archivo({ subsets: ["latin"] });
 
@@ -33,7 +33,6 @@ export function TailwindIndicator() {
 
 export default function RootLayout({ children }) {
   return (
-    <ViewTransitions>
       <html lang="en" suppressHydrationWarning>
         <head>
           <meta name="theme-color" content="#ffffff" />
@@ -44,9 +43,11 @@ export default function RootLayout({ children }) {
           <ThemeProvider>
             <AppProvider>
               <Navbar />
-              <main className="mt-6 min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none lg:mt-8 xl:mt-10 2xl:mt-0 2xl:has-[.2xl_no-max-w]:max-w-none">
-                {children}
-              </main>
+              <TransitionLayout>
+                <main className="mt-6 min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none lg:mt-8 xl:mt-10 2xl:mt-0 2xl:has-[.2xl_no-max-w]:max-w-none">
+                  {children}
+                </main>
+              </TransitionLayout>
               <Footer />
 
               {/* For screen sizes */}
@@ -57,6 +58,5 @@ export default function RootLayout({ children }) {
           <SpeedInsights />
         </body>
       </html>
-    </ViewTransitions>
   );
 }

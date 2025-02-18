@@ -28,7 +28,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 export const Photo = memo(function Photo({ className, photoData, ...props }) {
   return (

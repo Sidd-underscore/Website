@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { useTabs } from "@/lib/utils";
 
 const Tabs = ({ defaultValue, onValueChange, ...props }) => {

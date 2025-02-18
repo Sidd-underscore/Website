@@ -1,4 +1,4 @@
-import { Link as NextLink } from "next-view-transitions";
+import NextLink from "next/link";
 
 export function Link({ className, children, href, ...props }) {
   return (
