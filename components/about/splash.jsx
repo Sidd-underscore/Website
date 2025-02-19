@@ -203,6 +203,19 @@ export function AboutSplash() {
             className={`fixed top-1 bottom-1 left-1 h-11 w-auto rounded-full grayscale hover:grayscale-0 hover:invert-0! hover:transition-all hover:duration-500 dark:invert`}
           />
         ),
+        shortLabel: (
+          <motion.img
+            style={{
+              left: avatarLeft,
+              top: avatarTop,
+              width: avatarSize,
+              height: avatarSize,
+            }}
+            alt="sidd's logo"
+            src="/images/sidd.png"
+            className={`fixed top-1 bottom-1 left-1 h-11 w-auto rounded-full grayscale hover:grayscale-0 hover:invert-0! hover:transition-all hover:duration-500 dark:invert`}
+          />
+        ),
       });
 
       prevValues.current = {

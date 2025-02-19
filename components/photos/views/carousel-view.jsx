@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogTrigger,
 } from "@/components/photos/photo";
+import Image from "next/image";
 
 const variants = {
   enter: (direction) => ({
@@ -96,11 +97,11 @@ export function CarouselView({ photos }) {
   };
 
   return (
-    <div className="relative h-[40vw] w-full">
+    <div className="relative h-[110vw] w-full">
       <Dialog>
         <DialogTrigger asChild>
           <motion.div
-            className="relative aspect-[3/2] h-full w-full cursor-pointer overflow-hidden rounded-lg"
+            className="relative aspect-[1/1] w-full cursor-pointer overflow-hidden rounded-lg"
             whileHover="hover"
           >
             <AnimatePresence
@@ -123,8 +124,11 @@ export function CarouselView({ photos }) {
                 }}
                 className="absolute inset-0"
               >
-                <img
-                  src={photos[currentIndex]?.path}
+                <Image
+                  width={0}
+                  height={0}
+                  placeholder="blur"
+                  src={photos[currentIndex]?.staticPhoto}
                   alt={photos[currentIndex]?.name}
                   className="h-full w-full rounded-md object-cover"
                 />

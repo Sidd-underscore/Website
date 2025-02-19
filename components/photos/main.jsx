@@ -32,15 +32,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { Link } from "@/components/ui/link";
 
 import { cn, useTabs } from "@/lib/utils";
 import originalPhotosArray from "@/lib/photos";
-import { LOCATION_HIERARCHY } from "@/lib/photos";
 
 import { Albums } from "./albums";
 import { PhotoViews, ViewModeToggle } from "./views";
-import { PhotoGlobe } from "./globe";
+import { PhotoGlobe } from "./photo-globe";
 import { Favorites } from "./favorites";
 import { useFilters, filterPhotos } from "./search-context";
 
@@ -108,15 +113,9 @@ export function PhotosMain({ params }) {
       ...new Set(originalPhotosArray.map((photo) => photo.camera)),
     ];
 
-    const uniqueLocations = new Set();
-    originalPhotosArray.forEach((photo) => {
-      uniqueLocations.add(photo.location);
-    });
-
-    Object.keys(LOCATION_HIERARCHY).forEach((parentLocation) => {
-      uniqueLocations.add(parentLocation);
-    });
-
+    const uniqueLocations = new Set(
+      originalPhotosArray.map((photo) => photo.location),
+    );
     setCameras(uniqueCameras);
     setLocations([...uniqueLocations]);
   }, []);
@@ -129,13 +128,9 @@ export function PhotosMain({ params }) {
         )
       : originalPhotosArray;
 
-    // Then apply the rest of the filters
     return filterPhotos(photos, {
       ...filters,
-      location:
-        filters.location && LOCATION_HIERARCHY[filters.location]
-          ? [...LOCATION_HIERARCHY[filters.location], filters.location]
-          : filters.location,
+      location: filters.location,
     });
   }, [originalPhotosArray, filters, albumId]);
 
@@ -316,13 +311,13 @@ export function PhotosMain({ params }) {
         animate={controls}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
-        <div className="w-full items-center space-y-2 md:flex md:space-y-0 md:space-x-2">
-          <div className="py- flex w-full items-center rounded-md border border-neutral-200 bg-white/75 pr-1 pl-3 text-sm shadow-xs backdrop-blur-md transition-colors hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950/75 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
+        <div className="flex w-full items-center space-x-2">
+          <div className="flex w-full items-center rounded-md border border-neutral-200 bg-white/75 pr-1 pl-3 text-sm shadow-xs backdrop-blur-md transition-colors hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950/75 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
             {searchIcon}
             <Input
               onChange={handleSearchChange}
               value={filters.query}
-              className="pointer-events-auto border-transparent! pr-16 ring-0! shadow-none"
+              className="pointer-events-auto border-transparent! ring-0! shadow-none"
               placeholder="Search photos... (by name, description, camera, and more!)"
             />
             <Button
@@ -337,7 +332,7 @@ export function PhotosMain({ params }) {
           <div className="flex items-center space-x-2 rounded-md text-sm">
             <ViewModeToggle viewMode={viewMode} onChange={setViewMode} />
             <Select value={sortOrder} onValueChange={handleSortChange}>
-              <SelectTrigger className="w-32 rounded-sm px-3 py-2 font-normal bg-white/75 backdrop-blur-md shadow-xs dark:bg-neutral-950/75">
+              <SelectTrigger className="w-full rounded-sm bg-white/75 px-3 py-2 font-normal shadow-xs backdrop-blur-md sm:w-30 dark:bg-neutral-950/75">
                 <p className="flex items-center space-x-2">
                   <span>
                     {sortOrder === "newest" ? "Newest first" : "Oldest first"}
@@ -352,7 +347,118 @@ export function PhotosMain({ params }) {
           </div>
         </div>
       </motion.div>
-      <div className="mt-2 justify-between space-y-2 sm:flex sm:space-y-0 sm:space-x-2">
+
+      <div className="mt-2 block sm:hidden">
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="filters">
+            <AccordionTrigger className="py-2 text-sm">
+              Filters
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-2">
+                <DatePickerWithRange
+                  date={filters.date}
+                  setDate={handleDateChange}
+                  availableDates={everyDateThatsInThePhotosArray}
+                  className="h-auto w-full text-sm shadow-xs"
+                />
+                <Select
+                  value={filters.camera || "removeCameraFilter"}
+                  onValueChange={handleCameraChange}
+                >
+                  <SelectTrigger
+                    className={cn(
+                      "h-auto w-full px-3 py-2 font-normal",
+                      (filters.camera === undefined ||
+                        filters.camera === "removeCameraFilter") &&
+                        "text-neutral-400",
+                    )}
+                  >
+                    <p className="flex items-center space-x-2">
+                      <CameraIcon className="h-3 w-3" />
+                      <span>
+                        {filters.camera === undefined ||
+                        filters.camera === "removeCameraFilter"
+                          ? "Select a camera..."
+                          : filters.camera}
+                      </span>
+                    </p>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="removeCameraFilter">
+                      No filter
+                    </SelectItem>
+                    {cameras.map((camera) => (
+                      <SelectItem key={camera} value={camera}>
+                        {camera}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                <div className="flex gap-2">
+                  <Select
+                    value={filters.location || "removeLocationFilter"}
+                    onValueChange={handleLocationChange}
+                    className="flex-1"
+                  >
+                    <SelectTrigger
+                      className={cn(
+                        "h-auto w-full px-3 py-2 font-normal",
+                        (filters.location === undefined ||
+                          filters.location === "removeLocationFilter") &&
+                          "text-neutral-400",
+                      )}
+                    >
+                      <p className="flex items-center space-x-2">
+                        <SewingPinFilledIcon className="h-3 w-3" />
+                        <span>
+                          {filters.location === undefined ||
+                          filters.location === "removeLocationFilter"
+                            ? "Select a location..."
+                            : filters.location}
+                        </span>
+                      </p>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="removeLocationFilter">
+                        No filter
+                      </SelectItem>
+                      {locations.map((location) => (
+                        <SelectItem key={location} value={location}>
+                          {location}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="aspect-square h-9 w-9"
+                      >
+                        <GlobeIcon className="h-4 w-4" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-96 p-0" align="end">
+                      <div className="h-96">
+                        <PhotoGlobe
+                          onLocationClick={handleLocationChange}
+                          showArcs={false}
+                        />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </div>
+
+      <div className="mt-2 hidden justify-between space-y-2 sm:flex sm:space-y-0 sm:space-x-2">
         <DatePickerWithRange
           date={filters.date}
           setDate={handleDateChange}
@@ -445,7 +551,6 @@ export function PhotosMain({ params }) {
           </Popover>
         </div>
       </div>
-
       <Tabs
         value={albumId ? "gallery" : path}
         defaultValue={albumId ? "gallery" : path}

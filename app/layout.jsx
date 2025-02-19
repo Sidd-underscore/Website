@@ -43,11 +43,13 @@ export default function RootLayout({ children }) {
           <ThemeProvider>
             <AppProvider>
               <Navbar />
-              <TransitionLayout>
                 <main className="mt-6 min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none lg:mt-8 xl:mt-10 2xl:mt-0 2xl:has-[.2xl_no-max-w]:max-w-none">
+                <TransitionLayout>
+
                   {children}
+                  </TransitionLayout>
+
                 </main>
-              </TransitionLayout>
               <Footer />
 
               {/* For screen sizes */}

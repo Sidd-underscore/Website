@@ -1,4 +1,5 @@
 "use client";
+
 import photos, { LOCATION_COORDS } from "@/lib/photos";
 import Image from "next/image";
 import { useRef, useState, useEffect } from "react";
@@ -6,38 +7,13 @@ import { Link } from "../ui/link";
 import { Button } from "../ui/button";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { FeaturedPhotos } from "./featured";
-import { PhotoGlobe } from "./globe";
+import { PhotoGlobe } from "./photo-globe";
 
 export function PhotosSplash() {
   const buttonRef = useRef(null);
   const [linkHovered, setLinkHovered] = useState(false);
-  const [buttonPosition, setButtonPosition] = useState({
-    x: 0,
-    y: 0,
-    width: 0,
-  });
-
-  useEffect(() => {
-    const updateButtonPosition = () => {
-      if (buttonRef.current) {
-        const rect = buttonRef.current.getBoundingClientRect();
-        setButtonPosition({
-          x: rect.left,
-          y: rect.top + window.scrollY,
-          width: rect.width,
-        });
-      }
-    };
-
-    updateButtonPosition();
-
-    window.addEventListener("resize", updateButtonPosition);
-
-    return () => {
-      window.removeEventListener("resize", updateButtonPosition);
-    };
-  }, []);
-
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
   const photoKeys = [
     "Ivy Posing",
     "Baby Swallow-Tailed Gull",
@@ -83,6 +59,9 @@ export function PhotosSplash() {
             className="transition"
             onMouseEnter={() => setLinkHovered(true)}
             onMouseLeave={() => setLinkHovered(false)}
+            onMouseMove={(e) => {
+              setMousePosition({ x: e.clientX, y: e.clientY + window.scrollY });
+            }}
           >
             <span>Enter the gallery</span>{" "}
             <ArrowRightIcon className="ml-2 h-4 w-4 transition-all group-hover:ml-4" />
@@ -94,29 +73,42 @@ export function PhotosSplash() {
           {photos.length} photos taken in {Object.keys(LOCATION_COORDS).length}{" "}
           places around the world!
         </h2>
-        <PhotoGlobe />
+        <PhotoGlobe enableZoom={false} />
       </div>
       {/* Scattered photos on the side */}
       {photoKeys.map((key, index) => {
         const initialPosition =
           index % 2 === 0 ? { left: -40 } : { right: -40 };
 
-        const getRotation = (isHovered) => {
-          const rotations = isHovered
-            ? ["-6deg", "12deg", "6deg", "-12deg"]
-            : ["6deg", "-12deg", "-6deg", "12deg"];
-          return rotations[index % 4];
-        };
+            function getRotation(isHovered) {
+            if (!isHovered) {
+              const rotations = ["3deg", "-6deg", "-3deg", "6deg"];  // halved the rotation angles
+              return rotations[index % 4];
+            }
+            
+            const {x: imageX, y: imageY} = getTranslation(isHovered);
+            
+            const deltaX = mousePosition.x - imageX;
+            const deltaY = mousePosition.y - imageY;
+            const angleRad = Math.atan2(deltaY, deltaX);
+            const angleDeg = (angleRad * 180) / Math.PI;
+            
+            // Divide the angle by 4 to make the rotation more subtle
+            return `${index % 2 == 0 ? "" : "-"}${angleDeg / 4}deg`;
+            };
 
-        const getTranslation = (isHovered) => {
+        function getTranslation(isHovered) {
           if (!isHovered) return { x: 0, y: 0 };
 
-          const xOffset = index % 2 === 0 ? -90 : window.innerWidth - 40;
-          const yOffset = -(index * 160 + 200) + 72;
+          const xOffset = index % 2 === 0 ? 0 : 1000;
+          const movementFactor = 0.1;
+
+          const targetX = mousePosition.x - xOffset;
+          const targetY = mousePosition.y - index * 80;
 
           return {
-            x: buttonPosition.x + buttonPosition.width / 2 - xOffset,
-            y: buttonPosition.y + yOffset,
+            x: targetX * movementFactor,
+            y: targetY * movementFactor,
           };
         };
 
@@ -132,14 +124,15 @@ export function PhotosSplash() {
         return (
           <Image
             key={key}
-            className={`absolute hidden h-48 w-auto rounded-lg transition-transform duration-200 ease-out select-none 2xl:block`}
+            className={`absolute hidden w-auto rounded-lg transition-transform duration-200 ease-out select-none 2xl:block`}
             style={{ ...initialPosition, ...adjustedPosition }}
             src={photoData.staticPhoto}
             alt={photoData.name}
             title={photoData.name}
+            placeholder="blur"
             width={0}
-            height={0}
-            quality={50}
+            height={124}
+            quality={25}
             priority={true}
             onMouseEnter={() => {
               linkHovered ? setLinkHovered(true) : null;

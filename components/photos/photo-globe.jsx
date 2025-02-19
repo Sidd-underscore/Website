@@ -1,18 +1,15 @@
-import dynamic from "next/dynamic";
+"use client";
+
 import { useEffect, useState, useRef, useCallback } from "react";
 import photos, { LOCATION_COORDS } from "@/lib/photos";
 import { useTheme } from "next-themes";
-
-const Globe = dynamic(() => import("react-globe.gl"), { ssr: false });
+import { Globe } from "@/components/ui/globe";
 
 function processLocations() {
   const locations = new Map();
 
   photos.forEach((photo) => {
-    const isGalapagos = photo.location.includes("Galapagos Islands");
-    const locationKey = isGalapagos
-      ? "Galapagos Islands, Ecuador"
-      : photo.location;
+    const locationKey = photo.location;
 
     if (!locations.has(locationKey)) {
       const coords = LOCATION_COORDS[locationKey];
@@ -58,65 +55,51 @@ export function PhotoGlobe({
   width,
   height,
   showArcs = true,
+  enableZoom = true,
 }) {
   const { theme } = useTheme();
+
   const [locations] = useState(processLocations);
   const [hoverLabel, setHoverLabel] = useState(null);
   const [arcs, setArcs] = useState([]);
-  const globeRef = useRef(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
   const containerRef = useRef(null);
-  const initializedRef = useRef(false);
+  const globeRef = useRef(null);
 
   const globeImage =
     theme === "dark"
       ? "//unpkg.com/three-globe/example/img/earth-night.jpg"
       : "//unpkg.com/three-globe/example/img/earth-day.jpg";
 
+  function updateControls() {
+    const controls = globeRef.current.controls();
+    if (controls) {
+      controls.enableZoom = enableZoom;
+      controls.update();
+    }
+
+    globeRef.current.pointOfView({ lat: 30, lng: -105, altitude: 2.5 }, 0);
+  }
+
   useEffect(() => {
     if (!containerRef.current) return;
 
     const updateDimensions = () => {
       const container = containerRef.current;
-      const parentWidth = container.parentElement.clientWidth;
-      const parentHeight = container.parentElement.clientHeight;
-      
+      const parentWidth = container.parentElement.offsetWidth;
+
       setDimensions({
-        width: parentWidth,
-        height: height || parentHeight || parentWidth * 0.6 // 0.6 aspect ratio if no height
+        width: width || parentWidth,
+        height: height || width || parentWidth,
       });
     };
 
     updateDimensions();
-    window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
-  }, [height]);
-
-  useEffect(() => {
-    if (!globeRef.current || initializedRef.current) return;
-
-    // Initial setup - only runs once
-    globeRef.current.pointOfView({ lat: 20, lng: 0, altitude: 2.5 });
-    const controls = globeRef.current.controls();
-    controls.enableZoom = true;
-    controls.minDistance = 200;
-    controls.maxDistance = 380;
-
-    if (!onLocationClick) {
-      controls.autoRotate = true;
-      controls.autoRotateSpeed = 0.5;
-    }
-
-    initializedRef.current = true;
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
-  const handleLocationClick = useCallback((d) => {
-    if (onLocationClick) {
-      onLocationClick(d.fullLocation);
-    }
-  }, [onLocationClick]);
-
-  // Update arcs only when theme changes
   useEffect(() => {
     if (showArcs) {
       setArcs(generateArcs(locations, theme));
@@ -124,15 +107,14 @@ export function PhotoGlobe({
   }, [theme, locations, showArcs]);
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      className="flex items-center justify-center w-full"
-      style={{ height: height || '100%' }}
+      className="flex w-full items-center justify-center"
+      style={{ height: height || "100%" }}
     >
-      <div
-        className="relative overflow-hidden rounded-md w-full h-full"
-      >
+      <div className="relative h-full w-full overflow-hidden rounded-md">
         <Globe
+          onGlobeReady={updateControls}
           ref={globeRef}
           width={width || dimensions.width}
           height={height || dimensions.height}
@@ -148,7 +130,11 @@ export function PhotoGlobe({
           labelAltitude={(d) => (d === hoverLabel ? 0.02 : 0.01)}
           labelLabel={(d) => `${d.fullLocation} (${d.count} photos)`}
           labelIncludeDot={true}
-          onLabelClick={onLocationClick ? handleLocationClick : undefined}
+          onLabelClick={(d) => {
+            if (onLocationClick) {
+              onLocationClick(d.fullLocation);
+            }
+          }}
           onLabelHover={setHoverLabel}
           arcsData={arcs}
           arcColor="color"

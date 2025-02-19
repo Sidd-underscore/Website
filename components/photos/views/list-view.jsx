@@ -18,7 +18,8 @@ export function ListView({ photos }) {
               <Image
                 height={96}
                 width={96}
-                src={photo.path}
+                src={photo.staticPhoto}
+                placeholder="blur"
                 alt={photo.name}
                 className="h-24 w-24 rounded-lg object-cover"
               />

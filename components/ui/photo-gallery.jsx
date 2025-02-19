@@ -7,7 +7,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 export function PhotoGallery({ photos }) {
   const gallery = useRef(null);
   const photosRef = useRef([]);
-  const [visibleImageIndex, setVisibleImageIndex] = useState(0); // Track visible image
+  const [visibleImageIndex, setVisibleImageIndex] = useState(0);
 
   useEffect(() => {
     photosRef.current = photosRef.current.slice(0, photos.length);
@@ -17,7 +17,6 @@ export function PhotoGallery({ photos }) {
     if (!gallery.current || photos.length === 0) return;
 
     const scrollLeft = gallery.current.scrollLeft;
-    const clientWidth = gallery.current.clientWidth;
     const imageWidth = photosRef.current[0]?.offsetWidth || 0;
     const padding = 32;
 
@@ -52,7 +51,7 @@ export function PhotoGallery({ photos }) {
       <div
         ref={gallery}
         onScroll={updateVisibleImage}
-        className="mx-0.5 mt-4 flex max-h-[26rem] space-x-4 overflow-x-auto py-2"
+        className="mx-0.5 mt-4 flex max-h-[26rem] space-x-4 overflow-x-auto max-w-screen"
       >
         {photos.map((photo, index) => (
           <span ref={(el) => (photosRef.current[index] = el)} key={index}>

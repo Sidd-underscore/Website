@@ -7,6 +7,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
+import { useIsDesktop } from "@/lib/hooks";
 
 export function SiddNavbarLogo({ ...props }) {
   return (
@@ -26,6 +27,7 @@ export function Navbar() {
   const { navbarLogo, setNavbarLogo } = useNavbarLogo();
   const path = "/" + usePathname().split("/")[1];
   const [hoveredPath, setHoveredPath] = useState(path);
+  const isDesktop = useIsDesktop();
 
   const navItems = [
     {
@@ -36,26 +38,31 @@ export function Navbar() {
       label: "About Me",
       useMagneticUnderline: true,
       customCss: "ml-6",
+      shortLabel: "About",
     },
     {
       link: "/coding",
       label: "Coding",
       useMagneticUnderline: true,
+      shortLabel: "Coding",
     },
     {
       link: "/design",
       label: "Design",
       useMagneticUnderline: true,
+      shortLabel: "Design",
     },
     {
       link: "/photos",
       label: "Photography",
       useMagneticUnderline: true,
+      shortLabel: "Photos",
     },
     {
       link: "/lightshows",
       label: "Lightshows",
       useMagneticUnderline: true,
+      shortLabel: "Lights",
     },
   ];
 
@@ -64,6 +71,7 @@ export function Navbar() {
       setNavbarLogo({
         link: "/",
         label: <SiddNavbarLogo />,
+        shortLabel: <SiddNavbarLogo />,
       });
     }
 
@@ -92,7 +100,9 @@ export function Navbar() {
                 data-active={item.link === hoveredPath}
                 className={`${item.customCss || ""} group px-2 ${item.useMagneticUnderline ? "relative" : ""}`}
               >
-                {item.label}
+                  {isDesktop && item.label}
+                  {!isDesktop && item.shortLabel}
+
                 {item.useMagneticUnderline && item.link === hoveredPath && (
                   <motion.div
                     className={`absolute -bottom-1 left-0 -z-10 mx-2 h-[1.5px] w-[calc(100%_-_16px)] rounded-full bg-pink-400 group-hover:bg-pink-500 dark:bg-pink-200 dark:group-hover:bg-pink-300`}

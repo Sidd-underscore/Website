@@ -29,11 +29,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { motion } from "motion/react";
+import { useIsDesktop } from "@/lib/hooks";
 
 export const Photo = memo(function Photo({ className, photoData, ...props }) {
   return (
     <div className={cn("relative w-full")}>
-   
       <Image
         className={cn(
           "h-full w-full max-w-none cursor-pointer rounded-lg transition select-none",
@@ -119,7 +119,6 @@ export const AdvancedPhoto = memo(function AdvancedPhoto({
       >
         <DialogTrigger asChild={true}>
           <div className="relative">
-          
             <Image
               className={cn(
                 "h-full w-full max-w-none cursor-pointer rounded-lg transition select-none",
@@ -156,7 +155,7 @@ export const AdvancedPhoto = memo(function AdvancedPhoto({
           />
         </motion.div>
       </motion.div>
-      <DialogContent className="md:max-w-[90vw]!">
+      <DialogContent>
         <PhotoDialog photoData={photoData} />
       </DialogContent>
     </Dialog>
@@ -164,7 +163,7 @@ export const AdvancedPhoto = memo(function AdvancedPhoto({
 });
 
 function PhotoDialog({ photoData, className }) {
-  const [downloadFormat, setDownloadFormat] = useState(".png");
+  const isDesktop = useIsDesktop();
 
   return (
     <>
@@ -239,26 +238,30 @@ function PhotoDialog({ photoData, className }) {
                 })}
               >
                 <DownloadIcon className="mr-2 shrink-0" />
-                Download 
+                Download
               </a>
             </PopoverContent>
           </Popover>
         </DialogTitle>
         <DialogDescription>
-            <Image
-              className={cn(
-                `${photoData.staticPhoto.width > photoData.staticPhoto.height ? "max-h-[80vh]" : "max-h-[75vh]"} w-auto max-w-[calc(36rem-8rem)] sm:max-w-[calc(36rem-4rem)] md:max-w-[calc(90vw-6rem)] 2xl:max-w-[calc(90vw-12rem)] rounded-md select-none`,
-                className,
-              )}
-              src={photoData.staticPhoto}
-              alt={photoData.name}
-              width={photoData.staticPhoto.width}
-              height={photoData.staticPhoto.height}
-              style={{ aspectRatio: `${photoData.staticPhoto.width} / ${photoData.staticPhoto.height}`, height: photoData.staticPhoto.width}}
-              placeholder="blur"
-              quality={100}
-              priority={true}
-            />
+          <Image
+            className={cn(
+              `${photoData.staticPhoto.width > photoData.staticPhoto.height ? "max-h-[80vh]" : "max-h-[75vh]"} w-auto rounded-md select-none sm:max-w-[calc(36rem-4rem)] md:max-w-[calc(90vw-6rem)] 2xl:max-w-[calc(90vw-12rem)]`,
+              className,
+            )}
+            src={photoData.staticPhoto}
+            alt={photoData.name}
+            width={photoData.staticPhoto.width}
+            height={photoData.staticPhoto.height}
+            style={{
+              aspectRatio: `${photoData.staticPhoto.width} / ${photoData.staticPhoto.height}`,
+              height: isDesktop ? photoData.staticPhoto.width : "auto",
+              width: !isDesktop ? photoData.staticPhoto.width : "auto",
+            }}
+            placeholder="blur"
+            quality={100}
+            priority={true}
+          />
         </DialogDescription>
       </DialogHeader>
     </>
