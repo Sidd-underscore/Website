@@ -20,7 +20,7 @@ export default function Home() {
             className="mt-2 inline-flex items-center border-none sm:mt-0 sm:ml-2 md:ml-0"
           >
             More{" "}
-            <ArrowRightIcon className="ml-1 h-4 w-4 transition-all group-hover:ml-2" />
+            <ArrowRightIcon className="ml-1 size-4 transition-all group-hover:ml-2" />
           </Link>
         </strong>
       </p>

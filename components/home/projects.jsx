@@ -164,7 +164,7 @@ export function Projects({
                         )
                   }
                 >
-                  <span className>{technology.icon}</span>
+                  <span>{technology.icon}</span>
                   <span>{technology.name}</span>
                 </DropdownMenuCheckboxItem>
               ))}

@@ -500,8 +500,8 @@ export function AboutSplash() {
       >
         <Button asChild className="group mt-8" variant="secondary">
           <Link href="mailto:hello@sidd.studio">
-            <EnvelopeClosedIcon className="mr-2 block h-4 w-4 group-hover:invisible group-hover:hidden" />
-            <EnvelopeOpenIcon className="invisible mr-2 hidden h-4 w-4 group-hover:visible group-hover:block" />
+            <EnvelopeClosedIcon className="mr-2 block size-4 group-hover:invisible group-hover:hidden" />
+            <EnvelopeOpenIcon className="invisible mr-2 hidden size-4 group-hover:visible group-hover:block" />
             <span>Contact me!</span>
           </Link>
         </Button>

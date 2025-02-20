@@ -5,17 +5,28 @@ import * as PopoverPrimitive from "@radix-ui/react-popover";
 
 import { cn } from "@/lib/utils";
 
-const Popover = PopoverPrimitive.Root;
+function Popover({ ...props }) {
+  return <PopoverPrimitive.Root data-slot="popover" {...props} />;
+}
 
-const PopoverTrigger = PopoverPrimitive.Trigger;
+function PopoverTrigger({ ...props }) {
+  return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />;
+}
 
-const PopoverAnchor = PopoverPrimitive.Anchor;
+function PopoverAnchor({ ...props }) {
+  return <PopoverPrimitive.Anchor data-slot="popover-anchor" {...props} />;
+}
 
-const PopoverContent = React.forwardRef(
-  ({ className, align = "center", sideOffset = 4, ...props }, ref) => (
+function PopoverContent({
+  className,
+  align = "center",
+  sideOffset = 4,
+  ...props
+}) {
+  return (
     <PopoverPrimitive.Portal>
       <PopoverPrimitive.Content
-        ref={ref}
+        data-slot="popover-content"
         align={align}
         sideOffset={sideOffset}
         className={cn(
@@ -25,8 +36,7 @@ const PopoverContent = React.forwardRef(
         {...props}
       />
     </PopoverPrimitive.Portal>
-  ),
-);
-PopoverContent.displayName = PopoverPrimitive.Content.displayName;
+  );
+}
 
 export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor };

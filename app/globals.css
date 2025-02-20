@@ -110,3 +110,22 @@ p div {
   height: 16px !important;
   border-radius: 50% !important;
 }
+
+/*
+  ---break---
+*/
+
+:root {
+  --radius: 0.6rem;
+}
+
+/*
+  ---break---
+*/
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}

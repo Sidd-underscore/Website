@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/drawer";
 import { cn } from "@/lib/utils";
 
-export function Dialog({ children, ...props }) {
+function Dialog({ children, ...props }) {
   const isDesktop = useIsDesktop();
 
   if (isDesktop) {
@@ -33,7 +33,7 @@ export function Dialog({ children, ...props }) {
   return <Drawer {...props}>{children}</Drawer>;
 }
 
-export function DialogContent({ children, className, ...props }) {
+function DialogContent({ children, className, ...props }) {
   const isDesktop = useIsDesktop();
 
   if (isDesktop) {
@@ -51,7 +51,7 @@ export function DialogContent({ children, className, ...props }) {
   );
 }
 
-export function DialogDescription({ children, ...props }) {
+function DialogDescription({ children, ...props }) {
   const isDesktop = useIsDesktop();
 
   if (isDesktop) {
@@ -63,7 +63,7 @@ export function DialogDescription({ children, ...props }) {
   return <DrawerDescription {...props}>{children}</DrawerDescription>;
 }
 
-export function DialogHeader({ children, ...props }) {
+function DialogHeader({ children, ...props }) {
   const isDesktop = useIsDesktop();
 
   if (isDesktop) {
@@ -73,7 +73,7 @@ export function DialogHeader({ children, ...props }) {
   return <DrawerHeader {...props}>{children}</DrawerHeader>;
 }
 
-export function DialogTitle({ children, ...props }) {
+function DialogTitle({ children, ...props }) {
   const isDesktop = useIsDesktop();
 
   if (isDesktop) {
@@ -83,7 +83,7 @@ export function DialogTitle({ children, ...props }) {
   return <DrawerTitle {...props}>{children}</DrawerTitle>;
 }
 
-export function DialogTrigger({ children, ...props }) {
+function DialogTrigger({ children, ...props }) {
   const isDesktop = useIsDesktop();
 
   if (isDesktop) {
@@ -93,7 +93,7 @@ export function DialogTrigger({ children, ...props }) {
   return <DrawerTrigger {...props}>{children}</DrawerTrigger>;
 }
 
-export function DialogFooter({ children, ...props }) {
+function DialogFooter({ children, ...props }) {
   const isDesktop = useIsDesktop();
 
   if (isDesktop) {
@@ -103,7 +103,7 @@ export function DialogFooter({ children, ...props }) {
   return <DrawerFooter {...props}>{children}</DrawerFooter>;
 }
 
-export function DialogClose({ children, ...props }) {
+function DialogClose({ children, ...props }) {
   const isDesktop = useIsDesktop();
 
   if (isDesktop) {
@@ -112,3 +112,14 @@ export function DialogClose({ children, ...props }) {
 
   return <DrawerClose {...props}>{children}</DrawerClose>;
 }
+
+export {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+  DialogClose,
+};

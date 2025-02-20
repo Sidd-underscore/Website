@@ -68,9 +68,9 @@ function Calendar({
       components={{
         Chevron: (props) => {
           if (props.orientation === "left") {
-            return <ChevronLeftIcon className="h-4 w-4" {...props} />;
+            return <ChevronLeftIcon className="size-4" {...props} />;
           } else {
-            return <ChevronRightIcon className="h-4 w-4" {...props} />;
+            return <ChevronRightIcon className="size-4" {...props} />;
           }
         },
       }}
@@ -93,6 +93,5 @@ function Calendar({
     />
   );
 }
-Calendar.displayName = "Calendar";
 
 export { Calendar };

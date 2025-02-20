@@ -22,9 +22,10 @@ export function DatePicker({ className, date, setDate, availableDates }) {
           className={cn(
             "w-[240px] justify-start text-left font-normal hover:border-neutral-300 dark:hover:border-neutral-700",
             !date && "text-neutral-400",
+            className,
           )}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
+          <CalendarIcon className="mr-2 size-4" />
           {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
@@ -61,7 +62,7 @@ export function DatePickerWithRange({
               className,
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <CalendarIcon className="mr-2 size-4" />
             {date?.from ? (
               date.to ? (
                 <>

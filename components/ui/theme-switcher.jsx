@@ -9,8 +9,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
-export function ThemeSwitcher() {
+export function ThemeSwitcher({className}) {
   const { setTheme } = useTheme();
 
   return (
@@ -19,7 +20,7 @@ export function ThemeSwitcher() {
         <Button
           variant="secondary"
           size="icon"
-          className="-mr-2 rounded-md shadow-none lg:rounded-full xl:-mr-1"
+          className={cn("-mr-2 rounded-md shadow-none lg:rounded-full xl:-mr-1", className)}
         >
           <SunIcon className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
           <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />

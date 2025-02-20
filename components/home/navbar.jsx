@@ -84,7 +84,7 @@ export function Navbar() {
 
       <nav
         data-element-reference="nav"
-        className="flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-pink-300/50 bg-white/85 px-4 py-2 text-xs shadow-lg transition md:text-sm md:backdrop-blur-md lg:mx-10 lg:rounded-3xl lg:border xl:max-w-6xl dark:border-white/10 dark:bg-neutral-900/75"
+        className="z-[51] flex w-screen max-w-7xl items-center justify-between rounded-none border-b border-pink-300/50 bg-white/85 px-4 py-2 text-xs shadow-lg transition md:text-sm backdrop-blur-md lg:mx-10 lg:rounded-3xl lg:border xl:max-w-6xl dark:border-white/10 dark:bg-neutral-900/75"
       >
         <div className="flex items-center">
           {navItems.map((item) => (

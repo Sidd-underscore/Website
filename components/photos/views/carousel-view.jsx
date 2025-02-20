@@ -38,7 +38,7 @@ const Thumbnail = memo(({ photo, isCurrent, onClick, direction }) => (
     className={`flex-shrink-0 overflow-hidden rounded-md transition-all ${
       isCurrent
         ? "h-14 w-14"
-        : "h-10 w-10 hover:ring-2 hover:ring-neutral-900 dark:hover:ring-white"
+        : "size-10 hover:ring-2 hover:ring-neutral-900 dark:hover:ring-white"
     }`}
     data-current={isCurrent}
     layout

@@ -54,7 +54,7 @@ export default function DesignSplash() {
         </div>
 
         <div className="text-2xl">
-          <p className="space-x-0.5 leading-loose text-balance">
+          <p className="space-x-0.5 leading-loose">
             <span>
               Whether it be{" "}
               <ColorBox backgroundColor={colorBoxBackgroundColor}>
@@ -116,7 +116,7 @@ export function ColorBox({ children, backgroundColor }) {
   return (
     <span
       style={{ backgroundColor, color }}
-      className="mx-0.5 rounded-full px-2.5 py-1 transition-[color]"
+      className="mx-0.5 rounded-full px-2.5 py-1 text-nowrap"
     >
       {children}
     </span>
@@ -392,9 +392,7 @@ export function UIGallery({
 
   return (
     <>
-      <div className="hidden w-1/2 max-w-[100vw] flex-col items-end justify-end space-y-4 md:flex">
-        <ThemeSwitcher className="" />
-
+      <div className="flex w-1/2 max-w-[100vw] shrink-0 flex-col items-end justify-end space-y-4">
         <div className="flex space-x-4">
           <ToggleGroup
             onValueChange={setEndTextStyles}
@@ -414,9 +412,7 @@ export function UIGallery({
 
           <Separator orientation="vertical" />
 
-          <Button className="" variant="destructive">
-            Delete
-          </Button>
+          <ThemeSwitcher className="mr-0" />
         </div>
 
         <Select>
@@ -448,7 +444,10 @@ export function UIGallery({
           </SelectContent>
         </Select>
 
-        <DatePickerWithRange className="" date={date} setDate={setDate} />
+        <div className="flex items-center space-x-2">
+          <DatePickerWithRange className="w-56" date={date} setDate={setDate} />{" "}
+          <Button variant="destructive">Delete</Button>
+        </div>
         <div className="bg-opacity-90 flex w-96 items-center rounded-md border border-neutral-200 bg-white pr-1 pl-3 text-sm shadow-xs hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
           <MagnifyingGlassIcon />
           <Input
@@ -458,7 +457,7 @@ export function UIGallery({
         </div>
       </div>
 
-      <div className="hidden max-h-fit flex-col items-end overflow-x-hidden md:flex">
+      <div className="flex max-h-fit shrink-0 flex-col items-end overflow-x-hidden">
         <div className="flex flex-col space-y-4">
           <div className="ml-auto w-96">
             <Tabs defaultValue="account">
@@ -496,7 +495,7 @@ export function UIGallery({
                   </p>
 
                   <div className="flex items-center space-x-2 text-xs">
-                    <CalendarIcon className="h-4 w-4 shrink-0" />
+                    <CalendarIcon className="size-4 shrink-0" />
                     <span>
                       {formatRelative(fromUnixTime(1679481600), Date.now())} at{" "}
                       {format(fromUnixTime(1679481600), "h:mm a")} (

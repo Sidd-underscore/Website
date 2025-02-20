@@ -24,6 +24,4 @@ const Globe = forwardRef((props, ref) => {
   return <ReactGlobe ref={globeRef} {...props} />;
 });
 
-Globe.displayName = "Globe";
-
 export { Globe };

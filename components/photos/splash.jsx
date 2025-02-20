@@ -13,7 +13,7 @@ export function PhotosSplash() {
   const buttonRef = useRef(null);
   const [linkHovered, setLinkHovered] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
+
   const photoKeys = [
     "Ivy Posing",
     "Baby Swallow-Tailed Gull",
@@ -21,7 +21,6 @@ export function PhotosSplash() {
     "Sunlit Facade",
     "Rearview Mirror",
     "Sunset Bridge",
-    "Lions Gate Bridge",
     "Prickly Pear Tree",
     "Sunset Sea Lion",
     "Posing Lizard",
@@ -64,7 +63,7 @@ export function PhotosSplash() {
             }}
           >
             <span>Enter the gallery</span>{" "}
-            <ArrowRightIcon className="ml-2 h-4 w-4 transition-all group-hover:ml-4" />
+            <ArrowRightIcon className="ml-2 size-4 transition-all group-hover:ml-4" />
           </Link>
         </Button>
         <FeaturedPhotos />
@@ -80,22 +79,22 @@ export function PhotosSplash() {
         const initialPosition =
           index % 2 === 0 ? { left: -40 } : { right: -40 };
 
-            function getRotation(isHovered) {
-            if (!isHovered) {
-              const rotations = ["3deg", "-6deg", "-3deg", "6deg"];  // halved the rotation angles
-              return rotations[index % 4];
-            }
-            
-            const {x: imageX, y: imageY} = getTranslation(isHovered);
-            
-            const deltaX = mousePosition.x - imageX;
-            const deltaY = mousePosition.y - imageY;
-            const angleRad = Math.atan2(deltaY, deltaX);
-            const angleDeg = (angleRad * 180) / Math.PI;
-            
-            // Divide the angle by 4 to make the rotation more subtle
-            return `${index % 2 == 0 ? "" : "-"}${angleDeg / 4}deg`;
-            };
+        function getRotation(isHovered) {
+          if (!isHovered) {
+            const rotations = ["3deg", "-6deg", "-3deg", "6deg"]; // halved the rotation angles
+            return rotations[index % 4];
+          }
+
+          const { x: imageX, y: imageY } = getTranslation(isHovered);
+
+          const deltaX = mousePosition.x - imageX;
+          const deltaY = mousePosition.y - imageY;
+          const angleRad = Math.atan2(deltaY, deltaX);
+          const angleDeg = (angleRad * 180) / Math.PI;
+
+          // Divide the angle by 4 to make the rotation more subtle
+          return `${index % 2 == 0 ? "" : "-"}${angleDeg / 4}deg`;
+        }
 
         function getTranslation(isHovered) {
           if (!isHovered) return { x: 0, y: 0 };
@@ -110,7 +109,7 @@ export function PhotosSplash() {
             x: targetX * movementFactor,
             y: targetY * movementFactor,
           };
-        };
+        }
 
         const translation = getTranslation(linkHovered);
         const adjustedPosition = {

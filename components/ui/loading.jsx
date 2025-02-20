@@ -11,7 +11,7 @@ export function Loading({ className, ...props }) {
       stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
-      className={cn("h-4 w-4 animate-spin", className)}
+      className={cn("size-4 animate-spin", className)}
       strokeLinejoin="round"
       {...props}
     >

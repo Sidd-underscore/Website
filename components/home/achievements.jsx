@@ -144,7 +144,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
                     </h3>
                     <p className="flex items-center space-x-2 text-xs opacity-75">
                       <span className="flex items-center space-x-2">
-                        <CalendarIcon className="h-4 w-4 shrink-0" />
+                        <CalendarIcon className="size-4 shrink-0" />
                         <span>{achievement.date}</span>
                       </span>
 
@@ -152,21 +152,21 @@ export function Achievements({ className, defaultAchievementTypes }) {
 
                       {achievement.category === "award" && (
                         <span className="flex items-center space-x-2">
-                          <TrophyIcon className="h-4 w-4 shrink-0" />
+                          <TrophyIcon className="size-4 shrink-0" />
                           <span>{achievement.ranking}</span>
                         </span>
                       )}
 
                       {achievement.category === "membership" && (
                         <span className="flex items-center space-x-2">
-                          <CardStackIcon className="h-4 w-4 shrink-0" />
+                          <CardStackIcon className="size-4 shrink-0" />
                           <span>Membership by Invitation</span>
                         </span>
                       )}
 
                       {achievement.category === "certification" && (
                         <span className="flex items-center space-x-2">
-                          <PaperPlaneIcon className="h-4 w-4 shrink-0 -rotate-[45deg]" />
+                          <PaperPlaneIcon className="size-4 shrink-0 -rotate-[45deg]" />
                           <span>Certification</span>
                         </span>
                       )}

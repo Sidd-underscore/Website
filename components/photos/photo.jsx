@@ -18,7 +18,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/responsive-dialog";
+} from "@/components/ui/responsive-dialog";
 import { formatRelative, fromUnixTime, formatDistance, format } from "date-fns";
 import { Button, buttonVariants } from "../ui/button";
 import { cn } from "@/lib/utils";
@@ -187,7 +187,7 @@ function PhotoDialog({ photoData, className }) {
               <div>{photoData.description}</div>
 
               <div className="mt-4 flex items-center space-x-2 text-xs">
-                <CalendarIcon className="h-4 w-4 shrink-0" />
+                <CalendarIcon className="size-4 shrink-0" />
                 <span>
                   {formatRelative(fromUnixTime(photoData.date), Date.now())} at{" "}
                   {format(fromUnixTime(photoData.date), "h:mm a")} (
@@ -246,17 +246,17 @@ function PhotoDialog({ photoData, className }) {
         <DialogDescription>
           <Image
             className={cn(
-              `${photoData.staticPhoto.width > photoData.staticPhoto.height ? "max-h-[80vh]" : "max-h-[75vh]"} w-auto rounded-md select-none sm:max-w-[calc(36rem-4rem)] md:max-w-[calc(90vw-6rem)] 2xl:max-w-[calc(90vw-12rem)]`,
+              `sm:max-w-[calc(var(--container-xl)-calc(var(--spacing)*12))] md:max-w-[calc(var(--container-2xl)-calc(var(--spacing)*12))] lg:max-w-[calc(var(--container-3xl)-calc(var(--spacing)*12))] xl:max-w-[calc(var(--container-4xl)-calc(var(--spacing)*12))] 2xl:max-w-[calc(var(--container-5xl)-calc(var(--spacing)*12))] w-auto rounded-md select-none`,
               className,
             )}
             src={photoData.staticPhoto}
             alt={photoData.name}
-            width={photoData.staticPhoto.width}
             height={photoData.staticPhoto.height}
+            width={photoData.staticPhoto.width}
             style={{
               aspectRatio: `${photoData.staticPhoto.width} / ${photoData.staticPhoto.height}`,
-              height: isDesktop ? photoData.staticPhoto.width : "auto",
               width: !isDesktop ? photoData.staticPhoto.width : "auto",
+              maxHeight: photoData.staticPhoto.width > photoData.staticPhoto.height ? "80vh" : "75vh",
             }}
             placeholder="blur"
             quality={100}

@@ -4,7 +4,7 @@
   "rsc": true,
   "tsx": false,
   "tailwind": {
-    "config": "tailwind.config.js",
+    "config": "",
     "css": "app/globals.css",
     "baseColor": "neutral",
     "cssVariables": false,
@@ -12,6 +12,10 @@
   },
   "aliases": {
     "components": "@/components",
-    "utils": "@/lib/utils"
-  }
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "iconLibrary": "radix"
 }

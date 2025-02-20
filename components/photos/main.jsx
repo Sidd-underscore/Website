@@ -8,10 +8,7 @@ import {
   ChevronLeftIcon,
   Cross2Icon,
   MagnifyingGlassIcon,
-  CaretSortIcon,
   GlobeIcon,
-  ListBulletIcon,
-  CheckIcon,
   CameraIcon,
   SewingPinFilledIcon,
 } from "@radix-ui/react-icons";
@@ -44,9 +41,9 @@ import { cn, useTabs } from "@/lib/utils";
 import originalPhotosArray from "@/lib/photos";
 
 import { Albums } from "./albums";
+import { Favorites } from "./favorites";
 import { PhotoViews, ViewModeToggle } from "./views";
 import { PhotoGlobe } from "./photo-globe";
-import { Favorites } from "./favorites";
 import { useFilters, filterPhotos } from "./search-context";
 
 export function PhotosMain({ params }) {
@@ -439,7 +436,7 @@ export function PhotosMain({ params }) {
                         size="icon"
                         className="aspect-square h-9 w-9"
                       >
-                        <GlobeIcon className="h-4 w-4" />
+                        <GlobeIcon className="size-4" />
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-96 p-0" align="end">
@@ -537,7 +534,7 @@ export function PhotosMain({ params }) {
                 size="icon"
                 className="aspect-square h-9 w-9"
               >
-                <GlobeIcon className="h-4 w-4" />
+                <GlobeIcon className="size-4" />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-96 p-0" align="end">
