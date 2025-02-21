@@ -32,6 +32,8 @@ function ListViewItem({ photo }) {
   const [photoIsInLocalStorage, setPhotoIsInLocalStorage] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const checkFavorites = () => {
       const favorites =
         JSON.parse(localStorage.getItem("favoritePhotos")) || [];
@@ -50,6 +52,8 @@ function ListViewItem({ photo }) {
 
   const handleFavoriteClick = useCallback(
     (e) => {
+      if (typeof window === 'undefined') return;
+      
       e.stopPropagation();
       const favorites =
         JSON.parse(localStorage.getItem("favoritePhotos")) || [];

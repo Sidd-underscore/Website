@@ -27,18 +27,15 @@ const deserializeFilters = (filters) => {
 
 export const SearchProvider = ({ children }) => {
   const [filters, setFilters] = useState(() => {
-    const savedFilters = localStorage.getItem(FILTERS_STORAGE_KEY);
-    if (savedFilters) {
-      try {
-        return deserializeFilters(JSON.parse(savedFilters));
-      } catch (e) {
-        console.error('Failed to restore filters:', e);
-        return {
-          camera: undefined,
-          location: undefined,
-          query: "",
-          date: null,
-        };
+    // Only access localStorage on the client side
+    if (typeof window !== 'undefined') {
+      const savedFilters = localStorage.getItem(FILTERS_STORAGE_KEY);
+      if (savedFilters) {
+        try {
+          return deserializeFilters(JSON.parse(savedFilters));
+        } catch (e) {
+          console.error('Failed to restore filters:', e);
+        }
       }
     }
     return {
@@ -49,9 +46,11 @@ export const SearchProvider = ({ children }) => {
     };
   });
 
-  // Save filters to localStorage whenever they change
+  // Save filters to localStorage whenever they change, but only on client side
   useEffect(() => {
-    localStorage.setItem(FILTERS_STORAGE_KEY, JSON.stringify(serializeFilters(filters)));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(FILTERS_STORAGE_KEY, JSON.stringify(serializeFilters(filters)));
+    }
   }, [filters]);
 
   return (

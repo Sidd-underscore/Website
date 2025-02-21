@@ -36,17 +36,16 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Link } from "@/components/ui/link";
-
-import { cn, useTabs } from "@/lib/utils";
-import originalPhotosArray from "@/lib/photos";
-
-import { Albums } from "./albums";
-import { Favorites } from "./favorites";
+import { cn } from "@/lib/utils";
 import { PhotoViews, ViewModeToggle, NoPhotosFound } from "./views";
 import { PhotoGlobe } from "./photo-globe";
+import { Albums } from "./albums";
+import { Favorites } from "./favorites";
 import { useFilters, filterPhotos } from "./search-context";
+import originalPhotosArray from "@/lib/photos";
+import { useTabs } from "@/lib/utils";
 
-export function PhotosMain({ params }) {
+export function PhotosMain() {
   const { filters, setFilters } = useFilters();
   const path = usePathname().split("/")[2];
   const router = useRouter();
@@ -55,9 +54,9 @@ export function PhotosMain({ params }) {
 
   const [searchIcon, setSearchIcon] = useState(<MagnifyingGlassIcon />);
 
-  const [photos1, setPhotos1] = useState([]);  // Initialize as empty array instead of undefined
-  const [photos2, setPhotos2] = useState([]);  // Initialize as empty array instead of undefined
-  const [fullPhotosArray, setFullPhotosArray] = useState([]); // Initialize as empty array instead of undefined
+  const [photos1, setPhotos1] = useState([]);
+  const [photos2, setPhotos2] = useState([]);
+  const [fullPhotosArray, setFullPhotosArray] = useState([]);
 
   const [everyDateThatsInThePhotosArray, setEveryDateThatsInThePhotosArray] =
     useState([]);
@@ -77,15 +76,19 @@ export function PhotosMain({ params }) {
 
   useEffect(() => {
     // Try to restore previous view mode preference from localStorage
-    const savedViewMode = localStorage.getItem("photoViewMode");
-    if (savedViewMode) {
-      setViewMode(savedViewMode);
+    if (typeof window !== 'undefined') {
+      const savedViewMode = localStorage.getItem("photoViewMode");
+      if (savedViewMode) {
+        setViewMode(savedViewMode);
+      }
     }
   }, []);
 
   const handleViewModeChange = (newMode) => {
     setViewMode(newMode);
-    localStorage.setItem("photoViewMode", newMode);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem("photoViewMode", newMode);
+    }
   };
 
   const sortPhotos = (photos) => {
@@ -114,8 +117,10 @@ export function PhotosMain({ params }) {
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    if (typeof window !== 'undefined') {
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    }
   }, [controls]);
 
   useEffect(() => {
@@ -207,7 +212,7 @@ export function PhotosMain({ params }) {
       setFullPhotosArray(sortedPhotos);
       setSearchIcon(<MagnifyingGlassIcon />);
     },
-    [filters, filteredPhotos, processedDates, processedCategories, sortPhotos],
+    [filters, filteredPhotos, processedDates, processedCategories, sortPhotos, setFilters],
   );
 
   useEffect(() => {
@@ -257,7 +262,9 @@ export function PhotosMain({ params }) {
   }, []); // Empty dependency array to run only on mount
 
   const clearFilters = () => {
-    localStorage.removeItem("photoFilters");
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem("photoFilters");
+    }
     setFilters({
       camera: undefined,
       location: undefined,
@@ -346,6 +353,7 @@ export function PhotosMain({ params }) {
               <Cross2Icon />
             </Button>
           </div>
+
           <div className="flex items-center space-x-2 rounded-md text-sm">
             <ViewModeToggle viewMode={viewMode} onChange={handleViewModeChange} />
             <Select value={sortOrder} onValueChange={handleSortChange}>
@@ -402,9 +410,7 @@ export function PhotosMain({ params }) {
                     </p>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="removeCameraFilter">
-                      No filter
-                    </SelectItem>
+                    <SelectItem value="removeCameraFilter">No filter</SelectItem>
                     {cameras.map((camera) => (
                       <SelectItem key={camera} value={camera}>
                         {camera}
@@ -413,62 +419,57 @@ export function PhotosMain({ params }) {
                   </SelectContent>
                 </Select>
 
-                <div className="flex gap-2">
-                  <Select
-                    value={filters.location || "removeLocationFilter"}
-                    onValueChange={handleLocationChange}
-                    className="flex-1"
+                <Select
+                  value={filters.location || "removeLocationFilter"}
+                  onValueChange={handleLocationChange}
+                >
+                  <SelectTrigger
+                    className={cn(
+                      "h-auto w-full px-3 py-2 font-normal",
+                      (filters.location === undefined ||
+                        filters.location === "removeLocationFilter") &&
+                        "text-neutral-400",
+                    )}
                   >
-                    <SelectTrigger
-                      className={cn(
-                        "h-auto w-full px-3 py-2 font-normal",
-                        (filters.location === undefined ||
-                          filters.location === "removeLocationFilter") &&
-                          "text-neutral-400",
-                      )}
-                    >
-                      <p className="flex items-center space-x-2">
-                        <SewingPinFilledIcon className="h-3 w-3" />
-                        <span>
-                          {filters.location === undefined ||
-                          filters.location === "removeLocationFilter"
-                            ? "Select a location..."
-                            : filters.location}
-                        </span>
-                      </p>
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="removeLocationFilter">
-                        No filter
+                    <p className="flex items-center space-x-2">
+                      <SewingPinFilledIcon className="h-3 w-3" />
+                      <span>
+                        {filters.location === undefined ||
+                        filters.location === "removeLocationFilter"
+                          ? "Select a location..."
+                          : filters.location}
+                      </span>
+                    </p>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="removeLocationFilter">No filter</SelectItem>
+                    {locations.map((location) => (
+                      <SelectItem key={location} value={location}>
+                        {location}
                       </SelectItem>
-                      {locations.map((location) => (
-                        <SelectItem key={location} value={location}>
-                          {location}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    ))}
+                  </SelectContent>
+                </Select>
 
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        className="aspect-square h-9 w-9"
-                      >
-                        <GlobeIcon className="size-4" />
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-96 p-0" align="end">
-                      <div className="h-96">
-                        <PhotoGlobe
-                          onLocationClick={handleLocationChange}
-                          showArcs={false}
-                        />
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                </div>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="aspect-square h-9 w-9"
+                    >
+                      <GlobeIcon className="size-4" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-96 p-0" align="end">
+                    <div className="h-96">
+                      <PhotoGlobe
+                        onLocationClick={handleLocationChange}
+                        showArcs={false}
+                      />
+                    </div>
+                  </PopoverContent>
+                </Popover>
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -514,59 +515,57 @@ export function PhotosMain({ params }) {
           </SelectContent>
         </Select>
 
-        <div className="flex gap-2">
-          <Select
-            value={filters.location || "removeLocationFilter"}
-            onValueChange={handleLocationChange}
+        <Select
+          value={filters.location || "removeLocationFilter"}
+          onValueChange={handleLocationChange}
+        >
+          <SelectTrigger
+            className={cn(
+              "h-auto w-full px-3 py-2 font-normal",
+              (filters.location === undefined ||
+                filters.location === "removeLocationFilter") &&
+                "text-neutral-400",
+            )}
           >
-            <SelectTrigger
-              className={cn(
-                "h-auto w-full px-3 py-2 font-normal",
-                (filters.location === undefined ||
-                  filters.location === "removeLocationFilter") &&
-                  "text-neutral-400",
-              )}
-            >
-              <p className="flex items-center space-x-2">
-                <SewingPinFilledIcon className="h-3 w-3" />
-                <span>
-                  {filters.location === undefined ||
-                  filters.location === "removeLocationFilter"
-                    ? "Select a location..."
-                    : filters.location}
-                </span>
-              </p>
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="removeLocationFilter">No filter</SelectItem>
-              {locations.map((location) => (
-                <SelectItem key={location} value={location}>
-                  {location}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            <p className="flex items-center space-x-2">
+              <SewingPinFilledIcon className="h-3 w-3" />
+              <span>
+                {filters.location === undefined ||
+                filters.location === "removeLocationFilter"
+                  ? "Select a location..."
+                  : filters.location}
+              </span>
+            </p>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="removeLocationFilter">No filter</SelectItem>
+            {locations.map((location) => (
+              <SelectItem key={location} value={location}>
+                {location}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
 
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="aspect-square h-9 w-9"
-              >
-                <GlobeIcon className="size-4" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-96 p-0" align="end">
-              <div className="h-96">
-                <PhotoGlobe
-                  onLocationClick={handleLocationChange}
-                  showArcs={false}
-                />
-              </div>
-            </PopoverContent>
-          </Popover>
-        </div>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
+              className="aspect-square h-9 w-9"
+            >
+              <GlobeIcon className="size-4" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-96 p-0" align="end">
+            <div className="h-96">
+              <PhotoGlobe
+                onLocationClick={handleLocationChange}
+                showArcs={false}
+              />
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
       <Tabs
         value={albumId ? "gallery" : path}

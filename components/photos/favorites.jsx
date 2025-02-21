@@ -18,13 +18,15 @@ export function Favorites({ photos, viewMode, clearFilters }) {
   };
 
   useEffect(() => {
-    const listenStorageChange = () => {
-      setFavorites(JSON.parse(localStorage.getItem("favoritePhotos")) || []);
-    };
-    listenStorageChange();
-    window.addEventListener("favoritePhotosUpdated", listenStorageChange);
-    return () =>
-      window.removeEventListener("favoritePhotosUpdated", listenStorageChange);
+    if (typeof window !== 'undefined') {
+      const listenStorageChange = () => {
+        setFavorites(JSON.parse(localStorage.getItem("favoritePhotos")) || []);
+      };
+      listenStorageChange();
+      window.addEventListener("favoritePhotosUpdated", listenStorageChange);
+      return () =>
+        window.removeEventListener("favoritePhotosUpdated", listenStorageChange);
+    }
   }, []);
 
   useEffect(() => {
@@ -42,7 +44,7 @@ export function Favorites({ photos, viewMode, clearFilters }) {
   }
 
   const favoritePhotos = photos.filter((photo) =>
-    favorites.some((fav) => fav.name === photo.name && fav.path === photo.path),
+    favorites.some((fav) => fav.name === photo.name && fav.path === photo.path)
   );
 
   if (favorites.length === 0) {

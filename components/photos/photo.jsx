@@ -65,9 +65,10 @@ export const AdvancedPhoto = memo(function AdvancedPhoto({
   const [photoIsInLocalStorage, setPhotoIsInLocalStorage] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const checkFavorites = () => {
-      const favorites =
-        JSON.parse(localStorage.getItem("favoritePhotos")) || [];
+      const favorites = JSON.parse(localStorage.getItem("favoritePhotos")) || [];
       const isInFavorites = favorites.some(
         (favorite) => favorite.name === photoData.name,
       );
@@ -81,6 +82,8 @@ export const AdvancedPhoto = memo(function AdvancedPhoto({
   }, [photoData.name]);
 
   const handleFavoriteClick = useCallback(() => {
+    if (typeof window === 'undefined') return;
+    
     const favorites = JSON.parse(localStorage.getItem("favoritePhotos")) || [];
     const isFavorite = favorites.some(
       (favorite) =>
