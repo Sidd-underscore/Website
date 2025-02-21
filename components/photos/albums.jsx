@@ -2,8 +2,9 @@ import originalPhotosArray from "@/lib/photos";
 import { Link } from "@/components/ui/link";
 import { Photo } from "./photo";
 import { useMemo, useState, useEffect } from "react";
+import { PhotoViews } from "./views";
 
-export function Albums({ categories }) {
+export function Albums({ categories, viewMode }) {
   const albumPreviews = useMemo(() => {
     const globalUsedPhotos = new Set();
 
@@ -46,6 +47,15 @@ export function Albums({ categories }) {
     });
   }, [categories]);
 
+  // If we're in an album view (i.e., viewing photos in an album), use PhotoViews
+  if (categories.length === 1) {
+    const photosInCategory = originalPhotosArray.filter(
+      (photo) => photo.tags && photo.tags.includes(categories[0])
+    );
+    return <PhotoViews photos={photosInCategory} viewMode={viewMode} />;
+  }
+
+  // Otherwise show the album grid
   return (
     <div className="grid grid-cols-2 gap-4 py-4 pt-2 sm:grid-cols-3 md:grid-cols-4">
       {albumPreviews.map(({ category, previews, total }) => (

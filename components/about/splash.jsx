@@ -435,11 +435,11 @@ export function AboutSplash() {
             </div>
 
             <div className="mt-60 ml-[5rem] h-fit bg-white sm:mt-[16.5rem] sm:ml-[5.5rem] dark:bg-neutral-950">
-              <ETCLogo className="h-14 w-14 fill-black opacity-50 dark:*:fill-white" />
+              <ETCLogo className="size-14 fill-black opacity-50 dark:*:fill-white" />
             </div>
 
             <div className="mt-[3.5rem] ml-14 h-fit bg-white dark:bg-neutral-950">
-              <AudixLogo className="h-14 w-14 fill-neutral-950 stroke-neutral-950 text-black opacity-75 dark:fill-white dark:stroke-white dark:text-white" />
+              <AudixLogo className="size-14 fill-neutral-950 stroke-neutral-950 text-black opacity-75 dark:fill-white dark:stroke-white dark:text-white" />
             </div>
           </motion.div>
         </motion.div>

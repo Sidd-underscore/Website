@@ -7,6 +7,10 @@ import { CarouselView } from "./carousel-view";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 export const PhotoViews = ({ photos, viewMode }) => {
+  if (!photos) {
+    return null;
+  }
+
   const views = {
     gallery: <GalleryView photos={photos} />,
     list: <ListView photos={photos} />,
@@ -65,5 +69,25 @@ export const ViewModeToggle = ({ viewMode, onChange }) => {
         
       </div>
     </ToggleGroup>
+  );
+};
+
+export const NoPhotosFound = ({ hasFilters, onClearFilters, message }) => {
+  return (
+    <div className="mt-4 text-center">
+      <p className="text-sm text-neutral-400">
+        {message || (hasFilters 
+          ? "No photos found... Try clearing some search filters?"
+          : "No photos found in this section.")}
+      </p>
+      {hasFilters && (
+        <p
+          onClick={onClearFilters}
+          className="mt-2 cursor-pointer text-sm text-neutral-400 underline"
+        >
+          Clear all filters
+        </p>
+      )}
+    </div>
   );
 };

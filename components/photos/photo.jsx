@@ -32,6 +32,8 @@ import { motion } from "motion/react";
 import { useIsDesktop } from "@/lib/hooks";
 
 export const Photo = memo(function Photo({ className, photoData, ...props }) {
+  if (!photoData || photoData === "loading") return null;
+
   return (
     <div className={cn("relative w-full")}>
       <Image
@@ -55,8 +57,11 @@ export const Photo = memo(function Photo({ className, photoData, ...props }) {
 export const AdvancedPhoto = memo(function AdvancedPhoto({
   className,
   photoData,
+  priority,
   ...props
 }) {
+  if (!photoData || photoData === "loading") return null;
+
   const [photoIsInLocalStorage, setPhotoIsInLocalStorage] = useState(false);
 
   useEffect(() => {
@@ -107,8 +112,6 @@ export const AdvancedPhoto = memo(function AdvancedPhoto({
     window.dispatchEvent(new Event("favoritePhotosUpdated"));
   }, [photoData.name, photoData.path]);
 
-  if (photoData === "loading") return null;
-
   return (
     <Dialog key={photoData.name}>
       <motion.div
@@ -129,7 +132,7 @@ export const AdvancedPhoto = memo(function AdvancedPhoto({
               width={photoData.staticPhoto.width}
               height={photoData.staticPhoto.height}
               quality={75}
-              priority={false}
+              priority={priority || false}
               placeholder="blur"
               {...props}
             />

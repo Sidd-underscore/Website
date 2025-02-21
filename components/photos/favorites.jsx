@@ -1,11 +1,21 @@
 import { AdvancedPhoto } from "@/components/photos/photo";
 import { useEffect, useState } from "react";
+import { PhotoViews, NoPhotosFound } from "./views";
+import { useFilters } from "./search-context";
 
-export function Favorites({ photos }) {
-  const [photos1, setPhotos1] = useState([]);
-  const [photos2, setPhotos2] = useState([]);
+export function Favorites({ photos, viewMode, clearFilters }) {
   const [favorites, setFavorites] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { filters } = useFilters();
+
+  const hasActiveFilters = () => {
+    return (
+      filters.query ||
+      filters.camera ||
+      filters.location ||
+      filters.date !== null
+    );
+  };
 
   useEffect(() => {
     const listenStorageChange = () => {
@@ -18,70 +28,43 @@ export function Favorites({ photos }) {
   }, []);
 
   useEffect(() => {
-    var tempFavorites = [];
-    var tempPhotos1 = [];
-    var tempPhotos2 = [];
-
-    for (const photo of photos) {
-      if (
-        favorites.some(
-          (fav) => fav.name === photo.name && fav.path === photo.path,
-        )
-      ) {
-        tempFavorites.push(photo);
-      }
-    }
-
-    tempFavorites.forEach((photo, index) => {
-      if (index % 2 === 0) {
-        tempPhotos1.push(photo);
-      } else {
-        tempPhotos2.push(photo);
-      }
-    });
-
-    setPhotos1(tempPhotos1);
-    setPhotos2(tempPhotos2);
-  }, [photos, favorites]);
-
-  useEffect(() => {
-    if (favorites.length > 0 && photos1.length > 0) {
+    if (favorites.length > 0 && photos.length > 0) {
       setIsLoading(false);
     } else if (favorites.length === 0) {
       setIsLoading(false);
     } else {
       setIsLoading(true);
     }
-  }, [favorites, photos1]);
+  }, [favorites, photos]);
 
-  if (isLoading || favorites.length === 0) {
+  if (isLoading) {
     return null;
   }
 
-  return (
-    <div className="flex">
-      <div className="mr-2 flex w-1/2 flex-col space-y-4">
-        {photos1?.map((photo, index) => (
-          <div key={`${photo.name}-1`}>
-            <AdvancedPhoto
-              priority={index < 4 ? "true" : "false"}
-              className="h-auto"
-              photoData={photo}
-            />
-          </div>
-        ))}
-      </div>
-      <div className="ml-2 flex w-1/2 flex-col space-y-4">
-        {photos2?.map((photo, index) => (
-          <div key={`${photo.name}-2`}>
-            <AdvancedPhoto
-              priority={index < 4 ? "true" : "false"}
-              className="h-auto"
-              photoData={photo}
-            />
-          </div>
-        ))}
-      </div>
-    </div>
+  const favoritePhotos = photos.filter((photo) =>
+    favorites.some((fav) => fav.name === photo.name && fav.path === photo.path),
   );
+
+  if (favorites.length === 0) {
+    return (
+      <NoPhotosFound 
+        message="No favorites yet. Add some by clicking the star icon on any photo!"
+        hasFilters={false}
+      />
+    );
+  }
+
+  if (favoritePhotos.length === 0) {
+    return (
+      <NoPhotosFound 
+        hasFilters={hasActiveFilters()}
+        onClearFilters={clearFilters}
+        message={hasActiveFilters() 
+          ? "No favorites match your current filters."
+          : "No favorites yet. Add some by clicking the star icon on any photo!"}
+      />
+    );
+  }
+
+  return <PhotoViews photos={favoritePhotos} viewMode={viewMode} />;
 }

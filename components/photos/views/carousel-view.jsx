@@ -4,17 +4,10 @@ import { useState, useRef, memo, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
-import {
-  PhotoDialog,
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/photos/photo";
-import Image from "next/image";
+import { AdvancedPhoto } from "@/components/photos/photo";
 
 const variants = {
-  enter: (direction) => ({
-    x: direction * 30,
+  enter: () => ({
     opacity: 0,
     scale: 0.8,
   }),
@@ -24,40 +17,45 @@ const variants = {
     opacity: 1,
     scale: 1,
   },
-  exit: (direction) => ({
+  exit: () => ({
     zIndex: 0,
-    x: -direction * 30,
     opacity: 0,
     scale: 0.8,
   }),
 };
 
-const Thumbnail = memo(({ photo, isCurrent, onClick, direction }) => (
-  <motion.button
-    onClick={onClick}
-    className={`flex-shrink-0 overflow-hidden rounded-md transition-all ${
-      isCurrent
-        ? "h-14 w-14"
-        : "size-10 hover:ring-2 hover:ring-neutral-900 dark:hover:ring-white"
-    }`}
-    data-current={isCurrent}
-    layout
-    transition={{
-      type: "spring",
-      stiffness: 300,
-      damping: 30,
-    }}
-  >
-    <motion.img
-      src={photo?.path}
-      alt={photo?.name}
-      className="h-full w-full object-cover"
-      layoutId={`thumb-${photo?.path}`}
-    />
-  </motion.button>
-));
+function Thumbnail({ photo, isCurrent, onClick }) {
+  return (
+    <motion.button
+      onClick={onClick}
+      className={`flex-shrink-0 overflow-hidden rounded-md transition-all ${
+        isCurrent
+          ? "size-14"
+          : "size-10 hover:ring-2 hover:ring-neutral-900 dark:hover:ring-white"
+      }`}
+      data-current={isCurrent}
+      layout
+      transition={{
+        type: "spring",
+        stiffness: 200,
+        damping: 20,
+      }}
+    >
+      <motion.img
+        src={photo?.path}
+        alt={photo?.name}
+        className="h-full w-full object-cover"
+        layoutId={`thumb-${photo?.path}`}
+      />
+    </motion.button>
+  );
+}
 
 export function CarouselView({ photos }) {
+  if (!photos?.length) {
+    return null;
+  }
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const containerRef = useRef(null);
@@ -98,48 +96,33 @@ export function CarouselView({ photos }) {
 
   return (
     <div className="relative h-[110vw] w-full">
-      <Dialog>
-        <DialogTrigger asChild>
+      <motion.div
+        className="relative aspect-square w-full overflow-hidden rounded-lg"
+        whileHover="hover"
+      >
+        <AnimatePresence mode="popLayout" custom={direction}>
           <motion.div
-            className="relative aspect-[1/1] w-full cursor-pointer overflow-hidden rounded-lg"
-            whileHover="hover"
+            key={currentIndex}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              type: "spring",
+              stiffness: 150,
+              damping: 20,
+            }}
+            className="absolute inset-0 h-full w-full"
           >
-            <AnimatePresence
-              initial={false}
-              mode="popLayout"
-              custom={direction}
-            >
-              <motion.div
-                key={currentIndex}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 30,
-                  mass: 1,
-                }}
-                className="absolute inset-0"
-              >
-                <Image
-                  width={0}
-                  height={0}
-                  placeholder="blur"
-                  src={photos[currentIndex]?.staticPhoto}
-                  alt={photos[currentIndex]?.name}
-                  className="h-full w-full rounded-md object-cover"
-                />
-              </motion.div>
-            </AnimatePresence>
+            <AdvancedPhoto
+              photoData={photos[currentIndex]}
+              className="aspect-square rounded-lg object-cover"
+              priority={true}
+            />
           </motion.div>
-        </DialogTrigger>
-        <DialogContent className="md:max-w-[90vw]!">
-          <PhotoDialog photoData={photos[currentIndex]} />
-        </DialogContent>
-      </Dialog>
+        </AnimatePresence>
+      </motion.div>
 
       <div className="mt-4 flex items-center space-x-2">
         <Button

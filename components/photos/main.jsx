@@ -42,7 +42,7 @@ import originalPhotosArray from "@/lib/photos";
 
 import { Albums } from "./albums";
 import { Favorites } from "./favorites";
-import { PhotoViews, ViewModeToggle } from "./views";
+import { PhotoViews, ViewModeToggle, NoPhotosFound } from "./views";
 import { PhotoGlobe } from "./photo-globe";
 import { useFilters, filterPhotos } from "./search-context";
 
@@ -55,9 +55,9 @@ export function PhotosMain({ params }) {
 
   const [searchIcon, setSearchIcon] = useState(<MagnifyingGlassIcon />);
 
-  const [photos1, setPhotos1] = useState();
-  const [photos2, setPhotos2] = useState();
-  const [fullPhotosArray, setFullPhotosArray] = useState();
+  const [photos1, setPhotos1] = useState([]);  // Initialize as empty array instead of undefined
+  const [photos2, setPhotos2] = useState([]);  // Initialize as empty array instead of undefined
+  const [fullPhotosArray, setFullPhotosArray] = useState([]); // Initialize as empty array instead of undefined
 
   const [everyDateThatsInThePhotosArray, setEveryDateThatsInThePhotosArray] =
     useState([]);
@@ -74,6 +74,19 @@ export function PhotosMain({ params }) {
 
   const [sortOrder, setSortOrder] = useState("newest");
   const [viewMode, setViewMode] = useState("gallery");
+
+  useEffect(() => {
+    // Try to restore previous view mode preference from localStorage
+    const savedViewMode = localStorage.getItem("photoViewMode");
+    if (savedViewMode) {
+      setViewMode(savedViewMode);
+    }
+  }, []);
+
+  const handleViewModeChange = (newMode) => {
+    setViewMode(newMode);
+    localStorage.setItem("photoViewMode", newMode);
+  };
 
   const sortPhotos = (photos) => {
     if (!photos) return [];
@@ -237,7 +250,14 @@ export function PhotosMain({ params }) {
     return () => clearTimeout(theTimeOut);
   }, [filters.query]);
 
+  useEffect(() => {
+    setSearchIcon(<Loading />);
+    // Call applyFilters immediately on mount to populate the photos
+    applyFilters({ query: filters.query });
+  }, []); // Empty dependency array to run only on mount
+
   const clearFilters = () => {
+    localStorage.removeItem("photoFilters");
     setFilters({
       camera: undefined,
       location: undefined,
@@ -327,7 +347,7 @@ export function PhotosMain({ params }) {
             </Button>
           </div>
           <div className="flex items-center space-x-2 rounded-md text-sm">
-            <ViewModeToggle viewMode={viewMode} onChange={setViewMode} />
+            <ViewModeToggle viewMode={viewMode} onChange={handleViewModeChange} />
             <Select value={sortOrder} onValueChange={handleSortChange}>
               <SelectTrigger className="w-full rounded-sm bg-white/75 px-3 py-2 font-normal shadow-xs backdrop-blur-md sm:w-30 dark:bg-neutral-950/75">
                 <p className="flex items-center space-x-2">
@@ -597,56 +617,39 @@ export function PhotosMain({ params }) {
               {searchError === false ? (
                 <PhotoViews photos={fullPhotosArray} viewMode={viewMode} />
               ) : (
-                <div>
-                  <p className="w-full py-4 text-center text-sm text-neutral-400">
-                    No photos found... Try clearing some search filters?
-                  </p>
-                  <p
-                    onClick={clearFilters}
-                    className="w-full cursor-pointer text-center text-sm underline"
-                  >
-                    Clear all filters
-                  </p>
-                </div>
+                <NoPhotosFound 
+                  hasFilters={true}
+                  onClearFilters={clearFilters}
+                />
               )}
             </div>
           </TabsContent>
           <TabsContent value="albums">
             <div className="flex w-full justify-center gap-4 py-4 pt-2">
               {searchError === false ? (
-                <Albums categories={albumCategories} />
+                <Albums categories={albumCategories} viewMode={viewMode} />
               ) : (
-                <div>
-                  <p className="w-full py-4 text-center text-sm text-neutral-400">
-                    No photos found... Try clearing some search filters?
-                  </p>
-                  <p
-                    onClick={clearFilters}
-                    className="w-full cursor-pointer text-center text-sm underline"
-                  >
-                    Clear all filters
-                  </p>
-                </div>
+                <NoPhotosFound 
+                  hasFilters={true}
+                  onClearFilters={clearFilters}
+                />
               )}
             </div>
           </TabsContent>
           <TabsContent value="favorites">
             <div className="flex w-full justify-center py-4 pt-2">
               {searchError === false ? (
-                <Favorites photos={(photos1 || []).concat(photos2 || [])} />
+                <Favorites 
+                  photos={(photos1 || []).concat(photos2 || [])} 
+                  viewMode={viewMode} 
+                  clearFilters={clearFilters}
+                />
               ) : (
-                <div>
-                  <p className="w-full py-4 text-center text-sm text-neutral-400">
-                    No favorites found... Add some by clicking on the star icon
-                    in the top right corner of a photo, or clear some filters.
-                  </p>
-                  <p
-                    onClick={clearFilters}
-                    className="w-full cursor-pointer text-center text-sm underline"
-                  >
-                    Clear all filters
-                  </p>
-                </div>
+                <NoPhotosFound 
+                  hasFilters={true}
+                  onClearFilters={clearFilters}
+                  message="No favorites match your current filters."
+                />
               )}
             </div>
           </TabsContent>
