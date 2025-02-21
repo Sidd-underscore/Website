@@ -88,7 +88,7 @@ export function Navbar() {
       >
         <div className="flex items-center">
           {navItems.map((item) => (
-            <motion.span layout key={item.link}>
+            <motion.span key={item.link}>
               <Link
                 onMouseEnter={() =>
                   item.useMagneticUnderline && setHoveredPath(item.link)
