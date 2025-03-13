@@ -263,7 +263,7 @@ export function Projects({
                               onClick={() => {
                                 setProjectTechnologiesToShow([technology]);
                               }}
-                              className="text-md flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-neutral-300 bg-neutral-200 p-0 transition group-hover:border-neutral-300/10 group-hover:bg-neutral-100/10 hover:border-neutral-400 hover:bg-neutral-200 dark:border-neutral-700 dark:bg-neutral-800 dark:group-hover:bg-neutral-800/75 dark:hover:border-neutral-600 dark:hover:bg-neutral-600/50"
+                              className="text-md flex size-8 items-center justify-center overflow-hidden rounded-full border border-neutral-300 bg-neutral-200 p-0 transition group-hover:border-neutral-300/10 group-hover:bg-neutral-100/10 hover:border-neutral-400 hover:bg-neutral-200 dark:border-neutral-700 dark:bg-neutral-800 dark:group-hover:bg-neutral-800/75 dark:hover:border-neutral-600 dark:hover:bg-neutral-600/50"
                             >
                               {technology.icon}
                             </TooltipTrigger>
