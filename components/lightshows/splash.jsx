@@ -20,6 +20,8 @@ const BACKGROUND_IMAGES = [
   "/images/projects/lightshows/snapshots/lasers.jpg",
   "/images/projects/lightshows/snapshots/purple-pink.jpg",
   "/images/projects/lightshows/snapshots/teaser.jpg",
+  "/images/projects/lightshows/snapshots/sides.png",
+  "/images/projects/lightshows/snapshots/movement-is-going-good.png",
 ];
 
 function rgbToHex([r, g, b]) {
@@ -132,7 +134,6 @@ export default function LightshowSplash() {
           <Scene scrollProgress={scrollProgress} colors={dominantColors} />
         </Canvas>
       </div>
-     
     </div>
   );
 }
