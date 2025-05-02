@@ -1,17 +1,12 @@
 "use client";
 
-import { Vector3 } from "three";
-import { useRef, useState, useEffect } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { useState, useEffect } from "react";
+import { Canvas, useThree } from "@react-three/fiber";
 import {
-  SpotLight,
-  useDepthBuffer,
   Text3D,
   Center,
-  OrbitControls,
 } from "@react-three/drei";
 import { useSpring, animated } from "@react-spring/three";
-import ColorThief from "colorthief";
 
 const BACKGROUND_IMAGES = [
   "/images/projects/lightshows/snapshots/rainbow.jpg",
@@ -26,55 +21,10 @@ const BACKGROUND_IMAGES = [
   "/images/projects/lightshows/snapshots/better-6.jpg",
 ];
 
-function rgbToHex([r, g, b]) {
-  return (
-    "#" +
-    [r, g, b]
-      .map((x) => {
-        const hex = x.toString(16);
-        return hex.length === 1 ? "0" + hex : hex;
-      })
-      .join("")
-  );
-}
-
 export default function LightshowSplash() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [dominantColors, setDominantColors] = useState([
-    "#00bc09",
-    "#ba87a8",
-    "#FFD1DF",
-  ]);
-
-  const extractColors = async (imageUrl) => {
-    const colorThief = new ColorThief();
-    const img = new Image();
-    img.crossOrigin = "Anonymous";
-
-    return new Promise((resolve) => {
-      img.onload = () => {
-        const palette = colorThief.getPalette(img, 3);
-        resolve(palette.map(rgbToHex));
-      };
-      img.src = imageUrl;
-    });
-  };
-
-  useEffect(() => {
-    const updateColors = async () => {
-      try {
-        const colors = await extractColors(
-          BACKGROUND_IMAGES[currentImageIndex],
-        );
-        setDominantColors(colors);
-      } catch (error) {
-        console.error("Error extracting colors:", error);
-      }
-    };
-    updateColors();
-  }, [currentImageIndex]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -133,17 +83,15 @@ export default function LightshowSplash() {
         >
           <fog attach="fog" args={["#202020", 5, 20]} />
           <ambientLight intensity={0.1} />
-          <Scene scrollProgress={scrollProgress} colors={dominantColors} />
+          <Scene scrollProgress={scrollProgress} />
         </Canvas>
       </div>
     </div>
   );
 }
 
-function Scene({ scrollProgress, colors }) {
-  const depthBuffer = useDepthBuffer({ frames: 1 });
+function Scene({ scrollProgress }) {
   const { viewport } = useThree();
-
   const textSize = Math.min(viewport.width, viewport.height) * 0.15;
 
   const textSpring = useSpring({
@@ -154,22 +102,9 @@ function Scene({ scrollProgress, colors }) {
 
   return (
     <>
-      <ambientLight intensity={1} />
-      <hemisphereLight intensity={1} color="#ffffff" groundColor={colors[2]} />
-      <directionalLight position={[5, 5, 5]} intensity={0.5} castShadow />
-
-      <MovingSpot
-        depthBuffer={depthBuffer}
-        color={colors[0]}
-        position={[viewport.width / 2, viewport.height / 2, -1]}
-        intensity={8}
-      />
-      <MovingSpot
-        depthBuffer={depthBuffer}
-        color={colors[1]}
-        position={[-viewport.width / 2, viewport.height / 2, -1]}
-        intensity={8}
-      />
+      <ambientLight intensity={1.5} />
+      <hemisphereLight intensity={1.2} color="#ffffff" />
+      <directionalLight position={[5, 5, 5]} intensity={0.8} castShadow />
 
       <Center scale={[1, 1, 1]} position={[0, viewport.height * 0.1, -2]}>
         <animated.group {...textSpring}>
@@ -181,7 +116,7 @@ function Scene({ scrollProgress, colors }) {
             intensity={10}
             color="#ffffff"
           />
-
+          
           {/* Main text */}
           <Text3D
             font="/fonts/archivo.typeface.json"
@@ -195,7 +130,7 @@ function Scene({ scrollProgress, colors }) {
             textAlign="center"
           >
             Lightshows
-            <meshBasicMaterial color={colors[2]} />
+            <meshBasicMaterial color={"#fff"} />
           </Text3D>
 
           {/* Black outline */}
@@ -222,34 +157,5 @@ function Scene({ scrollProgress, colors }) {
         <meshPhongMaterial />
       </mesh>
     </>
-  );
-}
-
-function MovingSpot({ vec = new Vector3(), ...props }) {
-  const light = useRef();
-  const viewport = useThree((state) => state.viewport);
-  useFrame((state) => {
-    light.current.target.position.lerp(
-      vec.set(
-        (state.pointer.x * viewport.width) / 2,
-        (state.pointer.y * viewport.height) / 2,
-        0,
-      ),
-      0.1,
-    );
-    light.current.target.updateMatrixWorld();
-  });
-  return (
-    <SpotLight
-      castShadow
-      ref={light}
-      penumbra={1}
-      distance={30}
-      angle={0.35}
-      attenuation={8}
-      anglePower={2}
-      intensity={5}
-      {...props}
-    />
   );
 }
