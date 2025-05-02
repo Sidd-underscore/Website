@@ -20,10 +20,11 @@ export function ProductImage({
           quality={100}
           placeholder="blur"
           className={cn(
-            `${src.dark ? "block dark:hidden" : ""} h-96 w-auto max-w-none rounded-lg border-2 border-neutral-200 dark:border-neutral-800`,
+            `${src.dark ? "block dark:hidden" : ""} h-96 w-auto max-w-none cursor-zoom-in rounded-lg border-2 border-neutral-200 dark:border-neutral-800`,
             className,
           )}
           src={src.light}
+          onClick={() => window.open(src.light.src, "_blank")}
           {...props}
         />
       ) : null}
@@ -36,10 +37,11 @@ export function ProductImage({
           quality={100}
           placeholder="blur"
           className={cn(
-            `${src.light ? "hidden dark:block" : ""} h-96 w-auto max-w-none rounded-lg border-2 border-neutral-200 dark:border-neutral-800`,
+            `${src.light ? "hidden dark:block" : ""} h-96 w-auto max-w-none cursor-zoom-in rounded-lg border-2 border-neutral-200 dark:border-neutral-800`,
             className,
           )}
           src={src.dark}
+          onClick={() => window.open(src.dark.src, "_blank")}
           {...props}
         />
       ) : null}
@@ -51,11 +53,11 @@ export function ProductImage({
           alt={alt}
           quality={100}
           className={cn(
-            `h-96 w-auto max-w-none rounded-lg border-2 border-neutral-200 dark:border-neutral-800`,
+            `h-96 w-auto max-w-none cursor-zoom-in rounded-lg border-2 border-neutral-200 dark:border-neutral-800`,
             className,
           )}
           src={src}
-          placeholder="blur"
+          onClick={() => window.open(src, "_blank")}
           {...props}
         />
       ) : null}

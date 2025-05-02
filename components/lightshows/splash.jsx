@@ -22,6 +22,8 @@ const BACKGROUND_IMAGES = [
   "/images/projects/lightshows/snapshots/teaser.jpg",
   "/images/projects/lightshows/snapshots/sides.png",
   "/images/projects/lightshows/snapshots/movement-is-going-good.png",
+  "/images/projects/lightshows/snapshots/better-1.jpg",
+  "/images/projects/lightshows/snapshots/better-6.jpg",
 ];
 
 function rgbToHex([r, g, b]) {

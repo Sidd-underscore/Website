@@ -42,13 +42,15 @@ export default async function ProjectPage(props) {
     <>
       <h1 className="text-5xl font-bold">{project.name}</h1>
 
-      <Link
-        className="mt-2 flex w-fit items-center space-x-2"
-        target="_blank"
-        href={project.url}
-      >
-        <span>Go to project</span> <ArrowTopRightIcon />
-      </Link>
+      {project.url && (
+        <Link
+          className="mt-2 flex w-fit items-center space-x-2"
+          target="_blank"
+          href={project.url}
+        >
+          <span>Go to project</span> <ArrowTopRightIcon />
+        </Link>
+      )}
 
       <div className="mt-10">{project.longDescription}</div>
 
