@@ -1,6 +1,7 @@
 "use client";
 
 import { Link } from "@/components/ui/link";
+import { Sparkles } from "@/components/ui/sparkles";
 import { useState } from "react";
 
 export function Footer() {
@@ -9,9 +10,10 @@ export function Footer() {
     <div className="no-max-w relative w-screen">
       <div className="absolute -top-24 right-0 left-0 z-10 h-48 bg-linear-to-t from-transparent via-neutral-50 to-transparent dark:from-transparent dark:via-neutral-950 dark:to-transparent" />
 
-      <div className="-hidden relative">
-        <div className="absolute right-0 left-0 h-[10rem] bg-[radial-gradient(circle_at_50%_150%,#f5f5f5,transparent,transparent)] dark:bg-[radial-gradient(circle_at_50%_150%,#262626,transparent,transparent)]" />
+      <div className="relative">
+        <div className="absolute right-0 left-0 h-[10rem] bg-[radial-gradient(circle_at_50%_250%,var(--accent-color),transparent,transparent)]" />
       </div>
+
       <footer className="relative z-10 flex flex-col items-center justify-around p-4 text-center md:flex-row">
         <div className="w-full flex-col justify-center space-y-2 text-center text-xs">
           <p>{socialsText}</p>
@@ -22,6 +24,7 @@ export function Footer() {
               className="px-2"
               href="https://github.com/Sidd-underscore"
             >
+              <span className="sr-only">@sidd_underscore on GitHub</span>
               <svg
                 viewBox="0 0 256 250"
                 width="1.25em"
@@ -40,6 +43,7 @@ export function Footer() {
               className="px-2"
               href="mailto:hello@sidd.studio"
             >
+              <span className="sr-only">Email hello@sidd.studio</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 49.4 512 399.42"
@@ -80,6 +84,7 @@ export function Footer() {
               className="px-2"
               href="https://youtube.com/@sidd-underscore"
             >
+              <span className="sr-only">@sidd-underscore on YouTube</span>
               <svg
                 viewBox="0 0 256 180"
                 width="1.25em"
@@ -103,6 +108,7 @@ export function Footer() {
         <div className="mx-auto flex w-full justify-center">
           <SiddWordMark className="" />
         </div>
+
         <div className="w-full pb-4 text-xs md:mx-auto md:mb-0">
           <p>Made with love by Sidd in Portland, OR.</p>
           <p>
@@ -119,6 +125,19 @@ export function Footer() {
           </p>
         </div>
       </footer>
+
+      <div className="absolute inset-0 z-9 h-full w-full">
+        <Sparkles
+          speed={1}
+          id="footer-sparkles-woohoo"
+          background="transparent"
+          minSize={0.6}
+          maxSize={1}
+          particleDensity={60}
+          className="h-full w-full"
+          particleColor="#737373"
+        />
+      </div>
     </div>
   );
 }
@@ -129,33 +148,33 @@ export function SiddWordMark({ className }) {
       {/* Vertical */}
 
       {/* s */}
-      <div className="absolute top-0 left-[9.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute top-0 left-[56px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[9.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
+      <div className="absolute top-0 left-[56px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
 
       {/* i */}
-      <div className="absolute top-0 left-[81.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute top-0 left-[99.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute top-0 left-[115px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute top-0 left-[133.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[81.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
+      <div className="absolute top-0 left-[99.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
+      <div className="absolute top-0 left-[115px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
+      <div className="absolute top-0 left-[133.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
 
       {/* d */}
-      <div className="absolute top-0 left-[145px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute top-0 left-[161.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute top-0 left-[187px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute top-0 left-[202.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[145px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
+      <div className="absolute top-0 left-[161.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
+      <div className="absolute top-0 left-[187px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
+      <div className="absolute top-0 left-[202.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
 
       {/* d */}
-      <div className="absolute top-0 left-[215.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute top-0 left-[231.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute top-0 left-[257.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute top-0 left-[272.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-0 left-[215.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
+      <div className="absolute top-0 left-[231.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
+      <div className="absolute top-0 left-[257.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
+      <div className="absolute top-0 left-[272.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
 
       {/* Horizontal */}
-      <div className="absolute top-[18px] -right-2 -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute -right-2 bottom-[21px] -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-[18px] -right-2 -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
+      <div className="absolute -right-2 bottom-[21px] -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
 
-      <div className="absolute top-[43px] -right-2 -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
-      <div className="absolute -right-2 bottom-[32.5px] -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-600" />
+      <div className="absolute top-[43px] -right-2 -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
+      <div className="absolute -right-2 bottom-[32.5px] -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
 
       <span className="relative z-10 font-mono text-9xl font-bold">sidd</span>
     </div>

@@ -67,6 +67,7 @@ export function PhotoGallery({ photos }) {
           className="active:scale-90"
           onClick={scrollRight}
         >
+          <span className="sr-only">Scroll left</span>
           <ArrowLeftIcon />
         </Button>
 
@@ -76,6 +77,7 @@ export function PhotoGallery({ photos }) {
           className="active:scale-90"
           onClick={scrollLeft}
         >
+          <span className="sr-only">Scroll right</span>
           <ArrowRightIcon />
         </Button>
       </div>

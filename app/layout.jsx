@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body
-        className={`${archivo.className} justify-left mt-12 flex flex-col items-center overflow-x-hidden overscroll-y-contain bg-neutral-50 p-6 pb-0! text-neutral-900 md:p-12 2xl:p-24 dark:bg-neutral-950 dark:text-white`}
+        className={`${archivo.className} justify-left mt-12 flex flex-col items-center overflow-x-hidden bg-neutral-50 p-6 pb-0! text-neutral-900 md:p-12 2xl:p-24 dark:bg-neutral-950 dark:text-white`}
       >
         <ThemeProvider>
           <AppProvider>

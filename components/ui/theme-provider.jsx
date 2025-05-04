@@ -9,7 +9,7 @@ export function ThemeProvider({ children, ...props }) {
       attribute="class"
       defaultTheme="system"
       enableSystem
-      disableTransitionOnChange
+      
       {...props}
     >
       <ThemeMetaUpdater />

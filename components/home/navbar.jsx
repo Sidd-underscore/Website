@@ -16,7 +16,7 @@ export function SiddNavbarLogo({ ...props }) {
       width={250}
       height={250}
       quality={100}
-      className="absolute top-1 bottom-1 left-1 h-11 w-auto rounded-full grayscale transition-all duration-500 hover:grayscale-0 hover:invert-0! dark:invert"
+      className="absolute top-1 bottom-1 left-1 h-11 w-auto lg:rounded-full grayscale transition-all duration-500 hover:grayscale-0 hover:invert-0! dark:invert"
       src="/images/sidd.png"
       {...props}
     />
@@ -79,6 +79,7 @@ export function Navbar() {
   }, [path]);
 
   return (
+    <LayoutGroup>
       <div className="fixed top-0 left-0 z-50 flex w-screen items-center justify-center lg:top-4">
         <div className="fixed top-0 h-10 w-screen bg-linear-to-b from-neutral-50 to-transparent dark:from-neutral-950" />
         <nav
@@ -131,5 +132,6 @@ export function Navbar() {
           <ThemeSwitcher />
         </nav>
       </div>
+      </LayoutGroup>
   );
 }

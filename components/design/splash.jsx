@@ -401,12 +401,15 @@ export function UIGallery({
           >
             <ToggleGroupItem value="font-bold">
               <FontBoldIcon />
+              <span className="sr-only">Bold</span>
             </ToggleGroupItem>
             <ToggleGroupItem value="italic">
               <FontItalicIcon />
+              <span className="sr-only">Italic</span>
             </ToggleGroupItem>
             <ToggleGroupItem value="underline">
               <UnderlineIcon />
+              <span className="sr-only">Underline</span>
             </ToggleGroupItem>
           </ToggleGroup>
 
