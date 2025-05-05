@@ -13,9 +13,12 @@ export const metadata = {
 export default function CodingAndDesignPage() {
   return (
     <>
-      <h1 className="text-5xl font-bold">Coding</h1>
+      <div className="relative border p-4 rounded-t-xl w-fit border-b-0 z-10 -mb-[1px] border-neutral-300 bg-white text-neutral-900 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-100">
+        <h1 className="text-5xl font-bold">Coding<span className="font-mono opacity-60">.jsx</span></h1>
+      </div>
+
       <CodingSplash />
-      <Projects />
+      <Projects defaultProjectTypes={["coding"]} />
       <Work defaultWorkTypes={["coding"]} />
       <Achievements defaultAchievementTypes={["coding"]} />
     </>
