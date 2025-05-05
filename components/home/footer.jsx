@@ -11,7 +11,7 @@ export function Footer() {
       <div className="absolute -top-24 right-0 left-0 z-10 h-48 bg-linear-to-t from-transparent via-neutral-50 to-transparent dark:from-transparent dark:via-neutral-950 dark:to-transparent" />
 
       <div className="relative">
-        <div className="absolute right-0 left-0 h-[10rem] bg-[radial-gradient(circle_at_50%_250%,var(--accent-color),transparent,transparent)]" />
+        <div className="absolute right-0 left-0 h-0 md:h-24 bg-[radial-gradient(circle_at_50%_500%,var(--accent-color),transparent,transparent)]" />
       </div>
 
       <footer className="relative z-10 flex flex-col items-center justify-around p-4 text-center md:flex-row">
@@ -106,7 +106,7 @@ export function Footer() {
         </div>
 
         <div className="mx-auto flex w-full justify-center">
-          <SiddWordMark className="" />
+          <SiddWordMark />
         </div>
 
         <div className="w-full pb-4 text-xs md:mx-auto md:mb-0">
@@ -142,41 +142,8 @@ export function Footer() {
   );
 }
 
-export function SiddWordMark({ className }) {
+export function SiddWordMark() {
   return (
-    <div className={"relative scale-50" + (className ? " " + className : "")}>
-      {/* Vertical */}
-
-      {/* s */}
-      <div className="absolute top-0 left-[9.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-      <div className="absolute top-0 left-[56px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-
-      {/* i */}
-      <div className="absolute top-0 left-[81.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-      <div className="absolute top-0 left-[99.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-      <div className="absolute top-0 left-[115px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-      <div className="absolute top-0 left-[133.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-
-      {/* d */}
-      <div className="absolute top-0 left-[145px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-      <div className="absolute top-0 left-[161.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-      <div className="absolute top-0 left-[187px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-      <div className="absolute top-0 left-[202.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-
-      {/* d */}
-      <div className="absolute top-0 left-[215.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-      <div className="absolute top-0 left-[231.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-      <div className="absolute top-0 left-[257.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-      <div className="absolute top-0 left-[272.5px] h-full w-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-
-      {/* Horizontal */}
-      <div className="absolute top-[18px] -right-2 -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-      <div className="absolute -right-2 bottom-[21px] -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-
-      <div className="absolute top-[43px] -right-2 -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-      <div className="absolute -right-2 bottom-[32.5px] -left-2 h-[0.5px] bg-neutral-400 dark:bg-neutral-300" />
-
-      <span className="relative z-10 font-mono text-9xl font-bold">sidd</span>
-    </div>
+      <span className="font-mono text-4xl font-bold">sidd</span>
   );
 }
