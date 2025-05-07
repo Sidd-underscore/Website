@@ -65,10 +65,11 @@ export const AdvancedPhoto = memo(function AdvancedPhoto({
   const [photoIsInLocalStorage, setPhotoIsInLocalStorage] = useState(false);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    
+    if (typeof window === "undefined") return;
+
     const checkFavorites = () => {
-      const favorites = JSON.parse(localStorage.getItem("favoritePhotos")) || [];
+      const favorites =
+        JSON.parse(localStorage.getItem("favoritePhotos")) || [];
       const isInFavorites = favorites.some(
         (favorite) => favorite.name === photoData.name,
       );
@@ -82,8 +83,8 @@ export const AdvancedPhoto = memo(function AdvancedPhoto({
   }, [photoData.name]);
 
   const handleFavoriteClick = useCallback(() => {
-    if (typeof window === 'undefined') return;
-    
+    if (typeof window === "undefined") return;
+
     const favorites = JSON.parse(localStorage.getItem("favoritePhotos")) || [];
     const isFavorite = favorites.some(
       (favorite) =>
@@ -134,7 +135,7 @@ export const AdvancedPhoto = memo(function AdvancedPhoto({
               alt={photoData.name}
               width={photoData.staticPhoto.width}
               height={photoData.staticPhoto.height}
-              quality={75}
+              quality={50}
               priority={priority || false}
               placeholder="blur"
               {...props}
@@ -244,30 +245,41 @@ function PhotoDialog({ photoData, className }) {
                 })}
               >
                 <DownloadIcon className="mr-2 shrink-0" />
-                Download
+                Download full resolution photo
               </a>
             </PopoverContent>
           </Popover>
         </DialogTitle>
         <DialogDescription>
-          <Image
-            className={cn(
-              `sm:max-w-[calc(var(--container-xl)-calc(var(--spacing)*12))] md:max-w-[calc(var(--container-2xl)-calc(var(--spacing)*12))] lg:max-w-[calc(var(--container-3xl)-calc(var(--spacing)*12))] xl:max-w-[calc(var(--container-4xl)-calc(var(--spacing)*12))] 2xl:max-w-[calc(var(--container-5xl)-calc(var(--spacing)*12))] w-auto rounded-md select-none`,
-              className,
-            )}
-            src={photoData.staticPhoto}
-            alt={photoData.name}
-            height={photoData.staticPhoto.height}
-            width={photoData.staticPhoto.width}
-            style={{
-              aspectRatio: `${photoData.staticPhoto.width} / ${photoData.staticPhoto.height}`,
-              width: !isDesktop ? photoData.staticPhoto.width : "auto",
-              maxHeight: photoData.staticPhoto.width > photoData.staticPhoto.height ? "80vh" : "75vh",
-            }}
-            placeholder="blur"
-            quality={100}
-            priority={true}
-          />
+          <div className="flex w-full justify-center">
+            <div
+              style={{
+                height: "100%",
+                width:
+                  photoData.staticPhoto.width > photoData.staticPhoto.height
+                    ? "80vw"
+                    : "75vw",
+              }}
+            >
+              <Image
+                className={cn(
+                  `w-auto rounded-md select-none sm:max-w-[calc(var(--container-xl)-calc(var(--spacing)*12))] md:max-w-[calc(var(--container-2xl)-calc(var(--spacing)*12))] lg:max-w-[calc(var(--container-3xl)-calc(var(--spacing)*12))] xl:max-w-[calc(var(--container-4xl)-calc(var(--spacing)*12))] 2xl:max-w-[calc(var(--container-5xl)-calc(var(--spacing)*12))]`,
+                  className,
+                )}
+                src={photoData.staticPhoto}
+                alt={photoData.name}
+                height={photoData.staticPhoto.height}
+                width={photoData.staticPhoto.width}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                }}
+                placeholder="blur"
+                quality={75}
+                priority={true}
+              />
+            </div>
+          </div>
         </DialogDescription>
       </DialogHeader>
     </>
