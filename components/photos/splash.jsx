@@ -2,9 +2,9 @@
 
 import photos, { LOCATION_COORDS } from "@/lib/photos";
 import Image from "next/image";
-import { useRef, useState, useEffect } from "react";
-import { Link } from "../ui/link";
-import { Button } from "../ui/button";
+import { useRef, useState } from "react";
+import { Link } from "@/components/ui/link";
+import { Button } from "@/components/ui/button";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { FeaturedPhotos } from "./featured";
 import { PhotoGlobe } from "./photo-globe";
@@ -74,6 +74,7 @@ export function PhotosSplash() {
         </h2>
         <PhotoGlobe enableZoom={false} />
       </div>
+
       {/* Scattered photos on the side */}
       {photoKeys.map((key, index) => {
         const initialPosition =
@@ -81,7 +82,7 @@ export function PhotosSplash() {
 
         function getRotation(isHovered) {
           if (!isHovered) {
-            const rotations = ["3deg", "-6deg", "-3deg", "6deg"]; // halved the rotation angles
+            const rotations = ["3deg", "-6deg", "-3deg", "6deg"];
             return rotations[index % 4];
           }
 
@@ -92,7 +93,6 @@ export function PhotosSplash() {
           const angleRad = Math.atan2(deltaY, deltaX);
           const angleDeg = (angleRad * 180) / Math.PI;
 
-          // Divide the angle by 4 to make the rotation more subtle
           return `${index % 2 == 0 ? "" : "-"}${angleDeg / 4}deg`;
         }
 
@@ -128,10 +128,9 @@ export function PhotosSplash() {
             src={photoData.staticPhoto}
             alt={photoData.name}
             title={photoData.name}
-            placeholder="blur"
             width={0}
             height={124}
-            quality={25}
+            quality={20}
             priority={true}
             onMouseEnter={() => {
               linkHovered ? setLinkHovered(true) : null;
