@@ -38,7 +38,7 @@ function SelectTrigger({
     >
       <Button
         className={cn(
-          "flex h-9 w-full items-center justify-between rounded-md border border-neutral-200 bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs ring-offset-white placeholder:text-neutral-500 hover:border-neutral-300 focus:ring-1 focus:ring-neutral-950 focus:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-neutral-400 dark:border-neutral-800 dark:ring-offset-neutral-950 dark:placeholder:text-neutral-400 dark:hover:border-neutral-700 dark:focus:ring-neutral-300 [&>span]:line-clamp-1",
+          "flex h-9 w-full items-center justify-between px-3 py-2 text-sm whitespace-nowrap shadow-xs placeholder:text-neutral-500 disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-neutral-400 dark:placeholder:text-neutral-400 [&>span]:line-clamp-1",
           className,
         )}
         variant={triggerButtonVariant}

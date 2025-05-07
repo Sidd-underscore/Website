@@ -76,7 +76,7 @@ export function PhotosMain() {
 
   useEffect(() => {
     // Try to restore previous view mode preference from localStorage
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const savedViewMode = localStorage.getItem("photoViewMode");
       if (savedViewMode) {
         setViewMode(savedViewMode);
@@ -86,7 +86,7 @@ export function PhotosMain() {
 
   const handleViewModeChange = (newMode) => {
     setViewMode(newMode);
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.setItem("photoViewMode", newMode);
     }
   };
@@ -117,7 +117,7 @@ export function PhotosMain() {
       }
     };
 
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       window.addEventListener("scroll", handleScroll);
       return () => window.removeEventListener("scroll", handleScroll);
     }
@@ -212,7 +212,14 @@ export function PhotosMain() {
       setFullPhotosArray(sortedPhotos);
       setSearchIcon(<MagnifyingGlassIcon />);
     },
-    [filters, filteredPhotos, processedDates, processedCategories, sortPhotos, setFilters],
+    [
+      filters,
+      filteredPhotos,
+      processedDates,
+      processedCategories,
+      sortPhotos,
+      setFilters,
+    ],
   );
 
   useEffect(() => {
@@ -259,10 +266,10 @@ export function PhotosMain() {
     setSearchIcon(<Loading />);
     // Call applyFilters immediately on mount to populate the photos
     applyFilters({ query: filters.query });
-  }, []); // Empty dependency array to run only on mount
+  }, []);
 
   const clearFilters = () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.removeItem("photoFilters");
     }
     setFilters({
@@ -335,13 +342,15 @@ export function PhotosMain() {
         animate={controls}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       >
-        <div className="flex w-full items-center space-x-2">
+        <div
+          className={`flex w-full items-center ${isInputSticky ? "space-x-1" : "space-x-2"}`}
+        >
           <div className="flex w-full items-center rounded-md border border-neutral-200 bg-white/75 pr-1 pl-3 text-sm shadow-xs backdrop-blur-md transition-colors hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950/75 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
             {searchIcon}
             <Input
               onChange={handleSearchChange}
               value={filters.query}
-              className="pointer-events-auto border-transparent! ring-0! shadow-none"
+              className="pointer-events-auto border-transparent! shadow-none ring-0!"
               placeholder="Search photos... (by name, description, camera, and more!)"
             />
             <Button
@@ -354,8 +363,13 @@ export function PhotosMain() {
             </Button>
           </div>
 
-          <div className="flex items-center space-x-2 rounded-md text-sm">
-            <ViewModeToggle viewMode={viewMode} onChange={handleViewModeChange} />
+          <div
+            className={`flex items-center space-x-1 rounded-md text-sm ${isInputSticky ? "space-x-1" : "space-x-2"}`}
+          >
+            <ViewModeToggle
+              viewMode={viewMode}
+              onChange={handleViewModeChange}
+            />
             <Select value={sortOrder} onValueChange={handleSortChange}>
               <SelectTrigger className="w-full rounded-sm bg-white/75 px-3 py-2 font-normal shadow-xs backdrop-blur-md sm:w-30 dark:bg-neutral-950/75">
                 <p className="flex items-center space-x-2">
@@ -410,7 +424,9 @@ export function PhotosMain() {
                     </p>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="removeCameraFilter">No filter</SelectItem>
+                    <SelectItem value="removeCameraFilter">
+                      No filter
+                    </SelectItem>
                     {cameras.map((camera) => (
                       <SelectItem key={camera} value={camera}>
                         {camera}
@@ -419,13 +435,14 @@ export function PhotosMain() {
                   </SelectContent>
                 </Select>
 
+<div className="flex items-center">
                 <Select
                   value={filters.location || "removeLocationFilter"}
                   onValueChange={handleLocationChange}
                 >
                   <SelectTrigger
                     className={cn(
-                      "h-auto w-full px-3 py-2 font-normal",
+                      "-mr-0.5 w-full rounded-r-none px-3 py-2 h-10 font-normal",
                       (filters.location === undefined ||
                         filters.location === "removeLocationFilter") &&
                         "text-neutral-400",
@@ -442,7 +459,9 @@ export function PhotosMain() {
                     </p>
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="removeLocationFilter">No filter</SelectItem>
+                    <SelectItem value="removeLocationFilter">
+                      No filter
+                    </SelectItem>
                     {locations.map((location) => (
                       <SelectItem key={location} value={location}>
                         {location}
@@ -456,7 +475,8 @@ export function PhotosMain() {
                     <Button
                       variant="outline"
                       size="icon"
-                      className="aspect-square h-9 w-9"
+                      className="aspect-square h-10 w-10 rounded-l-none"
+                      title="Select a location on the globe"
                     >
                       <GlobeIcon className="size-4" />
                     </Button>
@@ -470,6 +490,7 @@ export function PhotosMain() {
                     </div>
                   </PopoverContent>
                 </Popover>
+                </div>
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -521,7 +542,7 @@ export function PhotosMain() {
         >
           <SelectTrigger
             className={cn(
-              "h-auto w-full px-3 py-2 font-normal",
+              "-mr-0.5 h-10 w-full rounded-r-none px-3 py-2 font-normal",
               (filters.location === undefined ||
                 filters.location === "removeLocationFilter") &&
                 "text-neutral-400",
@@ -552,7 +573,8 @@ export function PhotosMain() {
             <Button
               variant="outline"
               size="icon"
-              className="aspect-square h-9 w-9"
+              className="aspect-square h-10 w-10 rounded-l-none"
+              title="Select a location on the globe"
             >
               <GlobeIcon className="size-4" />
             </Button>
@@ -616,7 +638,7 @@ export function PhotosMain() {
               {searchError === false ? (
                 <PhotoViews photos={fullPhotosArray} viewMode={viewMode} />
               ) : (
-                <NoPhotosFound 
+                <NoPhotosFound
                   hasFilters={true}
                   onClearFilters={clearFilters}
                 />
@@ -628,7 +650,7 @@ export function PhotosMain() {
               {searchError === false ? (
                 <Albums categories={albumCategories} viewMode={viewMode} />
               ) : (
-                <NoPhotosFound 
+                <NoPhotosFound
                   hasFilters={true}
                   onClearFilters={clearFilters}
                 />
@@ -638,13 +660,13 @@ export function PhotosMain() {
           <TabsContent value="favorites">
             <div className="flex w-full justify-center py-4 pt-2">
               {searchError === false ? (
-                <Favorites 
-                  photos={(photos1 || []).concat(photos2 || [])} 
-                  viewMode={viewMode} 
+                <Favorites
+                  photos={(photos1 || []).concat(photos2 || [])}
+                  viewMode={viewMode}
                   clearFilters={clearFilters}
                 />
               ) : (
-                <NoPhotosFound 
+                <NoPhotosFound
                   hasFilters={true}
                   onClearFilters={clearFilters}
                   message="No favorites match your current filters."
