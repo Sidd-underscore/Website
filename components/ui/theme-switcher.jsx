@@ -21,7 +21,7 @@ export function ThemeSwitcher({ className }) {
           variant="secondary"
           size="icon"
           className={cn(
-            "relative -mx-4 -my-2 rounded-none p-6 shadow-none lg:-mx-3 lg:-my-1 lg:rounded-full lg:p-5",
+            "relative -mx-4 -my-2 rounded-none border-none !bg-transparent p-6 shadow-none lg:-mx-3 lg:-my-1 lg:rounded-full lg:p-5",
             className,
           )}
         >
@@ -42,7 +42,9 @@ export function ThemeSwitcher({ className }) {
           </span>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
-          <span className="flex items-center gap-2"><DesktopIcon /> System</span>
+          <span className="flex items-center gap-2">
+            <DesktopIcon /> System
+          </span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -5,7 +5,6 @@ import { motion, useAnimation } from "motion/react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 
 import {
-  ChevronLeftIcon,
   Cross2Icon,
   MagnifyingGlassIcon,
   GlobeIcon,
@@ -35,7 +34,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Link } from "@/components/ui/link";
 import { cn } from "@/lib/utils";
 import { PhotoViews, ViewModeToggle, NoPhotosFound } from "./views";
 import { PhotoGlobe } from "./photo-globe";
@@ -309,33 +307,7 @@ export function PhotosMain() {
 
   return (
     <div className="my-6">
-      {albumId && (
-        <p className="mb-4 flex items-center space-x-2">
-          <Link href="/photos/albums" className="group flex items-center">
-            <ChevronLeftIcon />
-            <span className="text-base transition-all group-hover:ml-1 group-focus:ml-1">
-              Go back
-            </span>
-          </Link>
-          <span>•</span>
-          <span>
-            {(function () {
-              var totalCount = 0;
-              originalPhotosArray.forEach((photo) => {
-                if (photo.tags.includes(albumId)) {
-                  totalCount += 1;
-                }
-              });
-              return (
-                totalCount +
-                " photo" +
-                (totalCount > 1 ? "s" : "") +
-                " in album"
-              );
-            })()}
-          </span>
-        </p>
-      )}
+      
       <motion.div
         className={`sticky z-20 ${isInputSticky ? "mx-4 pt-20 shadow-lg" : ""}`}
         initial={{ top: "-100%" }}
@@ -346,7 +318,7 @@ export function PhotosMain() {
           className={`flex w-full items-center ${isInputSticky ? "space-x-1" : "space-x-2"}`}
         >
           <div className="flex w-full items-center rounded-md border border-neutral-200 bg-white/75 pr-1 pl-3 text-sm shadow-xs backdrop-blur-md transition-colors hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950/75 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
-            {searchIcon}
+            <span className="text-neutral-500 dark:text-neutral-400">{searchIcon}</span>
             <Input
               onChange={handleSearchChange}
               value={filters.query}
@@ -371,7 +343,7 @@ export function PhotosMain() {
               onChange={handleViewModeChange}
             />
             <Select value={sortOrder} onValueChange={handleSortChange}>
-              <SelectTrigger className="w-full rounded-sm bg-white/75 px-3 py-2 font-normal shadow-xs backdrop-blur-md sm:w-30 dark:bg-neutral-950/75">
+              <SelectTrigger className="w-full backdrop-blur-md sm:w-30">
                 <p className="flex items-center space-x-2">
                   <span>
                     {sortOrder === "newest" ? "Newest first" : "Oldest first"}
@@ -407,7 +379,7 @@ export function PhotosMain() {
                 >
                   <SelectTrigger
                     className={cn(
-                      "h-auto w-full px-3 py-2 font-normal",
+                      "h-auto w-full",
                       (filters.camera === undefined ||
                         filters.camera === "removeCameraFilter") &&
                         "text-neutral-400",
@@ -435,61 +407,61 @@ export function PhotosMain() {
                   </SelectContent>
                 </Select>
 
-<div className="flex items-center">
-                <Select
-                  value={filters.location || "removeLocationFilter"}
-                  onValueChange={handleLocationChange}
-                >
-                  <SelectTrigger
-                    className={cn(
-                      "-mr-0.5 w-full rounded-r-none px-3 py-2 h-10 font-normal",
-                      (filters.location === undefined ||
-                        filters.location === "removeLocationFilter") &&
-                        "text-neutral-400",
-                    )}
+                <div className="flex items-center">
+                  <Select
+                    value={filters.location || "removeLocationFilter"}
+                    onValueChange={handleLocationChange}
                   >
-                    <p className="flex items-center space-x-2">
-                      <SewingPinFilledIcon className="h-3 w-3" />
-                      <span>
-                        {filters.location === undefined ||
-                        filters.location === "removeLocationFilter"
-                          ? "Select a location..."
-                          : filters.location}
-                      </span>
-                    </p>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="removeLocationFilter">
-                      No filter
-                    </SelectItem>
-                    {locations.map((location) => (
-                      <SelectItem key={location} value={location}>
-                        {location}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="aspect-square h-10 w-10 rounded-l-none"
-                      title="Select a location on the globe"
+                    <SelectTrigger
+                      className={cn(
+                        "-mr-0.5 h-10 w-full rounded-r-none",
+                        (filters.location === undefined ||
+                          filters.location === "removeLocationFilter") &&
+                          "text-neutral-400",
+                      )}
                     >
-                      <GlobeIcon className="size-4" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-96 p-0" align="end">
-                    <div className="h-96">
-                      <PhotoGlobe
-                        onLocationClick={handleLocationChange}
-                        showArcs={false}
-                      />
-                    </div>
-                  </PopoverContent>
-                </Popover>
+                      <p className="flex items-center space-x-2">
+                        <SewingPinFilledIcon className="h-3 w-3" />
+                        <span>
+                          {filters.location === undefined ||
+                          filters.location === "removeLocationFilter"
+                            ? "Select a location..."
+                            : filters.location}
+                        </span>
+                      </p>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="removeLocationFilter">
+                        No filter
+                      </SelectItem>
+                      {locations.map((location) => (
+                        <SelectItem key={location} value={location}>
+                          {location}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="aspect-square h-10 w-10 rounded-l-none"
+                        title="Select a location on the globe"
+                      >
+                        <GlobeIcon className="size-4" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-96 p-0" align="end">
+                      <div className="h-96">
+                        <PhotoGlobe
+                          onLocationClick={handleLocationChange}
+                          showArcs={false}
+                        />
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 </div>
               </div>
             </AccordionContent>
@@ -510,7 +482,7 @@ export function PhotosMain() {
         >
           <SelectTrigger
             className={cn(
-              "h-auto w-full px-3 py-2 font-normal",
+              "h-auto w-full",
               (filters.camera === undefined ||
                 filters.camera === "removeCameraFilter") &&
                 "text-neutral-400",
@@ -542,7 +514,7 @@ export function PhotosMain() {
         >
           <SelectTrigger
             className={cn(
-              "-mr-0.5 h-10 w-full rounded-r-none px-3 py-2 font-normal",
+              "-mr-0.5 h-10 w-full rounded-r-none",
               (filters.location === undefined ||
                 filters.location === "removeLocationFilter") &&
                 "text-neutral-400",
@@ -589,6 +561,7 @@ export function PhotosMain() {
           </PopoverContent>
         </Popover>
       </div>
+
       <Tabs
         value={albumId ? "gallery" : path}
         defaultValue={albumId ? "gallery" : path}

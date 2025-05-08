@@ -21,7 +21,7 @@ export function DatePicker({ className, date, setDate, availableDates }) {
           variant={"outline"}
           className={cn(
             "w-[240px] justify-start text-left font-normal",
-            !date && "text-neutral-400",
+            !date && "text-neutral-500 dark:text-neutral-400",
             className,
           )}
         >

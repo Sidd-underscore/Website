@@ -15,14 +15,18 @@ export function ListView({ photos }) {
   if (!photos?.length) {
     return null;
   }
-
   return (
     <div className="w-full space-y-4">
       {photos.map((photo, index) => (
-        <ListViewItem
+        <motion.div
           key={`${photo.path}-${photo.date}-${index}`}
-          photo={photo}
-        />
+          initial={{ opacity: 0, y: -4 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.3 }}
+        >
+          <ListViewItem photo={photo} />
+        </motion.div>
       ))}
     </div>
   );
@@ -32,7 +36,7 @@ function ListViewItem({ photo }) {
   const [photoIsInLocalStorage, setPhotoIsInLocalStorage] = useState(false);
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     const checkFavorites = () => {
       const favorites =
@@ -52,8 +56,8 @@ function ListViewItem({ photo }) {
 
   const handleFavoriteClick = useCallback(
     (e) => {
-      if (typeof window === 'undefined') return;
-      
+      if (typeof window === "undefined") return;
+
       e.stopPropagation();
       const favorites =
         JSON.parse(localStorage.getItem("favoritePhotos")) || [];

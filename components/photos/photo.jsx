@@ -162,7 +162,7 @@ export const AdvancedPhoto = memo(function AdvancedPhoto({
           />
         </motion.div>
       </motion.div>
-      <DialogContent>
+      <DialogContent className="max-w-fit">
         <PhotoDialog photoData={photoData} />
       </DialogContent>
     </Dialog>
@@ -170,12 +170,13 @@ export const AdvancedPhoto = memo(function AdvancedPhoto({
 });
 
 function PhotoDialog({ photoData, className }) {
-  const isDesktop = useIsDesktop();
+  const isPhotoPortrait =
+    photoData.staticPhoto.height > photoData.staticPhoto.width;
 
   return (
     <>
       <DialogHeader>
-        <DialogTitle className="mb-2 flex items-center justify-center space-x-2 md:justify-start">
+        <DialogTitle className="mb-2 flex items-center justify-center space-x-2 sm:justify-start">
           <span>{photoData.name}</span>
           <Popover>
             <PopoverTrigger asChild>
@@ -253,17 +254,24 @@ function PhotoDialog({ photoData, className }) {
         <DialogDescription>
           <div className="flex w-full justify-center">
             <div
-              style={{
-                height: "100%",
-                width:
-                  photoData.staticPhoto.width > photoData.staticPhoto.height
-                    ? "80vw"
-                    : "75vw",
-              }}
+              style={
+                isPhotoPortrait
+                  ? {
+                      width: window.document.body.offsetHeight > window.document.body.offsetWidth ? "" : "80vw",
+                      height: window.document.body.offsetHeight > window.document.body.offsetWidth ? "80vh" : "",
+                      aspectRatio: photoData.staticPhoto.width / photoData.staticPhoto.height,
+                    }
+                  : {
+                      height: "100%",
+                      maxHeight: "100%",
+                      width: "85vw",
+                      maxWidth: "100%",
+                    }
+              }
             >
               <Image
                 className={cn(
-                  `w-auto rounded-md select-none sm:max-w-[calc(var(--container-xl)-calc(var(--spacing)*12))] md:max-w-[calc(var(--container-2xl)-calc(var(--spacing)*12))] lg:max-w-[calc(var(--container-3xl)-calc(var(--spacing)*12))] xl:max-w-[calc(var(--container-4xl)-calc(var(--spacing)*12))] 2xl:max-w-[calc(var(--container-5xl)-calc(var(--spacing)*12))]`,
+                  `rounded-md select-none sm:max-w-[calc(var(--container-xl)-calc(var(--spacing)*12))] md:max-w-[calc(var(--container-2xl)-calc(var(--spacing)*12))] lg:max-w-[calc(var(--container-3xl)-calc(var(--spacing)*12))] xl:max-w-[calc(var(--container-4xl)-calc(var(--spacing)*12))] 2xl:max-w-[calc(var(--container-5xl)-calc(var(--spacing)*12))]`,
                   className,
                 )}
                 src={photoData.staticPhoto}
@@ -275,7 +283,7 @@ function PhotoDialog({ photoData, className }) {
                   height: "100%",
                 }}
                 placeholder="blur"
-                quality={75}
+                quality={100}
                 priority={true}
               />
             </div>
