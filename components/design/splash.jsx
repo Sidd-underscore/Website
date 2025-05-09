@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Button, buttonVariants } from "../ui/button";
-import { Input } from "../ui/input";
-import { ThemeSwitcher } from "../ui/theme-switcher";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   CalendarIcon,
   CameraIcon,
@@ -15,7 +14,7 @@ import {
   SewingPinFilledIcon,
   UnderlineIcon,
 } from "@radix-ui/react-icons";
-import { DatePickerWithRange } from "../ui/date-picker";
+import { DatePickerWithRange } from "@/components/ui/date-picker";
 import {
   Select,
   SelectContent,
@@ -25,14 +24,13 @@ import {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-import { formatRelative, fromUnixTime, formatDistance, format } from "date-fns";
+} from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { formatRelative, fromUnixTime, formatDistance } from "date-fns";
 import { HexColorPicker } from "react-colorful";
 import { useTheme } from "next-themes";
 import { adjustTextColor, useTabs } from "@/lib/utils";
-import { Separator } from "../ui/separator";
-import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 export default function DesignSplash() {
   const { theme } = useTheme();
@@ -94,14 +92,12 @@ export default function DesignSplash() {
         </div>
       </div>
       {/* Assortment of UI things  */}
-      <div className="absolute -right-12 -bottom-80 flex w-full space-x-4">
         <UIGallery
           colorBoxBackgroundColor={colorBoxBackgroundColor}
           setColorBoxBackgroundColor={setColorBoxBackgroundColor}
           endTextStyles={endTextStyles}
           setEndTextStyles={setEndTextStyles}
         />
-      </div>
     </div>
   );
 }
@@ -134,6 +130,7 @@ export function TextBox({ textContent }) {
   const [top, setTop] = useState(-150);
   const [left, setLeft] = useState(0);
   const [fontSize, setFontSize] = useState(36);
+  const [isDragging, setIsDragging] = useState(false);
 
   const minFontSize = 10;
 
@@ -213,6 +210,7 @@ export function TextBox({ textContent }) {
 
   const handleDrag = (e) => {
     e.preventDefault();
+    setIsDragging(true);
     const isTouch = e.type === "touchstart";
     const startX = isTouch ? e.touches[0].clientX : e.clientX;
     const startY = isTouch ? e.touches[0].clientY : e.clientY;
@@ -231,6 +229,7 @@ export function TextBox({ textContent }) {
     };
 
     const stopMove = () => {
+      setIsDragging(false);
       toggleScrolling(false);
       document.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseup", stopMove);
@@ -308,7 +307,7 @@ export function TextBox({ textContent }) {
   return (
     <div
       ref={inputParentRef}
-      className="absolute z-10 mt-10"
+      className="absolute z-20 mt-10"
       style={{
         width: width || "100%",
         height,
@@ -331,44 +330,52 @@ export function TextBox({ textContent }) {
 
       {/* Edge resize handles */}
       <div
-        className="absolute -top-2 -left-2 z-20 h-5 w-5 cursor-nw-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 md:-top-1 md:-left-1 md:h-3 md:w-3 md:rounded-none dark:border-neutral-950 dark:bg-white"
+        className="absolute -top-2 -left-2 z-20 h-5 w-5 cursor-nw-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-top-1 md:-left-1 md:h-3 md:w-3 md:rounded-none md:hover:-top-2 md:hover:-left-2 hover:md:rounded-md dark:border-neutral-950 dark:bg-white"
         onMouseDown={(e) => handleResize(e, "nw")}
         onTouchStart={(e) => handleResize(e, "nw")}
       />
       <div
-        className="absolute -top-2 -right-2 z-20 h-5 w-5 cursor-ne-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 md:-top-1 md:-right-1 md:h-3 md:w-3 md:rounded-none dark:border-neutral-950 dark:bg-white"
+        className="absolute -top-2 -right-2 z-20 h-5 w-5 cursor-ne-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-top-1 md:-right-1 md:h-3 md:w-3 md:rounded-none md:hover:-top-2 md:hover:-right-2 hover:md:rounded-md dark:border-neutral-950 dark:bg-white"
         onMouseDown={(e) => handleResize(e, "ne")}
         onTouchStart={(e) => handleResize(e, "ne")}
       />
       <div
-        className="absolute -bottom-2 -left-2 z-20 h-5 w-5 cursor-sw-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 md:-bottom-1 md:-left-1 md:h-3 md:w-3 md:rounded-none dark:border-neutral-950 dark:bg-white"
+        className="absolute -bottom-2 -left-2 z-20 h-5 w-5 cursor-sw-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-bottom-1 md:-left-1 md:h-3 md:w-3 md:rounded-none md:hover:-bottom-2 md:hover:-left-2 hover:md:rounded-md dark:border-neutral-950 dark:bg-white"
         onMouseDown={(e) => handleResize(e, "sw")}
         onTouchStart={(e) => handleResize(e, "sw")}
       />
       <div
-        className="absolute -right-2 -bottom-2 z-20 h-5 w-5 cursor-se-resize rounded-full border-2 border-white bg-neutral-950 hover:border-4 md:-right-1 md:-bottom-1 md:h-3 md:w-3 md:rounded-none dark:border-neutral-950 dark:bg-white"
+        className="absolute -right-2 -bottom-2 z-20 h-5 w-5 cursor-se-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-right-1 md:-bottom-1 md:h-3 md:w-3 md:rounded-none md:hover:-right-2 md:hover:-bottom-2 hover:md:rounded-md dark:border-neutral-950 dark:bg-white"
         onMouseDown={(e) => handleResize(e, "se")}
         onTouchStart={(e) => handleResize(e, "se")}
       />
 
-      {/* Drag handles */}
+      {/* Updated Drag handles */}
       <div
-        className="absolute top-0 -left-0.5 z-10 h-full w-1.5 cursor-move border border-white bg-neutral-950 md:w-1 dark:border-neutral-950 dark:bg-white"
+        className={`absolute cursor-move bg-white transition-[width] dark:bg-white top-0 -left-0.5 h-full ${
+          isDragging ? "w-1.5" : "w-1"
+        }`}
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className="absolute top-0 -right-0.5 -left-0.5 z-10 h-1.5 w-full cursor-move border border-white bg-neutral-950 md:h-1 dark:border-neutral-950 dark:bg-white"
+        className={`absolute cursor-move bg-white transition-[height] dark:bg-white top-0 -right-0.5 -left-0.5 w-full ${
+          isDragging ? "h-1.5" : "h-1"
+        }`}
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className="absolute top-0 -right-0.5 z-10 h-full w-1.5 cursor-move border border-white bg-neutral-950 md:w-1 dark:border-neutral-950 dark:bg-white"
+        className={`absolute cursor-move bg-white transition-[width] dark:bg-white top-0 -right-0.5 h-full ${
+          isDragging ? "w-1.5" : "w-1"
+        }`}
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className="absolute -right-0.5 bottom-0 -left-0.5 z-10 h-1.5 w-full cursor-move border border-white bg-neutral-950 md:h-1 dark:border-neutral-950 dark:bg-white"
+        className={`absolute cursor-move bg-white transition-[height] dark:bg-white bottom-0 -right-0.5 -left-0.5 w-full ${
+          isDragging ? "h-1.5" : "h-1"
+         }`}
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
@@ -386,40 +393,38 @@ export function UIGallery({
   const { setActiveTab } = useTabs();
 
   useEffect(() => {
-    // ensure that the correct tab is active
     setActiveTab("account");
   }, [setActiveTab]);
 
   return (
-    <>
+    <div className="scale-75 -right-16 -bottom-90 -rotate-12 sm:rotate-0 sm:scale-100 absolute sm:-right-12 sm:-bottom-80 flex sm:w-full space-x-4">
+      <div className="absolute -z-10 h-full w-full bg-neutral-50 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)] [background-size:1rem_1rem] dark:bg-neutral-950 dark:bg-[linear-gradient(to_right,#1b1b1b_1px,transparent_1px),linear-gradient(to_bottom,#1b1b1b_1px,transparent_1px)]" />
+
       <div className="flex w-1/2 max-w-[100vw] shrink-0 flex-col items-end justify-end space-y-4">
-        <div className="flex space-x-4">
+        <div className="z-10 flex space-x-4">
           <ToggleGroup
             onValueChange={setEndTextStyles}
             value={endTextStyles}
             type="multiple"
+            className="gap-4"
           >
-            <ToggleGroupItem value="font-bold">
+            <ToggleGroupItem className="h-8 w-8" value="font-bold">
               <FontBoldIcon />
               <span className="sr-only">Bold</span>
             </ToggleGroupItem>
-            <ToggleGroupItem value="italic">
+            <ToggleGroupItem className="h-8 w-8" value="italic">
               <FontItalicIcon />
               <span className="sr-only">Italic</span>
             </ToggleGroupItem>
-            <ToggleGroupItem value="underline">
+            <ToggleGroupItem className="h-8 w-8" value="underline">
               <UnderlineIcon />
               <span className="sr-only">Underline</span>
             </ToggleGroupItem>
           </ToggleGroup>
-
-          <Separator orientation="vertical" />
-
-          <ThemeSwitcher className="mr-0" />
         </div>
 
         <Select>
-          <SelectTrigger className="w-[280px]">
+          <SelectTrigger className="h-8 w-56">
             <SelectValue placeholder="Chose a location" />
           </SelectTrigger>
           <SelectContent>
@@ -447,31 +452,38 @@ export function UIGallery({
           </SelectContent>
         </Select>
 
-        <div className="flex items-center space-x-2">
-          <DatePickerWithRange className="w-56" date={date} setDate={setDate} />{" "}
-          <Button variant="destructive">Delete</Button>
+        <div className="z-10 flex items-center space-x-4">
+          <DatePickerWithRange
+            className="h-8 w-48"
+            date={date}
+            setDate={setDate}
+          />
+          <Button className="h-8 w-20" variant="destructive">
+            Delete
+          </Button>
         </div>
-        <div className="bg-opacity-90 flex w-96 items-center rounded-md border border-neutral-200 bg-white pr-1 pl-3 text-sm shadow-xs hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
+
+        <div className="bg-opacity-90 z-10 flex h-[2.6rem] w-full items-center rounded-md border border-neutral-200 bg-white pr-1 pl-3 text-sm shadow-xs hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
           <MagnifyingGlassIcon />
           <Input
-            className="pointer-events-auto border-transparent! ring-0! shadow-none"
+            className="pointer-events-auto w-full border-transparent! shadow-none ring-0!"
             placeholder="Search photos..."
           />
         </div>
       </div>
 
-      <div className="flex max-h-fit shrink-0 flex-col items-end overflow-x-hidden">
+      <div className="z-10 flex shrink-0 flex-col items-end overflow-x-hidden">
         <div className="flex flex-col space-y-4">
-          <div className="ml-auto w-96">
+          <div className="ml-auto h-8">
             <Tabs defaultValue="account">
-              <TabsList className="flex w-full justify-around">
-                <TabsTrigger className="w-full" value="account">
+              <TabsList className="flex h-8 w-72">
+                <TabsTrigger className="w-24" value="account">
                   My Account
                 </TabsTrigger>
-                <TabsTrigger className="w-full" value="security">
+                <TabsTrigger className="w-24" value="security">
                   Security
                 </TabsTrigger>
-                <TabsTrigger className="w-full" value="advanced">
+                <TabsTrigger className="w-24" value="advanced">
                   Advanced
                 </TabsTrigger>
               </TabsList>
@@ -480,48 +492,51 @@ export function UIGallery({
 
           <div className="flex space-x-4">
             <div>
-              <div className="flex h-full flex-col justify-between rounded-md border border-neutral-200 p-4 dark:border-neutral-800">
-                <p className="mb-2 text-base font-medium">Pick a Color</p>
+              <div className="flex w-60 justify-center rounded-md border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-950">
+                <div>
+                  <p className="mb-2 text-base font-medium">Pick a Color</p>
 
-                <HexColorPicker
-                  color={colorBoxBackgroundColor}
-                  onChange={setColorBoxBackgroundColor}
-                />
+                  <HexColorPicker
+                    color={colorBoxBackgroundColor}
+                    onChange={setColorBoxBackgroundColor}
+                  />
+                </div>
               </div>
             </div>
 
             <div>
               <div>
-                <div className="rounded-md border border-neutral-200 p-4 dark:border-neutral-800">
+                <div className="flex h-52 w-60 flex-col justify-between rounded-md border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-950">
                   <p className="mb-2 text-base font-medium">
                     Photo Information
                   </p>
 
-                  <div className="flex items-center space-x-2 text-xs">
-                    <CalendarIcon className="size-4 shrink-0" />
-                    <span>
-                      {formatRelative(fromUnixTime(1679481600), Date.now())} at{" "}
-                      {format(fromUnixTime(1679481600), "h:mm a")} (
-                      {formatDistance(fromUnixTime(1679481600), Date.now(), {
-                        addSuffix: true,
-                      })}
-                      )
-                    </span>
-                  </div>
+                  <div>
+                    <div className="flex items-center space-x-2 text-xs">
+                      <CalendarIcon className="size-4 shrink-0" />
+                      <span>
+                        {formatRelative(fromUnixTime(1679481600), Date.now())} (
+                        {formatDistance(fromUnixTime(1679481600), Date.now(), {
+                          addSuffix: true,
+                        })}
+                        )
+                      </span>
+                    </div>
 
-                  <div className="mt-2 flex items-center space-x-2 text-xs">
-                    <SewingPinFilledIcon className="h-3 w-3 shrink-0" />
-                    <span>Portland, OR</span>
-                  </div>
+                    <div className="mt-2 flex items-center space-x-2 text-xs">
+                      <SewingPinFilledIcon className="h-3 w-3 shrink-0" />
+                      <span>Portland, OR</span>
+                    </div>
 
-                  <div className="mt-2 flex items-center space-x-2 text-xs">
-                    <CameraIcon className="h-3 w-3 shrink-0" />
-                    <span>Canon PowerShot SX70 HS</span>
-                  </div>
+                    <div className="mt-2 flex items-center space-x-2 text-xs">
+                      <CameraIcon className="h-3 w-3 shrink-0" />
+                      <span>Canon PowerShot SX70 HS</span>
+                    </div>
 
-                  <div className="mt-2 mb-4 flex items-center space-x-2 text-xs">
-                    <CropIcon className="h-3 w-3 shrink-0" />
-                    <span>1024 x 1080</span>
+                    <div className="mt-2 mb-4 flex items-center space-x-2 text-xs">
+                      <CropIcon className="h-3 w-3 shrink-0" />
+                      <span>1024 x 1080</span>
+                    </div>
                   </div>
 
                   <Button
@@ -548,6 +563,6 @@ export function UIGallery({
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

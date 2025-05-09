@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import { cn } from "@/lib/utils";
-import { motion } from "motion/react";
+import { LayoutGroup, motion } from "motion/react";
 import { useTabs } from "@/lib/utils";
 
 function Tabs({ defaultValue, onValueChange, ...props }) {
@@ -31,16 +31,18 @@ function Tabs({ defaultValue, onValueChange, ...props }) {
 
 function TabsList({ className, children, ...props }) {
   return (
-    <TabsPrimitive.List
-      data-slot="tabs-list"
-      className={cn(
-        "relative inline-flex h-9 items-center justify-center rounded-lg bg-neutral-100 p-1 text-neutral-500 select-none dark:bg-neutral-900 dark:text-neutral-400",
-        className,
-      )}
-      {...props}
-    >
-      {children}
-    </TabsPrimitive.List>
+    <LayoutGroup>
+      <TabsPrimitive.List
+        data-slot="tabs-list"
+        className={cn(
+          "relative inline-flex h-9 items-center justify-center rounded-lg bg-neutral-100 p-1 text-neutral-500 select-none dark:bg-neutral-900 dark:text-neutral-400",
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </TabsPrimitive.List>
+    </LayoutGroup>
   );
 }
 
@@ -55,7 +57,7 @@ function TabsTrigger({ className, children, value, ...props }) {
       value={value}
       ref={tabRef}
       className={cn(
-        "relative inline-flex items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap ring-offset-white transition-all hover:text-black focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-black dark:ring-offset-neutral-950 dark:hover:text-white dark:focus-visible:ring-neutral-300 dark:data-[state=active]:text-neutral-50",
+        "relative inline-flex cursor-pointer items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap ring-offset-white transition-all hover:text-black focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-black dark:ring-offset-neutral-950 dark:hover:text-white dark:focus-visible:ring-neutral-300 dark:data-[state=active]:text-neutral-50",
         className,
       )}
       {...props}
@@ -65,7 +67,7 @@ function TabsTrigger({ className, children, value, ...props }) {
         {isActive && (
           <motion.div
             className="absolute bottom-0 left-0 rounded-md bg-white shadow-sm dark:bg-neutral-800"
-            layoutId="tabsActive"
+            layoutId="active-tab"
             aria-hidden="true"
             style={{
               width: tabRef.current?.getBoundingClientRect().width,
