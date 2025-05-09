@@ -42,7 +42,7 @@ export default function DesignSplash() {
     setColorBoxBackgroundColor(() =>
       theme === "dark" ? "#ffffff" : "#000000",
     );
-  }, []);
+  }, [theme]);
 
   return (
     <div className="relative mt-8 mb-96">
@@ -92,12 +92,12 @@ export default function DesignSplash() {
         </div>
       </div>
       {/* Assortment of UI things  */}
-        <UIGallery
-          colorBoxBackgroundColor={colorBoxBackgroundColor}
-          setColorBoxBackgroundColor={setColorBoxBackgroundColor}
-          endTextStyles={endTextStyles}
-          setEndTextStyles={setEndTextStyles}
-        />
+      <UIGallery
+        colorBoxBackgroundColor={colorBoxBackgroundColor}
+        setColorBoxBackgroundColor={setColorBoxBackgroundColor}
+        endTextStyles={endTextStyles}
+        setEndTextStyles={setEndTextStyles}
+      />
     </div>
   );
 }
@@ -352,30 +352,30 @@ export function TextBox({ textContent }) {
 
       {/* Updated Drag handles */}
       <div
-        className={`absolute cursor-move bg-white transition-[width] dark:bg-white top-0 -left-0.5 h-full ${
-          isDragging ? "w-1.5" : "w-1"
+        className={`absolute top-0 -left-0.5 h-full cursor-move bg-neutral-950 transition-[width] dark:bg-white ${
+          isDragging ? "w-1.5" : "w-0.75"
         }`}
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className={`absolute cursor-move bg-white transition-[height] dark:bg-white top-0 -right-0.5 -left-0.5 w-full ${
-          isDragging ? "h-1.5" : "h-1"
+        className={`absolute top-0 -right-0.5 -left-0.5 w-full cursor-move bg-neutral-950 transition-[height] dark:bg-white ${
+          isDragging ? "h-1.5" : "h-0.75"
         }`}
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className={`absolute cursor-move bg-white transition-[width] dark:bg-white top-0 -right-0.5 h-full ${
-          isDragging ? "w-1.5" : "w-1"
+        className={`absolute top-0 -right-0.5 h-full cursor-move bg-neutral-950 transition-[width] dark:bg-white ${
+          isDragging ? "w-1.5" : "w-0.75"
         }`}
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className={`absolute cursor-move bg-white transition-[height] dark:bg-white bottom-0 -right-0.5 -left-0.5 w-full ${
-          isDragging ? "h-1.5" : "h-1"
-         }`}
+        className={`absolute -right-0.5 bottom-0 -left-0.5 w-full cursor-move bg-neutral-950 transition-[height] dark:bg-white ${
+          isDragging ? "h-1.5" : "h-0.75"
+        }`}
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
@@ -397,7 +397,7 @@ export function UIGallery({
   }, [setActiveTab]);
 
   return (
-    <div className="scale-75 -right-16 -bottom-90 -rotate-12 sm:rotate-0 sm:scale-100 absolute sm:-right-12 sm:-bottom-80 flex sm:w-full space-x-4">
+    <div className="absolute -right-16 -bottom-90 flex scale-75 -rotate-12 space-x-4 sm:-right-12 sm:-bottom-80 sm:w-full sm:scale-100 sm:rotate-0">
       <div className="absolute -z-10 h-full w-full bg-neutral-50 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)] [background-size:1rem_1rem] dark:bg-neutral-950 dark:bg-[linear-gradient(to_right,#1b1b1b_1px,transparent_1px),linear-gradient(to_bottom,#1b1b1b_1px,transparent_1px)]" />
 
       <div className="flex w-1/2 max-w-[100vw] shrink-0 flex-col items-end justify-end space-y-4">
