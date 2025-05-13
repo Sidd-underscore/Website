@@ -12,7 +12,6 @@ const BACKGROUND_IMAGES = [
   "/images/projects/lightshows/snapshots/rainbow.jpg",
   "/images/projects/lightshows/snapshots/audience-pov.jpg",
   "/images/projects/lightshows/snapshots/green-purple-pink.jpg",
-  "/images/projects/lightshows/snapshots/lasers.jpg",
   "/images/projects/lightshows/snapshots/purple-pink.jpg",
   "/images/projects/lightshows/snapshots/teaser.jpg",
   "/images/projects/lightshows/snapshots/sides.png",
@@ -24,6 +23,7 @@ const BACKGROUND_IMAGES = [
 export default function LightshowSplash() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [nextImageIndex, setNextImageIndex] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
@@ -40,16 +40,26 @@ export default function LightshowSplash() {
   }, []);
 
   useEffect(() => {
+    BACKGROUND_IMAGES.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, []);
+
+  useEffect(() => {
     const timer = setInterval(() => {
+      const nextIndex = (currentImageIndex + 1) % BACKGROUND_IMAGES.length;
+      setNextImageIndex(nextIndex);
       setIsTransitioning(true);
+      
       setTimeout(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % BACKGROUND_IMAGES.length);
+        setCurrentImageIndex(nextIndex);
         setIsTransitioning(false);
-      }, 500);
+      }, 1000);
     }, 5000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [currentImageIndex]);
 
   return (
     <div className="relative">
@@ -61,6 +71,7 @@ export default function LightshowSplash() {
           height: "100vh",
         }}
       >
+        {/* Current image */}
         <div
           style={{
             position: "absolute",
@@ -72,14 +83,36 @@ export default function LightshowSplash() {
             backgroundPosition: "center",
             backgroundSize: "cover",
             transition: "opacity 1s ease-in-out",
-            opacity: isTransitioning ? 0 : 1,
+            opacity: 1,
+            zIndex: 0,
+          }}
+        />
+        {/* Next image for crossfade */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundImage: `url(${BACKGROUND_IMAGES[nextImageIndex]})`,
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+            transition: "opacity 1s ease-in-out",
+            opacity: isTransitioning ? 1 : 0,
+            zIndex: 1,
           }}
         />
         <Canvas
           shadows
           dpr={[1, 2]}
           camera={{ position: [0, 2, 5], fov: 90, near: 1, far: 20 }}
-          style={{ width: "100%", height: "100%" }}
+          style={{ 
+            width: "100%", 
+            height: "100%",
+            position: "relative",
+            zIndex: 2
+          }}
         >
           <fog attach="fog" args={["#202020", 5, 20]} />
           <ambientLight intensity={0.1} />
