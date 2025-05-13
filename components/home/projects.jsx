@@ -192,7 +192,7 @@ export function Projects({
               <div
                 onMouseEnter={() => setProjectHovered(project.name)}
                 onMouseLeave={() => setProjectHovered(false)}
-                className={`group relative flex h-60 flex-col rounded-lg border border-neutral-300/50 bg-neutral-200/25 dark:border-neutral-700/50 dark:bg-neutral-800/50 ${index == 2 && projectHovered == project.name ? "xl:-ml-11" : ""} ${projectHovered && projectHovered != project.name ? "opacity-50" : ""}`}
+                className={`group relative flex h-60 flex-col rounded-lg border border-neutral-300/50 bg-neutral-200/25 dark:border-neutral-700/50 dark:bg-neutral-800/50 ${projectHovered && projectHovered != project.name ? "opacity-50" : ""}`}
               >
                 <div className="h-64 w-full rounded-md border border-transparent transition-[scale_width_height] duration-400 group-hover:z-40 group-hover:h-82 group-hover:-mt-9 md:group-hover:scale-105 group-hover:border-neutral-200 group-hover:bg-white group-hover:shadow-2xl group-hover:absolute dark:group-hover:border-neutral-700 dark:group-hover:bg-neutral-900">
                   <div className="absolute h-full w-full rounded-md opacity-50 group-hover:opacity-100">

@@ -42,7 +42,7 @@ export const ViewModeToggle = ({ viewMode, onChange }) => {
       value={viewMode}
       onValueChange={onChange}
       type="single"
-      className="flex h-9 w-9 items-center rounded-md border border-neutral-200 bg-white/75 shadow-xs backdrop-blur-md hover:border-neutral-300 sm:w-auto dark:border-neutral-800 dark:bg-neutral-950/75 dark:hover:border-neutral-700"
+      className="flex h-9 w-9 items-center rounded-md border border-neutral-200 bg-white/75 shadow-xs backdrop-blur-md hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 sm:w-auto dark:border-neutral-800 dark:bg-neutral-950/75 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800"
       onClick={handleClick}
     >
       <div className="block sm:hidden">

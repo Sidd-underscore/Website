@@ -123,7 +123,7 @@ export function PhotosSplash() {
         return (
           <Image
             key={key}
-            className={`absolute hidden w-auto rounded-lg transition-transform duration-200 ease-out select-none 2xl:block`}
+            className={`absolute hidden w-auto h-[124px] rounded-lg transition-transform duration-200 ease-out select-none 2xl:block`}
             style={{ ...initialPosition, ...adjustedPosition }}
             src={photoData.staticPhoto}
             alt={photoData.name}

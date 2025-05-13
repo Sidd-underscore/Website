@@ -189,7 +189,7 @@ function PhotoDialog({ photoData, className }) {
             </PopoverTrigger>
             <PopoverContent
               align="center"
-              sideOffset={12}
+              sideOffset={20}
               className="m-2 w-[calc(100vw_-_1rem)] md:m-0 md:w-auto md:max-w-[300px]"
             >
               <div>{photoData.description}</div>
@@ -252,28 +252,20 @@ function PhotoDialog({ photoData, className }) {
           </Popover>
         </DialogTitle>
         <DialogDescription>
-          <div className="flex w-full justify-center">
+          <div className="flex w-full justify-center overflow-hidden">
+            {/* This is such a mess, but it works */}
             <div
-              style={
+              style={{
+                aspectRatio: `${photoData.staticPhoto.width} / ${photoData.staticPhoto.height}`,
+              }}
+              className={`not-sm:h-[revert]! not-sm:w-[85vw]! ${
                 isPhotoPortrait
-                  ? {
-                      width: window.document.body.offsetHeight > window.document.body.offsetWidth ? "" : "80vw",
-                      height: window.document.body.offsetHeight > window.document.body.offsetWidth ? "80vh" : "",
-                      aspectRatio: photoData.staticPhoto.width / photoData.staticPhoto.height,
-                    }
-                  : {
-                      height: "100%",
-                      maxHeight: "100%",
-                      width: "85vw",
-                      maxWidth: "100%",
-                    }
-              }
+                  ? `sm:h-[calc(var(--container-2xl)-calc(var(--spacing)*24))] md:h-[calc(var(--container-3xl)-calc(var(--spacing)*24))] lg:h-[calc(var(--container-4xl)-calc(var(--spacing)*24))] xl:h-[calc(var(--container-5xl)-calc(var(--spacing)*24))] 2xl:h-[calc(var(--container-7xl)-calc(var(--spacing)*24))]`
+                  : "h-full max-h-full w-max sm:w-[calc(var(--container-xl)-calc(var(--spacing)*12))] md:w-[calc(var(--container-2xl)-calc(var(--spacing)*12))] lg:w-[calc(var(--container-3xl)-calc(var(--spacing)*12))] xl:w-[calc(var(--container-4xl)-calc(var(--spacing)*12))] 2xl:w-[calc(var(--container-6xl)-calc(var(--spacing)*12))]"
+              }`}
             >
               <Image
-                className={cn(
-                  `rounded-md select-none sm:max-w-[calc(var(--container-xl)-calc(var(--spacing)*12))] md:max-w-[calc(var(--container-2xl)-calc(var(--spacing)*12))] lg:max-w-[calc(var(--container-3xl)-calc(var(--spacing)*12))] xl:max-w-[calc(var(--container-4xl)-calc(var(--spacing)*12))] 2xl:max-w-[calc(var(--container-5xl)-calc(var(--spacing)*12))]`,
-                  className,
-                )}
+                className={cn(`rounded-md select-none`, className)}
                 src={photoData.staticPhoto}
                 alt={photoData.name}
                 height={photoData.staticPhoto.height}

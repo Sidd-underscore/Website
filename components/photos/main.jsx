@@ -307,9 +307,8 @@ export function PhotosMain() {
 
   return (
     <div className="my-6">
-      
       <motion.div
-        className={`sticky z-20 ${isInputSticky ? "mx-4 pt-20 shadow-lg" : ""}`}
+        className={`sticky z-20 ${isInputSticky ? "-mx-4 pt-14 lg:pt-18 lg:mx-4 shadow-lg" : ""}`}
         initial={{ top: "-100%" }}
         animate={controls}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -318,7 +317,9 @@ export function PhotosMain() {
           className={`flex w-full items-center ${isInputSticky ? "space-x-1" : "space-x-2"}`}
         >
           <div className="flex w-full items-center rounded-md border border-neutral-200 bg-white/75 pr-1 pl-3 text-sm shadow-xs backdrop-blur-md transition-colors hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950/75 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
-            <span className="text-neutral-500 dark:text-neutral-400">{searchIcon}</span>
+            <span className="text-neutral-500 dark:text-neutral-400">
+              {searchIcon}
+            </span>
             <Input
               onChange={handleSearchChange}
               value={filters.query}
@@ -335,27 +336,27 @@ export function PhotosMain() {
             </Button>
           </div>
 
-          <div
-            className={`flex items-center space-x-1 rounded-md text-sm ${isInputSticky ? "space-x-1" : "space-x-2"}`}
-          >
-            <ViewModeToggle
-              viewMode={viewMode}
-              onChange={handleViewModeChange}
-            />
-            <Select value={sortOrder} onValueChange={handleSortChange}>
-              <SelectTrigger className="w-full backdrop-blur-md sm:w-30">
-                <p className="flex items-center space-x-2">
-                  <span>
-                    {sortOrder === "newest" ? "Newest first" : "Oldest first"}
-                  </span>
-                </p>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="newest">Newest first</SelectItem>
-                <SelectItem value="oldest">Oldest first</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          {!isInputSticky && (
+            <div className={`flex items-center space-x-1 rounded-md text-sm`}>
+              <ViewModeToggle
+                viewMode={viewMode}
+                onChange={handleViewModeChange}
+              />
+              <Select value={sortOrder} onValueChange={handleSortChange}>
+                <SelectTrigger className="w-full border-neutral-200 bg-white/75 backdrop-blur-md hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 sm:w-30 dark:border-neutral-800 dark:bg-neutral-950/75 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
+                  <p className="flex items-center space-x-2">
+                    <span>
+                      {sortOrder === "newest" ? "Newest first" : "Oldest first"}
+                    </span>
+                  </p>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="newest">Newest first</SelectItem>
+                  <SelectItem value="oldest">Oldest first</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
         </div>
       </motion.div>
 
