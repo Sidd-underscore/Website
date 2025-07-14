@@ -9,6 +9,8 @@ import {
 import { useSpring, animated } from "@react-spring/three";
 
 const BACKGROUND_IMAGES = [
+  "/images/projects/lightshows/snapshots/wowwww.jpg",
+  "/images/projects/lightshows/snapshots/pinkkkk.png",
   "/images/projects/lightshows/snapshots/rainbow.jpg",
   "/images/projects/lightshows/snapshots/audience-pov.jpg",
   "/images/projects/lightshows/snapshots/green-purple-pink.jpg",

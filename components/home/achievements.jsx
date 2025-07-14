@@ -128,14 +128,14 @@ export function Achievements({ className, defaultAchievementTypes }) {
 
       <div
         ref={parent}
-        className={`relative mt-12 w-full ${achievementsToDisplay.length > 0 ? "grid grid-flow-row grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3" : ""} text-center md:text-left lg:mb-0`}
+        className={`relative mt-12 w-full ${achievementsToDisplay.length > 0 ? "grid grid-flow-row grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-6" : ""} text-center md:text-left lg:mb-0`}
       >
         {achievementsToDisplay.length > 0 ? (
           achievementsToDisplay.map((achievement, index) => (
             <div
               key={achievement.id}
               className={`group relative rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50 ${
-                achievement.split && index == 3 ? "xl:col-span-2" : ""
+                index == 3 || index == 4 ? "xl:col-span-3" : "xl:col-span-2"
               }`}
             >
               <div className={`h-full ${achievement.split ? "space-y-4" : ""}`}>
@@ -186,35 +186,36 @@ export function Achievements({ className, defaultAchievementTypes }) {
                   </div>
 
                   {achievement.split && (
-                    <div className={`grid grid-cols-1 gap-4 ${index === 3 ? "lg:grid-cols-2" : ""} `}>
+                    <div
+                      className={`grid grid-cols-1 gap-4 ${achievement.split.type === "score" ? "grid-cols-2" : "md:grid-cols-2 xl:grid-cols-1"}`}
+                    >
                       {achievement.split.children.map((splitItem, index) => (
                         <div
                           key={index}
-                          className={`rounded-lg border-2 border-neutral-300/30 bg-neutral-300/25 p-4 dark:border-neutral-700/30 dark:bg-neutral-800/30 ${
+                          className={`rounded-lg border-2 border-neutral-300/30 bg-neutral-300 p-4 dark:border-neutral-700 dark:bg-neutral-800 ${
                             achievement.split.type === "score"
-                              ? "transition duration-400 hover:bg-gradient-to-br hover:from-pink-300/50 hover:to-pink-200/50 hover:shadow-lg dark:hover:from-pink-400 dark:hover:to-pink-300/75"
+                              ? "transition duration-400 hover:bg-gradient-to-br hover:from-pink-400/75 hover:to-pink-300/75 hover:shadow-md"
                               : ""
                           }`}
                         >
-                          <h4 className="text-md mb-2 font-medium">
-                            {splitItem.name} ({splitItem.date})
-                          </h4>
+                          <small className="text-sm opacity-75">
+                            {splitItem.date}
+                          </small>
+
+                          <h4 className="text-base mb-2">{splitItem.name}</h4>
+
                           {achievement.split.type === "score" && (
-                            <p className="text-xl">
-                              <span className="font-semibold">
+                            <p className="text-2xl font-bold">
                                 {splitItem.score}
-                              </span>
                             </p>
                           )}
+
                           {achievement.split.type === "description" && (
-                            <ul className="list-disc text-left text-sm">
+                            <ul className="text-sm">
                               {splitItem.descriptions.map((description) => (
-                                <li
-                                  className="ml-4 opacity-75"
-                                  key={description}
-                                >
+                                <p key={description}>
                                   {description}
-                                </li>
+                                </p>
                               ))}
                             </ul>
                           )}
