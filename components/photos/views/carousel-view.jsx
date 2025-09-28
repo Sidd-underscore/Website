@@ -42,7 +42,7 @@ function Thumbnail({ photo, isCurrent, onClick }) {
       }}
     >
       <motion.img
-        src={`/_next/image?url=${photo?.path}&w=256&q=25`} // optimiazation hack!
+        src={`/_next/image?url=${photo?.path}&w=256&q=25`} // optimization hack!
         alt={photo?.name}
         className="h-full w-full object-cover"
         layoutId={`thumb-${photo?.path}`}
