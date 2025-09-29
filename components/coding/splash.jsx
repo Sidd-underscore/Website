@@ -10,7 +10,9 @@ export function CodingSplash() {
 
   const initialCode = `// Introduction
 const codingStart = 2019;
-const experience = ${yearsOfCoding} + " years";
+const yearsOfCoding = (new Date().getFullYear()) - codingStart;
+
+const experience = yearsOfCoding + " years"; // ${yearsOfCoding} years
 
 // In the early days...
 I learned to code in JavaScript to work with Discord's API and make bots. I used a "freeCodeCamp" article outlining how to use "Discord.js" as my first introduction to code. I had no prior knowledge of VS Code, Node.js, or even a Terminal!
@@ -31,75 +33,158 @@ var currentStack = {
 
 // Real-World Experience
 - Gained amazing experience working with Replit as a community ambassador ("Replit Rep").
-- Worked with the community and developers by participating in "Replit Bounties" (eared ~$200 with an average rating of 4.8/5)
+- Worked with the community and developers by participating in "Replit Bounties" (earned ~$200 with an average rating of 4.8/5)
+- Built and maintained websites for freelance clients, such as https://resolvedtools.com
 
 // Current Status
 These days, I mainly build websites for myself, school, or freelance clients.
-I work remotely from Portland, Oregon, while also being a high school student.`
+I work remotely from Portland, Oregon, while also being a high school student.`;
 
   const [raw, setRaw] = useState(initialCode);
   const [isEditing, setIsEditing] = useState(false);
   const codeRef = useRef(null);
 
   function toHTML(text) {
-    // 1) escape raw <>&
-    const esc = text
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
+    // Escape HTML special chars
+    const escInput = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
-    // 2) one‑regex to find *only* the code tokens we care about
-    const tokenRegex = new RegExp(
-      [
-        `(\\/\\/[^\\n]*)`, // 1: //… comment
-        `|(\\/\\*[\\s\\S]*?\\*\\/)`, // 2: /*…*/ comment
-        `|(".*?"|'.*?'|\`[\\s\\S]*?\`)`, // 3: string literal
-        `|(?<![\\w-])(\\d+)(?![\\w-])`, // 4: standalone number
-        `|^(- .*)`, // 5: list dash
-        `|\\b(const|let|var|function|return|new|extends|import|from|if|else|for|while|break|continue)\\b`, // 6: keyword
-        `|([(){}\\[\\]])`, // 7: brackets and parentheses
-        `|([+\\-*/=<>!&|^%~?:;,])`, // 8: operators
-        `|(?<=\\{\\s*|,\\s*)(\\w+)(?=:)`, // 9: object key
-        `|(?<=\\b(?:const|let|var)\\s+)([a-zA-Z_$][\\w$]*)`, // 10: declared variable
-      ].join(""),
-      "gm",
-    );
+    // URL regex source
+    const urlSource = 'https?:\\/\\/[\\w.-]+(?:\\/[\\w./?&%#=-]*)?';
 
-    return esc.replace(
-      tokenRegex,
-      (match, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10) => {
-        if (c1)
-          return `<span class="text-neutral-500 dark:text-neutral-500">${c1}</span>`; // comment
-        if (c2)
-          return `<span class="text-neutral-500 dark:text-neutral-500">${c2}</span>`; // block comment
-        if (c3)
-          return `<span class="text-green-600 dark:text-green-300">${c3}</span>`; // string
-        if (c4)
-          return `<span class="text-yellow-500 dark:text-yellow-300">${c4}</span>`; // number
-        if (c5)
-          return `<span class="text-pink-400 dark:text-pink-300">${c5}</span>`; // list dash
-        if (c6)
-          return `<span class="text-blue-400 dark:text-blue-300">${c6}</span>`; // keyword
-        if (c7)
-          return `<span class="text-neutral-700 dark:text-neutral-300">${c7}</span>`; // brackets
-        if (c8)
-          return `<span class="text-neutral-600 dark:text-neutral-400">${c8}</span>`; // operators
-        if (c9)
-          return `<span class="text-orange-400 dark:text-orange-200">${c9}</span>`; // object keys
-        if (c10)
-          return `<span class="text-pink-400 dark:text-pink-300">${c10}</span>`; // variable
+    // Small building-block regexes
+    const stringPattern = /(?:(?:"(?:[^"\\]|\\.)*")|(?:'(?:[^'\\]|\\.)*')|(?:`[\s\S]*?`))/;
+    const blockPattern = /\/\*[\s\S]*?\*\//;
+    const slinePattern = /\/\/[^\n]*/;
+    const listPattern = /^- .*?(?:\n|$)/m;
+    const parenPattern = /\([^\n()]*\)/;
 
+    // Master finds high-priority regions (one capturing group per alt)
+    const master = new RegExp('(' + stringPattern.source + ')|(' + blockPattern.source + ')|(' + slinePattern.source + ')|(' + listPattern.source + ')|(' + parenPattern.source + ')|(' + urlSource + ')', 'gm');
+
+    // Token regex for gaps
+    const tokenSource = [
+      '(\\b\\d+(?:\\.\\d+)?\\b)',
+      '(\\b(?:const|let|var|function|return|new|extends|import|from|if|else|for|while|break|continue)\\b)',
+      '([(){}\\[\\]])',
+      '([+\\-*/=<>!&|^%~?:;,])',
+      '([a-zA-Z_$][\\w$]*)(?=\\s*:)',
+    ].join('|');
+    const tokenRegex = new RegExp(tokenSource, 'gm');
+
+    function wrap(content, className) {
+      // Emit class-only spans so Tailwind classes control colors.
+      return `<span class="${className || ''}">${content}</span>`;
+    }
+
+    function anchor(url) {
+      // Catppuccin-inspired link colors (light / dark)
+      return `<a href="${url}" class="underline text-[#3166d6] dark:text-[#89b4fa]" target="_blank" rel="noopener noreferrer">${url}</a>`;
+    }
+
+    function highlightTokens(chunk) {
+      // Use a fresh RegExp so global state (lastIndex) can't leak between calls.
+      const localToken = new RegExp(tokenSource, 'gm');
+      return chunk.replace(localToken, (match, num, kw, br, op, key) => {
+        if (num) return wrap(num, 'text-[#b2691e] dark:text-[#f9e2af]');
+        if (kw) return wrap(kw, 'text-[#7c5cff] dark:text-[#cba6f7]');
+        if (br) return wrap(br, 'text-[#394b59] dark:text-[#94e2d5]');
+        if (op) return wrap(op, 'text-[#4b5563] dark:text-[#7f848a]');
+        if (key) return wrap(key, 'text-[#b55a1e] dark:text-[#fab387]');
         return match;
-      },
-    );
+      });
+    }
+
+    // Process comment-like text (block or single-line): highlight strings and URLs inside
+    function processComment(chunk) {
+      const sub = new RegExp('(' + stringPattern.source + ')|(' + urlSource + ')', 'gm');
+      let out = '';
+      let last = 0;
+      let m;
+      while ((m = sub.exec(chunk)) !== null) {
+        const idx = m.index;
+        if (idx > last) out += wrap(chunk.slice(last, idx), 'text-[#7c6f64] dark:text-[#6b6f84]');
+        if (m[1]) {
+          out += wrap(m[1], 'text-[#287373] dark:text-[#a6e3a1]');
+        } else if (m[2]) {
+          out += anchor(m[2]);
+        }
+        last = sub.lastIndex;
+      }
+      if (last < chunk.length) out += wrap(chunk.slice(last), 'text-[#7c6f64] dark:text-[#6b6f84]');
+      return out;
+    }
+
+    // Process parenthesized text: allow strings and urls inside, then wrap entire paren
+    function processParen(chunk) {
+      // chunk includes the surrounding parentheses
+      const inner = chunk.slice(1, -1);
+      const sub = new RegExp('(' + stringPattern.source + ')|(' + urlSource + ')', 'gm');
+      let out = '';
+      let last = 0;
+      let m;
+      while ((m = sub.exec(inner)) !== null) {
+        const idx = m.index;
+        if (idx > last) out += highlightTokens(inner.slice(last, idx));
+        if (m[1]) out += wrap(m[1], 'text-[#287373] dark:text-[#a6e3a1]');
+        else if (m[2]) out += anchor(m[2]);
+        last = sub.lastIndex;
+      }
+      if (last < inner.length) out += highlightTokens(inner.slice(last));
+      return wrap('(' + out + ')', 'text-[#394b59] dark:text-[#94e2d5]');
+    }
+
+    // Process list item: highlight strings, parens and urls inside; keep token highlighting for gaps
+    function processList(chunk) {
+        const sub = new RegExp('(' + stringPattern.source + ')|(' + parenPattern.source + ')|(' + urlSource + ')', 'gm');
+        let out = '';
+        let last = 0;
+        let m;
+        while ((m = sub.exec(chunk)) !== null) {
+          const idx = m.index;
+          if (idx > last) out += highlightTokens(chunk.slice(last, idx));
+          if (m[1]) out += wrap(m[1], 'text-[#287373] dark:text-[#a6e3a1]');
+          else if (m[2]) out += processParen(m[2]);
+          else if (m[3]) out += anchor(m[3]);
+          last = sub.lastIndex;
+        }
+        if (last < chunk.length) out += highlightTokens(chunk.slice(last));
+
+      // Remove the leading dash and color the entire list line so lists are visually distinct
+      const content = out.replace(/^\-\s?/, '');
+      return wrap(content, 'text-[#c14a65] dark:text-[#f2cdcd]');
+    }
+
+    // Main loop: walk high-priority matches from `master` and highlight gaps with highlightTokens
+    let out = '';
+    let lastIndex = 0;
+    let mm;
+    while ((mm = master.exec(escInput)) !== null) {
+      const idx = mm.index;
+      if (idx > lastIndex) out += highlightTokens(escInput.slice(lastIndex, idx));
+
+      const [full, str, block, sline, list, paren, bareUrl] = mm;
+
+      if (str) out += wrap(str, 'text-[#287373] dark:text-[#a6e3a1]');
+      else if (block) out += processComment(block);
+      else if (sline) out += processComment(sline);
+      else if (list) out += processList(list);
+      else if (paren) out += processParen(paren);
+      else if (bareUrl) out += anchor(bareUrl);
+      else out += full;
+
+      lastIndex = master.lastIndex;
+    }
+
+    if (lastIndex < escInput.length) out += highlightTokens(escInput.slice(lastIndex));
+
+    return out;
   }
 
   return (
     <section
       className={cn(
-        "space-y-4 rounded-b-xl rounded-tr-xl border border-neutral-300 bg-white p-6 font-mono text-sm text-neutral-900 shadow-lg dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-100",
-        isEditing &&
-          "border-dashed border-neutral-400 dark:border-neutral-700",
+        "space-y-4 rounded-tr-xl rounded-b-xl border border-neutral-300 bg-white p-6 font-mono text-sm text-neutral-900 shadow-lg dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-100",
+        isEditing && "border-dashed border-neutral-400 dark:border-neutral-700"
       )}
     >
       {isEditing ? (
@@ -119,16 +204,13 @@ I work remotely from Portland, Oregon, while also being a high school student.`
 
       <div className="border-t border-neutral-300 pt-6 dark:border-neutral-600">
         <p>
-          Get in touch →{" "}
+          Get in touch →{' '}
           <Link href="mailto:hello@sidd.studio" className="underline">
             hello@sidd.studio
           </Link>
-          ,{" "}
-          <span
-            className="cursor-pointer underline"
-            onClick={() => setIsEditing(!isEditing)}
-          >
-            or {!isEditing ? "code" : "preview"} this page!
+          ,{' '}
+          <span className="cursor-pointer underline" onClick={() => setIsEditing(!isEditing)}>
+            or {!isEditing ? 'code' : 'preview'} this page!
           </span>
         </p>
       </div>
