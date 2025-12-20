@@ -5,8 +5,9 @@ import * as React from "react";
 import credits from "@/lib/hadestown-credits.json";
 
 import { Button } from "@/components/ui/button";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 
-const TARGET_UTC_MS = Date.parse("2025-12-20T19:00:00.000Z"); // 11:00 AM PST
+const TARGET_UTC_MS = Date.parse("2025-12-21T19:00:00.000Z"); // 11:00 AM PST
 const MOVIE_DOWNLOAD_SRC = "/hadestown.mp4";
 const YOUTUBE_VIDEO_ID = "OhoKKaMsJtA";
 
@@ -76,7 +77,7 @@ export function HadestownCountdown() {
       </div>
 
       <p className="mt-3 text-xs text-neutral-500 dark:text-neutral-400">
-        Saturday, Dec 20, 2025 • 11:00 AM PST
+        Sunday, Dec 21, 2025 • 11:00 AM PST
       </p>
     </section>
   );
@@ -156,7 +157,7 @@ function formatTimeString(utcMs) {
       timeZoneName: "short",
     }).format(new Date(utcMs));
   } catch {
-    return "Saturday, Dec 20, 2025 • 11:00 AM PST";
+    return "Sunday, Dec 21, 2025 • 11:00 AM PST";
   }
 }
 
@@ -249,6 +250,18 @@ export function HadestownExperience() {
 
       {effectiveView === "countdown" ? (
         <section className="flex min-h-[60vh] flex-col items-center justify-center text-center">
+          <div className="mb-8 w-full max-w-xl rounded-lg border border-neutral-300 bg-white px-4 py-3 text-sm dark:border-neutral-800 dark:bg-neutral-950">
+            <p className="flex items-center justify-center gap-1.5 font-semibold text-neutral-900 dark:text-neutral-100">
+              <InfoCircledIcon className="h-4 w-4" />
+              Release Schedule Update
+            </p>
+            <p className="mt-1 text-neutral-700 dark:text-neutral-300">
+              <strong>Act One</strong> will premiere on <strong>December 21st</strong>. <strong>Act Two</strong> and the <strong>full movie release</strong> will be available on <strong>December 28th</strong>.
+            </p>
+            <p className="mt-2 text-neutral-500 dark:text-neutral-400">
+              I am very sorry for the wait and really appreciate your patience!
+            </p>
+          </div>
           <p className="text-sm text-neutral-600 dark:text-neutral-300">
             Sing it again!
           </p>
@@ -276,10 +289,22 @@ export function HadestownExperience() {
         </section>
       ) : (
         <>
+          <div className="mb-6 w-full max-w-xl mx-auto rounded-lg border border-neutral-300 bg-white px-4 py-3 text-sm dark:border-neutral-800 dark:bg-neutral-950">
+            <p className="flex items-center justify-center gap-1.5 font-semibold text-neutral-900 dark:text-neutral-100">
+              <InfoCircledIcon className="h-4 w-4" />
+              Release Schedule Update
+            </p>
+            <p className="mt-1 text-neutral-700 dark:text-neutral-300">
+              <strong>Act One</strong> is now available! <strong>Act Two</strong> and the <strong>full movie release</strong> will be available on <strong>December 28th</strong>.
+            </p>
+            <p className="mt-2 text-neutral-500 dark:text-neutral-400">
+              I am very sorry for the wait and really appreciate your patience!
+            </p>
+          </div>
           <div className="no-max-w -m-6 mb-0! md:-m-12 2xl:-m-24">
             <section className="flex min-h-[70vh] flex-col items-center justify-center bg-neutral-950 px-2 py-16 text-center text-white md:px-4">
               <p className="text-xs uppercase tracking-widest text-neutral-300">
-                Now playing
+                Now playing — Act One
               </p>
               <h1 className="mt-3 text-4xl font-black tracking-tight sm:text-6xl">
                 HADES<span className="font-medium">TOWN</span>
