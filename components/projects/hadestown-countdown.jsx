@@ -7,7 +7,7 @@ import credits from "@/lib/hadestown-credits.json";
 import { Button } from "@/components/ui/button";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 
-const TARGET_UTC_MS = Date.parse("2025-12-21T19:00:00.000Z"); // 11:00 AM PST
+const TARGET_UTC_MS = Date.parse("2025-12-21T22:00:00.000Z"); // 2:00 PM PST
 const MOVIE_DOWNLOAD_SRC = "/hadestown.mp4";
 const YOUTUBE_VIDEO_ID = "OhoKKaMsJtA";
 
@@ -77,7 +77,7 @@ export function HadestownCountdown() {
       </div>
 
       <p className="mt-3 text-xs text-neutral-500 dark:text-neutral-400">
-        Sunday, Dec 21, 2025 • 11:00 AM PST
+        Sunday, Dec 21, 2025 • 2:00 PM PST
       </p>
     </section>
   );
@@ -157,7 +157,7 @@ function formatTimeString(utcMs) {
       timeZoneName: "short",
     }).format(new Date(utcMs));
   } catch {
-    return "Sunday, Dec 21, 2025 • 11:00 AM PST";
+    return "Sunday, Dec 21, 2025 • 2:00 PM PST";
   }
 }
 
