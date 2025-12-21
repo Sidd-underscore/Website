@@ -7,7 +7,7 @@ import credits from "@/lib/hadestown-credits.json";
 import { Button } from "@/components/ui/button";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 
-const TARGET_UTC_MS = Date.parse("2025-12-21T22:00:00.000Z"); // 2:00 PM PST
+const TARGET_UTC_MS = Date.parse("2025-12-22T01:00:00.000Z"); // 5:00 PM PST
 const MOVIE_DOWNLOAD_SRC = "/hadestown.mp4";
 const YOUTUBE_VIDEO_ID = "OhoKKaMsJtA";
 
@@ -162,12 +162,7 @@ function formatTimeString(utcMs) {
 }
 
 export function HadestownExperience() {
-  const isProduction = process.env.NODE_ENV === "production";
-
-  // In dev: show cinema view immediately. In prod: auto-switch at release time.
-  const [viewMode, setViewMode] = React.useState(
-    isProduction ? "auto" : "cinema",
-  );
+  const [viewMode, setViewMode] = React.useState("auto");
   const [nowMs, setNowMs] = React.useState(null);
   const [showStickyActions, setShowStickyActions] = React.useState(false);
   const [isFooterVisible, setIsFooterVisible] = React.useState(false);
@@ -234,20 +229,6 @@ export function HadestownExperience() {
 
   return (
     <div>
-      {!isProduction && (
-        <div className="flex justify-end">
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() =>
-              setViewMode((v) => (v === "cinema" ? "countdown" : "cinema"))
-            }
-          >
-            Debug: {effectiveView === "cinema" ? "Cinema" : "Countdown"}
-          </Button>
-        </div>
-      )}
-
       {effectiveView === "countdown" ? (
         <section className="flex min-h-[60vh] flex-col items-center justify-center text-center">
           <div className="mb-8 w-full max-w-xl rounded-lg border border-neutral-300 bg-white px-4 py-3 text-sm dark:border-neutral-800 dark:bg-neutral-950">
@@ -290,25 +271,24 @@ export function HadestownExperience() {
       ) : (
         <>
           <div className="mb-6 w-full max-w-xl mx-auto rounded-lg border border-neutral-300 bg-white px-4 py-3 text-sm dark:border-neutral-800 dark:bg-neutral-950">
-            <p className="flex items-center justify-center gap-1.5 font-semibold text-neutral-900 dark:text-neutral-100">
+            <p className="flex text-center items-center justify-center gap-1.5 font-semibold text-neutral-900 dark:text-neutral-100">
               <InfoCircledIcon className="h-4 w-4" />
               Release Schedule Update
             </p>
-            <p className="mt-1 text-neutral-700 dark:text-neutral-300">
+            <p className="text-center mt-1 text-neutral-700 dark:text-neutral-300">
               <strong>Act One</strong> is now available! <strong>Act Two</strong> and the <strong>full movie release</strong> will be available on <strong>December 28th</strong>.
             </p>
-            <p className="mt-2 text-neutral-500 dark:text-neutral-400">
+            <p className="text-center mt-2 text-neutral-500 dark:text-neutral-400">
               I am very sorry for the wait and really appreciate your patience!
             </p>
           </div>
           <div className="no-max-w -m-6 mb-0! md:-m-12 2xl:-m-24">
-            <section className="flex min-h-[70vh] flex-col items-center justify-center bg-neutral-950 px-2 py-16 text-center text-white md:px-4">
-              <p className="text-xs uppercase tracking-widest text-neutral-300">
-                Now playing — Act One
-              </p>
+            <section className="flex min-h-[70vh] flex-col items-center justify-center px-2 py-16 text-center mt-16 md:px-4">
+             
               <h1 className="mt-3 text-4xl font-black tracking-tight sm:text-6xl">
                 HADES<span className="font-medium">TOWN</span>
               </h1>
+              <h2>ACT ONE</h2>
 
               <div className="mt-10 w-full">
                 <div className="aspect-video w-full bg-black">
