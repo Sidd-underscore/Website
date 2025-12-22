@@ -7,9 +7,9 @@ import credits from "@/lib/hadestown-credits.json";
 import { Button } from "@/components/ui/button";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 
-const TARGET_UTC_MS = Date.parse("2025-12-22T01:00:00.000Z"); // 5:00 PM PST
+const TARGET_UTC_MS = Date.parse("2025-12-22T00:00:00.000Z"); // 5:00 PM PST
 const MOVIE_DOWNLOAD_SRC = "/hadestown.mp4";
-const YOUTUBE_VIDEO_ID = "OhoKKaMsJtA";
+const YOUTUBE_VIDEO_ID = "Oz5A5psSGlM";
 
 const YOUTUBE_URL = YOUTUBE_VIDEO_ID
   ? `https://www.youtube.com/watch?v=${YOUTUBE_VIDEO_ID}`
