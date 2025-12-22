@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 const TARGET_UTC_MS = Date.parse("2025-12-22T00:00:00.000Z"); // 5:00 PM PST
-const MOVIE_DOWNLOAD_SRC = "/hadestown.mp4";
+const MOVIE_DOWNLOAD_SRC = "https://1drv.ms/v/c/5aca29c3f0f00439/IQC0jfcpaw95TK8HC0DcnHk1ATP1PewoYjxrzq-oQraekfU";
 const YOUTUBE_VIDEO_ID = "Oz5A5psSGlM";
 
 const YOUTUBE_URL = YOUTUBE_VIDEO_ID
