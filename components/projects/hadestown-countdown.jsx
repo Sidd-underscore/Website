@@ -7,7 +7,7 @@ import credits from "@/lib/hadestown-credits.json";
 import { Button } from "@/components/ui/button";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 
-const TARGET_UTC_MS = Date.parse("2025-12-30T01:00:00.000Z"); // 5:00 PM PST on Dec 29th
+const TARGET_UTC_MS = Date.parse("2025-12-30T16:00:00.000Z"); // 8:00 AM PST on Dec 30th
 
 const MOVIE_DOWNLOAD_SRC =
   "https://1drv.ms/v/c/5aca29c3f0f00439/IQC0jfcpaw95TK8HC0DcnHk1ATP1PewoYjxrzq-oQraekfU";
