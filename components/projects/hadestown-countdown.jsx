@@ -7,6 +7,8 @@ import credits from "@/lib/hadestown-credits.json";
 import { Button } from "@/components/ui/button";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 
+const TARGET_UTC_MS = Date.parse("2025-12-30T01:00:00.000Z"); // 5:00 PM PST on Dec 29th
+
 const MOVIE_DOWNLOAD_SRC =
   "https://1drv.ms/v/c/5aca29c3f0f00439/IQC0jfcpaw95TK8HC0DcnHk1ATP1PewoYjxrzq-oQraekfU";
 const YOUTUBE_VIDEO_ID = "Oz5A5psSGlM";
@@ -124,6 +126,8 @@ function formatTimeString(utcMs) {
 }
 
 export function HadestownExperience() {
+  const isProduction = process.env.NODE_ENV === "production";
+
   const [viewMode, setViewMode] = React.useState("auto");
   const [nowMs, setNowMs] = React.useState(null);
   const [showStickyActions, setShowStickyActions] = React.useState(false);
@@ -158,6 +162,14 @@ export function HadestownExperience() {
 
   const shouldShowStickyActions = showStickyActions && !isFooterVisible;
 
+  const isReleased = nowMs != null && nowMs >= TARGET_UTC_MS;
+  const effectiveView =
+    viewMode === "auto" ? (isReleased ? "cinema" : "countdown") : viewMode;
+
+  const remainingMs = nowMs == null ? null : TARGET_UTC_MS - nowMs;
+  const isLive = remainingMs != null && remainingMs <= 0;
+  const formatted = remainingMs == null ? null : formatRemaining(remainingMs);
+
   async function onShare() {
     const url = typeof window !== "undefined" ? window.location.href : "";
 
@@ -183,76 +195,106 @@ export function HadestownExperience() {
 
   return (
     <div>
-      <div className="mx-auto mb-6 w-full max-w-xl rounded-lg border border-neutral-300 bg-white px-4 py-3 text-sm dark:border-neutral-800 dark:bg-neutral-950">
-        <p className="flex items-center justify-center gap-1.5 text-center font-semibold text-neutral-900 dark:text-neutral-100">
-          <InfoCircledIcon className="h-4 w-4" />
-          Release Schedule Update
-        </p>
-        <p className="mt-1 text-center text-neutral-700 dark:text-neutral-300">
-          <strong>Act One</strong> is now available! <strong>Act Two</strong>{" "}
-          and the <strong>full movie release</strong> will be available on{" "}
-          <strong>December 28th</strong>.
-        </p>
-        <p className="mt-2 text-center text-neutral-500 dark:text-neutral-400">
-          I am very sorry for the wait and really appreciate your patience!
-        </p>
-      </div>
-      <div className="no-max-w -m-6 mb-0! md:-m-12 2xl:-m-24">
-        <section className="mt-16 flex min-h-[70vh] flex-col items-center justify-center px-2 py-16 text-center md:px-4">
-          <h1 className="mt-3 text-4xl font-black tracking-tight sm:text-6xl">
-            HADES<span className="font-medium">TOWN</span>
-          </h1>
-          <h2>ACT ONE</h2>
-
-          <div className="mt-10 w-full">
-            <div className="aspect-video w-full bg-black">
-              <iframe
-                className="h-full w-full"
-                src={YOUTUBE_EMBED_URL}
-                title="Hadestown"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              />
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <section className="relative z-20 mx-auto mt-14 max-w-2xl pb-32">
-        <CreditsBlock creditsJson={credits} />
-      </section>
-
-      <div
-        className={
-          "fixed bottom-4 left-1/2 z-50 w-[min(560px,calc(100vw-2rem))] -translate-x-1/2 transition-opacity " +
-          (shouldShowStickyActions
-            ? "opacity-100"
-            : "pointer-events-none opacity-0")
-        }
-      >
-        <div className="flex items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-white/90 p-2 backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/80">
-          <Button asChild variant="outline">
-            <a href={MOVIE_DOWNLOAD_SRC} download>
-              Download
-            </a>
-          </Button>
-          {YOUTUBE_URL ? (
-            <Button asChild variant="outline">
-              <a href={YOUTUBE_URL} target="_blank" rel="noreferrer">
-                View on YouTube
-              </a>
-            </Button>
-          ) : (
-            <Button variant="outline" disabled>
-              View on YouTube
-            </Button>
-          )}
-          <Button variant="outline" onClick={onShare}>
-            {shareState === "copied" ? "Copied" : "Share"}
+      {!isProduction && (
+        <div className="flex justify-end">
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() =>
+              setViewMode((v) => (v === "cinema" ? "countdown" : "cinema"))
+            }
+          >
+            Debug: {effectiveView === "cinema" ? "Cinema" : "Countdown"}
           </Button>
         </div>
-      </div>
+      )}
+
+      {effectiveView === "countdown" ? (
+        <section className="flex min-h-[60vh] flex-col items-center justify-center text-center">
+          <p className="text-sm text-neutral-600 dark:text-neutral-300">
+            Sing it again!
+          </p>
+
+          <h1 className="mt-2 text-5xl font-black tracking-tight sm:text-7xl">
+            HADES<span className="font-medium">TOWN</span>
+          </h1>
+
+          <div className="mt-6 font-mono text-4xl tabular-nums tracking-tight md:text-5xl">
+            {remainingMs == null ? (
+              <span>--d --h --m --s</span>
+            ) : isLive ? (
+              <span>Live now</span>
+            ) : (
+              <span>
+                {formatted.days}d {formatted.hours}h {formatted.minutes}m{" "}
+                {formatted.seconds}s
+              </span>
+            )}
+          </div>
+
+          <p className="mt-3 text-xs text-neutral-500 dark:text-neutral-400">
+            {formatTimeString(TARGET_UTC_MS)}
+          </p>
+        </section>
+      ) : (
+        <>
+          <div className="no-max-w -m-6 mb-0! md:-m-12 2xl:-m-24">
+            <section className="mt-16 flex min-h-[70vh] flex-col items-center justify-center px-2 py-16 text-center md:px-4">
+              <h1 className="mt-3 text-4xl font-black tracking-tight sm:text-6xl">
+                HADES<span className="font-medium">TOWN</span>
+              </h1>
+
+              <div className="mt-10 w-full">
+                <div className="aspect-video w-full bg-black">
+                  <iframe
+                    className="h-full w-full"
+                    src={YOUTUBE_EMBED_URL}
+                    title="Hadestown"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  />
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <section className="relative z-20 mx-auto mt-14 max-w-2xl pb-32">
+            <CreditsBlock creditsJson={credits} />
+          </section>
+
+          <div
+            className={
+              "fixed bottom-4 left-1/2 z-50 w-[min(560px,calc(100vw-2rem))] -translate-x-1/2 transition-opacity " +
+              (shouldShowStickyActions
+                ? "opacity-100"
+                : "pointer-events-none opacity-0")
+            }
+          >
+            <div className="flex items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-white/90 p-2 backdrop-blur dark:border-neutral-800 dark:bg-neutral-950/80">
+              <Button asChild variant="outline">
+                <a href={MOVIE_DOWNLOAD_SRC} download>
+                  Download
+                </a>
+              </Button>
+              {YOUTUBE_URL ? (
+                <Button asChild variant="outline">
+                  <a href={YOUTUBE_URL} target="_blank" rel="noreferrer">
+                    View on YouTube
+                  </a>
+                </Button>
+              ) : (
+                <Button variant="outline" disabled>
+                  View on YouTube
+                </Button>
+              )}
+              <Button variant="outline" onClick={onShare}>
+                {shareState === "copied" ? "Copied" : "Share"}
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
