@@ -10,8 +10,8 @@ import { InfoCircledIcon } from "@radix-ui/react-icons";
 const TARGET_UTC_MS = Date.parse("2025-12-30T16:00:00.000Z"); // 8:00 AM PST on Dec 30th
 
 const MOVIE_DOWNLOAD_SRC =
-  "https://1drv.ms/v/c/5aca29c3f0f00439/IQC0jfcpaw95TK8HC0DcnHk1ATP1PewoYjxrzq-oQraekfU";
-const YOUTUBE_VIDEO_ID = "Oz5A5psSGlM";
+  "https://1drv.ms/v/c/5aca29c3f0f00439/IQAyTGEtNnatTaAVphQB4scZAXIjauJqhdffuLV9mvOJZDQ?e=R1R7sA";
+const YOUTUBE_VIDEO_ID = "-97NznlXvY0";
 
 const YOUTUBE_URL = YOUTUBE_VIDEO_ID
   ? `https://www.youtube.com/watch?v=${YOUTUBE_VIDEO_ID}`
