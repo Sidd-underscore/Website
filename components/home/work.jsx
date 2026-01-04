@@ -83,11 +83,11 @@ export function Work({ className, defaultWorkTypes }) {
                 ) +
                 " related"
               : null}
-            ! My full CV can be found{" "}
+            ! My full resume can be found{" "}
             <Link
               className="inline! w-fit"
               target="_blank"
-              href="https://docs.google.com/document/d/1pvQcjzzaIq11oYS_XvRQHYKZNvDmu8OxrgsjTjLtX4w/view"
+              href="https://docs.google.com/document/u/1/d/e/2PACX-1vQXvkuGlTvrrmcohbt0IMEwqICI7LXFGADMdX1dmSIJqNIKYZjiAamP3D5tZEEXJYuOZX0zUMpmSXoZ/pub"
             >
               here
             </Link>

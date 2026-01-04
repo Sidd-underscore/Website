@@ -168,7 +168,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
 
                       {achievement.category === "certification" && (
                         <span className="flex items-center space-x-2">
-                          <PaperPlaneIcon className="size-4 shrink-0 -rotate-[45deg]" />
+                          <PaperPlaneIcon className="size-4 shrink-0 -rotate-45" />
                           <span>Certification</span>
                         </span>
                       )}
@@ -192,9 +192,9 @@ export function Achievements({ className, defaultAchievementTypes }) {
                       {achievement.split.children.map((splitItem, index) => (
                         <div
                           key={index}
-                          className={`rounded-lg border-2 border-neutral-300/30 bg-neutral-300 p-4 dark:border-neutral-700 dark:bg-neutral-800 ${
+                          className={`rounded-lg border-2 border-neutral-300/30 bg-neutral-200 p-4 dark:border-neutral-700 dark:bg-neutral-800 ${
                             achievement.split.type === "score"
-                              ? "transition duration-400 hover:bg-gradient-to-br hover:from-pink-400/75 hover:to-pink-300/75 hover:shadow-md"
+                              ? "transition duration-400 hover:bg-linear-to-br hover:from-pink-400/75 hover:to-pink-300/75 hover:shadow-md"
                               : ""
                           }`}
                         >
