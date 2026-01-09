@@ -56,9 +56,8 @@ export default async function WorkPage(props) {
         <div className="mt-10">{workItem.description}</div>
 
         <Separator className="mt-10 -mb-10" />
-        <Work />
 
-        
+        <Work title="Other Work Experiences" />
       </div>
 
       {workItem.decorations?.map((imageUrl, index) => {

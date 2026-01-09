@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 export function CodingSplash() {
   const year = new Date().getFullYear();
   const yearsOfCoding = year - 2019;
-
+const domain = process.env.NEXT_PUBLIC_DOMAIN || "https://sidd.studio";
   const initialCode = `// Introduction
 const codingStart = 2019;
 const yearsOfCoding = (new Date().getFullYear()) - codingStart;
@@ -32,12 +32,12 @@ var currentStack = {
 };
 
 // Real-World Experience
-- Gained amazing experience working with Replit as a community ambassador ("Replit Rep").
-- Worked with the community and developers by participating in "Replit Bounties" (earned ~$200 with an average rating of 4.8/5)
-- Built and maintained websites for freelance clients, such as https://resolvedtools.com
+- Gained amazing experience working with Replit as a community ambassador ("Replit Rep") and also by participating in "Replit Bounties" (earned ~$200 with an average rating of 4.8/5)
+- Moved to freelance work, building and maintaining projects for freelance clients, such as https://resolvedtools.com
+- Participated in competitions such as the Congressional App Challenge, winning the honorable mention award in 2025 for my project Preparedness & Response for Emergency Planning (PREP): ${domain + "/projects/prep"}
 
 // Current Status
-These days, I mainly build websites for myself, school, or freelance clients.
+These days, I mainly build websites for myself, school, or freelance clients. I also enjoy participating in competitions.
 I work remotely from Portland, Oregon, while also being a high school student.`;
 
   const [raw, setRaw] = useState(initialCode);
@@ -46,7 +46,7 @@ I work remotely from Portland, Oregon, while also being a high school student.`;
 
   function toHTML(text) {
     // Escape HTML special chars
-    const escInput = text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const escInput = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
     // URL regex source
     const urlSource = 'https?:\\/\\/[\\w.-]+(?:\\/[\\w./?&%#=-]*)?';
@@ -64,7 +64,7 @@ I work remotely from Portland, Oregon, while also being a high school student.`;
     // Token regex for gaps
     const tokenSource = [
       '(\\b\\d+(?:\\.\\d+)?\\b)',
-      '(\\b(?:const|let|var|function|return|new|extends|import|from|if|else|for|while|break|continue)\\b)',
+      '(\\b(?:const|var|function|return|new|extends|import|break|continue)\\b)',
       '([(){}\\[\\]])',
       '([+\\-*/=<>!&|^%~?:;,])',
       '([a-zA-Z_$][\\w$]*)(?=\\s*:)',
@@ -130,29 +130,29 @@ I work remotely from Portland, Oregon, while also being a high school student.`;
         last = sub.lastIndex;
       }
       if (last < inner.length) out += highlightTokens(inner.slice(last));
-      return wrap('(' + out + ')', 'text-[#394b59] dark:text-[#94e2d5]');
+      return wrap('(' + out + ')', 'text-[#6d6a82] dark:text-[#c3bfe0]');
     }
 
     // Process list item: highlight strings, parens and urls inside; keep token highlighting for gaps
     function processList(chunk) {
+        // Strip the leading dash first before any highlighting
+        const stripped = chunk.replace(/^- /, '');
         const sub = new RegExp('(' + stringPattern.source + ')|(' + parenPattern.source + ')|(' + urlSource + ')', 'gm');
         let out = '';
         let last = 0;
         let m;
-        while ((m = sub.exec(chunk)) !== null) {
+        while ((m = sub.exec(stripped)) !== null) {
           const idx = m.index;
-          if (idx > last) out += highlightTokens(chunk.slice(last, idx));
+          if (idx > last) out += highlightTokens(stripped.slice(last, idx));
           if (m[1]) out += wrap(m[1], 'text-[#287373] dark:text-[#a6e3a1]');
           else if (m[2]) out += processParen(m[2]);
           else if (m[3]) out += anchor(m[3]);
           last = sub.lastIndex;
         }
-        if (last < chunk.length) out += highlightTokens(chunk.slice(last));
+        if (last < stripped.length) out += highlightTokens(stripped.slice(last));
 
-      // Remove the leading dash and color the entire list line so lists are visually distinct
-      const content = out.replace(/^\-\s?/, '');
-      return wrap(content, 'text-[#c14a65] dark:text-[#f2cdcd]');
-    }
+      return `<span class="ml-6 block"><span class="-ml-4 inline-block w-4">•</span>${out}</span>`;
+        }
 
     // Main loop: walk high-priority matches from `master` and highlight gaps with highlightTokens
     let out = '';

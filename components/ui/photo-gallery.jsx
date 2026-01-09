@@ -51,7 +51,7 @@ export function PhotoGallery({ photos }) {
       <div
         ref={gallery}
         onScroll={updateVisibleImage}
-        className="mx-0.5 mt-4 flex max-h-[26rem] space-x-4 overflow-x-auto max-w-screen"
+        className="mx-0.5 mt-4 flex space-x-4 overflow-x-auto max-w-screen"
       >
         {photos.map((photo, index) => (
           <span ref={(el) => (photosRef.current[index] = el)} key={index}>

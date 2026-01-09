@@ -8,19 +8,21 @@ export function ProductImage({
   staticImage = false,
   alt = "",
   className,
+  size,
   ...props
 }) {
   return (
     <>
       {src.light ? (
         <Image
+        
           height={1080}
           width={1024}
           alt={alt}
           quality={100}
           placeholder="blur"
           className={cn(
-            `${src.dark ? "block dark:hidden" : ""} h-96 w-auto max-w-none cursor-zoom-in rounded-lg border-2 border-neutral-200 dark:border-neutral-800`,
+            `${src.dark ? "block dark:hidden" : ""} ${size === "large" ? "h-160" : "h-96"} w-auto max-w-none cursor-zoom-in rounded-lg border-2 border-neutral-200 dark:border-neutral-800`,
             className,
           )}
           src={src.light}
@@ -37,7 +39,7 @@ export function ProductImage({
           quality={100}
           placeholder="blur"
           className={cn(
-            `${src.light ? "hidden dark:block" : ""} h-96 w-auto max-w-none cursor-zoom-in rounded-lg border-2 border-neutral-200 dark:border-neutral-800`,
+            `${src.light ? "hidden dark:block" : ""} ${size === "large" ? "h-160" : "h-96"} w-auto max-w-none cursor-zoom-in rounded-lg border-2 border-neutral-200 dark:border-neutral-800`,
             className,
           )}
           src={src.dark}

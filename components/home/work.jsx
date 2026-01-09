@@ -6,6 +6,7 @@ import {
   SewingPinFilledIcon,
   CalendarIcon,
   MixerVerticalIcon,
+  Cross2Icon,
 } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,12 +20,17 @@ import { cn, formatArrayIntoSentence } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 import autoAnimate from "@formkit/auto-animate";
 
-export function Work({ className, defaultWorkTypes }) {
+export function Work({ className, defaultWorkTypes, title }) {
   const parent = useRef(null);
+  const filterRowRef = useRef(null);
 
   useEffect(() => {
     parent.current && autoAnimate(parent.current);
   }, [parent]);
+
+  useEffect(() => {
+    filterRowRef.current && autoAnimate(filterRowRef.current);
+  }, [filterRowRef]);
 
   function gatherAllWorkData() {
     const types = [];
@@ -63,13 +69,14 @@ export function Work({ className, defaultWorkTypes }) {
       <div className="flex items-end justify-between space-x-2">
         <div>
           <h2 className="text-4xl font-semibold">
-            {formatArrayIntoSentence(
-              defaultWorkTypes || [],
-              undefined,
-              undefined,
-              true,
-            )}{" "}
-            Work Experience
+            {title
+              ? title
+              : formatArrayIntoSentence(
+                  defaultWorkTypes || [],
+                  undefined,
+                  undefined,
+                  true,
+                ) + "Work Experience"}
           </h2>
           <p className="mt-1 text-sm">
             The best testament of knowledge is putting it in practice. Here is
@@ -94,42 +101,72 @@ export function Work({ className, defaultWorkTypes }) {
             .
           </p>
         </div>
-        <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="h-9 w-9 space-x-2 p-0 md:w-auto md:px-4 md:py-2"
+      </div>
+
+      {/* Filter row */}
+      <div
+        ref={filterRowRef}
+        className="mt-6 flex flex-wrap items-center gap-2"
+      >
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="h-9 space-x-2 px-4 py-2">
+              <MixerVerticalIcon /> <span>Filter</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="w-56 capitalize">
+            <DropdownMenuLabel>Types</DropdownMenuLabel>
+            {workData.types.map((type) => (
+              <DropdownMenuCheckboxItem
+                key={type}
+                onSelect={(event) => event.preventDefault()}
+                checked={workTypesToShow?.includes(type)}
+                onCheckedChange={(e) =>
+                  e
+                    ? setWorkTypesToShow([...workTypesToShow, type])
+                    : setWorkTypesToShow(
+                        workTypesToShow.filter((t) => t != type),
+                      )
+                }
               >
-                <MixerVerticalIcon />{" "}
-                <span className="hidden md:block">Filter</span>
+                {type}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {/* Active filter chips */}
+        {workTypesToShow.length < workData.types.length && (
+          <>
+            <div className="h-6 w-px bg-neutral-300 dark:bg-neutral-700" />
+            {workTypesToShow.map((type) => (
+              <Button
+                key={type}
+                variant="secondary"
+                className="h-8 gap-1.5 rounded-full px-3 py-1 text-sm capitalize"
+                onClick={() =>
+                  setWorkTypesToShow(workTypesToShow.filter((t) => t !== type))
+                }
+              >
+                {type}
+                <Cross2Icon className="size-3.5" />
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 capitalize">
-              <DropdownMenuLabel>Types</DropdownMenuLabel>
-              {workData.types.map((type) => (
-                <DropdownMenuCheckboxItem
-                  key={type}
-                  onSelect={(event) => event.preventDefault()}
-                  checked={workTypesToShow?.includes(type)}
-                  onCheckedChange={(e) =>
-                    e
-                      ? setWorkTypesToShow([...workTypesToShow, type])
-                      : setWorkTypesToShow(
-                          workTypesToShow.filter((t) => t != type),
-                        )
-                  }
-                >
-                  {type}
-                </DropdownMenuCheckboxItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+            ))}
+            {workTypesToShow.length > 0 && (
+              <Button
+                variant="ghost"
+                className="h-8 px-2 text-sm text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
+                onClick={() => setWorkTypesToShow(workData.types)}
+              >
+                Clear all
+              </Button>
+            )}
+          </>
+        )}
       </div>
       <div
         ref={parent}
-        className={`relative mt-12 w-full ${worksToDisplay.length > 0 ? "grid grid-flow-row grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3" : ""} text-center md:text-left lg:mb-0`}
+        className={`relative mt-12 w-full ${worksToDisplay.length > 0 ? "grid grid-flow-row grid-cols-1 gap-4 lg:grid-cols-2" : ""} text-center md:text-left lg:mb-0`}
       >
         {worksToDisplay.length > 0 ? (
           worksToDisplay.map((workItem) => (

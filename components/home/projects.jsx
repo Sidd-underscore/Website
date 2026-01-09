@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MixerVerticalIcon } from "@radix-ui/react-icons";
+import { MixerVerticalIcon, Cross2Icon } from "@radix-ui/react-icons";
 import autoAnimate from "@formkit/auto-animate";
 import {
   Tooltip,
@@ -22,7 +22,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { TooltipArrow } from "@radix-ui/react-tooltip";
 
 export function Projects({
   className,
@@ -30,10 +29,15 @@ export function Projects({
   defaultTechnologies,
 }) {
   const parent = useRef(null);
+  const filterRowRef = useRef(null);
 
   useEffect(() => {
     parent.current && autoAnimate(parent.current);
-  }, [parent]);
+  }, []);
+
+  useEffect(() => {
+    filterRowRef.current && autoAnimate(filterRowRef.current);
+  }, []);
 
   function gatherAllProjectData() {
     const types = [];
@@ -41,23 +45,18 @@ export function Projects({
 
     projects.forEach((project) => {
       project.type.forEach((type) => {
-        if (!types.includes(type)) {
-          types.push(type);
-        }
+        if (!types.includes(type)) types.push(type);
       });
 
-      project.technologies?.forEach((technology) => {
-        if (!technologies.includes(technology)) {
-          technologies.push(technology);
-        }
+      project.technologies?.forEach((tech) => {
+        if (!technologies.includes(tech)) technologies.push(tech);
       });
     });
+
     return { types, technologies };
   }
 
   const projectData = gatherAllProjectData();
-
-  const [projectHovered, setProjectHovered] = useState(false);
 
   const [projectTypesToShow, setProjectTypesToShow] = useState(
     defaultProjectTypes || projectData.types,
@@ -67,116 +66,157 @@ export function Projects({
   );
 
   const [projectsToDisplay, setProjectsToDisplay] = useState([]);
+  const [projectHovered, setProjectHovered] = useState(false);
 
   useEffect(() => {
-    let tempProjects = projects.filter((project) => {
-      const anyTypeIncluded = project.type.some((type) =>
-        projectTypesToShow.includes(type),
-      );
-      const anyTechnologyIncluded = project.technologies?.some((tech) =>
-        projectTechnologiesToShow.includes(tech),
-      );
-
-      return anyTypeIncluded && anyTechnologyIncluded;
-    });
-
-    setProjectsToDisplay(tempProjects);
+    setProjectsToDisplay(
+      projects.filter((project) => {
+        const typeMatch = project.type.some((t) =>
+          projectTypesToShow.includes(t),
+        );
+        const techMatch = project.technologies?.some((t) =>
+          projectTechnologiesToShow.includes(t),
+        );
+        return typeMatch && techMatch;
+      }),
+    );
   }, [projectTypesToShow, projectTechnologiesToShow]);
 
   return (
     <div className={cn("my-32 w-full text-left", className)}>
-      <div className="flex items-end justify-between space-x-2">
-        <div>
-          <h2 className="text-4xl font-semibold">
-            {formatArrayIntoSentence(
-              defaultProjectTypes || [],
-              undefined,
-              undefined,
-              true,
-            )}{" "}
-            Projects
-          </h2>
-          <p className="mt-1 text-sm">
-            Here are some things that I have worked on
-            {defaultProjectTypes
-              ? " that are " +
-                formatArrayIntoSentence(
-                  defaultProjectTypes || [],
-                  undefined,
-                  ", or ",
-                ) +
-                " related"
-              : null}
-            {defaultTechnologies
-              ? ` and use ${defaultTechnologies ? formatArrayIntoSentence(defaultTechnologies || [], undefined, ", or ") : null}`
-              : null}
-            ! Click each project to see more details.
-          </p>
-        </div>
+      <div>
+        <h2 className="text-4xl font-semibold">
+          {formatArrayIntoSentence(
+            defaultProjectTypes || [],
+            undefined,
+            undefined,
+            true,
+          )}{" "}
+          Projects
+        </h2>
+        <p className="mt-1 text-sm">
+          Here are some things that I have worked on.
+        </p>
+      </div>
 
-        <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="h-9 w-9 space-x-2 p-0 md:w-auto md:px-4 md:py-2"
+      {/* Filter row */}
+      <div
+        ref={filterRowRef}
+        className="mt-6 flex flex-wrap items-center gap-2"
+      >
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="h-9 space-x-2 px-4 py-2">
+              <MixerVerticalIcon />
+              <span>Filter</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="w-56">
+            <DropdownMenuLabel>Types</DropdownMenuLabel>
+            {projectData.types.map((type) => (
+              <DropdownMenuCheckboxItem
+                key={type}
+                className="capitalize"
+                onSelect={(e) => e.preventDefault()}
+                checked={projectTypesToShow.includes(type)}
+                onCheckedChange={(v) =>
+                  v
+                    ? setProjectTypesToShow([...projectTypesToShow, type])
+                    : setProjectTypesToShow(
+                        projectTypesToShow.filter((t) => t !== type),
+                      )
+                }
               >
-                <MixerVerticalIcon />{" "}
-                <span className="hidden md:block">Filter</span>
+                {type}
+              </DropdownMenuCheckboxItem>
+            ))}
+
+            <DropdownMenuSeparator />
+
+            <DropdownMenuLabel>Technologies</DropdownMenuLabel>
+            {projectData.technologies.map((tech) => (
+              <DropdownMenuCheckboxItem
+                key={tech.name}
+                onSelect={(e) => e.preventDefault()}
+                checked={projectTechnologiesToShow.includes(tech)}
+                onCheckedChange={(v) =>
+                  v
+                    ? setProjectTechnologiesToShow([
+                        ...projectTechnologiesToShow,
+                        tech,
+                      ])
+                    : setProjectTechnologiesToShow(
+                        projectTechnologiesToShow.filter((t) => t !== tech),
+                      )
+                }
+              >
+                <span className="mr-2">{tech.icon}</span>
+                {tech.name}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {(projectTypesToShow.length < projectData.types.length ||
+          projectTechnologiesToShow.length <
+            projectData.technologies.length) && (
+          <>
+            <div className="h-6 w-px bg-neutral-300 dark:bg-neutral-700" />
+
+            {projectTypesToShow.map((type) => (
+              <Button
+                key={type}
+                variant="secondary"
+                className="h-8 rounded-full px-3 capitalize"
+                onClick={() =>
+                  setProjectTypesToShow(
+                    projectTypesToShow.filter((t) => t !== type),
+                  )
+                }
+              >
+                {type}
+                <Cross2Icon className="ml-1 size-3.5" />
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56">
-              <DropdownMenuLabel>Types</DropdownMenuLabel>
-              {projectData.types.map((type) => (
-                <DropdownMenuCheckboxItem
-                  className="capitalize"
-                  key={type}
-                  onSelect={(event) => event.preventDefault()}
-                  checked={projectTypesToShow?.includes(type)}
-                  onCheckedChange={(e) =>
-                    e
-                      ? setProjectTypesToShow([...projectTypesToShow, type])
-                      : setProjectTypesToShow(
-                          projectTypesToShow.filter((t) => t != type),
-                        )
-                  }
-                >
-                  {type}
-                </DropdownMenuCheckboxItem>
-              ))}
-              <DropdownMenuSeparator />
-              <DropdownMenuLabel>Technologies</DropdownMenuLabel>
-              {projectData.technologies.map((technology) => (
-                <DropdownMenuCheckboxItem
-                  key={technology.name}
-                  className="flex items-center space-x-2"
-                  onSelect={(event) => event.preventDefault()}
-                  checked={projectTechnologiesToShow?.includes(technology)}
-                  onCheckedChange={(e) =>
-                    e
-                      ? setProjectTechnologiesToShow([
-                          ...projectTechnologiesToShow,
-                          technology,
-                        ])
-                      : setProjectTechnologiesToShow(
-                          projectTechnologiesToShow.filter(
-                            (t) => t != technology,
-                          ),
-                        )
-                  }
-                >
-                  <span>{technology.icon}</span>
-                  <span>{technology.name}</span>
-                </DropdownMenuCheckboxItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+            ))}
+
+            {projectTechnologiesToShow.map((tech) => (
+              <Button
+                key={tech.name}
+                variant="secondary"
+                className="h-8 rounded-full px-3"
+                onClick={() =>
+                  setProjectTechnologiesToShow(
+                    projectTechnologiesToShow.filter((t) => t !== tech),
+                  )
+                }
+              >
+                {tech.icon}
+                <span className="ml-1">{tech.name}</span>
+                <Cross2Icon className="ml-1 size-3.5" />
+              </Button>
+            ))}
+
+            <Button
+              variant="ghost"
+              className="h-8 px-2 text-sm"
+              onClick={() => {
+                setProjectTypesToShow(projectData.types);
+                setProjectTechnologiesToShow(projectData.technologies);
+              }}
+            >
+              Clear all
+            </Button>
+          </>
+        )}
       </div>
 
       <div
         ref={parent}
-        className={`relative mt-12 w-full ${projectsToDisplay.length > 0 ? "grid grid-flow-row grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3" : ""} text-center md:text-left lg:mb-0`}
+        className={`relative mt-12 w-full ${
+          projectsToDisplay.length
+            ? "grid grid-cols-1 gap-4 md:grid-cols-2"
+            : ""
+        }`}
       >
         {projectsToDisplay.length > 0 ? (
           projectsToDisplay.map((project, index) => (
@@ -187,38 +227,38 @@ export function Projects({
                   : "/projects/" + project.id
               }
               key={project.name}
-              className="!text-inherit"
+              className="text-inherit!"
             >
               <div
                 onMouseEnter={() => setProjectHovered(project.name)}
                 onMouseLeave={() => setProjectHovered(false)}
-                className={`group relative flex h-60 flex-col rounded-lg border border-neutral-300/50 bg-neutral-200/25 dark:border-neutral-700/50 dark:bg-neutral-800/50 ${projectHovered && projectHovered != project.name ? "opacity-50" : ""}`}
+                className={`group relative flex h-64 flex-col rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-[height] duration-300 hover:h-82 md:hover:h-64 dark:border-neutral-700/50 dark:bg-neutral-800/50 ${projectHovered && projectHovered != project.name ? "opacity-50" : ""}`}
               >
-                <div className="h-64 w-full rounded-md border border-transparent transition-[scale_width_height] duration-400 group-hover:z-40 group-hover:h-82 group-hover:-mt-9 md:group-hover:scale-105 group-hover:border-neutral-200 group-hover:bg-white group-hover:shadow-2xl group-hover:absolute dark:group-hover:border-neutral-700 dark:group-hover:bg-neutral-900">
-                  <div className="absolute h-full w-full rounded-md opacity-50 group-hover:opacity-100">
-                    <svg className="h-full w-full rounded-md blur-[1px]">
+                <div
+                  className={cn(
+                    "h-64 w-full rounded-md border border-transparent transition-[translate_width_height] duration-300 group-hover:h-82 group-hover:border-neutral-200 group-hover:bg-white group-hover:shadow-2xl md:group-hover:absolute md:group-hover:z-40 md:group-hover:-mt-9 md:group-hover:w-[115%] md:group-hover:scale-105 dark:group-hover:border-neutral-700 dark:group-hover:bg-neutral-900",
+
+                    index % 2 === 0 ? "" : "md:group-hover:-translate-x-[15%]",
+                  )}
+                >
+                  <div className="absolute h-full w-full rounded-md opacity-30 duration-300 group-hover:opacity-100 dark:opacity-50 dark:group-hover:opacity-50">
+                    <svg className="h-full w-full rounded-md">
                       <filter id="noise-filter">
-                        <feGaussianBlur stdDeviation="4" result="blur-sm" />
-                        <feTurbulence
-                          type="fractalNoise"
-                          baseFrequency="0.6"
-                          numOctaves="1"
-                        />
+                        <feGaussianBlur stdDeviation="4" result="blur" />
 
                         <feColorMatrix
                           type="saturate"
                           values="1"
                           result="grain"
                         />
-                        <feComposite operator="in" in="blur-sm" in2="grain" />
-                      </filter>
+                        <feTurbulence
+                          type="fractalNoise"
+                          baseFrequency="0.6"
+                          numOctaves="1"
+                        />
 
-                      <rect
-                        width="100%"
-                        height="100%"
-                        className="rounded-md opacity-0 group-hover:opacity-75"
-                        rx={6}
-                      />
+                        <feComposite operator="in" in2="blur" in="grain" />
+                      </filter>
 
                       <foreignObject
                         width="100%"
@@ -230,7 +270,7 @@ export function Projects({
                       >
                         <Image
                           src={project.featuredImage.src}
-                          className="rounded-md object-cover [filter:brightness(80%)]"
+                          className="rounded-md object-cover filter-[brightness(40%)] duration-300 dark:filter-[brightness(60%)]"
                           fill={true}
                           alt=""
                         />
@@ -244,13 +284,13 @@ export function Projects({
                       </h3>
 
                       <p
-                        className={`relative m-0 max-h-20 overflow-hidden text-sm text-ellipsis opacity-75 group-hover:max-h-none group-hover:text-base group-hover:opacity-100 group-hover:after:hidden dark:after:bg-[linear-gradient(90deg,rgba(23,23,23,0)0%,rgba(23,23,23,1)50%,rgba(23,23,23,1)100%)]`}
+                        className={`relative m-0 overflow-hidden text-sm text-ellipsis opacity-75 group-hover:text-base group-hover:opacity-100 group-hover:after:hidden dark:after:bg-[linear-gradient(90deg,rgba(23,23,23,0)0%,rgba(23,23,23,1)50%,rgba(23,23,23,1)100%)]`}
                       >
                         {project.description}
                       </p>
                     </div>
 
-                    <div className="absolute right-2 bottom-2 flex items-center -space-x-3 font-mono text-xs group-hover:right-4 group-hover:bottom-4 group-hover:space-x-2">
+                    <div className="absolute right-2 bottom-2 flex items-center -space-x-3 font-mono text-xs transition-[margin-inline-start_margin-inline-end] duration-300 group-hover:right-4 group-hover:bottom-4 group-hover:space-x-2">
                       {project.technologies?.map((technology) => (
                         <div key={technology.name} className="relative">
                           <TooltipProvider>

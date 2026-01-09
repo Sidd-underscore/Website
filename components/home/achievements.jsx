@@ -2,9 +2,12 @@
 
 import { achievements } from "@/lib/achievements";
 import {
+  ArrowTopRightIcon,
   CalendarIcon,
   CardStackIcon,
   PaperPlaneIcon,
+  MixerVerticalIcon,
+  Cross2Icon,
 } from "@radix-ui/react-icons";
 import { TrophyIcon } from "@heroicons/react/20/solid";
 import { useEffect, useRef, useState } from "react";
@@ -17,26 +20,26 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MixerVerticalIcon } from "@radix-ui/react-icons";
 import autoAnimate from "@formkit/auto-animate";
+import { Link } from "../ui/link";
 
 export function Achievements({ className, defaultAchievementTypes }) {
   const parent = useRef(null);
+  const filterRowRef = useRef(null);
 
   useEffect(() => {
     parent.current && autoAnimate(parent.current);
-  }, [parent]);
+  }, []);
+
+  useEffect(() => {
+    filterRowRef.current && autoAnimate(filterRowRef.current);
+  }, []);
 
   function gatherAllAchievementData() {
     const types = [];
-
-    achievements.forEach((achievement) => {
-      achievement.type.forEach((type) => {
-        if (!types.includes(type)) {
-          types.push(type);
-        }
-      });
-    });
+    achievements.forEach((a) =>
+      a.type.forEach((t) => !types.includes(t) && types.push(t)),
+    );
     return { types };
   }
 
@@ -49,94 +52,109 @@ export function Achievements({ className, defaultAchievementTypes }) {
   const [achievementsToDisplay, setAchievementsToDisplay] = useState([]);
 
   useEffect(() => {
-    let tempAchievements = achievements.filter((achievement) => {
-      const anyTypeIncluded = achievement.type.some((type) =>
-        achievementTypesToShow.includes(type),
-      );
-
-      return anyTypeIncluded;
-    });
-
-    setAchievementsToDisplay(tempAchievements);
+    setAchievementsToDisplay(
+      achievements.filter((a) =>
+        a.type.some((t) => achievementTypesToShow.includes(t)),
+      ),
+    );
   }, [achievementTypesToShow]);
 
   return (
     <div className={cn("my-32 w-full text-left", className)}>
-      <div className="flex items-end justify-between space-x-2">
-        <div>
-          <h2 className="text-4xl font-semibold">
-            {defaultAchievementTypes
-              ? formatArrayIntoSentence(
-                  defaultAchievementTypes,
-                  undefined,
-                  undefined,
-                  true,
-                ) + " Achievements"
-              : "Competitions, Awards, and the Rest"}
-          </h2>
-          <p className="mt-1 text-sm">
-            Here lies all the recognition I have received for my work or other
-            experience{" "}
-            {defaultAchievementTypes
-              ? " in relation to " +
-                formatArrayIntoSentence(
-                  defaultAchievementTypes,
-                  undefined,
-                  ", or ",
-                )
-              : ""}
-            . Thank you so much to all these awesome organizations!
-          </p>
-        </div>
+      <div>
+        <h2 className="text-4xl font-semibold">
+          {defaultAchievementTypes
+            ? formatArrayIntoSentence(
+                defaultAchievementTypes,
+                undefined,
+                undefined,
+                true,
+              ) + " Achievements"
+            : "Achievements"}
+        </h2>
+        <p className="mt-1 text-sm">
+          Recognition I've received for my work and experience.
+        </p>
+      </div>
 
-        <div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="outline"
-                className="h-9 w-9 space-x-2 p-0 md:w-auto md:px-4 md:py-2"
+      {/* Filter row */}
+      <div
+        ref={filterRowRef}
+        className="mt-6 flex flex-wrap items-center gap-2"
+      >
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="h-9 space-x-2 px-4 py-2">
+              <MixerVerticalIcon />
+              <span>Filter</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="w-56 capitalize">
+            <DropdownMenuLabel>Types</DropdownMenuLabel>
+            {achievementData.types.map((type) => (
+              <DropdownMenuCheckboxItem
+                key={type}
+                onSelect={(e) => e.preventDefault()}
+                checked={achievementTypesToShow.includes(type)}
+                onCheckedChange={(v) =>
+                  v
+                    ? setAchievementTypesToShow([
+                        ...achievementTypesToShow,
+                        type,
+                      ])
+                    : setAchievementTypesToShow(
+                        achievementTypesToShow.filter((t) => t !== type),
+                      )
+                }
               >
-                <MixerVerticalIcon />{" "}
-                <span className="hidden md:block">Filter</span>
+                {type}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        {achievementTypesToShow.length < achievementData.types.length && (
+          <>
+            <div className="h-6 w-px bg-neutral-300 dark:bg-neutral-700" />
+            {achievementTypesToShow.map((type) => (
+              <Button
+                key={type}
+                variant="secondary"
+                className="h-8 rounded-full px-3 capitalize"
+                onClick={() =>
+                  setAchievementTypesToShow(
+                    achievementTypesToShow.filter((t) => t !== type),
+                  )
+                }
+              >
+                {type}
+                <Cross2Icon className="ml-1 size-3.5" />
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 capitalize">
-              <DropdownMenuLabel>Types</DropdownMenuLabel>
-              {achievementData.types.map((type) => (
-                <DropdownMenuCheckboxItem
-                  key={type}
-                  onSelect={(event) => event.preventDefault()}
-                  checked={achievementTypesToShow?.includes(type)}
-                  onCheckedChange={(e) =>
-                    e
-                      ? setAchievementTypesToShow([
-                          ...achievementTypesToShow,
-                          type,
-                        ])
-                      : setAchievementTypesToShow(
-                          achievementTypesToShow.filter((t) => t != type),
-                        )
-                  }
-                >
-                  {type}
-                </DropdownMenuCheckboxItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+            ))}
+            <Button
+              variant="ghost"
+              className="h-8 px-2 text-sm"
+              onClick={() => setAchievementTypesToShow(achievementData.types)}
+            >
+              Clear all
+            </Button>
+          </>
+        )}
       </div>
 
       <div
         ref={parent}
-        className={`relative mt-12 w-full ${achievementsToDisplay.length > 0 ? "grid grid-flow-row grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-6" : ""} text-center md:text-left lg:mb-0`}
+        className={`relative mt-12 w-full ${
+          achievementsToDisplay.length
+            ? "grid grid-cols-1 gap-4 lg:grid-cols-2"
+            : ""
+        }`}
       >
         {achievementsToDisplay.length > 0 ? (
           achievementsToDisplay.map((achievement, index) => (
             <div
               key={achievement.id}
-              className={`group relative rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50 ${
-                index == 3 || index == 4 ? "xl:col-span-3" : "xl:col-span-2"
-              }`}
+              className={`group relative rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50`}
             >
               <div className={`h-full ${achievement.split ? "space-y-4" : ""}`}>
                 <div className="z-30 flex h-full flex-col justify-between px-5 py-4">
@@ -202,25 +220,35 @@ export function Achievements({ className, defaultAchievementTypes }) {
                             {splitItem.date}
                           </small>
 
-                          <h4 className="text-base mb-2">{splitItem.name}</h4>
+                          <h4 className="mb-2 text-base">{splitItem.name}</h4>
 
                           {achievement.split.type === "score" && (
                             <p className="text-2xl font-bold">
-                                {splitItem.score}
+                              {splitItem.score}
                             </p>
                           )}
 
                           {achievement.split.type === "description" && (
                             <ul className="text-sm">
                               {splitItem.descriptions.map((description) => (
-                                <p key={description}>
-                                  {description}
-                                </p>
+                                <p key={description}>{description}</p>
                               ))}
                             </ul>
                           )}
                         </div>
                       ))}
+                    </div>
+                  )}
+                  {achievement.link && (
+                    <div>
+                      <Link
+                        className="mt-2 flex w-fit items-center space-x-2"
+                        target="_blank"
+                        href={achievement.link.url}
+                      >
+                        <span> {achievement.link.text}</span>{" "}
+                        <ArrowTopRightIcon />
+                      </Link>
                     </div>
                   )}
                 </div>
