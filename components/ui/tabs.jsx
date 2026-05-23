@@ -4,16 +4,9 @@ import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import { cn } from "@/lib/utils";
 import { LayoutGroup, motion } from "motion/react";
-import { useTabs } from "@/lib/utils";
 
 function Tabs({ defaultValue, onValueChange, ...props }) {
-  const { activeTab, setActiveTab } = useTabs();
 
-  React.useEffect(() => {
-    if (defaultValue && activeTab === null) {
-      setActiveTab(defaultValue);
-    }
-  }, [activeTab, setActiveTab, defaultValue]);
 
   return (
     <TabsPrimitive.Root
@@ -22,7 +15,6 @@ function Tabs({ defaultValue, onValueChange, ...props }) {
       activationMode="manual"
       onValueChange={(e) => {
         if (onValueChange) onValueChange(e);
-        setActiveTab(e);
       }}
       {...props}
     />
@@ -48,8 +40,6 @@ function TabsList({ className, children, ...props }) {
 
 function TabsTrigger({ className, children, value, ...props }) {
   const tabRef = React.useRef(null);
-  const { activeTab } = useTabs();
-  const isActive = activeTab === value;
 
   return (
     <TabsPrimitive.Trigger
@@ -64,25 +54,12 @@ function TabsTrigger({ className, children, value, ...props }) {
     >
       <>
         <span className="z-10">{children}</span>
-        {isActive && (
-          <motion.div
-            className="absolute bottom-0 left-0 rounded-md bg-white shadow-sm dark:bg-neutral-800"
-            layoutId="active-tab"
-            aria-hidden="true"
-            style={{
-              width: tabRef.current?.getBoundingClientRect().width,
-              height: tabRef.current?.getBoundingClientRect().height,
-            }}
-            transition={{ type: "spring", duration: 0.5 }}
-          />
-        )}
       </>
     </TabsPrimitive.Trigger>
   );
 }
 
 function TabsContent({ className, value, ...props }) {
-  const { activeTab } = useTabs();
 
   return (
     <TabsPrimitive.Content
@@ -93,9 +70,7 @@ function TabsContent({ className, value, ...props }) {
         className,
       )}
       {...props}
-    >
-      {activeTab === value && props.children}
-    </TabsPrimitive.Content>
+    />
   );
 }
 

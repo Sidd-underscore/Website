@@ -28,21 +28,13 @@ import {
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatRelative, fromUnixTime, formatDistance } from "date-fns";
 import { HexColorPicker } from "react-colorful";
-import { useTheme } from "next-themes";
-import { adjustTextColor, useTabs } from "@/lib/utils";
+import { adjustTextColor } from "@/lib/utils";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 export default function DesignSplash() {
-  const { theme } = useTheme();
   const [colorBoxBackgroundColor, setColorBoxBackgroundColor] =
     useState("#000000");
   const [endTextStyles, setEndTextStyles] = useState(["font-bold"]);
-
-  useEffect(() => {
-    setColorBoxBackgroundColor(() =>
-      theme === "dark" ? "#ffffff" : "#000000",
-    );
-  }, [theme]);
 
   return (
     <div className="relative mt-8 mb-96">
@@ -390,11 +382,6 @@ export function UIGallery({
   setEndTextStyles,
 }) {
   const [date, setDate] = useState(null);
-  const { setActiveTab } = useTabs();
-
-  useEffect(() => {
-    setActiveTab("account");
-  }, [setActiveTab]);
 
   return (
     <div className="absolute -right-16 -bottom-90 flex scale-75 -rotate-12 space-x-4 sm:-right-12 sm:-bottom-80 sm:w-full sm:scale-100 sm:rotate-0">
