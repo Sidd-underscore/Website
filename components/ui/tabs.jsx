@@ -27,7 +27,7 @@ function TabsList({ className, children, ...props }) {
       <TabsPrimitive.List
         data-slot="tabs-list"
         className={cn(
-          "relative inline-flex h-9 items-center justify-center rounded-lg bg-neutral-100 p-1 text-neutral-500 select-none dark:bg-neutral-900 dark:text-neutral-400",
+          "relative inline-flex h-9 items-center justify-center rounded-lg bg-neutral-100 p-1 text-neutral-500 select-none  ",
           className,
         )}
         {...props}
@@ -47,7 +47,7 @@ function TabsTrigger({ className, children, value, ...props }) {
       value={value}
       ref={tabRef}
       className={cn(
-        "relative inline-flex cursor-pointer items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap ring-offset-white transition-all hover:text-black focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-black dark:ring-offset-neutral-950 dark:hover:text-white dark:focus-visible:ring-neutral-300 dark:data-[state=active]:text-neutral-50",
+        "relative inline-flex cursor-pointer items-center justify-center rounded-md px-3 py-1 text-sm font-medium whitespace-nowrap ring-offset-white transition-all hover:text-black focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-[state=active]:text-black    ",
         className,
       )}
       {...props}
@@ -66,7 +66,7 @@ function TabsContent({ className, value, ...props }) {
       data-slot="tabs-content"
       value={value}
       className={cn(
-        "relative mt-2 ring-offset-white focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:outline-hidden dark:ring-offset-neutral-950 dark:focus-visible:ring-neutral-300",
+        "relative mt-2 ring-offset-white focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:outline-hidden  ",
         className,
       )}
       {...props}

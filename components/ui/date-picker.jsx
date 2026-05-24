@@ -21,7 +21,7 @@ export function DatePicker({ className, date, setDate, availableDates }) {
           variant={"outline"}
           className={cn(
             "w-[240px] justify-start text-left font-normal",
-            !date && "text-neutral-500 dark:text-neutral-400",
+            !date && "text-neutral-500 ",
             className,
           )}
         >
@@ -56,7 +56,7 @@ export function DatePickerWithRange({
             id="date"
             variant={"outline"}
             className={cn(
-              "w-full justify-start text-left font-normal hover:border-neutral-300 md:w-[300px] dark:hover:border-neutral-700",
+              "w-full justify-start text-left font-normal hover:border-neutral-300 md:w-[300px] ",
               (!date || date === "removeSearchDateFilter") &&
                 "text-neutral-400!",
               className,

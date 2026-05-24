@@ -83,7 +83,7 @@ export default async function WorkPage(props) {
           />
         );
       })}
-      <div className="relative w-screen hidden 2xl:block h-24 bg-linear-to-t from-neutral-50 to-transparent dark:from-neutral-950 dark:to-transparent"/>
+      <div className="relative w-screen hidden 2xl:block h-24 bg-linear-to-t from-neutral-50 to-transparent  "/>
     </div>
   );
 }

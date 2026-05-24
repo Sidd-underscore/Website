@@ -161,7 +161,7 @@ export function Projects({
           projectTechnologiesToShow.length <
             projectData.technologies.length) && (
           <>
-            <div className="h-6 w-px bg-neutral-300 dark:bg-neutral-700" />
+            <div className="h-6 w-px bg-neutral-300 " />
 
             {projectTypesToShow.map((type) => (
               <Button
@@ -232,16 +232,16 @@ export function Projects({
               <div
                 onMouseEnter={() => setProjectHovered(project.name)}
                 onMouseLeave={() => setProjectHovered(false)}
-                className={`group relative flex h-64 flex-col rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-[height] duration-300 hover:h-82 md:hover:h-64 dark:border-neutral-700/50 dark:bg-neutral-800/50 ${projectHovered && projectHovered != project.name ? "opacity-50" : ""}`}
+                className={`group relative flex h-64 flex-col rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-[height] duration-300 hover:h-82 md:hover:h-64   ${projectHovered && projectHovered != project.name ? "opacity-50" : ""}`}
               >
                 <div
                   className={cn(
-                    "h-64 w-full rounded-md border border-transparent transition-[translate_width_height] duration-300 group-hover:h-82 group-hover:border-neutral-200 group-hover:bg-white group-hover:shadow-2xl md:group-hover:absolute md:group-hover:z-40 md:group-hover:-mt-9 md:group-hover:w-[115%] md:group-hover:scale-105 dark:group-hover:border-neutral-700 dark:group-hover:bg-neutral-900",
+                    "h-64 w-full rounded-md border border-transparent transition-[translate_width_height] duration-300 group-hover:h-82 group-hover:border-neutral-200 group-hover:bg-white group-hover:shadow-2xl md:group-hover:absolute md:group-hover:z-40 md:group-hover:-mt-9 md:group-hover:w-[115%] md:group-hover:scale-105  ",
 
                     index % 2 === 0 ? "" : "md:group-hover:-translate-x-[15%]",
                   )}
                 >
-                  <div className="absolute h-full w-full rounded-md opacity-30 duration-300 group-hover:opacity-100 dark:opacity-50 dark:group-hover:opacity-50">
+                  <div className="absolute h-full w-full rounded-md opacity-30 duration-300 group-hover:opacity-100  ">
                     <svg className="h-full w-full rounded-md">
                       <filter id="noise-filter">
                         <feGaussianBlur stdDeviation="4" result="blur" />
@@ -270,7 +270,7 @@ export function Projects({
                       >
                         <Image
                           src={project.featuredImage.src}
-                          className="rounded-md object-cover filter-[brightness(40%)] duration-300 dark:filter-[brightness(60%)]"
+                          className="rounded-md object-cover filter-[brightness(40%)] duration-300 "
                           fill={true}
                           alt=""
                         />
@@ -284,7 +284,7 @@ export function Projects({
                       </h3>
 
                       <p
-                        className={`relative m-0 overflow-hidden text-sm text-ellipsis opacity-75 group-hover:text-base group-hover:opacity-100 group-hover:after:hidden dark:after:bg-[linear-gradient(90deg,rgba(23,23,23,0)0%,rgba(23,23,23,1)50%,rgba(23,23,23,1)100%)]`}
+                        className={`relative m-0 overflow-hidden text-sm text-ellipsis opacity-75 group-hover:text-base group-hover:opacity-100 group-hover:after:hidden `}
                       >
                         {project.description}
                       </p>
@@ -299,7 +299,7 @@ export function Projects({
                                 onClick={() => {
                                   setProjectTechnologiesToShow([technology]);
                                 }}
-                                className="text-md flex size-8 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-neutral-300 bg-neutral-200 p-0 group-hover:border-neutral-300/10 group-hover:bg-neutral-100/10 hover:border-neutral-400 hover:bg-neutral-200 dark:border-neutral-700 dark:bg-neutral-800 dark:group-hover:bg-neutral-800/75 dark:hover:border-neutral-600 dark:hover:bg-neutral-600/50"
+                                className="text-md flex size-8 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-neutral-300 bg-neutral-200 p-0 group-hover:border-neutral-300/10 group-hover:bg-neutral-100/10 hover:border-neutral-400 hover:bg-neutral-200     "
                               >
                                 <>
                                   {technology.icon}

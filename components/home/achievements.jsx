@@ -115,7 +115,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
 
         {achievementTypesToShow.length < achievementData.types.length && (
           <>
-            <div className="h-6 w-px bg-neutral-300 dark:bg-neutral-700" />
+            <div className="h-6 w-px bg-neutral-300 " />
             {achievementTypesToShow.map((type) => (
               <Button
                 key={type}
@@ -154,7 +154,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
           achievementsToDisplay.map((achievement, index) => (
             <div
               key={achievement.id}
-              className={`group relative rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50`}
+              className={`group relative rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors  `}
             >
               <div className={`h-full ${achievement.split ? "space-y-4" : ""}`}>
                 <div className="z-30 flex h-full flex-col justify-between px-5 py-4">
@@ -210,7 +210,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
                       {achievement.split.children.map((splitItem, index) => (
                         <div
                           key={index}
-                          className={`rounded-lg border-2 border-neutral-300/30 bg-neutral-200 p-4 dark:border-neutral-700 dark:bg-neutral-800 ${
+                          className={`rounded-lg border-2 border-neutral-300/30 bg-neutral-200 p-4   ${
                             achievement.split.type === "score"
                               ? "transition duration-400 hover:bg-linear-to-br hover:from-pink-400/75 hover:to-pink-300/75 hover:shadow-md"
                               : ""

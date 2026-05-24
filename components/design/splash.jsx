@@ -322,50 +322,50 @@ export function TextBox({ textContent }) {
 
       {/* Edge resize handles */}
       <div
-        className="absolute -top-2 -left-2 z-20 h-5 w-5 cursor-nw-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-top-1 md:-left-1 md:h-3 md:w-3 md:rounded-none md:hover:-top-2 md:hover:-left-2 hover:md:rounded-md dark:border-neutral-950 dark:bg-white"
+        className="absolute -top-2 -left-2 z-20 h-5 w-5 cursor-nw-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-top-1 md:-left-1 md:h-3 md:w-3 md:rounded-none md:hover:-top-2 md:hover:-left-2 hover:md:rounded-md  "
         onMouseDown={(e) => handleResize(e, "nw")}
         onTouchStart={(e) => handleResize(e, "nw")}
       />
       <div
-        className="absolute -top-2 -right-2 z-20 h-5 w-5 cursor-ne-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-top-1 md:-right-1 md:h-3 md:w-3 md:rounded-none md:hover:-top-2 md:hover:-right-2 hover:md:rounded-md dark:border-neutral-950 dark:bg-white"
+        className="absolute -top-2 -right-2 z-20 h-5 w-5 cursor-ne-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-top-1 md:-right-1 md:h-3 md:w-3 md:rounded-none md:hover:-top-2 md:hover:-right-2 hover:md:rounded-md  "
         onMouseDown={(e) => handleResize(e, "ne")}
         onTouchStart={(e) => handleResize(e, "ne")}
       />
       <div
-        className="absolute -bottom-2 -left-2 z-20 h-5 w-5 cursor-sw-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-bottom-1 md:-left-1 md:h-3 md:w-3 md:rounded-none md:hover:-bottom-2 md:hover:-left-2 hover:md:rounded-md dark:border-neutral-950 dark:bg-white"
+        className="absolute -bottom-2 -left-2 z-20 h-5 w-5 cursor-sw-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-bottom-1 md:-left-1 md:h-3 md:w-3 md:rounded-none md:hover:-bottom-2 md:hover:-left-2 hover:md:rounded-md  "
         onMouseDown={(e) => handleResize(e, "sw")}
         onTouchStart={(e) => handleResize(e, "sw")}
       />
       <div
-        className="absolute -right-2 -bottom-2 z-20 h-5 w-5 cursor-se-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-right-1 md:-bottom-1 md:h-3 md:w-3 md:rounded-none md:hover:-right-2 md:hover:-bottom-2 hover:md:rounded-md dark:border-neutral-950 dark:bg-white"
+        className="absolute -right-2 -bottom-2 z-20 h-5 w-5 cursor-se-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-right-1 md:-bottom-1 md:h-3 md:w-3 md:rounded-none md:hover:-right-2 md:hover:-bottom-2 hover:md:rounded-md  "
         onMouseDown={(e) => handleResize(e, "se")}
         onTouchStart={(e) => handleResize(e, "se")}
       />
 
       {/* Updated Drag handles */}
       <div
-        className={`absolute top-0 -left-0.5 h-full cursor-move bg-neutral-950 transition-[width] dark:bg-white ${
+        className={`absolute top-0 -left-0.5 h-full cursor-move bg-neutral-950 transition-[width]  ${
           isDragging ? "w-1.5" : "w-0.75"
         }`}
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className={`absolute top-0 -right-0.5 -left-0.5 w-full cursor-move bg-neutral-950 transition-[height] dark:bg-white ${
+        className={`absolute top-0 -right-0.5 -left-0.5 w-full cursor-move bg-neutral-950 transition-[height]  ${
           isDragging ? "h-1.5" : "h-0.75"
         }`}
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className={`absolute top-0 -right-0.5 h-full cursor-move bg-neutral-950 transition-[width] dark:bg-white ${
+        className={`absolute top-0 -right-0.5 h-full cursor-move bg-neutral-950 transition-[width]  ${
           isDragging ? "w-1.5" : "w-0.75"
         }`}
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className={`absolute -right-0.5 bottom-0 -left-0.5 w-full cursor-move bg-neutral-950 transition-[height] dark:bg-white ${
+        className={`absolute -right-0.5 bottom-0 -left-0.5 w-full cursor-move bg-neutral-950 transition-[height]  ${
           isDragging ? "h-1.5" : "h-0.75"
         }`}
         onMouseDown={handleDrag}
@@ -385,7 +385,7 @@ export function UIGallery({
 
   return (
     <div className="absolute -right-16 -bottom-90 flex scale-75 -rotate-12 space-x-4 sm:-right-12 sm:-bottom-80 sm:w-full sm:scale-100 sm:rotate-0">
-      <div className="absolute -z-10 h-full w-full bg-neutral-50 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)] [background-size:1rem_1rem] dark:bg-neutral-950 dark:bg-[linear-gradient(to_right,#1b1b1b_1px,transparent_1px),linear-gradient(to_bottom,#1b1b1b_1px,transparent_1px)]" />
+      <div className="absolute -z-10 h-full w-full bg-neutral-50 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)] [background-size:1rem_1rem]  " />
 
       <div className="flex w-1/2 max-w-[100vw] shrink-0 flex-col items-end justify-end space-y-4">
         <div className="z-10 flex space-x-4">
@@ -450,7 +450,7 @@ export function UIGallery({
           </Button>
         </div>
 
-        <div className="bg-opacity-90 z-10 flex h-[2.6rem] w-full items-center rounded-md border border-neutral-200 bg-white pr-1 pl-3 text-sm shadow-xs hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:border-neutral-700 dark:hover:bg-neutral-800 dark:hover:ring-neutral-300 dark:focus:bg-neutral-800">
+        <div className="bg-opacity-90 z-10 flex h-[2.6rem] w-full items-center rounded-md border border-neutral-200 bg-white pr-1 pl-3 text-sm shadow-xs hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100      ">
           <MagnifyingGlassIcon />
           <Input
             className="pointer-events-auto w-full border-transparent! shadow-none ring-0!"
@@ -479,7 +479,7 @@ export function UIGallery({
 
           <div className="flex space-x-4">
             <div>
-              <div className="flex w-60 justify-center rounded-md border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-950">
+              <div className="flex w-60 justify-center rounded-md border border-neutral-200 bg-neutral-50 p-4  ">
                 <div>
                   <p className="mb-2 text-base font-medium">Pick a Color</p>
 
@@ -493,7 +493,7 @@ export function UIGallery({
 
             <div>
               <div>
-                <div className="flex h-52 w-60 flex-col justify-between rounded-md border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-950">
+                <div className="flex h-52 w-60 flex-col justify-between rounded-md border border-neutral-200 bg-neutral-50 p-4  ">
                   <p className="mb-2 text-base font-medium">
                     Photo Information
                   </p>

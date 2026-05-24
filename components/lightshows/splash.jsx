@@ -65,7 +65,7 @@ export default function LightshowSplash() {
 
   return (
     <div className="relative">
-      <div className="absolute top-0 right-0 left-0 z-10 h-[25vh] bg-linear-to-b from-neutral-50 to-transparent dark:from-neutral-950 dark:to-transparent" />
+      <div className="absolute top-0 right-0 left-0 z-10 h-[25vh] bg-linear-to-b from-neutral-50 to-transparent  " />
       <div
         style={{
           position: "relative",

@@ -6,7 +6,7 @@ export function MainSection({ textOpacity, textScale, svgOpacity, svgScale }) {
     <motion.div className="relative z-20 flex h-[calc(100vh_-_192px)] w-full flex-col items-center justify-center px-12 py-12 lg:px-24">
       <motion.p
         style={{ opacity: textOpacity, scale: textScale }}
-        className="mb-[10vh] rounded-lg p-2 text-center text-sm text-black/75 dark:text-white"
+        className="mb-[10vh] rounded-lg p-2 text-center text-sm text-black/75 "
       >
         A coder, live streamer, designer, lighting technician, but most of all
       </motion.p>

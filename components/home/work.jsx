@@ -138,7 +138,7 @@ export function Work({ className, defaultWorkTypes, title }) {
         {/* Active filter chips */}
         {workTypesToShow.length < workData.types.length && (
           <>
-            <div className="h-6 w-px bg-neutral-300 dark:bg-neutral-700" />
+            <div className="h-6 w-px bg-neutral-300 " />
             {workTypesToShow.map((type) => (
               <Button
                 key={type}
@@ -155,7 +155,7 @@ export function Work({ className, defaultWorkTypes, title }) {
             {workTypesToShow.length > 0 && (
               <Button
                 variant="ghost"
-                className="h-8 px-2 text-sm text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
+                className="h-8 px-2 text-sm text-neutral-500 hover:text-neutral-700  "
                 onClick={() => setWorkTypesToShow(workData.types)}
               >
                 Clear all
@@ -172,7 +172,7 @@ export function Work({ className, defaultWorkTypes, title }) {
           worksToDisplay.map((workItem) => (
             <div
               key={workItem.name}
-              className="group relative h-full rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50"
+              className="group relative h-full rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors  "
             >
               <div className="h-full">
                 <div className="z-30 flex h-full flex-col justify-between px-5 py-4 text-left">

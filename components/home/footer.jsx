@@ -1,17 +1,16 @@
 "use client";
 
 import { Link } from "@/components/ui/link";
-import { Sparkles } from "@/components/ui/sparkles";
 import { useState } from "react";
 
 export function Footer() {
   const [socialsText, setSocialsText] = useState("Check out my socials!");
   return (
     <div className="no-max-w relative w-screen">
-      <div className="absolute -top-24 right-0 left-0 z-10 h-48 bg-linear-to-t from-transparent via-neutral-50 to-transparent dark:from-transparent dark:via-neutral-950 dark:to-transparent" />
+      <div className="absolute -top-24 right-0 left-0 z-10 h-48 bg-linear-to-t from-transparent via-neutral-50 to-transparent" />
 
       <div className="relative">
-        <div className="absolute right-0 left-0 h-0 md:h-24 bg-[radial-gradient(circle_at_50%_500%,var(--accent-color),transparent,transparent)]" />
+        <div className="absolute right-0 left-0 h-0 bg-[radial-gradient(circle_at_50%_500%,var(--accent-color),transparent,transparent)] md:h-24" />
       </div>
 
       <footer className="relative z-10 flex flex-col items-center justify-around p-4 text-center md:flex-row">
@@ -125,25 +124,10 @@ export function Footer() {
           </p>
         </div>
       </footer>
-
-      <div className="absolute inset-0 z-9 h-full w-full">
-        <Sparkles
-          speed={1}
-          id="footer-sparkles-woohoo"
-          background="transparent"
-          minSize={0.6}
-          maxSize={1}
-          particleDensity={60}
-          className="h-full w-full"
-          particleColor="#737373"
-        />
-      </div>
     </div>
   );
 }
 
 export function SiddWordMark() {
-  return (
-      <span className="font-mono text-4xl font-bold">sidd</span>
-  );
+  return <span className="font-mono text-4xl font-bold">sidd</span>;
 }

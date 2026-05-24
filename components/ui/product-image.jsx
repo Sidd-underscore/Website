@@ -19,7 +19,7 @@ export function ProductImage({
         alt={alt}
         quality={100}
         className={cn(
-          `h-96 w-auto max-w-none cursor-zoom-in rounded-lg border-2 border-neutral-200 dark:border-neutral-800`,
+          `h-96 w-auto max-w-none cursor-zoom-in rounded-lg border-2 border-neutral-200 `,
           className,
         )}
         src={src}
@@ -37,7 +37,7 @@ export function ProductImage({
       quality={100}
       placeholder="blur"
       className={cn(
-        `${src.dark ? "block dark:hidden" : ""} ${size === "large" ? "h-160" : "h-96"} w-auto max-w-none cursor-zoom-in rounded-lg border-2 border-neutral-200 dark:border-neutral-800`,
+        `${src.dark ? "block " : ""} ${size === "large" ? "h-160" : "h-96"} w-auto max-w-none cursor-zoom-in rounded-lg border-2 border-neutral-200 `,
         className,
       )}
       src={src.light}
