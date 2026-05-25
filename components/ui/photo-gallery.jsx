@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "./button";
 import { ArrowLeftIcon, ArrowRightIcon } from "@radix-ui/react-icons";
 
@@ -11,9 +11,9 @@ export function PhotoGallery({ photos }) {
 
   useEffect(() => {
     photosRef.current = photosRef.current.slice(0, photos.length);
-  }, [photos]);
+  }, [photos.length]);
 
-  function updateVisibleImage() {
+  const updateVisibleImage = useCallback(() => {
     if (!gallery.current || photos.length === 0) return;
 
     const scrollLeft = gallery.current.scrollLeft;
@@ -22,11 +22,11 @@ export function PhotoGallery({ photos }) {
 
     const index = Math.floor(scrollLeft / (imageWidth + padding));
     setVisibleImageIndex(Math.max(0, Math.min(index, photos.length - 1)));
-  }
+  }, [photos.length]);
 
   useEffect(() => {
     updateVisibleImage();
-  }, [photos, photosRef.current]);
+  }, [updateVisibleImage]);
 
   function scrollLeft() {
     if (!gallery.current) return;
@@ -51,7 +51,7 @@ export function PhotoGallery({ photos }) {
       <div
         ref={gallery}
         onScroll={updateVisibleImage}
-        className="mx-0.5 mt-4 flex space-x-4 overflow-x-auto max-w-screen"
+        className="mx-0.5 mt-4 flex max-w-screen gap-4 overflow-x-auto"
       >
         {photos.map((photo, index) => (
           <span ref={(el) => (photosRef.current[index] = el)} key={index}>

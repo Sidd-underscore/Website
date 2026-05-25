@@ -200,7 +200,7 @@ export function AboutSplash() {
       ref={containerRef}
       className="relative -m-6 h-[500vh] md:-m-12 2xl:-m-24"
     >
-      <motion.section className="relative text-neutral-950 ">
+      <motion.section className="relative text-white">
         <MainSection
           textOpacity={textOpacity}
           textScale={textScale}

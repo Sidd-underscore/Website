@@ -1,26 +1,31 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
 import { Link } from "@/components/ui/link";
 import { useState } from "react";
 
 export function Footer() {
   const [socialsText, setSocialsText] = useState("Check out my socials!");
+  const [socialsTextHoverColor, setSocialsTextHoverColor] = useState("bg-white");
   return (
     <div className="no-max-w relative w-screen">
-      <div className="absolute -top-24 right-0 left-0 z-10 h-48 bg-linear-to-t from-transparent via-neutral-50 to-transparent" />
 
       <div className="relative">
-        <div className="absolute right-0 left-0 h-0 bg-[radial-gradient(circle_at_50%_500%,var(--accent-color),transparent,transparent)] md:h-24" />
+        <div className="absolute right-0 left-0 h-0 bg-[linear-gradient(90deg,#22FF00,#FFE121,#FF80F2,#00D7FF)] md:h-3" />
       </div>
 
-      <footer className="relative z-10 flex flex-col items-center justify-around p-4 text-center md:flex-row">
-        <div className="w-full flex-col justify-center space-y-2 text-center text-xs">
-          <p>{socialsText}</p>
+      <footer className="relative z-10 flex flex-col items-center justify-around gap-6 border-t-2 border-black bg-white p-4 text-center text-black md:flex-row">
+        <Icon name="StarGlobe" size="xl" className="absolute right-4 bottom-4 opacity-20" />
+
+        <div className="flex w-full flex-col justify-center gap-2 text-center text-xs">
+          <p className={`mx-auto w-fit border-2 border-black ${socialsTextHoverColor} px-3 py-1 font-mono font-black text-black shadow-[4px_4px_0_#000]`}>
+            {socialsText}
+          </p>
           <div className="flex items-center justify-center pb-4 text-base">
             <Link
-              onMouseEnter={() => setSocialsText("@sidd_underscore on GitHub")}
-              onMouseLeave={() => setSocialsText("Check out my socials!")}
-              className="px-2"
+              onMouseEnter={() => {setSocialsText("@sidd_underscore on GitHub"); setSocialsTextHoverColor("bg-[#22FF00]")}}
+              onMouseLeave={() => {setSocialsText("Check out my socials!"); setSocialsTextHoverColor("bg-white")}}
+              className="border-2 border-black bg-white p-2 text-black no-underline shadow-[3px_3px_0_#000] hover:bg-[#22FF00]"
               href="https://github.com/Sidd-underscore"
             >
               <span className="sr-only">@sidd_underscore on GitHub</span>
@@ -37,9 +42,9 @@ export function Footer() {
             </Link>
 
             <Link
-              onMouseEnter={() => setSocialsText("Email hello@sidd.studio")}
-              onMouseLeave={() => setSocialsText("Check out my socials!")}
-              className="px-2"
+              onMouseEnter={() => {setSocialsText("Email hello@sidd.studio"); setSocialsTextHoverColor("bg-[#FF80F2]")}}
+              onMouseLeave={() => {setSocialsText("Check out my socials!"); setSocialsTextHoverColor("bg-white")}}
+              className="border-2 border-black bg-white p-2 text-black no-underline shadow-[3px_3px_0_#000] hover:bg-[#FF80F2]"
               href="mailto:hello@sidd.studio"
             >
               <span className="sr-only">Email hello@sidd.studio</span>
@@ -78,9 +83,9 @@ export function Footer() {
             </Link>
 
             <Link
-              onMouseEnter={() => setSocialsText("@sidd-underscore on YouTube")}
-              onMouseLeave={() => setSocialsText("Check out my socials!")}
-              className="px-2"
+              onMouseEnter={() => {setSocialsText("@sidd-underscore on YouTube"); setSocialsTextHoverColor("bg-[#FFE121]")}}
+              onMouseLeave={() => {setSocialsText("Check out my socials!"); setSocialsTextHoverColor("bg-white")}}
+              className="border-2 border-black bg-white p-2 text-black no-underline shadow-[3px_3px_0_#000] hover:bg-[#FFE121]"
               href="https://youtube.com/@sidd-underscore"
             >
               <span className="sr-only">@sidd-underscore on YouTube</span>
@@ -108,16 +113,16 @@ export function Footer() {
           <SiddWordMark />
         </div>
 
-        <div className="w-full pb-4 text-xs md:mx-auto md:mb-0">
+        <div className="w-full p-3 pb-4 text-xs font-bold text-black md:mx-auto md:mb-0">
           <p>Made with love by Sidd in Portland, OR.</p>
           <p>
-            <Link className="inline-flex text-xs" href="/images/i.jpg">
+            <Link className="inline-flex border-0 text-xs" href="/images/i.jpg">
               I
             </Link>
-            <Link className="inline-flex text-xs" href="/images/v.jpg">
+            <Link className="inline-flex border-0 text-xs" href="/images/v.jpg">
               v
             </Link>
-            <Link className="inline-flex text-xs" href="/images/y.jpg">
+            <Link className="inline-flex border-0 text-xs" href="/images/y.jpg">
               y
             </Link>{" "}
             says hi!
@@ -129,5 +134,9 @@ export function Footer() {
 }
 
 export function SiddWordMark() {
-  return <span className="font-mono text-4xl font-bold">sidd</span>;
+  return (
+    <span className="chrome-text font-mono text-6xl font-black tracking-normal">
+      sidd
+    </span>
+  );
 }

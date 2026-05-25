@@ -1,5 +1,6 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,13 +32,22 @@ import { HexColorPicker } from "react-colorful";
 import { adjustTextColor } from "@/lib/utils";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
+const SAMPLE_PHOTO_DATE = fromUnixTime(1679481600);
+const SAMPLE_NOW = new Date("2026-05-23T12:00:00-07:00");
+
 export default function DesignSplash() {
   const [colorBoxBackgroundColor, setColorBoxBackgroundColor] =
     useState("#000000");
   const [endTextStyles, setEndTextStyles] = useState(["font-bold"]);
 
   return (
-    <div className="relative mt-8 mb-96">
+    <div className="relative mt-8 mb-96 text-black">
+      <div className="mb-16 flex w-fit items-center gap-3 border-2 border-black bg-[#FF80F2] px-3 py-2 text-black shadow-[5px_5px_0_#000]">
+        <Icon name="Convergence" />
+        <h1 className="text-5xl font-black tracking-normal uppercase">
+          Design
+        </h1>
+      </div>
       <div className="z-20">
         <div className="relative my-24 overscroll-y-contain">
           <TextBox textContent="I have been passionate about design since a young age." />
@@ -95,16 +105,12 @@ export default function DesignSplash() {
 }
 
 export function ColorBox({ children, backgroundColor }) {
-  const [color, setColor] = useState(adjustTextColor(backgroundColor));
-
-  useEffect(() => {
-    setColor(() => adjustTextColor(backgroundColor));
-  }, [backgroundColor]);
+  const color = adjustTextColor(backgroundColor);
 
   return (
     <span
       style={{ backgroundColor, color }}
-      className="mx-0.5 rounded-full px-2.5 py-1 text-nowrap"
+      className="mx-0.5 border-2 border-black px-2.5 py-1 text-nowrap shadow-[3px_3px_0_#000]"
     >
       {children}
     </span>
@@ -311,7 +317,7 @@ export function TextBox({ textContent }) {
       <textarea
         type="text"
         ref={inputRef}
-        className="h-full w-full resize-none overflow-hidden bg-transparent p-4 ring-0 outline-hidden focus:ring-0 focus:outline-hidden"
+        className="h-full w-full resize-none overflow-hidden border-2 border-black bg-white p-4 text-black shadow-[5px_5px_0_#000] ring-0 outline-hidden focus:ring-0 focus:outline-hidden"
         value={text}
         onChange={(e) => {
           setText(e.target.value);
@@ -322,50 +328,50 @@ export function TextBox({ textContent }) {
 
       {/* Edge resize handles */}
       <div
-        className="absolute -top-2 -left-2 z-20 h-5 w-5 cursor-nw-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-top-1 md:-left-1 md:h-3 md:w-3 md:rounded-none md:hover:-top-2 md:hover:-left-2 hover:md:rounded-md  "
+        className="absolute -top-2 -left-2 z-20 h-5 w-5 cursor-nw-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-top-1 md:-left-1 md:h-3 md:w-3 md:rounded-none md:hover:-top-2 md:hover:-left-2 hover:md:rounded-md"
         onMouseDown={(e) => handleResize(e, "nw")}
         onTouchStart={(e) => handleResize(e, "nw")}
       />
       <div
-        className="absolute -top-2 -right-2 z-20 h-5 w-5 cursor-ne-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-top-1 md:-right-1 md:h-3 md:w-3 md:rounded-none md:hover:-top-2 md:hover:-right-2 hover:md:rounded-md  "
+        className="absolute -top-2 -right-2 z-20 h-5 w-5 cursor-ne-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-top-1 md:-right-1 md:h-3 md:w-3 md:rounded-none md:hover:-top-2 md:hover:-right-2 hover:md:rounded-md"
         onMouseDown={(e) => handleResize(e, "ne")}
         onTouchStart={(e) => handleResize(e, "ne")}
       />
       <div
-        className="absolute -bottom-2 -left-2 z-20 h-5 w-5 cursor-sw-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-bottom-1 md:-left-1 md:h-3 md:w-3 md:rounded-none md:hover:-bottom-2 md:hover:-left-2 hover:md:rounded-md  "
+        className="absolute -bottom-2 -left-2 z-20 h-5 w-5 cursor-sw-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-bottom-1 md:-left-1 md:h-3 md:w-3 md:rounded-none md:hover:-bottom-2 md:hover:-left-2 hover:md:rounded-md"
         onMouseDown={(e) => handleResize(e, "sw")}
         onTouchStart={(e) => handleResize(e, "sw")}
       />
       <div
-        className="absolute -right-2 -bottom-2 z-20 h-5 w-5 cursor-se-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-right-1 md:-bottom-1 md:h-3 md:w-3 md:rounded-none md:hover:-right-2 md:hover:-bottom-2 hover:md:rounded-md  "
+        className="absolute -right-2 -bottom-2 z-20 h-5 w-5 cursor-se-resize rounded-full border-2 border-white bg-neutral-950 transition-[width_height] hover:h-6 hover:w-6 md:-right-1 md:-bottom-1 md:h-3 md:w-3 md:rounded-none md:hover:-right-2 md:hover:-bottom-2 hover:md:rounded-md"
         onMouseDown={(e) => handleResize(e, "se")}
         onTouchStart={(e) => handleResize(e, "se")}
       />
 
       {/* Updated Drag handles */}
       <div
-        className={`absolute top-0 -left-0.5 h-full cursor-move bg-neutral-950 transition-[width]  ${
+        className={`absolute top-0 -left-0.5 h-full cursor-move bg-neutral-950 transition-[width] ${
           isDragging ? "w-1.5" : "w-0.75"
         }`}
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className={`absolute top-0 -right-0.5 -left-0.5 w-full cursor-move bg-neutral-950 transition-[height]  ${
+        className={`absolute top-0 -right-0.5 -left-0.5 w-full cursor-move bg-neutral-950 transition-[height] ${
           isDragging ? "h-1.5" : "h-0.75"
         }`}
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className={`absolute top-0 -right-0.5 h-full cursor-move bg-neutral-950 transition-[width]  ${
+        className={`absolute top-0 -right-0.5 h-full cursor-move bg-neutral-950 transition-[width] ${
           isDragging ? "w-1.5" : "w-0.75"
         }`}
         onMouseDown={handleDrag}
         onTouchStart={handleDrag}
       />
       <div
-        className={`absolute -right-0.5 bottom-0 -left-0.5 w-full cursor-move bg-neutral-950 transition-[height]  ${
+        className={`absolute -right-0.5 bottom-0 -left-0.5 w-full cursor-move bg-neutral-950 transition-[height] ${
           isDragging ? "h-1.5" : "h-0.75"
         }`}
         onMouseDown={handleDrag}
@@ -384,8 +390,8 @@ export function UIGallery({
   const [date, setDate] = useState(null);
 
   return (
-    <div className="absolute -right-16 -bottom-90 flex scale-75 -rotate-12 space-x-4 sm:-right-12 sm:-bottom-80 sm:w-full sm:scale-100 sm:rotate-0">
-      <div className="absolute -z-10 h-full w-full bg-neutral-50 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)] [background-size:1rem_1rem]  " />
+    <div className="absolute -right-16 -bottom-90 flex scale-75 -rotate-12 gap-4 sm:-right-12 sm:-bottom-80 sm:w-full sm:scale-100 sm:rotate-0">
+      <div className="checker-surface absolute -z-10 h-full w-full bg-[#FFE121] mask-[radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)] opacity-60" />
 
       <div className="flex w-1/2 max-w-[100vw] shrink-0 flex-col items-end justify-end space-y-4">
         <div className="z-10 flex space-x-4">
@@ -450,7 +456,7 @@ export function UIGallery({
           </Button>
         </div>
 
-        <div className="bg-opacity-90 z-10 flex h-[2.6rem] w-full items-center rounded-md border border-neutral-200 bg-white pr-1 pl-3 text-sm shadow-xs hover:border-neutral-300 hover:bg-neutral-100 hover:ring-neutral-950 focus:bg-neutral-100      ">
+        <div className="bg-opacity-90 z-10 flex h-[2.6rem] w-full items-center rounded-md border-2 border-black bg-white pr-1 pl-3 text-sm shadow-xs">
           <MagnifyingGlassIcon />
           <Input
             className="pointer-events-auto w-full border-transparent! shadow-none ring-0!"
@@ -479,7 +485,7 @@ export function UIGallery({
 
           <div className="flex space-x-4">
             <div>
-              <div className="flex w-60 justify-center rounded-md border border-neutral-200 bg-neutral-50 p-4  ">
+              <div className="flex w-60 justify-center border-2 border-black bg-neutral-50 p-4">
                 <div>
                   <p className="mb-2 text-base font-medium">Pick a Color</p>
 
@@ -493,7 +499,7 @@ export function UIGallery({
 
             <div>
               <div>
-                <div className="flex h-52 w-60 flex-col justify-between rounded-md border border-neutral-200 bg-neutral-50 p-4  ">
+                <div className="flex h-52 min-w-60 flex-col justify-between border-2 border-black bg-neutral-50 p-4">
                   <p className="mb-2 text-base font-medium">
                     Photo Information
                   </p>
@@ -502,8 +508,8 @@ export function UIGallery({
                     <div className="flex items-center space-x-2 text-xs">
                       <CalendarIcon className="size-4 shrink-0" />
                       <span>
-                        {formatRelative(fromUnixTime(1679481600), Date.now())} (
-                        {formatDistance(fromUnixTime(1679481600), Date.now(), {
+                        {formatRelative(SAMPLE_PHOTO_DATE, SAMPLE_NOW)} (
+                        {formatDistance(SAMPLE_PHOTO_DATE, SAMPLE_NOW, {
                           addSuffix: true,
                         })}
                         )
@@ -528,7 +534,7 @@ export function UIGallery({
 
                   <Button
                     variant="outline"
-                    className="mt-2 flex w-full items-center rounded-lg text-sm"
+                    className="mt-2 flex w-full items-center text-sm"
                   >
                     <DownloadIcon className="mr-2 shrink-0" />
                     Download as PNG

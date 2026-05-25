@@ -1,4 +1,5 @@
 import { Projects } from "@/components/home/projects";
+import { Icon } from "@/components/ui/icon";
 import { Link } from "@/components/ui/link";
 import { projects } from "@/lib/projects";
 import { ArrowTopRightIcon } from "@radix-ui/react-icons";
@@ -40,11 +41,16 @@ export default async function ProjectPage(props) {
 
   return (
     <>
-      <h1 className="text-5xl font-bold">{project.name}</h1>
+      <div className="flex w-fit items-center gap-3 border-2 border-black bg-[#FF80F2] px-3 py-2 text-black shadow-[5px_5px_0_#000]">
+        <Icon name="CircleStarFill" className="size-8" />
+        <h1 className="text-5xl font-black uppercase tracking-normal">
+          {project.name}
+        </h1>
+      </div>
 
       {project.url && (
         <Link
-          className="mt-2 flex w-fit items-center space-x-2"
+          className="mt-4 flex w-fit items-center gap-2 border-2 border-black bg-[#22FF00] px-3 py-2 text-black no-underline shadow-[4px_4px_0_#000]"
           target="_blank"
           href={project.url}
         >
@@ -52,7 +58,7 @@ export default async function ProjectPage(props) {
         </Link>
       )}
 
-      <div className="mt-10">{project.longDescription}</div>
+      <div className="y2k-panel mt-10 p-6 font-bold">{project.longDescription}</div>
 
       <Separator className="mt-10 -mb-10" />
       <Projects />

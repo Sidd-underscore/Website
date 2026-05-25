@@ -1,7 +1,8 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
 import { Link } from "@/components/ui/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { projects } from "@/lib/projects";
 import Image from "next/image";
 import { cn, formatArrayIntoSentence } from "@/lib/utils";
@@ -65,11 +66,10 @@ export function Projects({
     defaultTechnologies || projectData.technologies,
   );
 
-  const [projectsToDisplay, setProjectsToDisplay] = useState([]);
   const [projectHovered, setProjectHovered] = useState(false);
 
-  useEffect(() => {
-    setProjectsToDisplay(
+  const projectsToDisplay = useMemo(
+    () =>
       projects.filter((project) => {
         const typeMatch = project.type.some((t) =>
           projectTypesToShow.includes(t),
@@ -79,22 +79,27 @@ export function Projects({
         );
         return typeMatch && techMatch;
       }),
-    );
-  }, [projectTypesToShow, projectTechnologiesToShow]);
+    [projectTypesToShow, projectTechnologiesToShow],
+  );
+
+  const projectHeadingPrefix = formatArrayIntoSentence(
+    defaultProjectTypes || [],
+    undefined,
+    undefined,
+    true,
+  );
+  const projectHeading = `${projectHeadingPrefix ? projectHeadingPrefix + " " : ""}Projects`;
 
   return (
-    <div className={cn("my-32 w-full text-left", className)}>
+    <section className={cn("my-32 w-full text-left", className)}>
       <div>
-        <h2 className="text-4xl font-semibold">
-          {formatArrayIntoSentence(
-            defaultProjectTypes || [],
-            undefined,
-            undefined,
-            true,
-          )}{" "}
-          Projects
-        </h2>
-        <p className="mt-1 text-sm">
+        <div className="flex w-fit items-center gap-3 border-2 border-black bg-[#22FF00] px-3 py-2 text-black shadow-[5px_5px_0_#000]">
+          <Icon name="StarGroup3_2" size="lg" />
+          <h2 className="text-4xl font-black uppercase leading-none tracking-normal">
+            {projectHeading}
+          </h2>
+        </div>
+        <p className="mt-4 max-w-2xl border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black shadow-[4px_4px_0_#000]">
           Here are some things that I have worked on.
         </p>
       </div>
@@ -106,7 +111,7 @@ export function Projects({
       >
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="h-9 space-x-2 px-4 py-2">
+            <Button variant="outline" className="h-9 gap-2 px-4 py-2">
               <MixerVerticalIcon />
               <span>Filter</span>
             </Button>
@@ -161,13 +166,13 @@ export function Projects({
           projectTechnologiesToShow.length <
             projectData.technologies.length) && (
           <>
-            <div className="h-6 w-px bg-neutral-300 " />
+            <div className="h-8 w-1 bg-[#FFE121] shadow-[2px_2px_0_#000]" />
 
             {projectTypesToShow.map((type) => (
               <Button
                 key={type}
                 variant="secondary"
-                className="h-8 rounded-full px-3 capitalize"
+                className="h-8 px-3 capitalize"
                 onClick={() =>
                   setProjectTypesToShow(
                     projectTypesToShow.filter((t) => t !== type),
@@ -183,7 +188,7 @@ export function Projects({
               <Button
                 key={tech.name}
                 variant="secondary"
-                className="h-8 rounded-full px-3"
+                className="h-8 px-3"
                 onClick={() =>
                   setProjectTechnologiesToShow(
                     projectTechnologiesToShow.filter((t) => t !== tech),
@@ -214,7 +219,7 @@ export function Projects({
         ref={parent}
         className={`relative mt-12 w-full ${
           projectsToDisplay.length
-            ? "grid grid-cols-1 gap-4 md:grid-cols-2"
+            ? "grid grid-cols-1 gap-6 md:grid-cols-2"
             : ""
         }`}
       >
@@ -227,64 +232,40 @@ export function Projects({
                   : "/projects/" + project.id
               }
               key={project.name}
-              className="text-inherit!"
+              className="text-inherit! no-underline hover:bg-transparent hover:text-inherit"
             >
               <div
                 onMouseEnter={() => setProjectHovered(project.name)}
                 onMouseLeave={() => setProjectHovered(false)}
-                className={`group relative flex h-64 flex-col rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-[height] duration-300 hover:h-82 md:hover:h-64   ${projectHovered && projectHovered != project.name ? "opacity-50" : ""}`}
+                className={`y2k-card group relative flex h-64 flex-col ${projectHovered && projectHovered != project.name ? "opacity-50 transition-opacity duration-300" : ""}`}
               >
                 <div
                   className={cn(
-                    "h-64 w-full rounded-md border border-transparent transition-[translate_width_height] duration-300 group-hover:h-82 group-hover:border-neutral-200 group-hover:bg-white group-hover:shadow-2xl md:group-hover:absolute md:group-hover:z-40 md:group-hover:-mt-9 md:group-hover:w-[115%] md:group-hover:scale-105  ",
+                    "h-64 w-full border-0 transition-[translate_width_height] duration-300 group-hover:h-82 group-hover:bg-black group-hover:text-white group-hover:shadow-[8px_8px_0_#000] md:group-hover:absolute md:group-hover:z-40 md:group-hover:-mt-9 md:group-hover:w-[115%] md:group-hover:scale-105",
 
                     index % 2 === 0 ? "" : "md:group-hover:-translate-x-[15%]",
                   )}
                 >
-                  <div className="absolute h-full w-full rounded-md opacity-30 duration-300 group-hover:opacity-100  ">
-                    <svg className="h-full w-full rounded-md">
-                      <filter id="noise-filter">
-                        <feGaussianBlur stdDeviation="4" result="blur" />
-
-                        <feColorMatrix
-                          type="saturate"
-                          values="1"
-                          result="grain"
-                        />
-                        <feTurbulence
-                          type="fractalNoise"
-                          baseFrequency="0.6"
-                          numOctaves="1"
-                        />
-
-                        <feComposite operator="in" in2="blur" in="grain" />
-                      </filter>
-
-                      <foreignObject
-                        width="100%"
-                        height="100%"
-                        x={0}
-                        y={0}
-                        filter="url(#noise-filter)"
-                        className="z-1"
-                      >
+                  <div className="absolute h-full w-full opacity-30 duration-300 group-hover:opacity-100">
+                   
                         <Image
                           src={project.featuredImage.src}
-                          className="rounded-md object-cover filter-[brightness(40%)] duration-300 "
+                          className="object-cover w-full h-full filter-[brightness(35%)]"
                           fill={true}
                           alt=""
                         />
-                      </foreignObject>
-                    </svg>
                   </div>
                   <div className="z-20 flex h-full w-full flex-col justify-between px-5 py-4 group-hover:text-white group-hover:drop-shadow-lg">
                     <div className="z-10">
-                      <h3 className={`mb-3 text-2xl font-semibold`}>
-                        {project.name}
-                      </h3>
+                      <div className="mb-3 flex items-start gap-2">
+                        <Icon name="Sun" size="default" className="mt-1 group-hover:invert" />
+                        <h3 className="text-2xl font-black uppercase tracking-normal">
+                          {project.name}
+                        </h3>
+                      </div>
 
                       <p
-                        className={`relative m-0 overflow-hidden text-sm text-ellipsis opacity-75 group-hover:text-base group-hover:opacity-100 group-hover:after:hidden `}
+                        className="relative m-0 overflow-hidden text-sm font-bold text-ellipsis opacity-80 group-hover:text-base group-hover:opacity-100 group-hover:after:hidden"
                       >
                         {project.description}
                       </p>
@@ -299,7 +280,7 @@ export function Projects({
                                 onClick={() => {
                                   setProjectTechnologiesToShow([technology]);
                                 }}
-                                className="text-md flex size-8 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-neutral-300 bg-neutral-200 p-0 group-hover:border-neutral-300/10 group-hover:bg-neutral-100/10 hover:border-neutral-400 hover:bg-neutral-200     "
+                                className="text-md flex size-8 cursor-pointer items-center justify-center overflow-hidden border-2 border-black bg-[#FFE121] p-0 text-black shadow-[2px_2px_0_#000] group-hover:bg-[#22FF00] hover:bg-[#FF80F2]"
                               >
                                 <>
                                   {technology.icon}
@@ -341,6 +322,6 @@ export function Projects({
           </p>
         )}
       </div>
-    </div>
+    </section>
   );
 }

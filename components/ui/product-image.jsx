@@ -40,8 +40,8 @@ export function ProductImage({
         `${src.dark ? "block " : ""} ${size === "large" ? "h-160" : "h-96"} w-auto max-w-none cursor-zoom-in rounded-lg border-2 border-neutral-200 `,
         className,
       )}
-      src={src.light}
-      onClick={() => window.open(src.light.src, "_blank")}
+      src={src}
+      onClick={() => window.open(src.src, "_blank")}
       {...props}
     />
   );

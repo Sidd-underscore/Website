@@ -1,5 +1,6 @@
 import { LightshowGallery } from "@/components/lightshows/gallery";
 import LightshowSplash from "@/components/lightshows/splash";
+import { Icon } from "@/components/ui/icon";
 import { Link } from "@/components/ui/link";
 
 export const metadata = {
@@ -12,7 +13,8 @@ export default function LightshowsPage() {
     <div className="no-max-w -m-6 mb-0! md:-m-12 2xl:-m-24">
       <LightshowSplash />
 
-      <p className="mb-10 p-6 text-center text-lg">
+      <p className="y2k-panel mx-auto my-10 max-w-5xl p-6 text-center text-lg font-bold">
+        <Icon name="Sun" className="mr-2 inline-block size-6" />
         All of my lightshows are rendered using{" "}
         <Link href="https://www.capture.se/">Capture Student Edition</Link>. I
         custom-design the rigs for each show using{" "}

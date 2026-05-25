@@ -65,7 +65,7 @@ export default function LightshowSplash() {
 
   return (
     <div className="relative">
-      <div className="absolute top-0 right-0 left-0 z-10 h-[25vh] bg-linear-to-b from-neutral-50 to-transparent  " />
+      <div className="absolute top-0 right-0 left-0 z-10 h-[25vh] bg-linear-to-b from-black to-transparent" />
       <div
         style={{
           position: "relative",
@@ -165,7 +165,7 @@ function Scene({ scrollProgress }) {
             textAlign="center"
           >
             Lightshows
-            <meshBasicMaterial color={"#fff"} />
+              <meshBasicMaterial color={"#FFE121"} />
           </Text3D>
 
           {/* Black outline */}
@@ -182,7 +182,7 @@ function Scene({ scrollProgress }) {
               textAlign="center"
             >
               Lightshows
-              <meshBasicMaterial color="#000000" />
+              <meshBasicMaterial color="#FF80F2" />
             </Text3D>
           </group>
         </animated.group>

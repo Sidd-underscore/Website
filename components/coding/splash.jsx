@@ -1,5 +1,6 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
 import { useRef, useState } from "react";
 import { Link } from "@/components/ui/link";
 import { cn } from "@/lib/utils";
@@ -151,7 +152,7 @@ I work remotely from Portland, Oregon, while also being a high school student.`;
         }
         if (last < stripped.length) out += highlightTokens(stripped.slice(last));
 
-      return `<span class="ml-6 block"><span class="-ml-4 inline-block w-4">•</span>${out}</span>`;
+      return `<span class="ml-6 block"><span class="-ml-4 inline-block w-4">*</span>${out}</span>`;
         }
 
     // Main loop: walk high-priority matches from `master` and highlight gaps with highlightTokens
@@ -183,14 +184,15 @@ I work remotely from Portland, Oregon, while also being a high school student.`;
   return (
     <section
       className={cn(
-        "space-y-4 rounded-tr-xl rounded-b-xl border border-neutral-300 bg-white p-6 font-mono text-sm text-neutral-900 shadow-lg   ",
-        isEditing && "border-dashed border-neutral-400 "
+        "y2k-panel relative overflow-hidden p-6 font-mono text-sm text-black",
+        isEditing && "border-dashed border-[#FF80F2]"
       )}
     >
+      <Icon name="StarStroke" className="absolute top-4 right-4 size-12 opacity-20" />
       {isEditing ? (
         <textarea
-          className="h-auto w-full rounded font-mono text-sm"
-          style={{ minHeight: codeRef.current?.offsetHeight || "300px" }}
+          className="h-auto w-full border-2 border-black bg-white p-3 font-mono text-sm shadow-[4px_4px_0_#000]"
+          style={{ minHeight: "300px" }}
           value={raw}
           onChange={(e) => setRaw(e.currentTarget.value)}
         />
@@ -202,13 +204,13 @@ I work remotely from Portland, Oregon, while also being a high school student.`;
         />
       )}
 
-      <div className="border-t border-neutral-300 pt-6 ">
+      <div className="border-t-2 border-black pt-6">
         <p>
-          Get in touch →{' '}
+          Get in touch -{'>'}{" "}
           <Link href="mailto:hello@sidd.studio" className="underline">
             hello@sidd.studio
           </Link>
-          ,{' '}
+          ,{" "}
           <span className="cursor-pointer underline" onClick={() => setIsEditing(!isEditing)}>
             or {!isEditing ? 'code' : 'preview'} this page!
           </span>
