@@ -31,10 +31,16 @@ export function TailwindIndicator() {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      data-scroll-behavior="smooth"
+      lang="en"
+      suppressHydrationWarning
+      className="relative"
+    >
       <head>{/* <meta name="theme-color" content="#050505" /> */}</head>
       <body
-        className={`${archivo.className} justify-left flex min-h-screen flex-col items-center overflow-x-hidden p-3 pb-0! text-white selection:bg-[#FFE121] selection:text-black md:p-8 2xl:p-14`}
+        className={`${archivo.className} relative justify-left flex min-h-screen flex-col items-center overflow-x-hidden overflow-y-scroll p-3 pb-0! text-white selection:bg-[#FFE121] selection:text-black md:p-8 2xl:p-14`}
+        style={{ scrollbarGutter: "stable" }}
       >
         <Navbar />
         <main className="relative z-10 mt-12 min-h-screen w-full max-w-6xl has-[.no-max-w]:max-w-none lg:mt-8 xl:mt-10">

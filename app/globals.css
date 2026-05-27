@@ -125,17 +125,6 @@ p div {
   --bubblegum: #ff80f2;
   --electric: #00d7ff;
   --ink: #050505;
-  --chrome: linear-gradient(
-    110deg,
-    #f8f8f8 0%,
-    #ffe358 13%,
-    #8dffa2 25%,
-    #a1f5ff 39%,
-    #ff80f2 51%,
-    #a1f5ff 63%,
-    #8dffa2 76%,
-    #ffe358 100%
-  );
 }
 
 html {
@@ -149,16 +138,6 @@ input,
 textarea,
 select {
   image-rendering: pixelated;
-}
-
-.chrome-text {
-  color: transparent;
-  background: var(--chrome);
-  background-size: 220% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  filter: drop-shadow(3px 4px 0 #000) drop-shadow(0 0 12px #ff80f2);
-  animation: chrome-pan 5s linear infinite;
 }
 
 .chrome-surface {
@@ -198,10 +177,10 @@ select {
 
 .checker-surface {
   background-image:
-    linear-gradient(45deg, rgba(0, 0, 0, 0.18) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(0, 0, 0, 0.18) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.18) 75%),
-    linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.18) 75%);
+    linear-gradient(45deg, rgba(0, 0, 0, 0.025) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(0, 0, 0, 0.05) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.025) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.05) 75%);
   background-position:
     0 0,
     0 12px,
@@ -235,15 +214,6 @@ select {
 
 .marquee-track {
   animation: marquee 18s linear infinite;
-}
-
-@keyframes chrome-pan {
-  0% {
-    background-position: 0% 50%;
-  }
-  100% {
-    background-position: 220% 50%;
-  }
 }
 
 @keyframes marquee {

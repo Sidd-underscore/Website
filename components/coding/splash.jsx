@@ -188,11 +188,10 @@ I work remotely from Portland, Oregon, while also being a high school student.`;
         isEditing && "border-dashed border-[#FF80F2]"
       )}
     >
-      <Icon name="StarStroke" className="absolute top-4 right-4 size-12 opacity-20" />
+      <Icon name="StarStroke" className="absolute top-4 right-4 opacity-20" />
       {isEditing ? (
         <textarea
-          className="h-auto w-full border-2 border-black bg-white p-3 font-mono text-sm shadow-[4px_4px_0_#000]"
-          style={{ minHeight: "300px" }}
+          className="h-full min-h-187.5 w-full border-2 border-black bg-white p-3 font-mono text-sm shadow-[4px_4px_0_#000]"
           value={raw}
           onChange={(e) => setRaw(e.currentTarget.value)}
         />

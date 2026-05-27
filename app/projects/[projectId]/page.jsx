@@ -2,7 +2,7 @@ import { Projects } from "@/components/home/projects";
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/components/ui/link";
 import { projects } from "@/lib/projects";
-import { ArrowTopRightIcon } from "@radix-ui/react-icons";
+import { MoveUpRight } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import NotFound from "@/app/not-found";
 
@@ -54,7 +54,7 @@ export default async function ProjectPage(props) {
           target="_blank"
           href={project.url}
         >
-          <span>Go to project</span> <ArrowTopRightIcon />
+          <span>Go to project</span> <MoveUpRight />
         </Link>
       )}
 

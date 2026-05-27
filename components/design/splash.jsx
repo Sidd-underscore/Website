@@ -5,16 +5,17 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  CalendarIcon,
+  CalendarClock,
   CameraIcon,
   CropIcon,
   DownloadIcon,
-  FontBoldIcon,
-  FontItalicIcon,
-  MagnifyingGlassIcon,
-  SewingPinFilledIcon,
+  Bold,
+  Italic,
+  Search,
+  Pin,
   UnderlineIcon,
-} from "@radix-ui/react-icons";
+  CalendarX2,
+} from "lucide-react";
 import { DatePickerWithRange } from "@/components/ui/date-picker";
 import {
   Select,
@@ -22,7 +23,6 @@ import {
   SelectGroup,
   SelectItem,
   SelectLabel,
-  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -389,11 +389,15 @@ export function UIGallery({
 }) {
   const [date, setDate] = useState(null);
 
+  const clearDateSelection = () => {
+    setDate(null);
+  };
+
   return (
-    <div className="absolute -right-16 -bottom-90 flex scale-75 -rotate-12 gap-4 sm:-right-12 sm:-bottom-80 sm:w-full sm:scale-100 sm:rotate-0">
+    <div className="absolute z-40 overflow-visible -right-45 -bottom-86 flex scale-75 -rotate-12 gap-4 sm:-right-12 sm:-bottom-80 sm:w-full sm:scale-100 sm:rotate-0">
       <div className="checker-surface absolute -z-10 h-full w-full bg-[#FFE121] mask-[radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)] opacity-60" />
 
-      <div className="flex w-1/2 max-w-[100vw] shrink-0 flex-col items-end justify-end space-y-4">
+      <div className="flex min-w-1/2 max-w-[100vw] shrink-0 flex-col items-end justify-end space-y-4">
         <div className="z-10 flex space-x-4">
           <ToggleGroup
             onValueChange={setEndTextStyles}
@@ -402,11 +406,11 @@ export function UIGallery({
             className="gap-4"
           >
             <ToggleGroupItem className="h-8 w-8" value="font-bold">
-              <FontBoldIcon />
+              <Bold />
               <span className="sr-only">Bold</span>
             </ToggleGroupItem>
             <ToggleGroupItem className="h-8 w-8" value="italic">
-              <FontItalicIcon />
+              <Italic />
               <span className="sr-only">Italic</span>
             </ToggleGroupItem>
             <ToggleGroupItem className="h-8 w-8" value="underline">
@@ -427,14 +431,12 @@ export function UIGallery({
               <SelectItem value="santa">Santa Monica, CA</SelectItem>
               <SelectItem value="cabo">Cabo San Lucas, MX</SelectItem>
             </SelectGroup>
-            <SelectSeparator />
 
             <SelectGroup>
               <SelectLabel>Forest</SelectLabel>
               <SelectItem value="yukon">Yukon, CA</SelectItem>
               <SelectItem value="denali">Denali, AL</SelectItem>
             </SelectGroup>
-            <SelectSeparator />
 
             <SelectGroup>
               <SelectLabel>Cold</SelectLabel>
@@ -451,13 +453,17 @@ export function UIGallery({
             date={date}
             setDate={setDate}
           />
-          <Button className="h-8 w-20" variant="destructive">
-            Delete
+          <Button
+            className="h-8"
+            variant="destructive"
+            onClick={clearDateSelection}
+          >
+            <CalendarX2 className="size-4" />Clear Date
           </Button>
         </div>
 
-        <div className="bg-opacity-90 z-10 flex h-[2.6rem] w-full items-center rounded-md border-2 border-black bg-white pr-1 pl-3 text-sm shadow-xs">
-          <MagnifyingGlassIcon />
+        <div className="bg-opacity-90 z-10 flex h-[2.6rem] w-full items-center rounded-md border-2 shadow-[4px_4px_0_#000] border-black bg-white pr-1 pl-3 text-sm">
+          <Search className="size-4 opacity-50"/>
           <Input
             className="pointer-events-auto w-full border-transparent! shadow-none ring-0!"
             placeholder="Search photos..."
@@ -465,18 +471,18 @@ export function UIGallery({
         </div>
       </div>
 
-      <div className="z-10 flex shrink-0 flex-col items-end overflow-x-hidden">
+      <div className="z-10 flex shrink-0 flex-col items-end overflow-visible">
         <div className="flex flex-col space-y-4">
           <div className="ml-auto h-8">
             <Tabs defaultValue="account">
-              <TabsList className="flex h-8 w-72">
-                <TabsTrigger className="w-24" value="account">
+              <TabsList className="flex h-8">
+                <TabsTrigger value="account">
                   My Account
                 </TabsTrigger>
-                <TabsTrigger className="w-24" value="security">
+                <TabsTrigger value="security">
                   Security
                 </TabsTrigger>
-                <TabsTrigger className="w-24" value="advanced">
+                <TabsTrigger value="advanced">
                   Advanced
                 </TabsTrigger>
               </TabsList>
@@ -485,7 +491,7 @@ export function UIGallery({
 
           <div className="flex space-x-4">
             <div>
-              <div className="flex w-60 justify-center border-2 border-black bg-neutral-50 p-4">
+              <div className="flex w-60 justify-center border-2 border-black bg-neutral-50 shadow-[4px_4px_0_#000] p-4">
                 <div>
                   <p className="mb-2 text-base font-medium">Pick a Color</p>
 
@@ -499,14 +505,14 @@ export function UIGallery({
 
             <div>
               <div>
-                <div className="flex h-52 min-w-60 flex-col justify-between border-2 border-black bg-neutral-50 p-4">
+                <div className="flex h-52 min-w-60 flex-col justify-between border-2 shadow-[4px_4px_0_#000] border-black bg-neutral-50 p-4">
                   <p className="mb-2 text-base font-medium">
                     Photo Information
                   </p>
 
                   <div>
                     <div className="flex items-center space-x-2 text-xs">
-                      <CalendarIcon className="size-4 shrink-0" />
+                      <CalendarClock className="size-4 shrink-0" />
                       <span>
                         {formatRelative(SAMPLE_PHOTO_DATE, SAMPLE_NOW)} (
                         {formatDistance(SAMPLE_PHOTO_DATE, SAMPLE_NOW, {
@@ -517,7 +523,7 @@ export function UIGallery({
                     </div>
 
                     <div className="mt-2 flex items-center space-x-2 text-xs">
-                      <SewingPinFilledIcon className="h-3 w-3 shrink-0" />
+                      <Pin className="h-3 w-3 shrink-0" />
                       <span>Portland, OR</span>
                     </div>
 
@@ -535,9 +541,17 @@ export function UIGallery({
                   <Button
                     variant="outline"
                     className="mt-2 flex w-full items-center text-sm"
+                    onClick={() => {
+                      const link = document.createElement("a");
+                      link.href = "http://localhost:3000/images/i.jpg";
+                      link.download = "sidd.doggy.is.named.ivy.jpg";
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                    }}
                   >
-                    <DownloadIcon className="mr-2 shrink-0" />
-                    Download as PNG
+                    <DownloadIcon className="mr-2 size-4 shrink-0" />
+                    Download as JPG
                   </Button>
                 </div>
               </div>

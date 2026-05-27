@@ -3,14 +3,14 @@
 import { Icon } from "@/components/ui/icon";
 import { achievements } from "@/lib/achievements";
 import {
-  ArrowTopRightIcon,
-  CalendarIcon,
-  CardStackIcon,
-  PaperPlaneIcon,
-  MixerVerticalIcon,
-  Cross2Icon,
-} from "@radix-ui/react-icons";
-import { TrophyIcon } from "@heroicons/react/20/solid";
+  MoveUpRight,
+  CalendarClock,
+  Users,
+  Send,
+  Settings2,
+  X,
+  Trophy
+} from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { cn, formatArrayIntoSentence } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -87,7 +87,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="h-9 gap-2 px-4 py-2">
-              <MixerVerticalIcon />
+              <Settings2 />
               <span>Filter</span>
             </Button>
           </DropdownMenuTrigger>
@@ -117,7 +117,6 @@ export function Achievements({ className, defaultAchievementTypes }) {
 
         {achievementTypesToShow.length < achievementData.types.length && (
           <>
-            <div className="h-8 w-1 bg-[#22FF00] shadow-[2px_2px_0_#000]" />
             {achievementTypesToShow.map((type) => (
               <Button
                 key={type}
@@ -130,16 +129,17 @@ export function Achievements({ className, defaultAchievementTypes }) {
                 }
               >
                 {type}
-                <Cross2Icon className="ml-1 size-3.5" />
+                <X className="ml-1 size-3.5" />
               </Button>
             ))}
-            <Button
-              variant="ghost"
-              className="h-8 px-2 text-sm"
-              onClick={() => setAchievementTypesToShow(achievementData.types)}
-            >
-              Clear all
-            </Button>
+           <Button
+                variant="destructive"
+                size="icon"
+                className="h-8 px-2 text-sm"
+                onClick={() => setAchievementTypesToShow(achievementData.types)}
+              >
+                <X />
+              </Button>
           </>
         )}
       </div>
@@ -160,7 +160,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
             >
               <Icon
                 name={index % 2 === 0 ? "Convergence" : "CircleStarFill"}
-                className="absolute top-3 right-3 size-10 opacity-20 transition group-hover:opacity-70"
+                className="absolute top-3 right-3 opacity-20 transition group-hover:opacity-70"
               />
               <div className={`h-full ${achievement.split ? "space-y-4" : ""}`}>
                 <div className="z-30 flex h-full flex-col justify-between px-5 py-4">
@@ -170,7 +170,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
                     </h3>
                     <p className="flex flex-wrap items-center gap-2 border-l-4 border-[#FF80F2] pl-2 text-xs font-bold opacity-80">
                       <span className="flex items-center gap-2">
-                        <CalendarIcon className="size-4 shrink-0" />
+                        <CalendarClock className="size-4 shrink-0" />
                         <span>{achievement.date}</span>
                       </span>
 
@@ -178,21 +178,21 @@ export function Achievements({ className, defaultAchievementTypes }) {
 
                       {achievement.category === "award" && (
                         <span className="flex items-center gap-2">
-                          <TrophyIcon className="size-4 shrink-0" />
+                          <Trophy className="size-4 shrink-0" />
                           <span>{achievement.ranking}</span>
                         </span>
                       )}
 
                       {achievement.category === "membership" && (
                         <span className="flex items-center gap-2">
-                          <CardStackIcon className="size-4 shrink-0" />
+                          <Users className="size-4 shrink-0" />
                           <span>Membership by Invitation</span>
                         </span>
                       )}
 
                       {achievement.category === "certification" && (
                         <span className="flex items-center gap-2">
-                          <PaperPlaneIcon className="size-4 shrink-0 -rotate-45" />
+                          <Send className="size-4 shrink-0 -rotate-45" />
                           <span>Certification</span>
                         </span>
                       )}
@@ -253,7 +253,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
                         href={achievement.link.url}
                       >
                         <span> {achievement.link.text}</span>{" "}
-                        <ArrowTopRightIcon />
+                        <MoveUpRight />
                       </Link>
                     </div>
                   )}

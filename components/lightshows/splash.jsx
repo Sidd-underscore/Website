@@ -2,24 +2,19 @@
 
 import { useState, useEffect } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
-import {
-  Text3D,
-  Center,
-} from "@react-three/drei";
+import { Text3D, Center } from "@react-three/drei";
 import { useSpring, animated } from "@react-spring/three";
 
 const BACKGROUND_IMAGES = [
-  "/images/projects/lightshows/snapshots/wowwww.jpg",
-  "/images/projects/lightshows/snapshots/pinkkkk.png",
-  "/images/projects/lightshows/snapshots/rainbow.jpg",
-  "/images/projects/lightshows/snapshots/audience-pov.jpg",
-  "/images/projects/lightshows/snapshots/green-purple-pink.jpg",
-  "/images/projects/lightshows/snapshots/purple-pink.jpg",
-  "/images/projects/lightshows/snapshots/teaser.jpg",
-  "/images/projects/lightshows/snapshots/sides.png",
-  "/images/projects/lightshows/snapshots/movement-is-going-good.png",
-  "/images/projects/lightshows/snapshots/better-1.jpg",
-  "/images/projects/lightshows/snapshots/better-6.jpg",
+  "/images/projects/lightshows/snapshots/2-pulpo-blue-orange.jpg",
+  "/images/projects/lightshows/snapshots/2-pulpo-rainbow.jpg",
+  "/images/projects/lightshows/snapshots/2-pulpo-plot.jpg",
+  "/images/projects/lightshows/snapshots/3-isoknock-pink.png",
+  "/images/projects/lightshows/snapshots/3-isoknock-behind.jpg",
+  "/images/projects/lightshows/snapshots/1-iso-red.jpg",
+  "/images/projects/lightshows/snapshots/1-iso-pink-side.jpg",
+  "/images/projects/lightshows/snapshots/1-iso-pink-gold.jpg",
+  "/images/projects/lightshows/snapshots/1-iso-plot.jpg",
 ];
 
 export default function LightshowSplash() {
@@ -53,7 +48,7 @@ export default function LightshowSplash() {
       const nextIndex = (currentImageIndex + 1) % BACKGROUND_IMAGES.length;
       setNextImageIndex(nextIndex);
       setIsTransitioning(true);
-      
+
       setTimeout(() => {
         setCurrentImageIndex(nextIndex);
         setIsTransitioning(false);
@@ -109,11 +104,11 @@ export default function LightshowSplash() {
           shadows
           dpr={[1, 2]}
           camera={{ position: [0, 2, 5], fov: 90, near: 1, far: 20 }}
-          style={{ 
-            width: "100%", 
+          style={{
+            width: "100%",
             height: "100%",
             position: "relative",
-            zIndex: 2
+            zIndex: 2,
           }}
         >
           <fog attach="fog" args={["#202020", 5, 20]} />
@@ -151,7 +146,7 @@ function Scene({ scrollProgress }) {
             intensity={10}
             color="#ffffff"
           />
-          
+
           {/* Main text */}
           <Text3D
             font="/fonts/archivo.typeface.json"
@@ -165,7 +160,7 @@ function Scene({ scrollProgress }) {
             textAlign="center"
           >
             Lightshows
-              <meshBasicMaterial color={"#FFE121"} />
+            <meshBasicMaterial color={"#FFE121"} />
           </Text3D>
 
           {/* Black outline */}

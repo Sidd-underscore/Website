@@ -2,6 +2,7 @@
 
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/components/ui/link";
+import Image from "next/image";
 import { useState } from "react";
 
 export function Footer() {
@@ -109,7 +110,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mx-auto flex w-full justify-center">
+        <div className="mx-auto flex w-full relative h-24 justify-center">
           <SiddWordMark />
         </div>
 
@@ -134,9 +135,5 @@ export function Footer() {
 }
 
 export function SiddWordMark() {
-  return (
-    <span className="chrome-text font-mono text-6xl font-black tracking-normal">
-      sidd
-    </span>
-  );
+  return <Image src="/images/sidd.svg" alt="SIDD" fill sizes="96px" />;
 }

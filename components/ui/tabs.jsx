@@ -6,8 +6,6 @@ import { cn } from "@/lib/utils";
 import { LayoutGroup, motion } from "motion/react";
 
 function Tabs({ defaultValue, onValueChange, ...props }) {
-
-
   return (
     <TabsPrimitive.Root
       defaultValue={defaultValue}
@@ -47,7 +45,7 @@ function TabsTrigger({ className, children, value, ...props }) {
       value={value}
       ref={tabRef}
       className={cn(
-        "relative inline-flex cursor-pointer items-center justify-center px-3 py-1 text-sm font-black whitespace-nowrap ring-offset-white transition-all hover:bg-[#22FF00] hover:text-black focus-visible:ring-2 focus-visible:ring-[#FFE121] focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[#FF80F2] data-[state=active]:text-black",
+        "relative inline-flex cursor-pointer items-center justify-center px-3 py-1 text-sm font-black whitespace-nowrap uppercase ring-offset-white transition-all hover:bg-[#22FF00] hover:text-black focus-visible:ring-2 focus-visible:ring-[#FFE121] focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-[#FF80F2] data-[state=active]:text-black",
         className,
       )}
       {...props}
@@ -60,7 +58,6 @@ function TabsTrigger({ className, children, value, ...props }) {
 }
 
 function TabsContent({ className, value, ...props }) {
-
   return (
     <TabsPrimitive.Content
       data-slot="tabs-content"

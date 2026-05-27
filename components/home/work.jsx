@@ -4,11 +4,11 @@ import { Icon } from "@/components/ui/icon";
 import { Link } from "@/components/ui/link";
 import { work } from "@/lib/work";
 import {
-  SewingPinFilledIcon,
-  CalendarIcon,
-  MixerVerticalIcon,
-  Cross2Icon,
-} from "@radix-ui/react-icons";
+  Pin,
+  CalendarClock,
+  Settings2,
+  X,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -115,7 +115,7 @@ export function Work({ className, defaultWorkTypes, title }) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="h-9 gap-2 px-4 py-2">
-              <MixerVerticalIcon /> <span>Filter</span>
+              <Settings2 /> <span>Filter</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-56 capitalize">
@@ -142,7 +142,6 @@ export function Work({ className, defaultWorkTypes, title }) {
         {/* Active filter chips */}
         {workTypesToShow.length < workData.types.length && (
           <>
-            <div className="h-8 w-1 bg-[#FFE121] shadow-[2px_2px_0_#000]" />
             {workTypesToShow.map((type) => (
               <Button
                 key={type}
@@ -153,16 +152,17 @@ export function Work({ className, defaultWorkTypes, title }) {
                 }
               >
                 {type}
-                <Cross2Icon className="size-3.5" />
+                <X className="size-3.5" />
               </Button>
             ))}
             {workTypesToShow.length > 0 && (
               <Button
-                variant="ghost"
+                variant="destructive"
+                size="icon"
                 className="h-8 px-2 text-sm"
                 onClick={() => setWorkTypesToShow(workData.types)}
               >
-                Clear all
+                <X />
               </Button>
             )}
           </>
@@ -191,14 +191,14 @@ export function Work({ className, defaultWorkTypes, title }) {
                     <p
                       className="m-0 flex items-center gap-2 border-l-4 border-[#22FF00] pl-2 text-sm font-bold opacity-80"
                     >
-                      <SewingPinFilledIcon className="size-4 shrink-0" />
+                      <Pin className="size-4 shrink-0" />
                       <span>{workItem.location}</span>
                     </p>
 
                     <p
                       className="m-0 flex items-center gap-2 border-l-4 border-[#FFE121] pl-2 text-sm font-bold opacity-80"
                     >
-                      <CalendarIcon className="size-4 shrink-0" />
+                      <CalendarClock className="size-4 shrink-0" />
                       <span>{workItem.dates}</span>
                     </p>
 

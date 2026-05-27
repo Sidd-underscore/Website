@@ -1,5 +1,7 @@
 import DesignSplash from "@/components/design/splash";
+import { Achievements } from "@/components/home/achievements";
 import { Projects } from "@/components/home/projects";
+import { technologyInformation } from "@/lib/projects";
 
 const year = new Date().getFullYear();
 
@@ -12,7 +14,8 @@ export default function DesignPage() {
   return (
     <>
       <DesignSplash />
-      <Projects defaultProjectTypes={["design", "website"]} />
+      <Projects defaultProjectTypes={["design", "website"]} defaultTechnologies={[technologyInformation.tailwindcss, technologyInformation.nextjs]} />
+      <Achievements defaultAchievementTypes={["design"]} />
     </>
   );
 }

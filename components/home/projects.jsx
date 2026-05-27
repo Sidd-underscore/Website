@@ -15,7 +15,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MixerVerticalIcon, Cross2Icon } from "@radix-ui/react-icons";
+import { Settings2, X } from "lucide-react";
 import autoAnimate from "@formkit/auto-animate";
 import {
   Tooltip,
@@ -39,6 +39,12 @@ export function Projects({
   useEffect(() => {
     filterRowRef.current && autoAnimate(filterRowRef.current);
   }, []);
+
+  function isTechnologySelected(selectedTechnologies, technology) {
+    return selectedTechnologies.some(
+      (selectedTechnology) => selectedTechnology.name === technology.name,
+    );
+  }
 
   function gatherAllProjectData() {
     const types = [];
@@ -75,7 +81,7 @@ export function Projects({
           projectTypesToShow.includes(t),
         );
         const techMatch = project.technologies?.some((t) =>
-          projectTechnologiesToShow.includes(t),
+          isTechnologySelected(projectTechnologiesToShow, t),
         );
         return typeMatch && techMatch;
       }),
@@ -95,7 +101,7 @@ export function Projects({
       <div>
         <div className="flex w-fit items-center gap-3 border-2 border-black bg-[#22FF00] px-3 py-2 text-black shadow-[5px_5px_0_#000]">
           <Icon name="StarGroup3_2" size="lg" />
-          <h2 className="text-4xl font-black uppercase leading-none tracking-normal">
+          <h2 className="text-4xl leading-none font-black tracking-normal uppercase">
             {projectHeading}
           </h2>
         </div>
@@ -112,8 +118,10 @@ export function Projects({
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="h-9 gap-2 px-4 py-2">
-              <MixerVerticalIcon />
-              <span>Filter</span>
+              <>
+                <Settings2 />
+                <span>Filter</span>
+              </>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-56">
@@ -143,7 +151,7 @@ export function Projects({
               <DropdownMenuCheckboxItem
                 key={tech.name}
                 onSelect={(e) => e.preventDefault()}
-                checked={projectTechnologiesToShow.includes(tech)}
+                checked={isTechnologySelected(projectTechnologiesToShow, tech)}
                 onCheckedChange={(v) =>
                   v
                     ? setProjectTechnologiesToShow([
@@ -151,7 +159,10 @@ export function Projects({
                         tech,
                       ])
                     : setProjectTechnologiesToShow(
-                        projectTechnologiesToShow.filter((t) => t !== tech),
+                        projectTechnologiesToShow.filter(
+                          (selectedTechnology) =>
+                            selectedTechnology.name !== tech.name,
+                        ),
                       )
                 }
               >
@@ -166,8 +177,6 @@ export function Projects({
           projectTechnologiesToShow.length <
             projectData.technologies.length) && (
           <>
-            <div className="h-8 w-1 bg-[#FFE121] shadow-[2px_2px_0_#000]" />
-
             {projectTypesToShow.map((type) => (
               <Button
                 key={type}
@@ -179,8 +188,10 @@ export function Projects({
                   )
                 }
               >
-                {type}
-                <Cross2Icon className="ml-1 size-3.5" />
+                <>
+                  {type}
+                  <X className="ml-1 size-3.5" />
+                </>
               </Button>
             ))}
 
@@ -191,25 +202,31 @@ export function Projects({
                 className="h-8 px-3"
                 onClick={() =>
                   setProjectTechnologiesToShow(
-                    projectTechnologiesToShow.filter((t) => t !== tech),
+                    projectTechnologiesToShow.filter(
+                      (selectedTechnology) =>
+                        selectedTechnology.name !== tech.name,
+                    ),
                   )
                 }
               >
-                {tech.icon}
-                <span className="ml-1">{tech.name}</span>
-                <Cross2Icon className="ml-1 size-3.5" />
+                <>
+                  {tech.icon}
+                  <span className="ml-1">{tech.name}</span>
+                  <X className="ml-1 size-3.5" />
+                </>
               </Button>
             ))}
 
             <Button
-              variant="ghost"
+              variant="destructive"
+              size="icon"
               className="h-8 px-2 text-sm"
               onClick={() => {
                 setProjectTypesToShow(projectData.types);
                 setProjectTechnologiesToShow(projectData.technologies);
               }}
             >
-              Clear all
+              <X />
             </Button>
           </>
         )}
@@ -247,26 +264,28 @@ export function Projects({
                   )}
                 >
                   <div className="absolute h-full w-full opacity-30 duration-300 group-hover:opacity-100">
-                   
-                        <Image
-                          src={project.featuredImage.src}
-                          className="object-cover w-full h-full filter-[brightness(35%)]"
-                          fill={true}
-                          alt=""
-                        />
+                    <Image
+                      src={project.featuredImage.src}
+                      className="h-full w-full object-cover filter-[brightness(35%)]"
+                      fill={true}
+                      sizes="(min-width: 768px) 50vw, 100vw"
+                      alt=""
+                    />
                   </div>
                   <div className="z-20 flex h-full w-full flex-col justify-between px-5 py-4 group-hover:text-white group-hover:drop-shadow-lg">
                     <div className="z-10">
                       <div className="mb-3 flex items-start gap-2">
-                        <Icon name="Sun" size="default" className="mt-1 group-hover:invert" />
-                        <h3 className="text-2xl font-black uppercase tracking-normal">
+                        <Icon
+                          name="Sun"
+                          size="default"
+                          className="mt-1 group-hover:invert"
+                        />
+                        <h3 className="text-2xl font-black tracking-normal uppercase">
                           {project.name}
                         </h3>
                       </div>
 
-                      <p
-                        className="relative m-0 overflow-hidden text-sm font-bold text-ellipsis opacity-80 group-hover:text-base group-hover:opacity-100 group-hover:after:hidden"
-                      >
+                      <p className="relative m-0 overflow-hidden text-sm font-bold text-ellipsis opacity-80 group-hover:text-base group-hover:opacity-100 group-hover:after:hidden">
                         {project.description}
                       </p>
                     </div>

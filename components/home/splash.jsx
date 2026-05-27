@@ -26,6 +26,7 @@ export function HomeSplash() {
                 alt="Sidd"
                 className="object-contain p-8"
                 fill
+                sizes="(min-width: 768px) 50vw, 100vw"
                 priority
               />
             </div>

@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { work } from "@/lib/work";
 import { Work } from "@/components/home/work";
-import { CalendarIcon, SewingPinFilledIcon } from "@radix-ui/react-icons";
+import { CalendarClock, Pin } from "lucide-react";
 import NotFound from "@/app/not-found";
 import Image from "next/image";
 import { Icon } from "@/components/ui/icon";
@@ -50,12 +50,12 @@ export default async function WorkPage(props) {
         </div>
         <p className="mt-4 flex flex-wrap items-center gap-3 border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black shadow-[4px_4px_0_#000]">
           <span className="m-0 flex items-center gap-2">
-            <SewingPinFilledIcon className="size-4 shrink-0" />
+            <Pin className="size-4 shrink-0" />
             <span>{workItem.location}</span>
           </span>
           <span className="hidden md:block">/</span>
           <span className="m-0 flex items-center gap-2">
-            <CalendarIcon className="size-4 shrink-0" />
+            <CalendarClock className="size-4 shrink-0" />
             <span>{workItem.dates}</span>
           </span>
         </p>

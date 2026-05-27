@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CalendarIcon } from "@radix-ui/react-icons";
+import { CalendarClock } from "lucide-react";
 import { format } from "date-fns";
 
 import { cn } from "@/lib/utils";
@@ -20,12 +20,12 @@ export function DatePicker({ className, date, setDate, availableDates }) {
         <Button
           variant={"outline"}
           className={cn(
-            "w-[240px] justify-start text-left font-normal",
-            !date && "text-neutral-500 ",
+            "w-60 justify-start text-left font-normal",
+            !date && "text-neutral-500",
             className,
           )}
         >
-          <CalendarIcon className="mr-2 size-4" />
+          <CalendarClock className="mr-2 size-4" />
           {date ? format(date, "PPP") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
@@ -56,13 +56,13 @@ export function DatePickerWithRange({
             id="date"
             variant={"outline"}
             className={cn(
-              "w-full justify-start text-left font-normal hover:border-neutral-300 md:w-[300px] ",
+              "w-full justify-start text-left font-black uppercase tracking-wide md:w-75",
               (!date || date === "removeSearchDateFilter") &&
                 "text-neutral-400!",
               className,
             )}
           >
-            <CalendarIcon className="mr-2 size-4" />
+            <CalendarClock className={`mr-2 size-4 ${date?.from ? "text-black" : "text-black/50!"}`} />
             {date?.from ? (
               date.to ? (
                 <>
@@ -73,7 +73,7 @@ export function DatePickerWithRange({
                 format(date.from, "LLL dd, y")
               )
             ) : (
-              <span>Pick a date</span>
+              <span className="text-black/50!">Pick a date</span>
             )}
           </Button>
         </PopoverTrigger>

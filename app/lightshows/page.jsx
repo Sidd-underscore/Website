@@ -18,7 +18,8 @@ export default function LightshowsPage() {
         All of my lightshows are rendered using{" "}
         <Link href="https://www.capture.se/">Capture Student Edition</Link>. I
         custom-design the rigs for each show using{" "}
-        <Link href="https://www.blender.org">Blender</Link> for the overall
+        <Link href="https://www.blender.org">Blender</Link>{" "}
+        for the overall
         architecture and Capture to install the lights, truss, and other plot
         annotations. After the rig is ready, I use ETC&apos;s EOS system to
         program lights using their downloadable software for PC and the built-in

@@ -8,62 +8,77 @@ import {
   NextJSLogo,
   ReactLogo,
 } from "@/components/ui/icons";
-import { Link } from "@/components/ui/link";
+import { Icon } from "@/components/ui/icon";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function CodeSection({ display, opacity, position }) {
   return (
     <>
       <motion.div
         style={{ display, opacity, position }}
-        className="top-[50%] left-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-100 text-sm select-none sm:h-[24rem] sm:w-[24rem] md:text-base "
+        className="relative top-[50%] left-[50%] h-88 w-88 translate-x-[-50%] translate-y-[-50%] text-black select-none md:h-104 md:w-104"
       >
-        <p className="absolute -top-32 left-0 max-w-40 opacity-90 sm:-top-10 sm:-left-10 md:-top-14 md:-left-20">
-          I code and design user interfaces
+       
+
+        {/* Portal core (kept separate so callouts can overflow) */}
+        <div className="absolute inset-0 rounded-full bg-white">
+          <div className="checker-surface absolute inset-0 rounded-full opacity-20" />
+          <div className="pointer-events-none absolute inset-0 translate-x-0.75 -translate-y-0.5 rounded-full border-2 border-[#22FF00]" />
+          <div className="pointer-events-none absolute inset-0 -translate-x-0.5 translate-y-0.75 rounded-full border-2 border-[#FF80F2]" />
+
+          <div className="absolute inset-8 rounded-full border-2 border-black bg-white/80" />
+          <div className="absolute inset-16 rounded-full border-2 border-black bg-[#FFE121]/60" />
+
+          {/* Center chip */}
+          <div className="absolute top-1/2 left-1/2 w-fit -translate-x-1/2 -translate-y-1/2 border-2 rounded-full p-4! border-black bg-white px-3 py-2 text-center font-mono text-xs font-black uppercase shadow-[5px_5px_0_#000]">
+<Icon name="StarOrbit" size="xl" className="opacity-90" />
+                   </div>
+
+          {/* Tool badges */}
+          <div className="absolute inset-0">
+            <div className="absolute top-10 left-6 rounded-full border-2 border-black bg-white p-2 shadow-[4px_4px_0_#000]">
+              <TailwindCssIcon className="size-7 opacity-90 md:size-8" />
+            </div>
+            <div className="absolute top-8 right-6 rounded-full border-2 border-black bg-white p-2 shadow-[4px_4px_0_#000]">
+              <RadixUIIcon className="size-7 text-black opacity-90 md:size-8" />
+            </div>
+            <div className="absolute bottom-10 left-8 rounded-full border-2 border-black bg-white p-2 shadow-[4px_4px_0_#000]">
+              <GitHubIcon className="size-7 fill-black opacity-90 md:size-8" />
+            </div>
+            <div className="absolute right-8 bottom-10 rounded-full border-2 border-black bg-white p-2 shadow-[4px_4px_0_#000]">
+              <VisualStudioCodeIcon className="size-7 opacity-90 md:size-8" />
+            </div>
+            <div className="absolute top-12 left-1/2 -translate-x-1/2 rounded-full border-2 border-black bg-white px-3 py-2 shadow-[4px_4px_0_#000]">
+              <NextJSLogo className="size-7 fill-black opacity-90 md:size-8" />
+            </div>
+            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 rounded-full border-2 border-black bg-white px-3 py-2 shadow-[4px_4px_0_#000]">
+              <ReactLogo className="size-7 text-black opacity-90 md:size-8" />
+            </div>
+          </div>
+        </div>
+
+        {/* Callouts */}
+        <p className="y2k-card absolute -top-32 left-0 w-[min(16rem,70vw)] p-4 text-xs leading-snug md:-top-14 md:-left-48 md:text-sm">
+          <span className="flex items-center gap-2">
+            <Icon name="Sun" size="sm" className="opacity-70" />I code
+            and design user interfaces
+          </span>
         </p>
-        <p className="absolute -top-20 right-0 max-w-40 text-right opacity-90 sm:-right-28 md:top-20 md:-right-44">
-          using tools like Next.js, TailwindCSS and Radix UI.
+        <p className="y2k-card absolute -top-20 right-0 w-[min(16rem,70vw)] p-4 text-right text-xs leading-snug md:top-16 md:-right-48 md:text-sm">
+          Mostly using <span className="font-black">Next.js</span> and{" "}
+          <span className="font-black">Tailwind</span>.
         </p>
-        <p className="absolute -bottom-16 left-14 max-w-72 text-left opacity-90 sm:-bottom-4 sm:-left-28 xl:-bottom-10 xl:-left-48">
-          I code with Visual Studio Code, and push everything to GitHub.
+        <p className="y2k-card absolute -bottom-20 left-10 w-[min(20rem,80vw)] p-4 text-xs leading-snug md:-bottom-10 md:-left-32 md:text-sm">
+         I code with <span className="font-black">Visual Studio Code</span>, and push everything to <span className="font-black">GitHub</span>.
         </p>
-        <motion.div className="flex">
-          <div className="mt-56 h-fit bg-neutral-50 sm:mt-64 ">
-            <TailwindCssIcon className="size-8 opacity-50 sm:size-9 md:size-10" />
-          </div>
-          <div className="-mt-4 ml-[7.5rem] h-fit bg-neutral-50 sm:-mt-6 sm:ml-36 ">
-            <RadixUIIcon className="size-8 text-black opacity-50 sm:size-9 md:size-10 " />
-          </div>
-          <div className="mt-56 ml-24 h-fit bg-neutral-50 sm:mt-64 sm:ml-28 ">
-            <GitHubIcon className="size-8 fill-black opacity-50 sm:size-9 md:size-10 " />
-          </div>
-        </motion.div>
-      </motion.div>
-      <motion.div
-        style={{ display, opacity, position }}
-        className="top-[50%] left-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-200 select-none sm:h-[18rem] sm:w-[18rem] "
-      >
-        <motion.div className="flex">
-          <div className="mt-16 -ml-2 h-fit bg-neutral-50 sm:mt-[3.5rem] sm:-ml-2 ">
-            <VisualStudioCodeIcon className="size-8 opacity-50 sm:size-9 md:size-10" />
-          </div>
-          <div className="mt-60 ml-[5.75rem] h-fit bg-neutral-50 sm:mt-[16.5rem] sm:ml-24 ">
-            <NextJSLogo className="size-8 fill-black opacity-50 sm:size-9 md:size-10 " />
-          </div>
-          <div className="mt-16 ml-20 h-fit bg-neutral-50 sm:mt-[3.5rem] sm:ml-[5rem] ">
-            <ReactLogo className="size-8 text-black opacity-50 sm:size-9 md:size-10 " />
-          </div>
-        </motion.div>
-      </motion.div>
-      <motion.div
-        style={{ display, opacity, position }}
-        className="relative top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
-      >
-        <Link
-          href="/coding"
-          className="absolute top-64 left-[50%] w-24 translate-x-[-50%] translate-y-[-50%] sm:top-56 sm:ml-48"
-        >
-          Learn more
-        </Link>
+
+        {/* CTA */}
+        <div className="absolute -bottom-32 left-1/2 -translate-x-1/2">
+          <Button asChild size="sm" variant="secondary">
+            <Link href="/coding">See coding</Link>
+          </Button>
+        </div>
       </motion.div>
     </>
   );
