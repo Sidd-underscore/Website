@@ -1,16 +1,17 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
 import { achievements } from "@/lib/achievements";
 import {
-  ArrowTopRightIcon,
-  CalendarIcon,
-  CardStackIcon,
-  PaperPlaneIcon,
-  MixerVerticalIcon,
-  Cross2Icon,
-} from "@radix-ui/react-icons";
-import { TrophyIcon } from "@heroicons/react/20/solid";
-import { useEffect, useRef, useState } from "react";
+  MoveUpRight,
+  CalendarClock,
+  Users,
+  Send,
+  Settings2,
+  X,
+  Trophy
+} from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { cn, formatArrayIntoSentence } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -49,31 +50,32 @@ export function Achievements({ className, defaultAchievementTypes }) {
     defaultAchievementTypes || achievementData.types,
   );
 
-  const [achievementsToDisplay, setAchievementsToDisplay] = useState([]);
-
-  useEffect(() => {
-    setAchievementsToDisplay(
+  const achievementsToDisplay = useMemo(
+    () =>
       achievements.filter((a) =>
         a.type.some((t) => achievementTypesToShow.includes(t)),
       ),
-    );
-  }, [achievementTypesToShow]);
+    [achievementTypesToShow],
+  );
 
   return (
-    <div className={cn("my-32 w-full text-left", className)}>
+    <section className={cn("my-32 w-full text-left", className)}>
       <div>
-        <h2 className="text-4xl font-semibold">
-          {defaultAchievementTypes
-            ? formatArrayIntoSentence(
-                defaultAchievementTypes,
-                undefined,
-                undefined,
-                true,
-              ) + " Achievements"
-            : "Achievements"}
-        </h2>
-        <p className="mt-1 text-sm">
-          Recognition I've received for my work and experience.
+        <div className="flex w-fit items-center gap-3 border-2 border-black bg-[#FFE121] px-3 py-2 text-black shadow-[5px_5px_0_#000]">
+          <Icon name="StarGroup3" size="lg" />
+          <h2 className="text-4xl font-black uppercase leading-none tracking-normal">
+            {defaultAchievementTypes
+              ? formatArrayIntoSentence(
+                  defaultAchievementTypes,
+                  undefined,
+                  undefined,
+                  true,
+                ) + " Achievements"
+              : "Achievements"}
+          </h2>
+        </div>
+        <p className="mt-4 max-w-2xl border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black shadow-[4px_4px_0_#000]">
+          Recognition I&apos;ve received for my work and experience.
         </p>
       </div>
 
@@ -84,8 +86,8 @@ export function Achievements({ className, defaultAchievementTypes }) {
       >
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="h-9 space-x-2 px-4 py-2">
-              <MixerVerticalIcon />
+            <Button variant="outline" className="h-9 gap-2 px-4 py-2">
+              <Settings2 />
               <span>Filter</span>
             </Button>
           </DropdownMenuTrigger>
@@ -115,12 +117,11 @@ export function Achievements({ className, defaultAchievementTypes }) {
 
         {achievementTypesToShow.length < achievementData.types.length && (
           <>
-            <div className="h-6 w-px bg-neutral-300 dark:bg-neutral-700" />
             {achievementTypesToShow.map((type) => (
               <Button
                 key={type}
                 variant="secondary"
-                className="h-8 rounded-full px-3 capitalize"
+                className="h-8 px-3 capitalize"
                 onClick={() =>
                   setAchievementTypesToShow(
                     achievementTypesToShow.filter((t) => t !== type),
@@ -128,16 +129,17 @@ export function Achievements({ className, defaultAchievementTypes }) {
                 }
               >
                 {type}
-                <Cross2Icon className="ml-1 size-3.5" />
+                <X className="ml-1 size-3.5" />
               </Button>
             ))}
-            <Button
-              variant="ghost"
-              className="h-8 px-2 text-sm"
-              onClick={() => setAchievementTypesToShow(achievementData.types)}
-            >
-              Clear all
-            </Button>
+           <Button
+                variant="destructive"
+                size="icon"
+                className="h-8 px-2 text-sm"
+                onClick={() => setAchievementTypesToShow(achievementData.types)}
+              >
+                <X />
+              </Button>
           </>
         )}
       </div>
@@ -146,7 +148,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
         ref={parent}
         className={`relative mt-12 w-full ${
           achievementsToDisplay.length
-            ? "grid grid-cols-1 gap-4 lg:grid-cols-2"
+            ? "grid grid-cols-1 gap-6 lg:grid-cols-2"
             : ""
         }`}
       >
@@ -154,45 +156,49 @@ export function Achievements({ className, defaultAchievementTypes }) {
           achievementsToDisplay.map((achievement, index) => (
             <div
               key={achievement.id}
-              className={`group relative rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50`}
+              className="y2k-card group relative overflow-hidden transition-[translate,box-shadow] hover:-translate-y-1 hover:shadow-[10px_10px_0_#000]"
             >
+              <Icon
+                name={index % 2 === 0 ? "Convergence" : "CircleStarFill"}
+                className="absolute top-3 right-3 opacity-20 transition group-hover:opacity-70"
+              />
               <div className={`h-full ${achievement.split ? "space-y-4" : ""}`}>
                 <div className="z-30 flex h-full flex-col justify-between px-5 py-4">
                   <div>
-                    <h3 className={`mb-3 text-2xl font-semibold`}>
+                    <h3 className="mb-3 pr-12 text-2xl font-black uppercase tracking-normal">
                       {achievement.name}
                     </h3>
-                    <p className="flex items-center space-x-2 text-xs opacity-75">
-                      <span className="flex items-center space-x-2">
-                        <CalendarIcon className="size-4 shrink-0" />
+                    <p className="flex flex-wrap items-center gap-2 border-l-4 border-[#FF80F2] pl-2 text-xs font-bold opacity-80">
+                      <span className="flex items-center gap-2">
+                        <CalendarClock className="size-4 shrink-0" />
                         <span>{achievement.date}</span>
                       </span>
 
-                      <span>•</span>
+                      <span>/</span>
 
                       {achievement.category === "award" && (
-                        <span className="flex items-center space-x-2">
-                          <TrophyIcon className="size-4 shrink-0" />
+                        <span className="flex items-center gap-2">
+                          <Trophy className="size-4 shrink-0" />
                           <span>{achievement.ranking}</span>
                         </span>
                       )}
 
                       {achievement.category === "membership" && (
-                        <span className="flex items-center space-x-2">
-                          <CardStackIcon className="size-4 shrink-0" />
+                        <span className="flex items-center gap-2">
+                          <Users className="size-4 shrink-0" />
                           <span>Membership by Invitation</span>
                         </span>
                       )}
 
                       {achievement.category === "certification" && (
-                        <span className="flex items-center space-x-2">
-                          <PaperPlaneIcon className="size-4 shrink-0 -rotate-45" />
+                        <span className="flex items-center gap-2">
+                          <Send className="size-4 shrink-0 -rotate-45" />
                           <span>Certification</span>
                         </span>
                       )}
                     </p>
 
-                    <div className={`m-4 text-sm`}>
+                    <div className="m-4 text-sm font-medium">
                       <ul className="list-disc text-left">
                         {achievement.descriptions.map((description) => (
                           <li className="opacity-75" key={description}>
@@ -210,9 +216,9 @@ export function Achievements({ className, defaultAchievementTypes }) {
                       {achievement.split.children.map((splitItem, index) => (
                         <div
                           key={index}
-                          className={`rounded-lg border-2 border-neutral-300/30 bg-neutral-200 p-4 dark:border-neutral-700 dark:bg-neutral-800 ${
+                          className={`border-2 border-black bg-white p-4 shadow-[4px_4px_0_#000] ${
                             achievement.split.type === "score"
-                              ? "transition duration-400 hover:bg-linear-to-br hover:from-pink-400/75 hover:to-pink-300/75 hover:shadow-md"
+                              ? "transition duration-400 hover:bg-linear-to-br hover:from-[#FF80F2] hover:to-[#FFE121]"
                               : ""
                           }`}
                         >
@@ -242,12 +248,12 @@ export function Achievements({ className, defaultAchievementTypes }) {
                   {achievement.link && (
                     <div>
                       <Link
-                        className="mt-2 flex w-fit items-center space-x-2"
+                        className="mt-2 flex w-fit items-center gap-2 border-2 border-black bg-[#22FF00] px-3 py-2 text-black no-underline shadow-[4px_4px_0_#000]"
                         target="_blank"
                         href={achievement.link.url}
                       >
                         <span> {achievement.link.text}</span>{" "}
-                        <ArrowTopRightIcon />
+                        <MoveUpRight />
                       </Link>
                     </div>
                   )}
@@ -270,6 +276,6 @@ export function Achievements({ className, defaultAchievementTypes }) {
           </p>
         )}
       </div>
-    </div>
+    </section>
   );
 }

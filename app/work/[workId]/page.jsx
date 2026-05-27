@@ -1,9 +1,10 @@
 import { Separator } from "@/components/ui/separator";
 import { work } from "@/lib/work";
 import { Work } from "@/components/home/work";
-import { CalendarIcon, SewingPinFilledIcon } from "@radix-ui/react-icons";
+import { CalendarClock, Pin } from "lucide-react";
 import NotFound from "@/app/not-found";
 import Image from "next/image";
+import { Icon } from "@/components/ui/icon";
 
 export async function generateMetadata(props) {
   const params = await props.params;
@@ -41,19 +42,24 @@ export default async function WorkPage(props) {
   return (
     <div className="relative overflow-hidden 2xl:-mx-24 no-max-w">
       <div className="mx-auto max-w-5xl">
-        <h1 className="text-5xl font-bold">{workItem.name}</h1>
-        <p className="mt-2 md:flex md:items-center text-sm opacity-50 ">
-          <span className={`m-0 flex items-center space-x-2`}>
-            <SewingPinFilledIcon className="size-4 shrink-0" />
+        <div className="flex w-fit items-center gap-3 border-2 border-black bg-[#22FF00] px-3 py-2 text-black shadow-[5px_5px_0_#000]">
+          <Icon name="CircleStarHollow" className="size-8" />
+          <h1 className="text-5xl font-black uppercase tracking-normal">
+            {workItem.name}
+          </h1>
+        </div>
+        <p className="mt-4 flex flex-wrap items-center gap-3 border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black shadow-[4px_4px_0_#000]">
+          <span className="m-0 flex items-center gap-2">
+            <Pin className="size-4 shrink-0" />
             <span>{workItem.location}</span>
           </span>
-          <span className="mx-2 hidden md:block">•</span>
-          <span className={`m-0 flex items-center space-x-2`}>
-            <CalendarIcon className="size-4 shrink-0" />
+          <span className="hidden md:block">/</span>
+          <span className="m-0 flex items-center gap-2">
+            <CalendarClock className="size-4 shrink-0" />
             <span>{workItem.dates}</span>
           </span>
         </p>
-        <div className="mt-10">{workItem.description}</div>
+        <div className="y2k-panel mt-10 p-6 font-bold">{workItem.description}</div>
 
         <Separator className="mt-10 -mb-10" />
 
@@ -73,7 +79,7 @@ export default async function WorkPage(props) {
         return (
           <Image
             key={imageUrl}
-            className="absolute hidden w-auto rounded-lg shadow-lg transition-transform duration-200 ease-out select-none 2xl:block"
+            className="absolute hidden w-auto border-2 border-black shadow-[6px_6px_0_#000] transition-transform duration-200 ease-out select-none 2xl:block"
             style={{ ...initialPosition, ...adjustedPosition }}
             src={imageUrl}
             alt=""
@@ -83,7 +89,7 @@ export default async function WorkPage(props) {
           />
         );
       })}
-      <div className="relative w-screen hidden 2xl:block h-24 bg-linear-to-t from-neutral-50 to-transparent dark:from-neutral-950 dark:to-transparent"/>
+      <div className="relative hidden h-24 w-screen bg-linear-to-t from-black to-transparent 2xl:block" />
     </div>
   );
 }

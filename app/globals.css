@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
-@plugin 'tailwindcss-animate';
-@plugin '@tailwindcss/typography';
+@plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -57,11 +57,11 @@
 }
 
 .dark {
-  @apply [--accent-color-lighter:#e969ee30] [--accent-color:var(--color-pink-300)] [--transparent-color:black];
+  @apply [--accent-color-lighter:#ff80f230] [--accent-color:#ff80f2] [--transparent-color:black];
 }
 
 .light {
-  @apply [--accent-color-lighter:#e969ee20] [--accent-color:var(--color-pink-500)] [--transparent-color:white];
+  @apply [--accent-color-lighter:#ff80f220] [--accent-color:#ff80f2] [--transparent-color:white];
 }
 
 .dark ::selection {
@@ -116,7 +116,113 @@ p div {
 */
 
 :root {
-  --radius: 0.6rem;
+  --radius: 0.2rem;
+  --accent-color: #ff80f2;
+  --accent-color-lighter: #ff80f230;
+  --transparent-color: #050505;
+  --acid: #22ff00;
+  --signal: #ffe121;
+  --bubblegum: #ff80f2;
+  --electric: #00d7ff;
+  --ink: #050505;
+}
+
+html {
+  background: white;
+  scroll-behavior: smooth;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  image-rendering: pixelated;
+}
+
+.chrome-surface {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(98, 98, 98, 0.45)),
+    var(--chrome);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -14px 18px rgba(0, 0, 0, 0.28),
+    6px 6px 0 #000;
+}
+
+.y2k-panel {
+  border: 2px solid #000;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.96),
+      rgba(220, 220, 220, 0.72)
+    ),
+    var(--chrome);
+  color: #050505;
+  box-shadow:
+    7px 7px 0 #000,
+    0 0 0 2px rgba(255, 255, 255, 0.26);
+}
+
+.y2k-card {
+  border: 2px solid #000;
+  background:
+    linear-gradient(135deg, rgba(255, 128, 242, 0.12), transparent 32%),
+    linear-gradient(315deg, rgba(34, 255, 0, 0.12), transparent 34%),
+    rgba(255, 255, 255, 0.92);
+  color: #050505;
+  box-shadow: 6px 6px 0 #000;
+}
+
+.checker-surface {
+  background-image:
+    linear-gradient(45deg, rgba(0, 0, 0, 0.025) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(0, 0, 0, 0.05) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(0, 0, 0, 0.025) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(0, 0, 0, 0.05) 75%);
+  background-position:
+    0 0,
+    0 12px,
+    12px -12px,
+    -12px 0;
+  background-size: 24px 24px;
+}
+
+.glitch-box {
+  position: relative;
+}
+
+.glitch-box::before,
+.glitch-box::after {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  mix-blend-mode: multiply;
+}
+
+.glitch-box::before {
+  transform: translate(3px, -2px);
+  border: 2px solid var(--acid);
+}
+
+.glitch-box::after {
+  transform: translate(-3px, 2px);
+  border: 2px solid var(--bubblegum);
+}
+
+.marquee-track {
+  animation: marquee 18s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 /*

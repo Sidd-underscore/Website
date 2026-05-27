@@ -10,17 +10,17 @@ export default function NotFound({ prefix }) {
 
       <div className="mt-4 flex items-start space-x-2">
         <details>
-          <summary className="mt-0.5 flex w-fit cursor-pointer items-center border-b border-neutral-400 text-sm transition-all hover:border-neutral-500 dark:border-white/25 dark:text-neutral-300 dark:hover:border-white/50 dark:hover:text-neutral-50">
+          <summary className="mt-0.5 flex w-fit cursor-pointer items-center border-b border-neutral-400 text-sm transition-all hover:border-neutral-500    ">
             Play a game
           </summary>
           <iframe
             src="https://cal.games"
-            className="absolute -ml-2 h-[434px] w-68 rounded-lg bg-transparent dark:m-2 dark:ml-0"
+            className="absolute -ml-2 h-[434px] w-68 rounded-lg bg-transparent  "
           />
         </details>
         <span>or</span>
         <Link
-          className="mt-0.5 flex w-fit items-center border-b border-neutral-400 text-sm transition-all hover:border-neutral-500 dark:border-white/25 dark:text-neutral-300 dark:hover:border-white/50 dark:hover:text-neutral-50"
+          className="mt-0.5 flex w-fit items-center border-b border-neutral-400 text-sm transition-all hover:border-neutral-500    "
           href="/"
         >
           return home?

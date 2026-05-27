@@ -169,7 +169,7 @@ export function AboutSplash() {
             }}
             alt="sidd's logo"
             src="/images/sidd.png"
-            className="fixed top-1 bottom-1 left-1 h-11 w-auto rounded-full grayscale hover:grayscale-0 hover:invert-0! hover:transition-all hover:duration-500 dark:invert"
+            className="fixed top-1 bottom-1 left-1 h-11 w-auto rounded-full grayscale hover:grayscale-0 hover:invert-0! hover:transition-all hover:duration-500 "
           />
         ),
         shortLabel: (
@@ -182,7 +182,7 @@ export function AboutSplash() {
             }}
             alt="sidd's logo"
             src="/images/sidd.png"
-            className="fixed top-1 bottom-1 left-1 h-11 w-auto rounded-full grayscale hover:grayscale-0 hover:invert-0! hover:transition-all hover:duration-500 dark:invert"
+            className="fixed top-1 bottom-1 left-1 h-11 w-auto rounded-full grayscale hover:grayscale-0 hover:invert-0! hover:transition-all hover:duration-500 "
           />
         ),
       });
@@ -200,7 +200,7 @@ export function AboutSplash() {
       ref={containerRef}
       className="relative -m-6 h-[500vh] md:-m-12 2xl:-m-24"
     >
-      <motion.section className="relative text-neutral-950 dark:text-white">
+      <motion.section className="relative text-black">
         <MainSection
           textOpacity={textOpacity}
           textScale={textScale}

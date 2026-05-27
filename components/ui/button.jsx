@@ -5,26 +5,26 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center cursor-pointer justify-center border whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-neutral-950 disabled:pointer-events-none disabled:opacity-50 dark:focus-visible:ring-neutral-300",
+  "inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-[2px] border-2 border-black text-sm font-black uppercase tracking-wide shadow-[4px_4px_0_#000] transition-[translate,box-shadow,background-color,color] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#FFE121] disabled:pointer-events-none disabled:opacity-50 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#000] active:translate-y-0 active:shadow-[2px_2px_0_#000]",
   {
     variants: {
       variant: {
         default:
-          "bg-neutral-900 text-neutral-50 shadow-sm hover:bg-neutral-900/90 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/90",
+          "bg-[#22FF00] text-black hover:bg-[#FFE121]",
         destructive:
-          "bg-red-500 text-neutral-50 border-red-300 shadow-xs hover:bg-red-500/90 dark:bg-red-700 dark:border-red-400 dark:text-neutral-50 dark:hover:bg-red-700/90",
+          "border-black bg-[#FF80F2] text-black hover:bg-[#FFE121]",
         outline:
-          "border-neutral-200 bg-white shadow-xs hover:bg-neutral-100 hover:text-neutral-900 dark:border-neutral-800 dark:bg-neutral-950 dark:hover:bg-neutral-800 dark:hover:text-neutral-50 hover:border-neutral-300 dark:hover:border-neutral-700",
+          "bg-white text-black hover:bg-[#FF80F2]",
         secondary:
-          "border-neutral-200 dark:border-neutral-700 bg-neutral-100 text-neutral-900 shadow-xs hover:bg-neutral-100/80 dark:bg-neutral-800 dark:text-neutral-50 dark:hover:bg-neutral-800/80",
+          "bg-[#FFE121] text-black hover:bg-[#22FF00]",
         ghost:
-          "border-transparent hover:bg-neutral-100 hover:text-neutral-900 dark:hover:bg-neutral-800 dark:hover:text-neutral-50",
+          "text-black hover:bg-neutral-200 hover:shadow-[4px_4px_0_#000]",
       },
       size: {
         default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
-        icon: "h-9 w-9",
+        sm: "h-8 px-3 text-xs",
+        lg: "h-10 px-8",
+        icon: "size-9",
       },
     },
     defaultVariants: {

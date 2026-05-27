@@ -1,5 +1,6 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
 import { useRef, useState } from "react";
 import { Link } from "@/components/ui/link";
 import { cn } from "@/lib/utils";
@@ -78,18 +79,18 @@ I work remotely from Portland, Oregon, while also being a high school student.`;
 
     function anchor(url) {
       // Catppuccin-inspired link colors (light / dark)
-      return `<a href="${url}" class="underline text-[#3166d6] dark:text-[#89b4fa]" target="_blank" rel="noopener noreferrer">${url}</a>`;
+      return `<a href="${url}" class="underline text-[#3166d6] " target="_blank" rel="noopener noreferrer">${url}</a>`;
     }
 
     function highlightTokens(chunk) {
       // Use a fresh RegExp so global state (lastIndex) can't leak between calls.
       const localToken = new RegExp(tokenSource, 'gm');
       return chunk.replace(localToken, (match, num, kw, br, op, key) => {
-        if (num) return wrap(num, 'text-[#b2691e] dark:text-[#f9e2af]');
-        if (kw) return wrap(kw, 'text-[#7c5cff] dark:text-[#cba6f7]');
-        if (br) return wrap(br, 'text-[#394b59] dark:text-[#94e2d5]');
-        if (op) return wrap(op, 'text-[#4b5563] dark:text-[#7f848a]');
-        if (key) return wrap(key, 'text-[#b55a1e] dark:text-[#fab387]');
+        if (num) return wrap(num, 'text-[#b2691e] ');
+        if (kw) return wrap(kw, 'text-[#7c5cff] ');
+        if (br) return wrap(br, 'text-[#394b59] ');
+        if (op) return wrap(op, 'text-[#4b5563] ');
+        if (key) return wrap(key, 'text-[#b55a1e] ');
         return match;
       });
     }
@@ -102,15 +103,15 @@ I work remotely from Portland, Oregon, while also being a high school student.`;
       let m;
       while ((m = sub.exec(chunk)) !== null) {
         const idx = m.index;
-        if (idx > last) out += wrap(chunk.slice(last, idx), 'text-[#7c6f64] dark:text-[#6b6f84]');
+        if (idx > last) out += wrap(chunk.slice(last, idx), 'text-[#7c6f64] ');
         if (m[1]) {
-          out += wrap(m[1], 'text-[#287373] dark:text-[#a6e3a1]');
+          out += wrap(m[1], 'text-[#287373] ');
         } else if (m[2]) {
           out += anchor(m[2]);
         }
         last = sub.lastIndex;
       }
-      if (last < chunk.length) out += wrap(chunk.slice(last), 'text-[#7c6f64] dark:text-[#6b6f84]');
+      if (last < chunk.length) out += wrap(chunk.slice(last), 'text-[#7c6f64] ');
       return out;
     }
 
@@ -125,12 +126,12 @@ I work remotely from Portland, Oregon, while also being a high school student.`;
       while ((m = sub.exec(inner)) !== null) {
         const idx = m.index;
         if (idx > last) out += highlightTokens(inner.slice(last, idx));
-        if (m[1]) out += wrap(m[1], 'text-[#287373] dark:text-[#a6e3a1]');
+        if (m[1]) out += wrap(m[1], 'text-[#287373] ');
         else if (m[2]) out += anchor(m[2]);
         last = sub.lastIndex;
       }
       if (last < inner.length) out += highlightTokens(inner.slice(last));
-      return wrap('(' + out + ')', 'text-[#6d6a82] dark:text-[#c3bfe0]');
+      return wrap('(' + out + ')', 'text-[#6d6a82] ');
     }
 
     // Process list item: highlight strings, parens and urls inside; keep token highlighting for gaps
@@ -144,14 +145,14 @@ I work remotely from Portland, Oregon, while also being a high school student.`;
         while ((m = sub.exec(stripped)) !== null) {
           const idx = m.index;
           if (idx > last) out += highlightTokens(stripped.slice(last, idx));
-          if (m[1]) out += wrap(m[1], 'text-[#287373] dark:text-[#a6e3a1]');
+          if (m[1]) out += wrap(m[1], 'text-[#287373] ');
           else if (m[2]) out += processParen(m[2]);
           else if (m[3]) out += anchor(m[3]);
           last = sub.lastIndex;
         }
         if (last < stripped.length) out += highlightTokens(stripped.slice(last));
 
-      return `<span class="ml-6 block"><span class="-ml-4 inline-block w-4">•</span>${out}</span>`;
+      return `<span class="ml-6 block"><span class="-ml-4 inline-block w-4">*</span>${out}</span>`;
         }
 
     // Main loop: walk high-priority matches from `master` and highlight gaps with highlightTokens
@@ -164,7 +165,7 @@ I work remotely from Portland, Oregon, while also being a high school student.`;
 
       const [full, str, block, sline, list, paren, bareUrl] = mm;
 
-      if (str) out += wrap(str, 'text-[#287373] dark:text-[#a6e3a1]');
+      if (str) out += wrap(str, 'text-[#287373] ');
       else if (block) out += processComment(block);
       else if (sline) out += processComment(sline);
       else if (list) out += processList(list);
@@ -183,14 +184,14 @@ I work remotely from Portland, Oregon, while also being a high school student.`;
   return (
     <section
       className={cn(
-        "space-y-4 rounded-tr-xl rounded-b-xl border border-neutral-300 bg-white p-6 font-mono text-sm text-neutral-900 shadow-lg dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-100",
-        isEditing && "border-dashed border-neutral-400 dark:border-neutral-700"
+        "y2k-panel relative overflow-hidden p-6 font-mono text-sm text-black",
+        isEditing && "border-dashed border-[#FF80F2]"
       )}
     >
+      <Icon name="StarStroke" className="absolute top-4 right-4 opacity-20" />
       {isEditing ? (
         <textarea
-          className="h-auto w-full rounded font-mono text-sm"
-          style={{ minHeight: codeRef.current?.offsetHeight || "300px" }}
+          className="h-full min-h-187.5 w-full border-2 border-black bg-white p-3 font-mono text-sm shadow-[4px_4px_0_#000]"
           value={raw}
           onChange={(e) => setRaw(e.currentTarget.value)}
         />
@@ -202,13 +203,13 @@ I work remotely from Portland, Oregon, while also being a high school student.`;
         />
       )}
 
-      <div className="border-t border-neutral-300 pt-6 dark:border-neutral-600">
+      <div className="border-t-2 border-black pt-6">
         <p>
-          Get in touch →{' '}
+          Get in touch -{'>'}{" "}
           <Link href="mailto:hello@sidd.studio" className="underline">
             hello@sidd.studio
           </Link>
-          ,{' '}
+          ,{" "}
           <span className="cursor-pointer underline" onClick={() => setIsEditing(!isEditing)}>
             or {!isEditing ? 'code' : 'preview'} this page!
           </span>

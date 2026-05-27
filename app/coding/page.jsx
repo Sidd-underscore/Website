@@ -2,6 +2,8 @@ import { CodingSplash } from "@/components/coding/splash";
 import { Achievements } from "@/components/home/achievements";
 import { Projects } from "@/components/home/projects";
 import { Work } from "@/components/home/work";
+import { Icon } from "@/components/ui/icon";
+import { technologyInformation } from "@/lib/projects";
 
 const year = new Date().getFullYear();
 
@@ -13,12 +15,24 @@ export const metadata = {
 export default function CodingAndDesignPage() {
   return (
     <>
-      <div className="relative border p-4 rounded-t-xl w-fit border-b-0 z-10 -mb-[1px] border-neutral-300 bg-white text-neutral-900 dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-100">
-        <h1 className="text-5xl font-bold">Coding<span className="font-mono opacity-60">.jsx</span></h1>
+      <div className="relative z-10 -mb-px flex w-fit items-center gap-3 border-2 border-b-0 border-black bg-[#22FF00] p-4 text-black shadow-[5px_0_0_#000]">
+        <Icon name="StarShadow" className="size-8" />
+        <h1 className="text-5xl font-black tracking-normal uppercase">
+          Coding<span className="font-mono opacity-60">.jsx</span>
+        </h1>
       </div>
 
       <CodingSplash />
-      <Projects defaultProjectTypes={["coding"]} />
+      <Projects
+        defaultProjectTypes={["coding"]}
+        defaultTechnologies={[
+          technologyInformation.nextjs,
+          technologyInformation.tailwindcss,
+          technologyInformation.react,
+          technologyInformation.js,
+          technologyInformation.html,
+        ]}
+      />
       <Work defaultWorkTypes={["coding"]} />
       <Achievements defaultAchievementTypes={["coding"]} />
     </>

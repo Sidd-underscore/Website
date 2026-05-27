@@ -9,74 +9,71 @@ import {
   SoundcraftLogo,
 } from "@/components/ui/icons";
 import { Link } from "@/components/ui/link";
+import { Icon } from "@/components/ui/icon";
 
 export function TechSection({ display, opacity, position }) {
   return (
-    <>
-      <motion.div
-        style={{ display, opacity, position }}
-        className="top-[50%] left-[50%] h-[20rem] w-[20rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-100 text-sm select-none sm:h-[24rem] sm:w-[24rem] md:text-base dark:border-pink-100/15"
-      >
-        <p className="absolute -top-32 left-0 max-w-[30vw] opacity-90 sm:-top-20 sm:-left-20 sm:max-w-[40vw] md:-top-14 md:-left-20 lg:-top-20 lg:-left-36">
-          I livestream weekly using OBS and PTZ Optics for the{" "}
-          <Link
-            href="https://themadeleine.edu"
-          >
-            Madeleine Parish.
-          </Link>
-        </p>
-        <p className="absolute -top-24 right-0 max-w-[28vw] text-right opacity-90 sm:-right-28 sm:max-w-[40vw] md:top-8 md:-right-36 md:max-w-60 lg:top-24 lg:-right-56">
-          I also run other A/V positions, like mixing live sound during
-          performances, for the Parish. <Link
-          href="/work/av-livestreaming"
-          
-        >
-          Learn more
-        </Link>
-        </p>
-        <p className="absolute -bottom-24 max-w-72 text-left opacity-90 sm:-bottom-24 sm:-left-28 lg:-bottom-20 lg:-left-56 lg:max-w-80">
-          Additionally, I am a theatre technician with experience in designing
-          and hanging/focusing lights, projection, networking/patching, and
-          carpentry. <Link
-          href="/work/tech-theatre"
-          
-        >
-          Learn more
-        </Link>
-        </p>
-        <motion.div className="flex">
-          <div className="mt-56 h-fit bg-neutral-50 sm:mt-64 dark:bg-neutral-950">
-            <QLabLogo className="size-8 rounded-full opacity-50 sm:size-9 md:size-10" />
-          </div>
-          <div className="-mt-6 ml-26 h-fit bg-neutral-50 sm:-mt-6 sm:ml-34 dark:bg-neutral-950">
-            <MakitaLogo className="size-12 text-black opacity-50 invert-0 sm:size-13 md:size-14 dark:text-white dark:invert" />
-          </div>
-          <div className="mt-56 ml-20 h-fit bg-neutral-50 sm:mt-64 sm:ml-28 dark:bg-neutral-950">
-            <SoundcraftLogo className="size-16 fill-black opacity-75 sm:size-17 md:size-18 dark:*:fill-white" />
-          </div>
-        </motion.div>
-      </motion.div>
-      <motion.div
-        style={{ display, opacity, position }}
-        className="top-[50%] left-[50%] h-[16rem] w-[16rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-200 select-none sm:h-[18rem] sm:w-[18rem] dark:border-pink-200/40"
-      >
-        <motion.div className="flex">
-          <div className="mt-16 -ml-2 h-fit bg-neutral-50 sm:mt-[3.5rem] sm:-ml-2 dark:bg-neutral-950">
-            <OBSLogo className="size-8 opacity-50 sm:size-9 md:size-10" />
-          </div>
-          <div className="mt-60 ml-[5rem] h-fit rounded-full bg-neutral-50 sm:mt-[16.5rem] sm:ml-[5.5rem] dark:bg-neutral-950">
-            <ETCLogo className="size-14 fill-black opacity-75 dark:*:fill-white" />
-          </div>
-          <div className="mt-[3.5rem] ml-14 h-fit bg-neutral-50 dark:bg-neutral-950">
-            <AudixLogo className="size-14 fill-neutral-950 stroke-neutral-950 text-black opacity-75 dark:fill-white dark:stroke-white dark:text-white" />
-          </div>
-        </motion.div>
-      </motion.div>
+    <motion.div
+      style={{ display, opacity, position }}
+      className="relative top-[50%] left-[50%] h-88 w-88 translate-x-[-50%] translate-y-[-50%] text-black select-none md:h-104 md:w-104"
+    >
+     
 
-      <motion.div
-        style={{ display, opacity, position }}
-        className="top-[50%] left-[50%] h-[10rem] w-[10rem] translate-x-[-50%] translate-y-[-50%] rounded-full border border-pink-300 select-none sm:h-[12rem] sm:w-[12rem] dark:border-pink-300/75"
-      />
-    </>
+      {/* Portal core */}
+      <div className="absolute inset-0 rounded-full border-2 border-black bg-white shadow-[10px_10px_0_#000]">
+        <div className="checker-surface absolute inset-0 rounded-full opacity-20" />
+        <div className="pointer-events-none absolute inset-0 translate-x-0.75 -translate-y-0.5 rounded-full border-2 border-[#FFE121]" />
+        <div className="pointer-events-none absolute inset-0 -translate-x-0.75 translate-y-0.5 rounded-full border-2 border-[#FF80F2]" />
+
+        <div className="absolute inset-8 rounded-full border-2 border-black bg-white/80 shadow-[6px_6px_0_#000]" />
+        <div className="absolute inset-16 rounded-full border-2 border-black bg-[#22FF00]/25" />
+
+        {/* Center chip */}
+          <div className="absolute top-1/2 left-1/2 w-fit -translate-x-1/2 -translate-y-1/2 border-2 rounded-full p-4! border-black bg-white px-3 py-2 text-center font-mono text-xs font-black uppercase shadow-[5px_5px_0_#000]">
+        <Icon name="StarGroup2" size="xl" className="opacity-90" />
+        </div>
+
+        {/* Tool badges */}
+        <div className="absolute inset-0">
+          <div className="absolute top-10 left-6 rounded-full border-2 border-black bg-white p-2 shadow-[4px_4px_0_#000]">
+            <OBSLogo className="size-7 opacity-90 md:size-8" />
+          </div>
+          <div className="absolute top-10 right-6 rounded-full border-2 border-black bg-white p-2 shadow-[4px_4px_0_#000]">
+            <QLabLogo className="size-7 rounded-full opacity-90 md:size-8" />
+          </div>
+          <div className="absolute bottom-10 left-8 rounded-full border-2 border-black bg-white p-2 shadow-[4px_4px_0_#000]">
+            <ETCLogo className="size-12 fill-black opacity-90" />
+          </div>
+          <div className="absolute right-8 bottom-10 rounded-full border-2 border-black bg-white p-2 shadow-[4px_4px_0_#000]">
+            <AudixLogo className="size-12 fill-neutral-950 stroke-neutral-950 text-black opacity-90" />
+          </div>
+          <div className="absolute top-12 left-1/2 -translate-x-1/2 rounded-full border-2 border-black bg-white px-3 py-2 shadow-[4px_4px_0_#000]">
+            <MakitaLogo className="size-12 text-black opacity-80" />
+          </div>
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 rounded-full border-2 border-black bg-white px-3 py-2 shadow-[4px_4px_0_#000]">
+            <SoundcraftLogo className="size-14 fill-black opacity-80" />
+          </div>
+        </div>
+      </div>
+
+      {/* Callouts */}
+      <p className="y2k-card absolute -top-32 -left-10 w-[min(22rem,85vw)] p-4 text-xs leading-snug md:-top-14 md:-left-48 md:w-[min(24rem,40vw)] md:text-sm">
+        <span className="flex items-start gap-2">
+          <Icon name="ShootingStar" size="sm" className="opacity-70" />
+          <span>
+            I livestream weekly for the{" "}
+            <Link href="https://themadeleine.edu">Madeleine Parish</Link>
+            {" "} using OBS and PTZ optics.
+          </span>
+        </span>
+      </p>
+      <p className="y2k-card absolute -top-18 right-0 w-[min(22rem,85vw)] p-4 text-right text-xs leading-snug md:top-16 md:-right-48 md:w-[min(22rem,40vw)] md:text-sm">
+        I als mix live sound and run A/V{" "}
+        <Link href="/work/av-livestreaming">See more</Link>
+      </p>
+      <p className="y2k-card absolute -bottom-20 left-10 w-[min(22rem,85vw)] p-4 text-xs leading-snug md:-bottom-10 md:-left-32 md:w-[min(24rem,40vw)] md:text-sm">
+        Additionally, I am a theatre technician with experience in designing and hanging/focusing lights, projection, networking/patching, and carpentry.{" "}<Link href="/work/tech-theatre">See more</Link>
+      </p>
+    </motion.div>
   );
 }

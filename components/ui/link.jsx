@@ -7,7 +7,7 @@ export function Link({ className, children, href, ...props }) {
   return (
     <NextLink
       className={cn(
-        "text-pink-400 transition-all hover:text-pink-500 dark:text-pink-200 dark:hover:text-pink-300",
+        "font-black text-[#FF80F2] underline decoration-[#22FF00] decoration-2 underline-offset-4 transition-all hover:bg-[#22FF00] hover:text-black hover:decoration-black",
         className,
       )}
       href={href}

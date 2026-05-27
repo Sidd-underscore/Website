@@ -1,8 +1,6 @@
 import { Footer } from "@/components/home/footer";
 import { Navbar } from "@/components/home/navbar";
 import { TransitionLayout } from "@/components/home/transition-layout";
-import { ThemeProvider } from "@/components/ui/theme-provider";
-import { AppProvider } from "@/lib/utils";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Archivo } from "next/font/google";
@@ -33,27 +31,28 @@ export function TailwindIndicator() {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <meta name="theme-color" content="#ffffff" />
-      </head>
+    <html
+      data-scroll-behavior="smooth"
+      lang="en"
+      suppressHydrationWarning
+      className="relative"
+    >
+      <head>{/* <meta name="theme-color" content="#050505" /> */}</head>
       <body
-        className={`${archivo.className} justify-left mt-12 flex flex-col items-center overflow-x-hidden bg-neutral-50 p-6 pb-0! text-neutral-900 md:p-12 2xl:p-24 dark:bg-neutral-950 dark:text-white`}
+        className={`${archivo.className} relative justify-left flex min-h-screen flex-col items-center overflow-x-hidden overflow-y-scroll p-3 pb-0! text-white selection:bg-[#FFE121] selection:text-black md:p-8 2xl:p-14`}
+        style={{ scrollbarGutter: "stable" }}
       >
-        <ThemeProvider>
-          <AppProvider>
-            <Navbar />
-            <main className="mt-6 min-h-screen w-full max-w-5xl has-[.no-max-w]:max-w-none lg:mt-8 xl:mt-10 2xl:mt-0">
-              <TransitionLayout>{children}</TransitionLayout>
-            </main>
-            <Footer />
+        <Navbar />
+        <main className="relative z-10 mt-12 min-h-screen w-full max-w-6xl has-[.no-max-w]:max-w-none lg:mt-8 xl:mt-10">
+          <TransitionLayout>{children}</TransitionLayout>
+        </main>
+        <Footer />
 
-            {/* For screen sizes */}
-            <TailwindIndicator />
-          </AppProvider>
-        </ThemeProvider>
+        {/* For screen sizes */}
+        <TailwindIndicator />
         <Analytics />
         <SpeedInsights />
+          <div className="pointer-events-none inset-0 fixed z-999 block h-screen w-screen bg-[linear-gradient(rgba(18,16,16,0)50%,rgba(0,0,0,0.5)50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-size-[100%_3px,2px_100%] opacity-25"/>
       </body>
     </html>
   );

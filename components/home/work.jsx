@@ -1,13 +1,14 @@
 "use client";
 
+import { Icon } from "@/components/ui/icon";
 import { Link } from "@/components/ui/link";
 import { work } from "@/lib/work";
 import {
-  SewingPinFilledIcon,
-  CalendarIcon,
-  MixerVerticalIcon,
-  Cross2Icon,
-} from "@radix-ui/react-icons";
+  Pin,
+  CalendarClock,
+  Settings2,
+  X,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn, formatArrayIntoSentence } from "@/lib/utils";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import autoAnimate from "@formkit/auto-animate";
 
 export function Work({ className, defaultWorkTypes, title }) {
@@ -51,34 +52,37 @@ export function Work({ className, defaultWorkTypes, title }) {
     defaultWorkTypes || workData.types,
   );
 
-  const [worksToDisplay, setWorksToDisplay] = useState([]);
-
-  useEffect(() => {
-    let tempWorks = work.filter((workItem) => {
+  const worksToDisplay = useMemo(
+    () =>
+      work.filter((workItem) => {
       const anyTypeIncluded = workItem.type.some((type) =>
         workTypesToShow.includes(type),
       );
       return anyTypeIncluded;
-    });
+      }),
+    [workTypesToShow],
+  );
 
-    setWorksToDisplay(tempWorks);
-  }, [workTypesToShow]);
+  const workHeadingPrefix = formatArrayIntoSentence(
+    defaultWorkTypes || [],
+    undefined,
+    undefined,
+    true,
+  );
+  const workHeading =
+    title || `${workHeadingPrefix ? workHeadingPrefix + " " : ""}Work Experience`;
 
   return (
-    <div className={cn("my-32 w-full text-left", className)}>
-      <div className="flex items-end justify-between space-x-2">
+    <section className={cn("my-32 w-full text-left", className)}>
+      <div className="flex items-end justify-between gap-2">
         <div>
-          <h2 className="text-4xl font-semibold">
-            {title
-              ? title
-              : formatArrayIntoSentence(
-                  defaultWorkTypes || [],
-                  undefined,
-                  undefined,
-                  true,
-                ) + "Work Experience"}
-          </h2>
-          <p className="mt-1 text-sm">
+          <div className="flex w-fit items-center gap-3 border-2 border-black bg-[#FF80F2] px-3 py-2 text-black shadow-[5px_5px_0_#000]">
+            <Icon name="StarGroup2" size="lg" />
+            <h2 className="text-4xl font-black uppercase leading-none tracking-normal">
+              {workHeading}
+            </h2>
+          </div>
+          <p className="mt-4 max-w-3xl border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black shadow-[4px_4px_0_#000]">
             The best testament of knowledge is putting it in practice. Here is
             some of my work experience
             {defaultWorkTypes
@@ -110,8 +114,8 @@ export function Work({ className, defaultWorkTypes, title }) {
       >
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="h-9 space-x-2 px-4 py-2">
-              <MixerVerticalIcon /> <span>Filter</span>
+            <Button variant="outline" className="h-9 gap-2 px-4 py-2">
+              <Settings2 /> <span>Filter</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-56 capitalize">
@@ -138,27 +142,27 @@ export function Work({ className, defaultWorkTypes, title }) {
         {/* Active filter chips */}
         {workTypesToShow.length < workData.types.length && (
           <>
-            <div className="h-6 w-px bg-neutral-300 dark:bg-neutral-700" />
             {workTypesToShow.map((type) => (
               <Button
                 key={type}
                 variant="secondary"
-                className="h-8 gap-1.5 rounded-full px-3 py-1 text-sm capitalize"
+                className="h-8 gap-1.5 px-3 py-1 text-sm capitalize"
                 onClick={() =>
                   setWorkTypesToShow(workTypesToShow.filter((t) => t !== type))
                 }
               >
                 {type}
-                <Cross2Icon className="size-3.5" />
+                <X className="size-3.5" />
               </Button>
             ))}
             {workTypesToShow.length > 0 && (
               <Button
-                variant="ghost"
-                className="h-8 px-2 text-sm text-neutral-500 hover:text-neutral-700 dark:text-neutral-400 dark:hover:text-neutral-200"
+                variant="destructive"
+                size="icon"
+                className="h-8 px-2 text-sm"
                 onClick={() => setWorkTypesToShow(workData.types)}
               >
-                Clear all
+                <X />
               </Button>
             )}
           </>
@@ -166,35 +170,39 @@ export function Work({ className, defaultWorkTypes, title }) {
       </div>
       <div
         ref={parent}
-        className={`relative mt-12 w-full ${worksToDisplay.length > 0 ? "grid grid-flow-row grid-cols-1 gap-4 lg:grid-cols-2" : ""} text-center md:text-left lg:mb-0`}
+        className={`relative mt-12 w-full ${worksToDisplay.length > 0 ? "grid grid-flow-row grid-cols-1 gap-6 lg:grid-cols-2" : ""} text-center md:text-left lg:mb-0`}
       >
         {worksToDisplay.length > 0 ? (
           worksToDisplay.map((workItem) => (
             <div
               key={workItem.name}
-              className="group relative h-full rounded-lg border border-neutral-300/50 bg-neutral-200/25 transition-colors dark:border-neutral-700/50 dark:bg-neutral-800/50"
+              className="y2k-card group relative h-full overflow-hidden transition-[translate,box-shadow] hover:-translate-y-1 hover:shadow-[10px_10px_0_#000]"
             >
+              <Icon
+                name="Globe"
+                className="absolute top-3 right-3 opacity-20 transition group-hover:opacity-60"
+              />
               <div className="h-full">
                 <div className="z-30 flex h-full flex-col justify-between px-5 py-4 text-left">
-                  <div className="space-y-1">
-                    <h3 className={`mb-3 text-2xl font-semibold`}>
+                  <div className="flex flex-col gap-1">
+                    <h3 className="mb-3 pr-12 text-2xl font-black uppercase tracking-normal">
                       {workItem.name}
                     </h3>
                     <p
-                      className={`m-0 flex items-center space-x-2 text-sm opacity-50`}
+                      className="m-0 flex items-center gap-2 border-l-4 border-[#22FF00] pl-2 text-sm font-bold opacity-80"
                     >
-                      <SewingPinFilledIcon className="size-4 shrink-0" />
+                      <Pin className="size-4 shrink-0" />
                       <span>{workItem.location}</span>
                     </p>
 
                     <p
-                      className={`m-0 flex items-center space-x-2 text-sm opacity-50`}
+                      className="m-0 flex items-center gap-2 border-l-4 border-[#FFE121] pl-2 text-sm font-bold opacity-80"
                     >
-                      <CalendarIcon className="size-4 shrink-0" />
+                      <CalendarClock className="size-4 shrink-0" />
                       <span>{workItem.dates}</span>
                     </p>
 
-                    <div className={`m-4! text-sm`}>
+                    <div className="m-4! text-sm font-medium">
                       <ul className="list-disc text-left">
                         {workItem.details.map((item) => (
                           <li className="opacity-75" key={item}>
@@ -207,7 +215,7 @@ export function Work({ className, defaultWorkTypes, title }) {
 
                   <div className="mt-4 flex justify-center md:justify-start">
                     <Link
-                      className="w-fit group-hover:border-pink-200 group-hover:text-pink-200 hover:group-hover:border-pink-300 hover:group-hover:text-pink-300"
+                      className="w-fit border-2 border-black bg-[#FFE121] px-3 py-2 text-black no-underline shadow-[4px_4px_0_#000] group-hover:bg-[#22FF00]"
                       href={"/work/" + workItem.id}
                     >
                       Learn more
@@ -232,6 +240,6 @@ export function Work({ className, defaultWorkTypes, title }) {
           </p>
         )}
       </div>
-    </div>
+    </section>
   );
 }
