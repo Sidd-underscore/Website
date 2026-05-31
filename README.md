@@ -1,6 +1,4 @@
-# `Welcome, traveler!`
-
-![sidd logomark](https://camo.githubusercontent.com/54fcab1bf59380b0e3f99fa7e8f473744a426bea4d1994b3c159a768472aa36c/68747470733a2f2f736964642e73747564696f2f6f70656e67726170682d696d6167652e706e67)
+![sidd logomark](https://www.sidd.studio/images/sidd.svg)
 
 This repo stores the code for my personal website, [sidd.studio](https://sidd.studio). Feel free to browse through the files if you are looking to mimic (or ~~steal~~ borrow) any components in my website! I love open source, and how it allows people to build better, together.
 
@@ -18,4 +16,4 @@ And hosted on Vercel!
 
 ---
 
-That's about it! Feel free to continue your journey. Maybe even check out [sidd.studio/photos](https://sidd.studio/photos)?
+That's about it! Feel free to continue your journey.
