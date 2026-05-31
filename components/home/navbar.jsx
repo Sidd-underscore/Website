@@ -41,9 +41,9 @@ export function Navbar() {
       >
         <Link
           href="/"
-          className="flex items-center gap-2 border-0 bg-black px-2 py-1 font-mono text-sm font-black text-[#22FF00] no-underline hover:bg-[#FF80F2] hover:text-black md:text-base"
+          className="flex items-center group gap-2 border-0 bg-black px-2 py-1 font-mono text-sm font-black text-[#22FF00] no-underline hover:bg-[#FF80F2] hover:text-black md:text-base"
         >
-          <Icon name="StarShadow" className="size-5 invert" />
+          <Icon name="StarShadow" className="size-5 invert group-hover:invert-0 transition-all" />
           <span>SIDD</span>
         </Link>
 

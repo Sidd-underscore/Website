@@ -32,7 +32,7 @@ export function HomeSplash() {
             </div>
 
             <p className="mt-4 bg-white px-4 py-3 text-xl leading-tight font-black text-black shadow-[6px_6px_0_#000] md:text-3xl">
-              i code, film and edit videos, run light boards, and more{" "}
+              I code, produce films, design lights, and more{" "}
             </p>
           </div>
 

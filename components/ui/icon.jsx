@@ -81,8 +81,11 @@ export function Icon({
       {title ? <title>{title}</title> : null}
       <image
         href="/icons.svg"
-        width="507"
+        width="504"
         height="84"
+        x="0"
+        y="0"
+        preserveAspectRatio="xMinYMin meet"
         className={cn("pointer-events-none", imageClassName)}
       />
     </svg>
