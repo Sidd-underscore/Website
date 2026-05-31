@@ -27,12 +27,6 @@ export default function sitemap() {
       priority: 0.5,
     },
     {
-      url: BASE_URL + "/photos",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
-    {
       url: BASE_URL + "/projects",
       lastModified: new Date(),
       changeFrequency: "monthly",
