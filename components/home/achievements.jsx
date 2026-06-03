@@ -9,7 +9,7 @@ import {
   Send,
   Settings2,
   X,
-  Trophy
+  Trophy,
 } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { cn, formatArrayIntoSentence } from "@/lib/utils";
@@ -63,7 +63,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
       <div>
         <div className="flex w-fit items-center gap-3 border-2 border-black bg-[#FFE121] px-3 py-2 text-black shadow-[5px_5px_0_#000]">
           <Icon name="StarGroup3" size="lg" />
-          <h2 className="text-4xl font-black uppercase leading-none tracking-normal">
+          <h2 className="text-3xl leading-none font-black tracking-normal uppercase">
             {defaultAchievementTypes
               ? formatArrayIntoSentence(
                   defaultAchievementTypes,
@@ -74,9 +74,44 @@ export function Achievements({ className, defaultAchievementTypes }) {
               : "Achievements"}
           </h2>
         </div>
-        <p className="mt-4 max-w-2xl border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black shadow-[4px_4px_0_#000]">
-          Recognition I&apos;ve received for my work and experience.
-        </p>
+        <div className="mt-4 flex items-start justify-between">
+          <p className="max-w-2xl border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black shadow-[4px_4px_0_#000]">
+            Recognition I&apos;ve received for my work and experience.
+          </p>
+          <DropdownMenu modal={true}>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="gap-2 px-4 py-2">
+                <Settings2 className="size-4" />
+                <span>Filter</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              sideOffset={8}
+              className="w-56 capitalize"
+            >
+              {achievementData.types.map((type) => (
+                <DropdownMenuCheckboxItem
+                  key={type}
+                  onSelect={(e) => e.preventDefault()}
+                  checked={achievementTypesToShow.includes(type)}
+                  onCheckedChange={(v) =>
+                    v
+                      ? setAchievementTypesToShow([
+                          ...achievementTypesToShow,
+                          type,
+                        ])
+                      : setAchievementTypesToShow(
+                          achievementTypesToShow.filter((t) => t !== type),
+                        )
+                  }
+                >
+                  {type}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
 
       {/* Filter row */}
@@ -84,44 +119,13 @@ export function Achievements({ className, defaultAchievementTypes }) {
         ref={filterRowRef}
         className="mt-6 flex flex-wrap items-center gap-2"
       >
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="h-9 gap-2 px-4 py-2">
-              <Settings2 />
-              <span>Filter</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-56 capitalize">
-            <DropdownMenuLabel>Types</DropdownMenuLabel>
-            {achievementData.types.map((type) => (
-              <DropdownMenuCheckboxItem
-                key={type}
-                onSelect={(e) => e.preventDefault()}
-                checked={achievementTypesToShow.includes(type)}
-                onCheckedChange={(v) =>
-                  v
-                    ? setAchievementTypesToShow([
-                        ...achievementTypesToShow,
-                        type,
-                      ])
-                    : setAchievementTypesToShow(
-                        achievementTypesToShow.filter((t) => t !== type),
-                      )
-                }
-              >
-                {type}
-              </DropdownMenuCheckboxItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
         {achievementTypesToShow.length < achievementData.types.length && (
           <>
             {achievementTypesToShow.map((type) => (
               <Button
                 key={type}
                 variant="secondary"
-                className="h-8 px-3 capitalize"
+                className="px-3 capitalize"
                 onClick={() =>
                   setAchievementTypesToShow(
                     achievementTypesToShow.filter((t) => t !== type),
@@ -132,14 +136,14 @@ export function Achievements({ className, defaultAchievementTypes }) {
                 <X className="ml-1 size-3.5" />
               </Button>
             ))}
-           <Button
-                variant="destructive"
-                size="icon"
-                className="h-8 px-2 text-sm"
-                onClick={() => setAchievementTypesToShow(achievementData.types)}
-              >
-                <X />
-              </Button>
+            <Button
+              variant="destructive"
+              size="icon"
+              className="px-2 text-sm"
+              onClick={() => setAchievementTypesToShow(achievementData.types)}
+            >
+              <X />
+            </Button>
           </>
         )}
       </div>
@@ -165,7 +169,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
               <div className={`h-full ${achievement.split ? "space-y-4" : ""}`}>
                 <div className="z-30 flex h-full flex-col justify-between px-5 py-4">
                   <div>
-                    <h3 className="mb-3 pr-12 text-2xl font-black uppercase tracking-normal">
+                    <h3 className="mb-3 pr-12 text-2xl font-black tracking-normal uppercase">
                       {achievement.name}
                     </h3>
                     <p className="flex flex-wrap items-center gap-2 border-l-4 border-[#FF80F2] pl-2 text-xs font-bold opacity-80">
@@ -252,8 +256,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
                         target="_blank"
                         href={achievement.link.url}
                       >
-                        <span> {achievement.link.text}</span>{" "}
-                        <MoveUpRight />
+                        <span> {achievement.link.text}</span> <MoveUpRight />
                       </Link>
                     </div>
                   )}

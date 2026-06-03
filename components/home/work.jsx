@@ -3,12 +3,7 @@
 import { Icon } from "@/components/ui/icon";
 import { Link } from "@/components/ui/link";
 import { work } from "@/lib/work";
-import {
-  Pin,
-  CalendarClock,
-  Settings2,
-  X,
-} from "lucide-react";
+import { Pin, CalendarClock, Settings2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -55,10 +50,10 @@ export function Work({ className, defaultWorkTypes, title }) {
   const worksToDisplay = useMemo(
     () =>
       work.filter((workItem) => {
-      const anyTypeIncluded = workItem.type.some((type) =>
-        workTypesToShow.includes(type),
-      );
-      return anyTypeIncluded;
+        const anyTypeIncluded = workItem.type.some((type) =>
+          workTypesToShow.includes(type),
+        );
+        return anyTypeIncluded;
       }),
     [workTypesToShow],
   );
@@ -70,40 +65,70 @@ export function Work({ className, defaultWorkTypes, title }) {
     true,
   );
   const workHeading =
-    title || `${workHeadingPrefix ? workHeadingPrefix + " " : ""}Work Experience`;
+    title ||
+    `${workHeadingPrefix ? workHeadingPrefix + " " : ""}Work Experience`;
 
   return (
     <section className={cn("my-32 w-full text-left", className)}>
-      <div className="flex items-end justify-between gap-2">
-        <div>
+      <div className="flex items-end justify-between gap-2 w-full">
+        <div className="w-full">
           <div className="flex w-fit items-center gap-3 border-2 border-black bg-[#FF80F2] px-3 py-2 text-black shadow-[5px_5px_0_#000]">
             <Icon name="StarGroup2" size="lg" />
-            <h2 className="text-4xl font-black uppercase leading-none tracking-normal">
+            <h2 className="text-3xl leading-none font-black tracking-normal uppercase">
               {workHeading}
             </h2>
           </div>
-          <p className="mt-4 max-w-3xl border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black shadow-[4px_4px_0_#000]">
-            The best testament of knowledge is putting it in practice. Here is
-            some of my work experience
-            {defaultWorkTypes
-              ? "that are " +
-                formatArrayIntoSentence(
-                  defaultWorkTypes || [],
-                  undefined,
-                  ", or ",
-                ) +
-                " related"
-              : null}
-            ! My full resume can be found{" "}
-            <Link
-              className="inline! w-fit"
-              target="_blank"
-              href="https://docs.google.com/document/u/1/d/e/2PACX-1vQXvkuGlTvrrmcohbt0IMEwqICI7LXFGADMdX1dmSIJqNIKYZjiAamP3D5tZEEXJYuOZX0zUMpmSXoZ/pub"
-            >
-              here
-            </Link>
-            .
-          </p>
+          <div className="mt-4 flex items-start justify-between">
+            <p className="max-w-2xl border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black shadow-[4px_4px_0_#000]">
+              The best testament of knowledge is putting it in practice. Here is
+              some of my work experience
+              {defaultWorkTypes
+                ? "that are " +
+                  formatArrayIntoSentence(
+                    defaultWorkTypes || [],
+                    undefined,
+                    ", or ",
+                  ) +
+                  " related"
+                : null}
+              ! My full resume can be found{" "}
+              <Link
+                className="inline! w-fit"
+                target="_blank"
+                href="https://docs.google.com/document/u/1/d/e/2PACX-1vQXvkuGlTvrrmcohbt0IMEwqICI7LXFGADMdX1dmSIJqNIKYZjiAamP3D5tZEEXJYuOZX0zUMpmSXoZ/pub"
+              >
+                here
+              </Link>
+              .
+            </p>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="gap-2 px-4 py-2">
+                  <Settings2 className="size-4" />
+                  <span>Filter</span>
+                </Button>
+              </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" sideOffset={8} className="w-56 capitalize">
+                {workData.types.map((type) => (
+                  <DropdownMenuCheckboxItem
+                    key={type}
+                    onSelect={(event) => event.preventDefault()}
+                    checked={workTypesToShow?.includes(type)}
+                    onCheckedChange={(e) =>
+                      e
+                        ? setWorkTypesToShow([...workTypesToShow, type])
+                        : setWorkTypesToShow(
+                            workTypesToShow.filter((t) => t != type),
+                          )
+                    }
+                  >
+                    {type}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
 
@@ -112,33 +137,6 @@ export function Work({ className, defaultWorkTypes, title }) {
         ref={filterRowRef}
         className="mt-6 flex flex-wrap items-center gap-2"
       >
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="h-9 gap-2 px-4 py-2">
-              <Settings2 /> <span>Filter</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-56 capitalize">
-            <DropdownMenuLabel>Types</DropdownMenuLabel>
-            {workData.types.map((type) => (
-              <DropdownMenuCheckboxItem
-                key={type}
-                onSelect={(event) => event.preventDefault()}
-                checked={workTypesToShow?.includes(type)}
-                onCheckedChange={(e) =>
-                  e
-                    ? setWorkTypesToShow([...workTypesToShow, type])
-                    : setWorkTypesToShow(
-                        workTypesToShow.filter((t) => t != type),
-                      )
-                }
-              >
-                {type}
-              </DropdownMenuCheckboxItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
         {/* Active filter chips */}
         {workTypesToShow.length < workData.types.length && (
           <>
@@ -146,7 +144,7 @@ export function Work({ className, defaultWorkTypes, title }) {
               <Button
                 key={type}
                 variant="secondary"
-                className="h-8 gap-1.5 px-3 py-1 text-sm capitalize"
+                className="gap-1.5 px-3 py-1 text-sm capitalize"
                 onClick={() =>
                   setWorkTypesToShow(workTypesToShow.filter((t) => t !== type))
                 }
@@ -159,7 +157,7 @@ export function Work({ className, defaultWorkTypes, title }) {
               <Button
                 variant="destructive"
                 size="icon"
-                className="h-8 px-2 text-sm"
+                className="px-2 text-sm"
                 onClick={() => setWorkTypesToShow(workData.types)}
               >
                 <X />
@@ -185,19 +183,15 @@ export function Work({ className, defaultWorkTypes, title }) {
               <div className="h-full">
                 <div className="z-30 flex h-full flex-col justify-between px-5 py-4 text-left">
                   <div className="flex flex-col gap-1">
-                    <h3 className="mb-3 pr-12 text-2xl font-black uppercase tracking-normal">
+                    <h3 className="mb-3 pr-12 text-2xl font-black tracking-normal uppercase">
                       {workItem.name}
                     </h3>
-                    <p
-                      className="m-0 flex items-center gap-2 border-l-4 border-[#22FF00] pl-2 text-sm font-bold opacity-80"
-                    >
+                    <p className="m-0 flex items-center gap-2 border-l-4 border-[#22FF00] pl-2 text-sm font-bold opacity-80">
                       <Pin className="size-4 shrink-0" />
                       <span>{workItem.location}</span>
                     </p>
 
-                    <p
-                      className="m-0 flex items-center gap-2 border-l-4 border-[#FFE121] pl-2 text-sm font-bold opacity-80"
-                    >
+                    <p className="m-0 flex items-center gap-2 border-l-4 border-[#FFE121] pl-2 text-sm font-bold opacity-80">
                       <CalendarClock className="size-4 shrink-0" />
                       <span>{workItem.dates}</span>
                     </p>

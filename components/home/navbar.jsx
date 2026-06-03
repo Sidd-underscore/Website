@@ -62,9 +62,10 @@ export function Navbar() {
 
               <Icon
                 name={path === item.link ? "CircleStarHollow" : "CircleStarFill"}
+                size="sm"
               />
-              {isDesktop && item.label}
-              {!isDesktop && item.shortLabel}
+              <span className="sm:hidden">{item.shortLabel}</span>
+              <span className="hidden sm:block">{item.label}</span>
             </Link>
           ))}
         </div>

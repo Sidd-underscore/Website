@@ -1,7 +1,7 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -41,7 +41,7 @@ export default function DesignSplash() {
   const [endTextStyles, setEndTextStyles] = useState(["font-bold"]);
 
   return (
-    <div className="relative mt-8 mb-96 text-black">
+    <div className="relative mb-96 text-black">
       <div className="mb-16 flex w-fit items-center gap-3 border-2 border-black bg-[#FF80F2] px-3 py-2 text-black shadow-[5px_5px_0_#000]">
         <Icon name="Convergence" />
         <h1 className="text-5xl font-black tracking-normal uppercase">
@@ -49,7 +49,7 @@ export default function DesignSplash() {
         </h1>
       </div>
       <div className="z-20">
-        <div className="relative my-24 overscroll-y-contain">
+        <div className="relative my-48 overscroll-y-contain">
           <TextBox textContent="I have been passionate about design since a young age." />
         </div>
 
@@ -83,7 +83,7 @@ export default function DesignSplash() {
           </p>
         </div>
 
-        <div className="mt-10 text-4xl">
+        <div className="mt-10 text-3xl">
           <p>
             ...where I found my love for <br />
             <span className={endTextStyles.toString().replaceAll(",", " ")}>
@@ -122,56 +122,48 @@ export function TextBox({ textContent }) {
 
   const inputParentRef = useRef(null);
   const inputRef = useRef(null);
+  const measureRef = useRef(null);
 
   const [width, setWidth] = useState();
   const [height, setHeight] = useState(98);
   const [top, setTop] = useState(-150);
   const [left, setLeft] = useState(0);
-  const [fontSize, setFontSize] = useState(36);
   const [isDragging, setIsDragging] = useState(false);
 
-  const minFontSize = 10;
+  const minHeight = 98;
+  const mobileTop = -220;
+  const desktopTop = -150;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (inputParentRef.current) {
-      const { width, height } = inputRef.current.getBoundingClientRect();
+      const { width } = inputRef.current.getBoundingClientRect();
       setWidth(width);
-      setHeight(height);
     }
   }, []);
 
-  const adjustFontSize = () => {
-    const input = inputRef.current;
+  useLayoutEffect(() => {
+    const isMobile = window.matchMedia("(max-width: 639px)").matches;
+    setTop(isMobile ? mobileTop : desktopTop);
+  }, []);
+
+  const updateHeightForText = (content) => {
+    const input = measureRef.current;
 
     if (!input) return;
 
-    let currentFontSize = fontSize;
-    input.style.fontSize = `${currentFontSize}px`;
-
-    const isOverflowing = () => {
-      return (
-        input.scrollWidth > input.clientWidth ||
-        input.scrollHeight > input.clientHeight
-      );
-    };
-
-    while (!isOverflowing() && currentFontSize < 500) {
-      currentFontSize += 1;
-      input.style.fontSize = `${currentFontSize}px`;
-    }
-
-    while (isOverflowing() && currentFontSize > minFontSize) {
-      currentFontSize -= 1;
-      input.style.fontSize = `${currentFontSize}px`;
-    }
-
-    setFontSize(currentFontSize);
+    input.textContent = content;
+    setHeight(Math.max(minHeight, Math.ceil(input.scrollHeight)));
   };
+
+  useLayoutEffect(() => {
+    if (width) {
+      updateHeightForText(textContent || "");
+    }
+  }, [textContent, width]);
 
   useEffect(() => {
     if (textContent) {
       let currentIndex = 0;
-      let lastTypedText = "";
       let lastTime = 0;
       const typingDelay = 50;
 
@@ -179,13 +171,8 @@ export function TextBox({ textContent }) {
         if (time - lastTime >= typingDelay) {
           const currentTypedText = textContent.substring(0, currentIndex + 1);
 
-          if (lastTypedText !== currentTypedText) {
-            setText(currentTypedText);
-            adjustFontSize();
-            lastTypedText = currentTypedText;
-            currentIndex++;
-            adjustFontSize();
-          }
+          setText(currentTypedText);
+          currentIndex++;
 
           lastTime = time;
         }
@@ -283,8 +270,6 @@ export function TextBox({ textContent }) {
       setHeight(newHeight);
       setLeft(newLeft);
       setTop(newTop);
-
-      adjustFontSize();
     };
 
     const stopMove = () => {
@@ -305,25 +290,29 @@ export function TextBox({ textContent }) {
   return (
     <div
       ref={inputParentRef}
-      className="absolute z-20 mt-10"
+      className="absolute z-99999 mt-10"
       style={{
         width: width || "100%",
         height,
         top,
         left,
-        fontSize: `${fontSize}px`,
       }}
     >
       <textarea
         type="text"
         ref={inputRef}
-        className="h-full w-full resize-none overflow-hidden border-2 border-black bg-white p-4 text-black shadow-[5px_5px_0_#000] ring-0 outline-hidden focus:ring-0 focus:outline-hidden"
+        className="h-full w-full resize-none overflow-hidden border-2 border-black bg-white p-4 text-2xl leading-loose text-black ring-0 outline-hidden focus:ring-0 focus:outline-hidden"
         value={text}
         onChange={(e) => {
           setText(e.target.value);
-          adjustFontSize();
         }}
         autoFocus={true}
+      />
+      <div
+        ref={measureRef}
+        aria-hidden="true"
+        tabIndex={-1}
+        className="pointer-events-none absolute -z-10 box-border w-full border-2 border-black bg-white p-4 text-2xl leading-loose wrap-break-word whitespace-pre-wrap text-black opacity-0"
       />
 
       {/* Edge resize handles */}
@@ -394,176 +383,173 @@ export function UIGallery({
   };
 
   return (
-    <div className="absolute z-40 overflow-visible -right-45 -bottom-86 flex scale-75 -rotate-12 gap-4 sm:-right-12 sm:-bottom-80 sm:w-full sm:scale-100 sm:rotate-0">
-      <div className="checker-surface absolute -z-10 h-full w-full bg-[#FFE121] mask-[radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)] opacity-60" />
+    <div className="absolute -right-4 -bottom-86 -left-4 z-40 h-fit w-[100vw+32px] overflow-x-hidden sm:-right-4 md:-right-8 sm:left-0 sm:max-w-screen sm:-bottom-80">
+      <div className="relative right-48 flex w-max scale-75 gap-4 sm:right-auto sm:w-full sm:overflow-visible sm:scale-100">
+        <div className="checker-surface absolute -z-10 h-full w-full bg-[#FFE121] mask-[radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)] opacity-60" />
 
-      <div className="flex min-w-1/2 max-w-[100vw] shrink-0 flex-col items-end justify-end space-y-4">
-        <div className="z-10 flex space-x-4">
-          <ToggleGroup
-            onValueChange={setEndTextStyles}
-            value={endTextStyles}
-            type="multiple"
-            className="gap-4"
-          >
-            <ToggleGroupItem className="h-8 w-8" value="font-bold">
-              <Bold />
-              <span className="sr-only">Bold</span>
-            </ToggleGroupItem>
-            <ToggleGroupItem className="h-8 w-8" value="italic">
-              <Italic />
-              <span className="sr-only">Italic</span>
-            </ToggleGroupItem>
-            <ToggleGroupItem className="h-8 w-8" value="underline">
-              <UnderlineIcon />
-              <span className="sr-only">Underline</span>
-            </ToggleGroupItem>
-          </ToggleGroup>
-        </div>
-
-        <Select>
-          <SelectTrigger className="h-8 w-56">
-            <SelectValue placeholder="Chose a location" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Beach</SelectLabel>
-              <SelectItem value="miami">Miami, FL</SelectItem>
-              <SelectItem value="santa">Santa Monica, CA</SelectItem>
-              <SelectItem value="cabo">Cabo San Lucas, MX</SelectItem>
-            </SelectGroup>
-
-            <SelectGroup>
-              <SelectLabel>Forest</SelectLabel>
-              <SelectItem value="yukon">Yukon, CA</SelectItem>
-              <SelectItem value="denali">Denali, AL</SelectItem>
-            </SelectGroup>
-
-            <SelectGroup>
-              <SelectLabel>Cold</SelectLabel>
-              <SelectItem value="oslo">Oslo, NO</SelectItem>
-              <SelectItem value="svalbard">Svalbard, NO</SelectItem>
-              <SelectItem value="stockholm">Stockholm, SW</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-
-        <div className="z-10 flex items-center space-x-4">
-          <DatePickerWithRange
-            className="h-8 w-48"
-            date={date}
-            setDate={setDate}
-          />
-          <Button
-            className="h-8"
-            variant="destructive"
-            onClick={clearDateSelection}
-          >
-            <CalendarX2 className="size-4" />Clear Date
-          </Button>
-        </div>
-
-        <div className="bg-opacity-90 z-10 flex h-[2.6rem] w-full items-center rounded-md border-2 shadow-[4px_4px_0_#000] border-black bg-white pr-1 pl-3 text-sm">
-          <Search className="size-4 opacity-50"/>
-          <Input
-            className="pointer-events-auto w-full border-transparent! shadow-none ring-0!"
-            placeholder="Search photos..."
-          />
-        </div>
-      </div>
-
-      <div className="z-10 flex shrink-0 flex-col items-end overflow-visible">
-        <div className="flex flex-col space-y-4">
-          <div className="ml-auto h-8">
-            <Tabs defaultValue="account">
-              <TabsList className="flex h-8">
-                <TabsTrigger value="account">
-                  My Account
-                </TabsTrigger>
-                <TabsTrigger value="security">
-                  Security
-                </TabsTrigger>
-                <TabsTrigger value="advanced">
-                  Advanced
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
+        <div className="flex max-w-[100vw] min-w-1/2 shrink-0 flex-col items-end justify-end space-y-4">
+          <div className="z-10 flex space-x-4">
+            <ToggleGroup
+              onValueChange={setEndTextStyles}
+              value={endTextStyles}
+              type="multiple"
+              className="gap-4"
+            >
+              <ToggleGroupItem className="h-8 w-8" value="font-bold">
+                <Bold />
+                <span className="sr-only">Bold</span>
+              </ToggleGroupItem>
+              <ToggleGroupItem className="h-8 w-8" value="italic">
+                <Italic />
+                <span className="sr-only">Italic</span>
+              </ToggleGroupItem>
+              <ToggleGroupItem className="h-8 w-8" value="underline">
+                <UnderlineIcon />
+                <span className="sr-only">Underline</span>
+              </ToggleGroupItem>
+            </ToggleGroup>
           </div>
 
-          <div className="flex space-x-4">
-            <div>
-              <div className="flex w-60 justify-center border-2 border-black bg-neutral-50 shadow-[4px_4px_0_#000] p-4">
-                <div>
-                  <p className="mb-2 text-base font-medium">Pick a Color</p>
+          <Select>
+            <SelectTrigger className="h-8 w-56">
+              <SelectValue placeholder="Chose a location" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Beach</SelectLabel>
+                <SelectItem value="miami">Miami, FL</SelectItem>
+                <SelectItem value="santa">Santa Monica, CA</SelectItem>
+                <SelectItem value="cabo">Cabo San Lucas, MX</SelectItem>
+              </SelectGroup>
 
-                  <HexColorPicker
-                    color={colorBoxBackgroundColor}
-                    onChange={setColorBoxBackgroundColor}
-                  />
-                </div>
-              </div>
+              <SelectGroup>
+                <SelectLabel>Forest</SelectLabel>
+                <SelectItem value="yukon">Yukon, CA</SelectItem>
+                <SelectItem value="denali">Denali, AL</SelectItem>
+              </SelectGroup>
+
+              <SelectGroup>
+                <SelectLabel>Cold</SelectLabel>
+                <SelectItem value="oslo">Oslo, NO</SelectItem>
+                <SelectItem value="svalbard">Svalbard, NO</SelectItem>
+                <SelectItem value="stockholm">Stockholm, SW</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+          <div className="z-10 flex items-center space-x-4">
+            <DatePickerWithRange
+              className="h-8 w-48"
+              date={date}
+              setDate={setDate}
+            />
+            <Button
+              className="h-8"
+              variant="destructive"
+              onClick={clearDateSelection}
+            >
+              <CalendarX2 className="size-4" />
+              Clear Date
+            </Button>
+          </div>
+
+          <div className="bg-opacity-90 z-10 flex h-[2.6rem] w-full items-center rounded-md border-2 border-black bg-white pr-1 pl-3 text-sm shadow-[4px_4px_0_#000]">
+            <Search className="size-4 opacity-50" />
+            <Input
+              className="pointer-events-auto w-full border-transparent! shadow-none ring-0!"
+              placeholder="Search photos..."
+            />
+          </div>
+        </div>
+
+        <div className="z-10 flex shrink-0 flex-col items-end overflow-visible">
+          <div className="flex flex-col space-y-4">
+            <div className="ml-auto h-8">
+              <Tabs defaultValue="account">
+                <TabsList className="flex h-8">
+                  <TabsTrigger value="account">My Account</TabsTrigger>
+                  <TabsTrigger value="security">Security</TabsTrigger>
+                  <TabsTrigger value="advanced">Advanced</TabsTrigger>
+                </TabsList>
+              </Tabs>
             </div>
 
-            <div>
+            <div className="flex space-x-4">
               <div>
-                <div className="flex h-52 min-w-60 flex-col justify-between border-2 shadow-[4px_4px_0_#000] border-black bg-neutral-50 p-4">
-                  <p className="mb-2 text-base font-medium">
-                    Photo Information
-                  </p>
-
+                <div className="flex w-60 justify-center border-2 border-black bg-neutral-50 p-4 shadow-[4px_4px_0_#000]">
                   <div>
-                    <div className="flex items-center space-x-2 text-xs">
-                      <CalendarClock className="size-4 shrink-0" />
-                      <span>
-                        {formatRelative(SAMPLE_PHOTO_DATE, SAMPLE_NOW)} (
-                        {formatDistance(SAMPLE_PHOTO_DATE, SAMPLE_NOW, {
-                          addSuffix: true,
-                        })}
-                        )
-                      </span>
-                    </div>
+                    <p className="mb-2 text-base font-medium">Pick a Color</p>
 
-                    <div className="mt-2 flex items-center space-x-2 text-xs">
-                      <Pin className="h-3 w-3 shrink-0" />
-                      <span>Portland, OR</span>
-                    </div>
-
-                    <div className="mt-2 flex items-center space-x-2 text-xs">
-                      <CameraIcon className="h-3 w-3 shrink-0" />
-                      <span>Canon PowerShot SX70 HS</span>
-                    </div>
-
-                    <div className="mt-2 mb-4 flex items-center space-x-2 text-xs">
-                      <CropIcon className="h-3 w-3 shrink-0" />
-                      <span>1024 x 1080</span>
-                    </div>
+                    <HexColorPicker
+                      color={colorBoxBackgroundColor}
+                      onChange={setColorBoxBackgroundColor}
+                    />
                   </div>
-
-                  <Button
-                    variant="outline"
-                    className="mt-2 flex w-full items-center text-sm"
-                    onClick={() => {
-                      const link = document.createElement("a");
-                      link.href = "http://localhost:3000/images/i.jpg";
-                      link.download = "sidd.doggy.is.named.ivy.jpg";
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                    }}
-                  >
-                    <DownloadIcon className="mr-2 size-4 shrink-0" />
-                    Download as JPG
-                  </Button>
                 </div>
               </div>
 
               <div>
-                <div className="mt-4 flex items-end justify-between space-x-4">
-                  <Button className="w-full" size="lg">
-                    Submit
-                  </Button>
-                  <Button className="w-full" size="lg" variant="secondary">
-                    Cancel
-                  </Button>
+                <div>
+                  <div className="flex h-52 min-w-60 flex-col justify-between border-2 border-black bg-neutral-50 p-4 shadow-[4px_4px_0_#000]">
+                    <p className="mb-2 text-base font-medium">
+                      Photo Information
+                    </p>
+
+                    <div>
+                      <div className="flex items-center space-x-2 text-xs">
+                        <CalendarClock className="size-4 shrink-0" />
+                        <span>
+                          {formatRelative(SAMPLE_PHOTO_DATE, SAMPLE_NOW)} (
+                          {formatDistance(SAMPLE_PHOTO_DATE, SAMPLE_NOW, {
+                            addSuffix: true,
+                          })}
+                          )
+                        </span>
+                      </div>
+
+                      <div className="mt-2 flex items-center space-x-2 text-xs">
+                        <Pin className="h-3 w-3 shrink-0" />
+                        <span>Portland, OR</span>
+                      </div>
+
+                      <div className="mt-2 flex items-center space-x-2 text-xs">
+                        <CameraIcon className="h-3 w-3 shrink-0" />
+                        <span>Canon PowerShot SX70 HS</span>
+                      </div>
+
+                      <div className="mt-2 mb-4 flex items-center space-x-2 text-xs">
+                        <CropIcon className="h-3 w-3 shrink-0" />
+                        <span>1024 x 1080</span>
+                      </div>
+                    </div>
+
+                    <Button
+                      variant="outline"
+                      className="mt-2 flex w-full items-center text-sm"
+                      onClick={() => {
+                        const link = document.createElement("a");
+                        link.href = "/images/i.jpg";
+                        link.download = "sidd.doggy.is.named.ivy.jpg";
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                      }}
+                    >
+                      <DownloadIcon className="mr-2 size-4 shrink-0" />
+                      Download as JPG
+                    </Button>
+                  </div>
+                </div>
+
+                <div>
+                  <div className="mt-4 flex items-end justify-between space-x-4">
+                    <Button className="w-full" size="lg">
+                      Submit
+                    </Button>
+                    <Button className="w-full" size="lg" variant="secondary">
+                      Cancel
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>

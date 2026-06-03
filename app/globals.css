@@ -92,7 +92,7 @@
 }
 
 body.flex[data-scroll-locked] {
-  @apply mt-12 [overflow:visible!important] [overscroll-behavior:initial!important] p-6 pb-0! md:p-12 2xl:p-24;
+  @apply p-3 md:p-8 2xl:p-14;
 }
 
 /* For hydration errors */

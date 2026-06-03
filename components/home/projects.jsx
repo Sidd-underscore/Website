@@ -13,7 +13,11 @@ import {
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuSubContent,
+  DropdownMenuSub,
   DropdownMenuTrigger,
+  DropdownMenuSubTrigger,
+  DropdownMenuPortal,
 } from "@/components/ui/dropdown-menu";
 import { Settings2, X } from "lucide-react";
 import autoAnimate from "@formkit/auto-animate";
@@ -101,13 +105,89 @@ export function Projects({
       <div>
         <div className="flex w-fit items-center gap-3 border-2 border-black bg-[#22FF00] px-3 py-2 text-black shadow-[5px_5px_0_#000]">
           <Icon name="StarGroup3_2" size="lg" />
-          <h2 className="text-4xl leading-none font-black tracking-normal uppercase">
+          <h2 className="text-3xl leading-none font-black tracking-normal uppercase">
             {projectHeading}
           </h2>
         </div>
-        <p className="mt-4 max-w-2xl border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black shadow-[4px_4px_0_#000]">
-          Here are some things that I have worked on.
-        </p>
+
+        <div className="mt-4 flex items-start justify-between">
+          <p className="w-full max-w-2xl border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black shadow-[4px_4px_0_#000]">
+            Here are some things that I have worked on.
+          </p>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="gap-2 px-4 py-2">
+                <>
+                  <Settings2 className="size-4" />
+                  <span>Filter</span>
+                </>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" sideOffset={8} className="w-56">
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>Types</DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent>
+                    {projectData.types.map((type) => (
+                      <DropdownMenuCheckboxItem
+                        key={type}
+                        className="capitalize"
+                        onSelect={(e) => e.preventDefault()}
+                        checked={projectTypesToShow.includes(type)}
+                        onCheckedChange={(v) =>
+                          v
+                            ? setProjectTypesToShow([
+                                ...projectTypesToShow,
+                                type,
+                              ])
+                            : setProjectTypesToShow(
+                                projectTypesToShow.filter((t) => t !== type),
+                              )
+                        }
+                      >
+                        {type}
+                      </DropdownMenuCheckboxItem>
+                    ))}
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
+
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>Technologies</DropdownMenuSubTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuSubContent>
+                    {projectData.technologies.map((tech) => (
+                      <DropdownMenuCheckboxItem
+                        key={tech.name}
+                        onSelect={(e) => e.preventDefault()}
+                        checked={isTechnologySelected(
+                          projectTechnologiesToShow,
+                          tech,
+                        )}
+                        onCheckedChange={(v) =>
+                          v
+                            ? setProjectTechnologiesToShow([
+                                ...projectTechnologiesToShow,
+                                tech,
+                              ])
+                            : setProjectTechnologiesToShow(
+                                projectTechnologiesToShow.filter(
+                                  (selectedTechnology) =>
+                                    selectedTechnology.name !== tech.name,
+                                ),
+                              )
+                        }
+                      >
+                        <span className="mr-2">{tech.icon}</span>
+                        {tech.name}
+                      </DropdownMenuCheckboxItem>
+                    ))}
+                  </DropdownMenuSubContent>
+                </DropdownMenuPortal>
+              </DropdownMenuSub>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
 
       {/* Filter row */}
@@ -115,64 +195,6 @@ export function Projects({
         ref={filterRowRef}
         className="mt-6 flex flex-wrap items-center gap-2"
       >
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="h-9 gap-2 px-4 py-2">
-              <>
-                <Settings2 />
-                <span>Filter</span>
-              </>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-56">
-            <DropdownMenuLabel>Types</DropdownMenuLabel>
-            {projectData.types.map((type) => (
-              <DropdownMenuCheckboxItem
-                key={type}
-                className="capitalize"
-                onSelect={(e) => e.preventDefault()}
-                checked={projectTypesToShow.includes(type)}
-                onCheckedChange={(v) =>
-                  v
-                    ? setProjectTypesToShow([...projectTypesToShow, type])
-                    : setProjectTypesToShow(
-                        projectTypesToShow.filter((t) => t !== type),
-                      )
-                }
-              >
-                {type}
-              </DropdownMenuCheckboxItem>
-            ))}
-
-            <DropdownMenuSeparator />
-
-            <DropdownMenuLabel>Technologies</DropdownMenuLabel>
-            {projectData.technologies.map((tech) => (
-              <DropdownMenuCheckboxItem
-                key={tech.name}
-                onSelect={(e) => e.preventDefault()}
-                checked={isTechnologySelected(projectTechnologiesToShow, tech)}
-                onCheckedChange={(v) =>
-                  v
-                    ? setProjectTechnologiesToShow([
-                        ...projectTechnologiesToShow,
-                        tech,
-                      ])
-                    : setProjectTechnologiesToShow(
-                        projectTechnologiesToShow.filter(
-                          (selectedTechnology) =>
-                            selectedTechnology.name !== tech.name,
-                        ),
-                      )
-                }
-              >
-                <span className="mr-2">{tech.icon}</span>
-                {tech.name}
-              </DropdownMenuCheckboxItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
         {(projectTypesToShow.length < projectData.types.length ||
           projectTechnologiesToShow.length <
             projectData.technologies.length) && (
@@ -181,7 +203,7 @@ export function Projects({
               <Button
                 key={type}
                 variant="secondary"
-                className="h-8 px-3 capitalize"
+                className="px-3 text-xs uppercase"
                 onClick={() =>
                   setProjectTypesToShow(
                     projectTypesToShow.filter((t) => t !== type),
@@ -190,7 +212,7 @@ export function Projects({
               >
                 <>
                   {type}
-                  <X className="ml-1 size-3.5" />
+                  <X className="ml-1 size-3" />
                 </>
               </Button>
             ))}
@@ -199,7 +221,7 @@ export function Projects({
               <Button
                 key={tech.name}
                 variant="secondary"
-                className="h-8 px-3"
+                className="px-3 text-xs uppercase"
                 onClick={() =>
                   setProjectTechnologiesToShow(
                     projectTechnologiesToShow.filter(
@@ -220,7 +242,7 @@ export function Projects({
             <Button
               variant="destructive"
               size="icon"
-              className="h-8 px-2 text-sm"
+              className="px-2 text-sm"
               onClick={() => {
                 setProjectTypesToShow(projectData.types);
                 setProjectTechnologiesToShow(projectData.technologies);
