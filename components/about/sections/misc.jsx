@@ -8,8 +8,6 @@ export function MiscSection({ display, opacity, position }) {
       style={{ display, opacity, position }}
       className="relative top-[50%] left-[50%] h-88 w-88 translate-x-[-50%] translate-y-[-50%] text-black select-none md:h-104 md:w-104"
     >
-     
-
       {/* Portal core */}
       <div className="absolute inset-0 rounded-full border-2 border-black bg-white shadow-[10px_10px_0_#000]">
         <div className="checker-surface absolute inset-0 rounded-full opacity-20" />
@@ -20,8 +18,8 @@ export function MiscSection({ display, opacity, position }) {
         <div className="absolute inset-16 rounded-full border-2 border-black bg-[#FF80F2]/15" />
 
         {/* Center chip */}
-          <div className="absolute top-1/2 left-1/2 w-fit -translate-x-1/2 -translate-y-1/2 border-2 rounded-full p-4! border-black bg-white px-3 py-2 text-center font-mono text-xs font-black uppercase shadow-[5px_5px_0_#000]">
-        <Icon name="Bloom" size="xl" className="opacity-90" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-black bg-white p-4 text-center font-mono text-xs font-black uppercase shadow-[5px_5px_0_#000]">
+          <Icon name="Bloom" size="xl" className="opacity-90" />
         </div>
 
         {/* Icon badges */}
@@ -39,7 +37,7 @@ export function MiscSection({ display, opacity, position }) {
       </div>
 
       {/* Callouts */}
-      <p className="y2k-card absolute -top-32 left-0 w-[min(18rem,80vw)] p-4 text-xs leading-snug md:-top-14 md:-left-48 md:text-sm">
+      <p className="y2k-card absolute -top-32 left-0 w-[min(18rem,80vw)] p-4 text-xs leading-snug md:-top-8 md:-left-48 md:text-sm">
         <span className="flex items-center gap-2">
           <Icon name="CircleStarFill" size="sm" className="opacity-70" />I
           generally love tech, lighting design, and working collaboratively

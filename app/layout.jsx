@@ -43,7 +43,7 @@ export default function RootLayout({ children }) {
         style={{ scrollbarGutter: "stable" }}
       >
         <Navbar />
-        <main className="relative z-10 mt-12 min-h-screen w-full max-w-6xl has-[.no-max-w]:max-w-none lg:mt-14 xl:mt-10">
+        <main className="relative z-10 mt-12 min-h-screen w-full max-w-6xl has-[.no-max-w]:max-w-none lg:mt-14 xl:mt-16">
           <TransitionLayout>{children}</TransitionLayout>
         </main>
         <Footer />

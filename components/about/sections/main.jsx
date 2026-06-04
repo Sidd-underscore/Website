@@ -11,48 +11,38 @@ const focusItems = [
     icon: "StarOrbit",
     title: "Software",
     text: "Tools, websites, and production-ready applications for clients and personal projects.",
-    className: "bg-[#FFE121] md:rotate-[-1.5deg]",
+    className: "bg-[#FFE121]/50 md:rotate-[-1.5deg]",
   },
   {
     icon: "Sun",
     title: "Live Events",
     text: "Lighting, livestreams, set builds, and more.",
-    className: "bg-[#22FF00] md:rotate-[1deg]",
+    className: "bg-[#22FF00]/50 md:rotate-[1deg]",
   },
   {
     icon: "Bloom",
     title: "Experiments",
-    text: "General side projects I start to know how something works.",
-    className: "bg-[#FF80F2] md:rotate-[-0.75deg]",
+    text: "General side projects I start to explore.",
+    className: "bg-[#FF80F2]/50 md:rotate-[-0.75deg]",
   },
 ];
 
 export function MainSection({ textOpacity, textScale, svgOpacity, svgScale }) {
   return (
-    <motion.section className="relative z-20 flex p-6 min-h-[calc(100vh-192px)] w-full items-center overflow-hidden px-4 py-6 text-black sm:py-8 md:px-10 lg:px-16 xl:px-24">
-      <div className="pointer-events-none absolute right-16 bottom-16 hidden rotate-10 items-center justify-center border-2 border-black bg-[#00D7FF] shadow-[6px_6px_0_#000] sm:flex p-4">
-        <Icon
-          name="StarTrail"
-          size="lg"
-          className="h-7 w-14 opacity-90 md:h-8 md:w-16"
-        />
+    <motion.section className="relative z-20 flex min-h-[calc(100vh-192px)] w-full items-center overflow-hidden px-2 py-4 text-black sm:py-8 md:px-10 lg:px-16 xl:px-24">
+      <div className="pointer-events-none absolute right-16 bottom-16 hidden rotate-10 items-center justify-center rounded-full border-2 border-black bg-[#00D7FF] px-4 py-2 opacity-75 shadow-[6px_6px_0_#000] sm:flex">
+        <Icon name="StarGlobe" size="lg" />
       </div>
-      <div className="pointer-events-none absolute bottom-6 left-20 hidden -rotate-7 items-center justify-center border-2 border-black bg-[#FF80F2] shadow-[6px_6px_0_#000] sm:flex p-4">
-        <Icon
-          name="ShootingStar_2"
-          size="default"
-          className="h-6 w-12 opacity-90 md:h-7 md:w-14"
-        />
+      <div className="pointer-events-none absolute bottom-6 left-20 hidden -rotate-7 items-center justify-center rounded-full border-2 border-black bg-[#FF80F2] px-4 py-2 opacity-80 shadow-[6px_6px_0_#000] sm:flex">
+        <Icon name="CircleOut" size="lg" />
       </div>
 
       <motion.div
         style={{ opacity: svgOpacity, scale: svgScale }}
         className="relative mx-auto grid w-full max-w-5xl gap-6 lg:grid-cols-[minmax(14rem,0.72fr)_minmax(0,1fr)] lg:items-center lg:gap-20 xl:max-w-6xl"
       >
-        <div className="relative h-44 ">
-          <div className="absolute inset-0 rotate-[-2deg] border-2 border-black bg-white shadow-[8px_8px_0_#000]" />
-         
-          <div className="absolute inset-3 rotate-[1.5deg] border-2 border-black bg-white sm:inset-4">
+        <div className="relative h-44">
+          <div className="checker-surface absolute inset-0 rotate-[-2deg] border-2 border-black bg-white shadow-[8px_8px_0_#000]">
             <Image
               src="/images/sidd.svg"
               alt="Sidd"
@@ -62,23 +52,14 @@ export function MainSection({ textOpacity, textScale, svgOpacity, svgScale }) {
               className="object-contain p-4 sm:p-6"
             />
           </div>
-         
         </div>
 
-        <div className="relative min-w-0 mt-10 lg:mt-0">
+        <div className="relative mt-10 min-w-0 lg:mt-0">
           <motion.div style={{ opacity: textOpacity, scale: textScale }}>
-            <div className="mb-4 flex flex-wrap items-center gap-3">
-              <span className="inline-flex max-w-full flex-wrap items-center gap-2 border-2 border-black bg-white px-3 py-2 font-mono text-xs leading-tight font-black uppercase shadow-[4px_4px_0_#000]">
-                <Icon name="ShootingStar" size="sm" className="shrink-0" />
-                hello!
-              </span>
-            </div>
-
             <h1 className="max-w-3xl text-3xl leading-[1.02] font-bold text-black">
-               I build software, help run live events, and frequently start side-projects.
+              I build software, help run live events, and frequently start
+              side-projects.
             </h1>
-
-          
           </motion.div>
 
           <div className="mt-5 grid gap-3 sm:grid-cols-3 lg:gap-4">
@@ -101,7 +82,6 @@ export function MainSection({ textOpacity, textScale, svgOpacity, svgScale }) {
           </div>
 
           <div className="mt-6 flex flex-wrap gap-3">
-
             <Button asChild size="sm" variant="default">
               <Link href="/projects">Projects</Link>
             </Button>

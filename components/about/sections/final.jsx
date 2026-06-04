@@ -9,7 +9,7 @@ export function FinalSection({ display, opacity, position }) {
   return (
     <motion.div
       style={{ display, opacity, position }}
-      className="relative top-[50%] left-[50%] mt-20 w-full max-w-xl translate-x-[-50%] translate-y-[-50%] px-4 text-center"
+      className="relative top-[50%] left-[50%] w-full max-w-xl translate-x-[-50%] translate-y-[-50%] px-4 text-center"
     >
       <div className="y2k-panel relative mx-auto overflow-hidden p-6 text-black">
         <div className="absolute inset-x-0 top-0 h-2 bg-[linear-gradient(90deg,#22FF00,#FFE121,#FF80F2,#00D7FF)]" />

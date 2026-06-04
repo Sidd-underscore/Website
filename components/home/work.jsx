@@ -78,7 +78,7 @@ export function Work({ className, defaultWorkTypes, title }) {
               {workHeading}
             </h2>
           </div>
-          <div className="mt-4 flex items-start justify-between">
+        <div className="mt-4 flex items-start justify-between space-x-2">
             <p className="max-w-2xl border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black shadow-[4px_4px_0_#000]">
               The best testament of knowledge is putting it in practice. Here is
               some of my work experience
@@ -104,9 +104,9 @@ export function Work({ className, defaultWorkTypes, title }) {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="gap-2 px-4 py-2">
+              <Button variant="outline" className="gap-2 px-2 md:px-4 py-2">
                   <Settings2 className="size-4" />
-                  <span>Filter</span>
+                  <span className="hidden md:block">Filter</span>
                 </Button>
               </DropdownMenuTrigger>
             <DropdownMenuContent align="end" sideOffset={8} className="w-56 capitalize">

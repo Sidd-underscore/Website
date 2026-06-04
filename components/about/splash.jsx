@@ -198,7 +198,7 @@ export function AboutSplash() {
   return (
     <div
       ref={containerRef}
-      className="relative -m-6 h-[500vh] md:-m-12 2xl:-m-24"
+      className="relative h-[500vh]"
     >
       <motion.section className="relative text-black">
         <MainSection
