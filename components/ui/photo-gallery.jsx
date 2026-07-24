@@ -60,7 +60,7 @@ export function PhotoGallery({ photos }) {
         ))}
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between m-1">
         <Button
           variant="ghost"
           size="icon"

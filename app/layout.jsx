@@ -52,7 +52,7 @@ export default function RootLayout({ children }) {
         <TailwindIndicator />
         <Analytics />
         <SpeedInsights />
-          <div className="pointer-events-none inset-0 fixed z-999 block h-screen w-screen bg-[linear-gradient(rgba(18,16,16,0)50%,rgba(0,0,0,0.5)50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-size-[100%_3px,2px_100%] opacity-25"/>
+          <div className="pointer-events-none inset-0 fixed z-999 block h-screen w-screen bg-[linear-gradient(rgba(18,16,16,0)50%,rgba(0,0,0,0.5)50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-size-[100%_3px,2px_100%] opacity-20"/>
       </body>
     </html>
   );

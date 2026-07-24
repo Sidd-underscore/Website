@@ -5,20 +5,20 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex cursor-pointer [box-shadow:inset_4px_4px_4px_0_rgba(0,0,0,0.25)] items-center justify-center gap-2 whitespace-nowrap rounded-[2px] border-2 border-black text-sm font-black uppercase tracking-wide transition-[translate,background-color,color] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#FFE121] disabled:pointer-events-none disabled:opacity-50 hover:-translate-y-0.5 active:translate-y-0",
+  "inline-flex cursor-pointer [box-shadow:inset_2px_2px_4px_0_rgba(0,0,0,0.25)] items-center justify-center gap-2 whitespace-nowrap rounded-[2px] border-2 border-black text-sm font-black uppercase tracking-wide transition-[translate,background-color,color] duration-100 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#FFE121] disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         default:
-          "bg-[#22FF00] text-black hover:bg-[#FFE121]",
+          "bg-[#22FF00] text-black hover:bg-[#FFE121] active:translate-y-0.5",
         destructive:
-          "border-black bg-[#FF80F2] text-black hover:bg-[#FFE121]",
+          "border-black bg-[#FF80F2] text-black hover:bg-[#FFE121] active:translate-y-0.5",
         outline:
-          "bg-white text-black hover:bg-[#FF80F2]",
+          "bg-white text-black hover:bg-[#FF80F2] active:translate-y-0.5",
         secondary:
-          "bg-[#FFE121] text-black hover:bg-[#22FF00]",
+          "bg-[#FFE121] text-black hover:bg-[#22FF00] active:translate-y-0.5",
         ghost:
-          "text-black hover:bg-neutral-200",
+          "text-black hover:bg-black hover:text-white",
       },
       size: {
         default: "h-9 px-4 py-2",
