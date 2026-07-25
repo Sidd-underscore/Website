@@ -3,8 +3,6 @@ import { work } from "@/lib/work";
 import { Work } from "@/components/home/work";
 import { CalendarClock, Pin } from "lucide-react";
 import NotFound from "@/app/not-found";
-import Image from "next/image";
-import { Icon } from "@/components/ui/icon";
 
 export async function generateMetadata(props) {
   const params = await props.params;
@@ -40,54 +38,54 @@ export default async function WorkPage(props) {
   }
 
   return (
-    <div className="relative 2xl:-mx-24 no-max-w">
-      <div className="mx-auto max-w-5xl">
-        <div className="flex w-fit items-center gap-3 border-2 border-black bg-[#22FF00] px-3 py-2 text-black shadow-[5px_5px_0_#000]">
-          <h1 className="text-3xl font-black uppercase tracking-normal">
-            {workItem.name}
-          </h1>
-        </div>
-        <div className="mt-4 flex flex-wrap items-center gap-3 border-2 border-black bg-white px-3 py-2 text-black shadow-[4px_4px_0_#000]">
-          <span className="m-0 flex items-center gap-2 text-sm font-bold border-l-4 border-[#22FF00] pl-2">
-            <Pin className="size-4 shrink-0" />
-            <span>{workItem.location}</span>
-          </span>
-          <span className="m-0 flex items-center gap-2 text-sm font-bold border-l-4 border-[#FFE121] pl-2">
-            <CalendarClock className="size-4 shrink-0" />
-            <span>{workItem.dates}</span>
-          </span>
-           {workItem.description}
-        </div>
-
-        <Separator className="mt-10 -mb-10" />
-
-        <Work title="Other Work Experiences" />
+    <>
+      <div className="panel gap-3 bg-[#22FF00] px-3 py-2">
+        <h1 className="text-5xl font-black tracking-normal uppercase">
+          {workItem.name}
+        </h1>
       </div>
 
-      {workItem.decorations?.map((imageUrl, index) => {
-        const initialPosition = 
-          index % 2 === 0 ? { left: -40 } : { right: -40 };
-        
-        const rotation = ["3deg", "-6deg", "-3deg", "6deg"][index % 4];
-        const adjustedPosition = {
-          top: index * 20 + 5 + "rem",
-          transform: `rotate(${rotation})`,
-        };
+      <div className="panel mt-10 flex flex-wrap items-center gap-3 p-6">
+        <span className="m-0 flex items-center gap-2 border-l-4 border-[#22FF00] pl-2 text-sm font-bold">
+          <Pin className="size-4 shrink-0" />
+          <span>{workItem.location}</span>
+        </span>
+        <span className="m-0 flex items-center gap-2 border-l-4 border-[#FFE121] pl-2 text-sm font-bold">
+          <CalendarClock className="size-4 shrink-0" />
+          <span>{workItem.dates}</span>
+        </span>
 
-        return (
-          <Image
-            key={imageUrl}
-            className="absolute hidden w-auto border-2 border-black shadow-[6px_6px_0_#000] transition-transform duration-200 ease-out select-none 2xl:block"
-            style={{ ...initialPosition, ...adjustedPosition }}
-            src={imageUrl}
-            alt=""
-            width={200}
-            height={150}
-            quality={50}
-          />
-        );
-      })}
-      <div className="relative hidden h-24 w-screen bg-linear-to-t from-black to-transparent 2xl:block" />
-    </div>
+        <div className="p-4">
+          {typeof workItem.details[0] === "object" ? (
+            workItem.details.map((details) => (
+              <div key={details.title} className="mb-4">
+                <strong>{details.title}</strong>
+                <ul className="list-disc text-left">
+                  {details.items.map((item) => (
+                    <li className="opacity-75" key={item}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          ) : (
+            <ul className="list-disc text-left">
+              {workItem.details.map((item) => (
+                <li className="opacity-75" key={item}>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {workItem.description}
+      </div>
+
+      <Separator className="mt-10 -mb-10" />
+
+      <Work title="Other Work Experiences" />
+    </>
   );
 }

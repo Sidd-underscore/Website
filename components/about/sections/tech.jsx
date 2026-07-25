@@ -33,16 +33,16 @@ export function TechSection({ display, opacity, position }) {
 
         {/* Tool badges */}
         <div className="absolute inset-0">
-          <div className="absolute top-10 left-6 rounded-full border-2 border-black bg-white p-2 shadow-[4px_4px_0_#000]">
+          <div className="absolute top-10 left-6 rounded-full panel p-2 bg-neutral-100">
             <OBSLogo className="size-7 opacity-90 md:size-8" />
           </div>
-          <div className="absolute top-10 right-6 rounded-full border-2 border-black bg-white p-2 shadow-[4px_4px_0_#000]">
+          <div className="absolute top-10 right-6 rounded-full panel p-2 bg-neutral-100">
             <QLabLogo className="size-7 rounded-full opacity-90 md:size-8" />
           </div>
-          <div className="absolute bottom-10 left-8 rounded-full border-2 border-black bg-white p-2 shadow-[4px_4px_0_#000]">
+          <div className="absolute bottom-10 left-8 rounded-full panel p-2 bg-neutral-100">
             <ETCLogo className="size-12 fill-black opacity-90" />
           </div>
-          <div className="absolute right-8 bottom-10 rounded-full border-2 border-black bg-white p-2 shadow-[4px_4px_0_#000]">
+          <div className="absolute right-8 bottom-10 rounded-full panel p-2 bg-neutral-100">
             <AudixLogo className="size-12 fill-neutral-950 stroke-neutral-950 text-black opacity-90" />
           </div>
           <div className="absolute top-12 left-1/2 -translate-x-1/2 rounded-full border-2 border-black bg-white px-3 py-2 shadow-[4px_4px_0_#000]">
@@ -55,7 +55,7 @@ export function TechSection({ display, opacity, position }) {
       </div>
 
       {/* Callouts */}
-      <p className="y2k-card absolute -top-32 -left-10 w-[min(22rem,85vw)] p-4 text-xs leading-snug md:-top-8 md:-left-48 md:w-[min(24rem,40vw)] md:text-sm">
+      <p className="card absolute -top-32 -left-10 w-[min(22rem,85vw)] p-4 text-xs leading-snug md:-top-8 md:-left-48 md:w-[min(24rem,40vw)] md:text-sm">
         <span className="flex items-start gap-2">
           <Icon name="ShootingStar" size="sm" className="opacity-70" />
           <span>
@@ -65,11 +65,11 @@ export function TechSection({ display, opacity, position }) {
           </span>
         </span>
       </p>
-      <p className="y2k-card absolute -top-18 right-0 w-[min(22rem,85vw)] p-4 text-right text-xs leading-snug md:top-16 md:-right-48 md:w-[min(22rem,40vw)] md:text-sm">
+      <p className="card absolute -top-18 right-0 w-[min(22rem,85vw)] p-4 text-right text-xs leading-snug md:top-16 md:-right-48 md:w-[min(22rem,40vw)] md:text-sm">
         I als mix live sound and run A/V{" "}
         <Link href="/work/av-livestreaming">See more</Link>
       </p>
-      <p className="y2k-card absolute -bottom-20 left-10 w-[min(22rem,85vw)] p-4 text-xs leading-snug md:-bottom-10 md:-left-32 md:w-[min(24rem,40vw)] md:text-sm">
+      <p className="card absolute -bottom-20 left-10 w-[min(22rem,85vw)] p-4 text-xs leading-snug md:-bottom-10 md:-left-32 md:w-[min(24rem,40vw)] md:text-sm">
         Additionally, I am a theatre technician with experience in designing and
         hanging/focusing lights, projection, networking/patching, and carpentry.{" "}
         <Link href="/work/tech-theatre">See more</Link>

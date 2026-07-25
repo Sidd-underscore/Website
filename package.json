@@ -41,7 +41,7 @@
     "react-colorful": "5.6.1",
     "react-day-picker": "^10.0.1",
     "react-dom": "^19.2.8",
-    "shadcn": "^4.14.1",
+    "shadcn": "^3.8.3",
     "tailwind-merge": "^3.6.0",
     "tailwindcss-animate": "^1.0.7",
     "three": "^0.181.2",

@@ -11,7 +11,7 @@ export function FinalSection({ display, opacity, position }) {
       style={{ display, opacity, position }}
       className="relative top-[50%] left-[50%] w-full max-w-xl translate-x-[-50%] translate-y-[-50%] px-4 text-center"
     >
-      <div className="y2k-panel relative mx-auto overflow-hidden p-6 text-black">
+      <div className="panel relative mx-auto overflow-hidden p-6 text-black">
         <div className="absolute inset-x-0 top-0 h-2 bg-[linear-gradient(90deg,#22FF00,#FFE121,#FF80F2,#00D7FF)]" />
 
         <div className="mx-auto mb-4 flex w-fit items-center gap-2 border-2 border-black bg-[#FFE121] px-3 py-1 font-mono text-xs font-black uppercase shadow-[5px_5px_0_#000]">

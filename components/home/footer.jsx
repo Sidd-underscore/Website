@@ -9,14 +9,9 @@ export function Footer() {
   const [socialsText, setSocialsText] = useState("Check out my socials!");
   const [socialsTextHoverColor, setSocialsTextHoverColor] = useState("bg-white");
   return (
-    <div className="no-max-w relative w-screen">
-
-      <div className="relative">
-        <div className="absolute right-0 left-0 h-0 bg-[linear-gradient(90deg,#22FF00,#FFE121,#FF80F2,#00D7FF)] md:h-3" />
-      </div>
-
-      <footer className="relative z-10 flex flex-col items-center justify-around gap-6 border-t-2 border-black bg-white p-4 text-center text-black md:flex-row">
-        <Icon name="StarGlobe" size="xl" className="absolute right-4 bottom-4 opacity-20" />
+    <div className="no-max-w w-screen">
+      <footer className="chrome-surface card relative z-10 flex flex-col items-center justify-around gap-6 border-t-2 border-black bg-white p-4 text-center text-black md:flex-row">
+        <Icon name="StarStroke" size="lg" className="absolute right-4 bottom-4 opacity-20" />
 
         <div className="flex w-full flex-col justify-center gap-2 text-center text-xs">
           <p className={`mx-auto w-fit border-2 border-black ${socialsTextHoverColor} px-3 py-1 font-mono font-black text-black shadow-[4px_4px_0_#000]`}>
@@ -135,5 +130,5 @@ export function Footer() {
 }
 
 export function SiddWordMark() {
-  return <Image src="/images/sidd.svg" alt="SIDD" fill sizes="96px" />;
+  return <Image draggable="false" src="/images/sidd.svg" alt="SIDD" fill sizes="96px" />;
 }

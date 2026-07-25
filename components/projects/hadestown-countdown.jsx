@@ -13,7 +13,7 @@ export function HadestownExperience() {
           <h1 className="chrome-text text-6xl leading-none tracking-normal md:text-8xl">
             <span className="font-black">HADES</span><span className="font-medium">TOWN</span>
           </h1>
-        
+
         </div>
       </section>
 
@@ -23,7 +23,7 @@ export function HadestownExperience() {
 
       <section className="mt-10 grid gap-6 lg:grid-cols-2">
         {credits.sections.map((section) => (
-          <article className="y2k-card p-5" key={section.title}>
+          <article className="card p-5" key={section.title}>
             <div className="mb-4 flex items-center gap-2 border-b-2 border-black pb-3">
               <Icon name="Sun" className="size-6" />
               <h2 className="text-2xl font-black uppercase tracking-normal">

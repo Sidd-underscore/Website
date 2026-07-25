@@ -5,6 +5,7 @@ import { projects } from "@/lib/projects";
 import { MoveUpRight } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import NotFound from "@/app/not-found";
+import { Button } from "@/components/ui/button";
 
 export async function generateMetadata(props) {
   const params = await props.params;
@@ -41,27 +42,29 @@ export default async function ProjectPage(props) {
 
   return (
     <>
-      <div className="flex w-fit items-center gap-3 border-2 border-black bg-[#FF80F2] px-3 py-2 text-black shadow-[5px_5px_0_#000]">
-        <Icon name="CircleStarFill" className="size-8" />
+      <div className="bg-[#FF80F2] px-3 py-2 panel">
         <h1 className="text-5xl font-black uppercase tracking-normal">
           {project.name}
         </h1>
-      </div>
 
       {project.url && (
         <Link
-          className="mt-4 flex w-fit items-center gap-2 border-2 border-black bg-[#22FF00] px-3 py-2 text-black no-underline shadow-[4px_4px_0_#000]"
+          className="mt-4 flex w-fit items-center gap-2 no-underline"
           target="_blank"
+          passHref
           href={project.url}
         >
-          <span>Go to project</span> <MoveUpRight />
+          <Button variant="default">
+            <span>Go to project</span> <MoveUpRight />
+          </Button>
         </Link>
       )}
+      </div>
 
-      <div className="y2k-panel mt-10 p-6 font-bold">{project.longDescription}</div>
+      <div className="panel mt-10 p-6">{project.longDescription}</div>
 
       <Separator className="mt-10 -mb-10" />
-      <Projects />
+      <Projects  title="Other Projects" />
     </>
   );
 }

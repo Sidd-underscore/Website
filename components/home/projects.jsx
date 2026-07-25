@@ -32,6 +32,7 @@ export function Projects({
   className,
   defaultProjectTypes,
   defaultTechnologies,
+  title
 }) {
   const parent = useRef(null);
   const filterRowRef = useRef(null);
@@ -98,29 +99,25 @@ export function Projects({
     undefined,
     true,
   );
-  const projectHeading = `${projectHeadingPrefix ? projectHeadingPrefix + " " : ""}Projects`;
+  const projectHeading = title || `${projectHeadingPrefix ? projectHeadingPrefix + " " : ""}Projects`;
 
   return (
     <section className={cn("my-32 w-full text-left", className)}>
-      <div>
-        <div className="flex w-fit items-center gap-3 border-2 border-black bg-[#22FF00] px-3 py-2 text-black shadow-[5px_5px_0_#000]">
-          <Icon name="StarGroup3_2" size="lg" />
-          <h2 className="text-3xl leading-none font-black tracking-normal uppercase">
+      <div className="panel bg-[#22FF00] p-3">
+        <h2 className="text-3xl leading-none font-black tracking-normal uppercase">
+          <Icon name="StarGroup3_2" className="mr-2" size="lg" />
             {projectHeading}
-          </h2>
-        </div>
+        </h2>
 
-        <div className="mt-4 flex items-start justify-between space-x-2">
-          <p className="w-full max-w-2xl border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black shadow-[4px_4px_0_#000]">
+        <div className="mt-4 flex items-end justify-between space-x-2 lg:mt-0">
+          <p className="text-sm font-bold text-black">
             Here are some things that I have worked on.
           </p>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="gap-2 px-2 md:px-4 py-2">
-                <>
+              <Button variant="outline" className="gap-2 px-2 py-2 md:px-4">
                   <Settings2 className="size-4" />
                   <span className="hidden md:block">Filter</span>
-                </>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" sideOffset={8} className="w-56">
@@ -193,7 +190,7 @@ export function Projects({
       {/* Filter row */}
       <div
         ref={filterRowRef}
-        className="mt-6 flex flex-wrap items-center gap-2"
+        className="mt-4 mb-4 flex flex-wrap items-center gap-2"
       >
         {(projectTypesToShow.length < projectData.types.length ||
           projectTechnologiesToShow.length <
@@ -256,7 +253,7 @@ export function Projects({
 
       <div
         ref={parent}
-        className={`relative mt-12 w-full ${
+        className={`relative mt-6 w-full ${
           projectsToDisplay.length
             ? "grid grid-cols-1 gap-6 md:grid-cols-2"
             : ""
@@ -276,13 +273,13 @@ export function Projects({
               <div
                 onMouseEnter={() => setProjectHovered(project.name)}
                 onMouseLeave={() => setProjectHovered(false)}
-                className={`y2k-card group relative flex h-64 flex-col ${projectHovered && projectHovered != project.name ? "opacity-50 transition-opacity duration-300" : ""}`}
+                className={`card group relative flex h-64 flex-col ${projectHovered && projectHovered != project.name ? "opacity-50 transition-opacity duration-300" : ""}`}
               >
                 <div
                   className={cn(
-                    "h-64 w-full border-0 transition-[translate_width_height] duration-300 group-hover:h-82 group-hover:bg-black group-hover:text-white group-hover:shadow-[8px_8px_0_#000] md:group-hover:absolute md:group-hover:z-40 md:group-hover:-mt-9 md:group-hover:w-[115%] md:group-hover:scale-105",
+                    "h-64 w-full border-0 transition-[translate_width_height] duration-300 group-hover:h-82 group-hover:bg-black group-hover:text-white group-hover:shadow-[8px_8px_0_#000] md:group-hover:absolute md:group-hover:z-40 md:group-hover:-mt-6 md:group-hover:w-[115%] md:group-hover:scale-105",
 
-                    index % 2 === 0 ? "" : "md:group-hover:-translate-x-[15%]",
+                    index % 2 === 0 ? "" : "md:group-hover:translate-x-[-15%]",
                   )}
                 >
                   <div className="absolute h-full w-full opacity-30 duration-300 group-hover:opacity-100">
@@ -296,16 +293,14 @@ export function Projects({
                   </div>
                   <div className="z-20 flex h-full w-full flex-col justify-between px-5 py-4 group-hover:text-white group-hover:drop-shadow-lg">
                     <div className="z-10">
-                      <div className="mb-3 flex items-start gap-2">
+                      <h3 className="mb-3 text-2xl font-black tracking-normal uppercase">
                         <Icon
                           name="Sun"
                           size="default"
-                          className="mt-1 group-hover:invert"
+                          className="mr-2 group-hover:invert"
                         />
-                        <h3 className="text-2xl font-black tracking-normal uppercase">
                           {project.name}
-                        </h3>
-                      </div>
+                      </h3>
 
                       <p className="relative m-0 overflow-hidden text-sm font-bold text-ellipsis opacity-80 group-hover:text-base group-hover:opacity-100 group-hover:after:hidden">
                         {project.description}

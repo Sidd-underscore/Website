@@ -14,11 +14,11 @@ const buttonVariants = cva(
         destructive:
           "border-black bg-[#FF80F2] text-black hover:bg-[#FFE121] active:translate-y-0.5",
         outline:
-          "bg-white text-black hover:bg-[#FF80F2] active:translate-y-0.5",
+          "bg-neutral-200/50 text-black hover:bg-[#FF80F2] active:translate-y-0.5",
         secondary:
           "bg-[#FFE121] text-black hover:bg-[#22FF00] active:translate-y-0.5",
         ghost:
-          "text-black hover:bg-black hover:text-white",
+          "text-neutral-600 hover:bg-neutral-200 border-neutral-500 border bg-neutral-200/50",
       },
       size: {
         default: "h-9 px-4 py-2",

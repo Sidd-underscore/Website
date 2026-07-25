@@ -37,7 +37,7 @@ const SAMPLE_NOW = new Date("2026-05-23T12:00:00-07:00");
 
 export default function DesignSplash() {
   const [colorBoxBackgroundColor, setColorBoxBackgroundColor] =
-    useState("#000000");
+    useState("#FF80F2");
   const [endTextStyles, setEndTextStyles] = useState(["font-bold"]);
 
   return (

@@ -20,13 +20,13 @@ I learned to code in JavaScript to work with Discord's API and make bots. I used
 
 After building a few bots and becoming semi-fluent in JavaScript, I branched into web development — to try and make dashboards and landing pages for the bots I made.
 
-Through this I learned ["HTML", "CSS", "EJS", "Node.js", "Express.js"] 
+Through this I learned ["HTML", "CSS", "EJS", "Node.js", "Express.js"]
 
 This phase sparked my love for UI/UX Design, which evolved into working with the stack I use today.
 
 var currentStack = {
-  frameworks: ["React", "Next.js"], 
-  styling: ["TailwindCSS"], 
+  frameworks: ["React", "Next.js"],
+  styling: ["TailwindCSS"],
   tooling: ["shadcn/ui", "Figma"],
   deployment: ["Vercel"],
   languages: ["JavaScript"],
@@ -184,7 +184,7 @@ I work remotely from Portland, Oregon, while also being a high school student.`;
   return (
     <section
       className={cn(
-        "y2k-panel relative overflow-hidden p-6 font-mono text-sm text-black",
+        "panel relative overflow-hidden p-6 font-mono text-sm text-black",
         isEditing && "border-dashed border-[#FF80F2]"
       )}
     >

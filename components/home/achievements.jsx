@@ -18,7 +18,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import autoAnimate from "@formkit/auto-animate";
@@ -60,29 +59,27 @@ export function Achievements({ className, defaultAchievementTypes }) {
 
   return (
     <section className={cn("my-32 w-full text-left", className)}>
-      <div>
-        <div className="flex w-fit items-center gap-3 border-2 border-black bg-[#FFE121] px-3 py-2 text-black shadow-[5px_5px_0_#000]">
-          <Icon name="StarGroup3" size="lg" />
-          <h2 className="text-3xl leading-none font-black tracking-normal uppercase">
-            {defaultAchievementTypes
-              ? formatArrayIntoSentence(
-                  defaultAchievementTypes,
-                  undefined,
-                  undefined,
-                  true,
-                ) + " Achievements"
-              : "Achievements"}
-          </h2>
-        </div>
-        <div className="mt-4 flex items-start justify-between space-x-2">
-          <p className="max-w-2xl border-2 border-black bg-white px-3 py-2 text-sm font-bold text-black shadow-[4px_4px_0_#000]">
+      <div className="panel bg-[#FFE121] p-3">
+        <h2 className="text-3xl leading-none font-black tracking-normal uppercase">
+          <Icon name="StarGroup3" className="mr-2" size="lg" />
+          {defaultAchievementTypes
+            ? formatArrayIntoSentence(
+                defaultAchievementTypes,
+                undefined,
+                undefined,
+                true,
+              ) + " Achievements"
+            : "Achievements"}
+        </h2>
+        <div className="mt-4 flex items-end justify-between space-x-2 lg:mt-0">
+          <p className="text-sm font-bold text-black">
             Recognition I&apos;ve received for my work and experience.
           </p>
           <DropdownMenu modal={true}>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="gap-2 px-2 md:px-4 py-2">
+              <Button variant="outline" className="gap-2 px-2 py-2 md:px-4">
                 <Settings2 className="size-4" />
-                  <span className="hidden md:block">Filter</span>
+                <span className="hidden md:block">Filter</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent
@@ -160,47 +157,44 @@ export function Achievements({ className, defaultAchievementTypes }) {
           achievementsToDisplay.map((achievement, index) => (
             <div
               key={achievement.id}
-              className="y2k-card group relative overflow-hidden transition-[translate,box-shadow] hover:-translate-y-1 hover:shadow-[10px_10px_0_#000]"
+              className="card group relative overflow-hidden transition-[translate,box-shadow] hover:-translate-y-1 hover:shadow-[10px_10px_0_#000]"
             >
               <Icon
                 name={index % 2 === 0 ? "Convergence" : "CircleStarFill"}
-                className="absolute top-3 right-3 opacity-20 transition group-hover:opacity-70"
+                className="absolute top-3 right-3 opacity-20 transition"
               />
               <div className={`h-full ${achievement.split ? "space-y-4" : ""}`}>
                 <div className="z-30 flex h-full flex-col justify-between px-5 py-4">
-                  <div>
+                  <div className="flex flex-col gap-1">
                     <h3 className="mb-3 pr-12 text-2xl font-black tracking-normal uppercase">
                       {achievement.name}
                     </h3>
-                    <p className="flex flex-wrap items-center gap-2 border-l-4 border-[#FF80F2] pl-2 text-xs font-bold opacity-80">
-                      <span className="flex items-center gap-2">
-                        <CalendarClock className="size-4 shrink-0" />
-                        <span>{achievement.date}</span>
-                      </span>
 
-                      <span>/</span>
-
-                      {achievement.category === "award" && (
-                        <span className="flex items-center gap-2">
-                          <Trophy className="size-4 shrink-0" />
-                          <span>{achievement.ranking}</span>
-                        </span>
-                      )}
-
-                      {achievement.category === "membership" && (
-                        <span className="flex items-center gap-2">
-                          <Users className="size-4 shrink-0" />
-                          <span>Membership by Invitation</span>
-                        </span>
-                      )}
-
-                      {achievement.category === "certification" && (
-                        <span className="flex items-center gap-2">
-                          <Send className="size-4 shrink-0 -rotate-45" />
-                          <span>Certification</span>
-                        </span>
-                      )}
+                    <p className="m-0 flex items-center gap-2 border-l-4 border-[#FFE121] pl-2 text-sm font-bold opacity-80">
+                      <CalendarClock className="size-4 shrink-0" />
+                      <span>{achievement.date}</span>
                     </p>
+
+                    {achievement.category === "award" && (
+                      <p className="m-0 flex items-center gap-2 border-l-4 border-[#FF80F2] pl-2 text-sm font-bold opacity-80">
+                        <Trophy className="size-4 shrink-0" />
+                        <span>{achievement.ranking}</span>
+                      </p>
+                    )}
+
+                    {achievement.category === "membership" && (
+                      <p className="m-0 flex items-center gap-2 border-l-4 border-[#FF80F2] pl-2 text-sm font-bold opacity-80">
+                        <Users className="size-4 shrink-0" />
+                        <span>Membership by Invitation</span>
+                      </p>
+                    )}
+
+                    {achievement.category === "certification" && (
+                      <p className="m-0 flex items-center gap-2 border-l-4 border-[#FF80F2] pl-2 text-sm font-bold opacity-80">
+                        <Send className="size-4 shrink-0 -rotate-45" />
+                        <span>Certification</span>
+                      </p>
+                    )}
 
                     <div className="m-4 text-sm font-medium">
                       <ul className="list-disc text-left">
@@ -249,14 +243,15 @@ export function Achievements({ className, defaultAchievementTypes }) {
                       ))}
                     </div>
                   )}
+
                   {achievement.link && (
-                    <div>
+                    <div className="mt-4 flex justify-center md:justify-start">
                       <Link
-                        className="mt-2 flex w-fit items-center gap-2 border-2 border-black bg-[#22FF00] px-3 py-2 text-black no-underline shadow-[4px_4px_0_#000]"
+                        className="w-full border-2 border-black bg-[#FFE121] px-3 py-2 text-center text-black no-underline shadow-[4px_4px_0_#000] group-hover:bg-[#22FF00]"
                         target="_blank"
                         href={achievement.link.url}
                       >
-                        <span> {achievement.link.text}</span> <MoveUpRight />
+                        <span> {achievement.link.text}</span>
                       </Link>
                     </div>
                   )}

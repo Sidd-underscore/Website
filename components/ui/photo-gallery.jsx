@@ -64,7 +64,6 @@ export function PhotoGallery({ photos }) {
         <Button
           variant="ghost"
           size="icon"
-          className="active:scale-90"
           onClick={scrollRight}
         >
           <span className="sr-only">Scroll left</span>
@@ -74,7 +73,6 @@ export function PhotoGallery({ photos }) {
         <Button
           variant="ghost"
           size="icon"
-          className="active:scale-90"
           onClick={scrollLeft}
         >
           <span className="sr-only">Scroll right</span>

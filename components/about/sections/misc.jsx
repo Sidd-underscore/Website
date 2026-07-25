@@ -24,30 +24,30 @@ export function MiscSection({ display, opacity, position }) {
 
         {/* Icon badges */}
         <div className="absolute inset-0">
-          <div className="absolute top-12 left-6 rounded-full border-2 border-black bg-white px-3 py-2 shadow-[4px_4px_0_#000]">
+          <div className="absolute top-12 left-6 rounded-full panel p-2 bg-neutral-100">
             <Icon name="Globe" className="opacity-90" size="sm" />
           </div>
-          <div className="absolute top-12 right-6 rounded-full border-2 border-black bg-white px-3 py-2 shadow-[4px_4px_0_#000]">
+          <div className="absolute top-12 right-6 rounded-full panel p-2 bg-neutral-100">
             <Icon name="StarTrail" className="opacity-90" size="sm" />
           </div>
-          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 rounded-full border-2 border-black bg-white px-3 py-2 shadow-[4px_4px_0_#000]">
+          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 rounded-full panel p-2 bg-neutral-100">
             <Icon name="Sun" className="opacity-90" size="sm" />
           </div>
         </div>
       </div>
 
       {/* Callouts */}
-      <p className="y2k-card absolute -top-32 left-0 w-[min(18rem,80vw)] p-4 text-xs leading-snug md:-top-8 md:-left-48 md:text-sm">
+      <p className="card absolute -top-32 left-0 w-[min(18rem,80vw)] p-4 text-xs leading-snug md:-top-8 md:-left-48 md:text-sm">
         <span className="flex items-center gap-2">
           <Icon name="CircleStarFill" size="sm" className="opacity-70" />I
           generally love tech, lighting design, and working collaboratively
           alongside others.
         </span>
       </p>
-      <p className="y2k-card absolute -top-12 right-0 w-[min(18rem,80vw)] p-4 text-right text-xs leading-snug md:top-28 md:-right-48 md:text-sm">
+      <p className="card absolute -top-12 right-0 w-[min(18rem,80vw)] p-4 text-right text-xs leading-snug md:top-28 md:-right-48 md:text-sm">
         I&apos;m an avid learner and an enthusiastic person in general,{" "}
       </p>
-      <p className="y2k-card absolute -bottom-20 left-10 w-[min(20rem,85vw)] p-4 text-xs leading-snug md:-bottom-10 md:-left-32 md:text-sm">
+      <p className="card absolute -bottom-20 left-10 w-[min(20rem,85vw)] p-4 text-xs leading-snug md:-bottom-10 md:-left-32 md:text-sm">
         hoping to, at the end of the day, help people and learn something
         new.{" "}
       </p>

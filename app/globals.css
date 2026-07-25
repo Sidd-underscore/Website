@@ -150,22 +150,15 @@ select {
     6px 6px 0 #000;
 }
 
-.y2k-panel {
+.panel {
   border: 2px solid #000;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.96),
-      rgba(220, 220, 220, 0.72)
-    ),
-    var(--chrome);
   color: #050505;
   box-shadow:
     7px 7px 0 #000,
     0 0 0 2px rgba(255, 255, 255, 0.26);
 }
 
-.y2k-card {
+.card {
   border: 2px solid #000;
   background:
     linear-gradient(135deg, rgba(255, 128, 242, 0.12), transparent 32%),
