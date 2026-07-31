@@ -39,14 +39,14 @@ export default async function WorkPage(props) {
 
   return (
     <>
-      <div className="panel gap-3 bg-[#22FF00] px-3 py-2">
+      <div className="panel gap-3 bg-[#45e52c] px-3 py-2">
         <h1 className="text-5xl font-black tracking-normal uppercase">
           {workItem.name}
         </h1>
       </div>
 
       <div className="panel mt-10 flex flex-wrap items-center gap-3 p-6">
-        <span className="m-0 flex items-center gap-2 border-l-4 border-[#22FF00] pl-2 text-sm font-bold">
+        <span className="m-0 flex items-center gap-2 border-l-4 border-[#45e52c] pl-2 text-sm font-bold">
           <Pin className="size-4 shrink-0" />
           <span>{workItem.location}</span>
         </span>

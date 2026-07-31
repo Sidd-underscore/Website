@@ -247,7 +247,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
                   {achievement.link && (
                     <div className="mt-4 flex justify-center md:justify-start">
                       <Link
-                        className="w-full border-2 border-black bg-[#FFE121] px-3 py-2 text-center text-black no-underline shadow-[4px_4px_0_#000] group-hover:bg-[#22FF00]"
+                        className="w-full border-2 border-black bg-[#FFE121] px-3 py-2 text-center text-black no-underline shadow-[4px_4px_0_#000] group-hover:bg-[#45e52c]"
                         target="_blank"
                         href={achievement.link.url}
                       >

@@ -103,7 +103,7 @@ export function Projects({
 
   return (
     <section className={cn("my-32 w-full text-left", className)}>
-      <div className="panel bg-[#22FF00] p-3">
+      <div className="panel bg-[#45e52c] p-3">
         <h2 className="text-3xl leading-none font-black tracking-normal uppercase">
           <Icon name="StarGroup3_2" className="mr-2" size="lg" />
             {projectHeading}
@@ -316,7 +316,7 @@ export function Projects({
                                 onClick={() => {
                                   setProjectTechnologiesToShow([technology]);
                                 }}
-                                className="text-md flex size-8 cursor-pointer items-center justify-center overflow-hidden border-2 border-black bg-[#FFE121] p-0 text-black shadow-[2px_2px_0_#000] group-hover:bg-[#22FF00] hover:bg-[#FF80F2]"
+                                className="text-md flex size-8 cursor-pointer items-center justify-center overflow-hidden border-2 border-black bg-[#FFE121] p-0 text-black shadow-[2px_2px_0_#000] group-hover:bg-[#45e52c] hover:bg-[#FF80F2]"
                               >
                                 <>
                                   {technology.icon}

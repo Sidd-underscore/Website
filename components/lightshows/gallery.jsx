@@ -2,7 +2,7 @@ import { lightshows } from "@/lib/lightshows";
 
 export function LightshowGallery() {
   return (
-    <div className="mb-12 flex flex-col gap-4 m-16 xl:grid xl:grid-flow-row xl:grid-cols-2">
+    <div className="mb-12 flex flex-col m-8 2xl:m-16 xl:grid xl:grid-flow-row xl:grid-cols-2">
       {lightshows.map((show, index) => (
         <span
           key={show.key ?? `lightshow-item-${index}`}

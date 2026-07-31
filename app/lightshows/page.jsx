@@ -10,18 +10,17 @@ export const metadata = {
 
 export default function LightshowsPage() {
   return (
-    <div className="no-max-w -m-6 mb-0! md:-m-12 2xl:-m-24">
+    <div className="no-max-w md:-mt-22 xl:-mt-24 2xl:-mt-32 -m-6 mb-0! md:-m-12 2xl:-m-24 text-white">
       <LightshowSplash />
 
-      <p className="panel mx-auto my-10 max-w-5xl p-6 text-center text-lg font-bold">
-        <Icon name="Sun" className="mr-2 inline-block size-6" />
+      <p className="panel m-8 xl:mx-auto max-w-6xl p-4 xl:p-6 text-center text-base md:text-lg font-bold">
         All of my lightshows are rendered using{" "}
         <Link href="https://www.capture.se/">Capture Student Edition</Link>. I
         custom-design the rigs for each show using{" "}
         <Link href="https://www.blender.org">Blender</Link>{" "}
         for the overall
         architecture and Capture to install the lights, truss, and other plot
-        annotations. After the rig is ready, I use ETC&apos;s EOS system to
+        annotations. After the rig is ready, I use <Link href="https://www.etcconnect.com/eos-software/">ETC&apos;s EOS system</Link> to
         program lights using their downloadable software for PC and the built-in
         visualizer mode. This outputs a virtual signal through sACN to Capture,
         which I then use to record the DMX outputs and render video. Afterwards,

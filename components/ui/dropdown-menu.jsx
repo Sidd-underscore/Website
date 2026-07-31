@@ -98,7 +98,7 @@ function DropdownMenuItem({ className, inset, variant = "default", ...props }) {
       data-inset={inset}
       data-variant={variant}
       className={cn(
-        "relative flex cursor-default items-center px-2 py-1.5 text-sm font-bold outline-hidden transition-colors select-none focus:bg-[#22FF00] focus:text-black data-disabled:pointer-events-none data-disabled:opacity-50 data-inset:pl-8",
+        "relative flex cursor-default items-center px-2 py-1.5 text-sm font-bold outline-hidden transition-colors select-none focus:bg-[#45e52c] focus:text-black data-disabled:pointer-events-none data-disabled:opacity-50 data-inset:pl-8",
         className,
       )}
       {...props}
@@ -111,7 +111,7 @@ function DropdownMenuCheckboxItem({ className, children, checked, ...props }) {
     <DropdownMenuPrimitive.CheckboxItem
       data-slot="dropdown-menu-checkbox-item"
       className={cn(
-        "relative flex cursor-default items-center py-1.5 pr-2 pl-8 text-sm font-bold outline-hidden transition-colors select-none focus:bg-[#22FF00] focus:text-black data-disabled:pointer-events-none data-disabled:opacity-50",
+        "relative flex cursor-default items-center py-1.5 pr-2 pl-8 text-sm font-bold outline-hidden transition-colors select-none focus:bg-[#45e52c] focus:text-black data-disabled:pointer-events-none data-disabled:opacity-50",
         className,
       )}
       checked={checked}
@@ -132,7 +132,7 @@ function DropdownMenuRadioItem({ className, children, ...props }) {
     <DropdownMenuPrimitive.RadioItem
       data-slot="dropdown-menu-radio-item"
       className={cn(
-        "relative flex cursor-default items-center py-1.5 pr-2 pl-8 text-sm font-bold outline-hidden transition-colors select-none focus:bg-[#22FF00] focus:text-black data-disabled:pointer-events-none data-disabled:opacity-50",
+        "relative flex cursor-default items-center py-1.5 pr-2 pl-8 text-sm font-bold outline-hidden transition-colors select-none focus:bg-[#45e52c] focus:text-black data-disabled:pointer-events-none data-disabled:opacity-50",
         className,
       )}
       {...props}

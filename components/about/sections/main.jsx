@@ -17,7 +17,7 @@ const focusItems = [
     icon: "Sun",
     title: "Live Events",
     text: "Lighting, livestreams, set builds, and more.",
-    className: "bg-[#22FF00]/50 md:rotate-[1deg]",
+    className: "bg-[#45e52c]/50 md:rotate-[1deg]",
   },
   {
     icon: "Bloom",

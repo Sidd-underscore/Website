@@ -19,9 +19,9 @@ export function Footer() {
           </p>
           <div className="flex items-center justify-center pb-4 text-base">
             <Link
-              onMouseEnter={() => {setSocialsText("@sidd_underscore on GitHub"); setSocialsTextHoverColor("bg-[#22FF00]")}}
+              onMouseEnter={() => {setSocialsText("@sidd_underscore on GitHub"); setSocialsTextHoverColor("bg-[#45e52c]")}}
               onMouseLeave={() => {setSocialsText("Check out my socials!"); setSocialsTextHoverColor("bg-white")}}
-              className="border-2 border-black bg-white p-2 text-black no-underline shadow-[3px_3px_0_#000] hover:bg-[#22FF00]"
+              className="border-2 border-black bg-white p-2 text-black no-underline shadow-[3px_3px_0_#000] hover:bg-[#45e52c]"
               href="https://github.com/Sidd-underscore"
             >
               <span className="sr-only">@sidd_underscore on GitHub</span>

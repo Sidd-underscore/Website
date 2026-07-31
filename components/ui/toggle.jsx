@@ -11,7 +11,7 @@ const toggleVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-white text-black hover:bg-[#22FF00] active:bg-[#FFE121]",
+        default: "bg-white text-black hover:bg-[#45e52c] active:bg-[#FFE121]",
         outline: "text-black hover:bg-neutral-200",
       },
       size: {

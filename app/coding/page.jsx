@@ -15,7 +15,7 @@ export const metadata = {
 export default function CodingAndDesignPage() {
   return (
     <>
-      <div className="relative z-10 -mb-px flex w-fit items-center gap-3 border-2 border-b-0 border-black bg-[#22FF00] p-4 text-black shadow-[5px_0_0_#000]">
+      <div className="relative z-10 -mb-px flex w-fit items-center gap-3 border-2 border-b-0 border-black bg-[#45e52c] p-4 text-black shadow-[5px_0_0_#000]">
         <Icon name="StarShadow" className="size-8" />
         <h1 className="text-5xl font-black tracking-normal uppercase">
           Coding<span className="font-mono opacity-60">.jsx</span>

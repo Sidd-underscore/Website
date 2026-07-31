@@ -1,9 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Canvas, useThree } from "@react-three/fiber";
-import { Text3D, Center } from "@react-three/drei";
-import { useSpring, animated } from "@react-spring/three";
+import { useState, useEffect, useRef, useLayoutEffect, useCallback } from "react";
 
 const BACKGROUND_IMAGES = [
   "/images/projects/lightshows/snapshots/2-pulpo-blue-orange.jpg",
@@ -18,30 +15,52 @@ const BACKGROUND_IMAGES = [
 ];
 
 export default function LightshowSplash() {
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [nextImageIndex, setNextImageIndex] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const maxScroll =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const currentScroll = window.scrollY;
-      const progress = Math.min(currentScroll / maxScroll, 1);
-      setScrollProgress(progress);
-    };
+  const [imageDims, setImageDims] = useState({});
+  const [geometry, setGeometry] = useState(null);
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const heroRef = useRef(null);
+  const boxRef = useRef(null);
 
   useEffect(() => {
     BACKGROUND_IMAGES.forEach((src) => {
       const img = new Image();
+      img.onload = () => {
+        setImageDims((prev) => ({
+          ...prev,
+          [src]: { width: img.naturalWidth, height: img.naturalHeight },
+        }));
+      };
       img.src = src;
     });
   }, []);
+
+  const measure = useCallback(() => {
+    if (!heroRef.current || !boxRef.current) return;
+    const heroRect = heroRef.current.getBoundingClientRect();
+    const boxRect = boxRef.current.getBoundingClientRect();
+    setGeometry({
+      heroWidth: heroRect.width,
+      heroHeight: heroRect.height,
+      boxLeft: boxRect.left - heroRect.left,
+      boxTop: boxRect.top - heroRect.top,
+    });
+  }, []);
+
+  useLayoutEffect(() => {
+    measure();
+    window.addEventListener("resize", measure);
+    const ro = new ResizeObserver(measure);
+    if (heroRef.current) ro.observe(heroRef.current);
+    if (boxRef.current) ro.observe(boxRef.current);
+    return () => {
+      window.removeEventListener("resize", measure);
+      ro.disconnect();
+    };
+  }, [measure]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -58,10 +77,37 @@ export default function LightshowSplash() {
     return () => clearInterval(timer);
   }, [currentImageIndex]);
 
+  function getAlignedBackgroundStyle(src) {
+    const dims = imageDims[src];
+    if (!dims || !geometry) {
+      return {
+        backgroundImage: `url(${src})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      };
+    }
+    const { heroWidth, heroHeight, boxLeft, boxTop } = geometry;
+    const scale = Math.max(heroWidth / dims.width, heroHeight / dims.height);
+    const renderedW = dims.width * scale;
+    const renderedH = dims.height * scale;
+    const offsetXInHero = (heroWidth - renderedW) / 2;
+    const offsetYInHero = (heroHeight - renderedH) / 2;
+    return {
+      backgroundImage: `url(${src})`,
+      backgroundSize: `${renderedW}px ${renderedH}px`,
+      backgroundPosition: `${offsetXInHero - boxLeft}px ${offsetYInHero - boxTop}px`,
+      backgroundRepeat: "no-repeat",
+    };
+  }
+
+  const currentSrc = BACKGROUND_IMAGES[currentImageIndex];
+  const nextSrc = BACKGROUND_IMAGES[nextImageIndex];
+
   return (
-    <div className="relative">
+    <div className="relative bg-black">
       <div className="absolute top-0 right-0 left-0 z-10 h-[25vh] bg-linear-to-b from-black to-transparent" />
       <div
+        ref={heroRef}
         style={{
           position: "relative",
           width: "100%",
@@ -76,7 +122,7 @@ export default function LightshowSplash() {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundImage: `url(${BACKGROUND_IMAGES[currentImageIndex]})`,
+            backgroundImage: `url(${currentSrc})`,
             backgroundPosition: "center",
             backgroundSize: "cover",
             transition: "opacity 1s ease-in-out",
@@ -92,7 +138,7 @@ export default function LightshowSplash() {
             left: 0,
             right: 0,
             bottom: 0,
-            backgroundImage: `url(${BACKGROUND_IMAGES[nextImageIndex]})`,
+            backgroundImage: `url(${nextSrc})`,
             backgroundPosition: "center",
             backgroundSize: "cover",
             transition: "opacity 1s ease-in-out",
@@ -100,92 +146,69 @@ export default function LightshowSplash() {
             zIndex: 1,
           }}
         />
-        <Canvas
-          shadows
-          dpr={[1, 2]}
-          camera={{ position: [0, 2, 5], fov: 90, near: 1, far: 20 }}
-          style={{
-            width: "100%",
-            height: "100%",
-            position: "relative",
-            zIndex: 2,
-          }}
-        >
-          <fog attach="fog" args={["#202020", 5, 20]} />
-          <ambientLight intensity={0.1} />
-          <Scene scrollProgress={scrollProgress} />
-        </Canvas>
+
+        <div className="absolute inset-0 z-20 flex items-center justify-center">
+          <div ref={boxRef} className="relative">
+            <h1
+              aria-hidden="true"
+              className="invisible select-none text-center text-[2rem] md:text-[4rem] lg:text-[6rem] xl:text-[10rem] 2xl:text-[12rem] font-black leading-tight tracking-tight px-8 lg:px-16 border-2 border-transparent"
+            >
+              LIGHTSHOWS
+            </h1>
+
+            {/* Inverted fill - current */}
+            <div
+              className="absolute inset-0"
+              style={{
+                ...getAlignedBackgroundStyle(currentSrc),
+                filter: "invert(1)",
+                transition: "opacity 1s ease-in-out",
+                opacity: 1,
+              }}
+            />
+            {/* Inverted fill - next (crossfade) */}
+            <div
+              className="absolute inset-0"
+              style={{
+                ...getAlignedBackgroundStyle(nextSrc),
+                filter: "invert(1)",
+                transition: "opacity 1s ease-in-out",
+                opacity: isTransitioning ? 1 : 0,
+              }}
+            />
+            {/* Text clip - current */}
+            <h1
+              className="absolute inset-0 text-center text-[2rem] md:text-[4rem] lg:text-[6rem] xl:text-[10rem] 2xl:text-[12rem] font-black leading-tight tracking-tight px-8 lg:px-16"
+              style={{
+                ...getAlignedBackgroundStyle(currentSrc),
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "transparent",
+                transition: "opacity 1s ease-in-out",
+                opacity: 1,
+              }}
+            >
+              LIGHTSHOWS
+            </h1>
+            {/* Text clip - next (crossfade) */}
+            <h1
+              className="absolute inset-0 text-center text-[2rem] md:text-[4rem] lg:text-[6rem] xl:text-[10rem] 2xl:text-[12rem] font-black leading-tight tracking-tight px-8 lg:px-16"
+              style={{
+                ...getAlignedBackgroundStyle(nextSrc),
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "transparent",
+                transition: "opacity 1s ease-in-out",
+                opacity: isTransitioning ? 1 : 0,
+              }}
+            >
+              LIGHTSHOWS
+            </h1>
+          </div>
+        </div>
       </div>
     </div>
-  );
-}
-
-function Scene({ scrollProgress }) {
-  const { viewport } = useThree();
-  const textSize = Math.min(viewport.width, viewport.height) * 0.15;
-
-  const textSpring = useSpring({
-    scale: [1, 1, 1],
-    rotation: [scrollProgress * Math.PI * 0.5, 0, 0],
-    config: { mass: 2, tension: 200, friction: 50 },
-  });
-
-  return (
-    <>
-      <ambientLight intensity={1.5} />
-      <hemisphereLight intensity={1.2} color="#ffffff" />
-      <directionalLight position={[5, 5, 5]} intensity={0.8} castShadow />
-
-      <Center scale={[1, 1, 1]} position={[0, viewport.height * 0.1, -2]}>
-        <animated.group {...textSpring}>
-          {/* Front lighting for text visibility */}
-          <spotLight
-            position={[0, 0, 6]}
-            angle={0.6}
-            penumbra={0.5}
-            intensity={10}
-            color="#ffffff"
-          />
-
-          {/* Main text */}
-          <Text3D
-            font="/fonts/archivo.typeface.json"
-            size={textSize}
-            height={textSize * 0.4}
-            bevelEnabled
-            bevelSize={textSize * 0.04}
-            bevelOffset={0}
-            bevelSegments={7}
-            letterSpacing={0.02}
-            textAlign="center"
-          >
-            Lightshows
-            <meshBasicMaterial color={"#FFE121"} />
-          </Text3D>
-
-          {/* Black outline */}
-          <group position={[0, 0, -0.1]}>
-            <Text3D
-              font="/fonts/archivo.typeface.json"
-              size={textSize * 1.02}
-              height={textSize * 0.4}
-              bevelEnabled
-              bevelSize={textSize * 0.04}
-              bevelOffset={0}
-              bevelSegments={7}
-              letterSpacing={0.02}
-              textAlign="center"
-            >
-              Lightshows
-              <meshBasicMaterial color="#FF80F2" />
-            </Text3D>
-          </group>
-        </animated.group>
-      </Center>
-
-      <mesh receiveShadow position={[0, -1, 0]} rotation-x={-Math.PI / 2}>
-        <meshPhongMaterial />
-      </mesh>
-    </>
   );
 }

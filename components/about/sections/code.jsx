@@ -22,7 +22,7 @@ export function CodeSection({ display, opacity, position }) {
         {/* Portal core (kept separate so callouts can overflow) */}
         <div className="absolute inset-0 rounded-full bg-white">
           <div className="checker-surface absolute inset-0 rounded-full opacity-20" />
-          <div className="pointer-events-none absolute inset-0 translate-x-0.75 -translate-y-0.5 rounded-full border-2 border-[#22FF00]" />
+          <div className="pointer-events-none absolute inset-0 translate-x-0.75 -translate-y-0.5 rounded-full border-2 border-[#45e52c]" />
           <div className="pointer-events-none absolute inset-0 -translate-x-0.5 translate-y-0.75 rounded-full border-2 border-[#FF80F2]" />
 
           <div className="absolute inset-8 rounded-full border-2 border-black bg-white/80" />

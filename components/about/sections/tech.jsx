@@ -24,7 +24,7 @@ export function TechSection({ display, opacity, position }) {
         <div className="pointer-events-none absolute inset-0 -translate-x-0.75 translate-y-0.5 rounded-full border-2 border-[#FF80F2]" />
 
         <div className="absolute inset-8 rounded-full border-2 border-black bg-white/80 shadow-[6px_6px_0_#000]" />
-        <div className="absolute inset-16 rounded-full border-2 border-black bg-[#22FF00]/25" />
+        <div className="absolute inset-16 rounded-full border-2 border-black bg-[#45e52c]/25" />
 
         {/* Center chip */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-black bg-white p-4 text-center font-mono text-xs font-black uppercase shadow-[5px_5px_0_#000]">

@@ -89,7 +89,7 @@ export function Work({ className, defaultWorkTypes, title }) {
               : null}
             ! My full resume can be found{" "}
             <Link
-              className="inline! w-fit text-[#22FF00]"
+              className="inline! w-fit text-[#45e52c]"
               target="_blank"
               href="https://docs.google.com/document/u/1/d/e/2PACX-1vQXvkuGlTvrrmcohbt0IMEwqICI7LXFGADMdX1dmSIJqNIKYZjiAamP3D5tZEEXJYuOZX0zUMpmSXoZ/pub"
             >
@@ -186,7 +186,7 @@ export function Work({ className, defaultWorkTypes, title }) {
                       {workItem.name}
                     </h3>
 
-                    <p className="m-0 flex items-center gap-2 border-l-4 border-[#22FF00] pl-2 text-sm font-bold opacity-80">
+                    <p className="m-0 flex items-center gap-2 border-l-4 border-[#45e52c] pl-2 text-sm font-bold opacity-80">
                       <Pin className="size-4 shrink-0" />
                       <span>{workItem.location}</span>
                     </p>
@@ -224,7 +224,7 @@ export function Work({ className, defaultWorkTypes, title }) {
 
                   <div className="mt-4 flex justify-center md:justify-start">
                     <Link
-                      className="w-full border-2 border-black bg-[#FF80F2] px-3 py-2 text-center text-black no-underline shadow-[4px_4px_0_#000] group-hover:bg-[#22FF00]"
+                      className="w-full border-2 border-black bg-[#FF80F2] px-3 py-2 text-center text-black no-underline shadow-[4px_4px_0_#000] group-hover:bg-[#45e52c]"
                       href={"/work/" + workItem.id}
                     >
                       Learn more
