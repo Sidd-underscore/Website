@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Archivo } from "next/font/google";
 import "./globals.css";
 import DitherOverlay from "@/components/dither";
+import WorldwideBackground from "@/components/worldwide-background";
 
 const archivo = Archivo({ subsets: ["latin"] });
 
@@ -38,20 +39,32 @@ export default function RootLayout({ children }) {
       className="relative"
     >
       <body
-        className={`${archivo.className} relative justify-left flex min-h-screen flex-col items-center overflow-x-hidden overflow-y-scroll p-3 pb-0! text-white selection:bg-[#FFE121] selection:text-black md:p-8 2xl:p-14`}
+        className={`${archivo.className} text-white selection:bg-[#FFE121] selection:text-black`}
         style={{ scrollbarGutter: "stable" }}
       >
-        <Navbar />
-        <main className="relative z-10 mt-12 min-h-screen w-full max-w-6xl has-[.no-max-w]:max-w-none lg:mt-14 xl:mt-16">
-        {children}
-        </main>
-        <Footer />
+        <div
 
-        {/* For screen sizes */}
-        <TailwindIndicator />
-        <Analytics />
-        <SpeedInsights />
-        <DitherOverlay blendMode="overlay" speed={1.5} pixelSize={2} opacity={0.25} amount={0.8} />
+          className="justify-left relative flex min-h-screen flex-col items-center overflow-x-hidden overflow-y-scroll p-3 pb-0! md:p-8 2xl:p-14"
+        >
+          <WorldwideBackground variant="gutter" />
+          <Navbar />
+          <main className="relative z-10 mt-12 min-h-screen w-full max-w-6xl has-[.no-max-w]:max-w-none lg:mt-14 xl:mt-16">
+            {children}
+          </main>
+          <Footer />
+
+          {/* For screen sizes */}
+          <TailwindIndicator />
+          <Analytics />
+          <SpeedInsights />
+          <DitherOverlay
+            blendMode="overlay"
+            speed={1.5}
+            pixelSize={2}
+            opacity={0.25}
+            amount={0.8}
+          />
+        </div>
       </body>
     </html>
   );

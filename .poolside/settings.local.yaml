@@ -1,0 +1,7 @@
+tools:
+    shell:
+        allow:
+            - npx tsc *
+            - head *
+            - Select-Object *
+            - npx next lint *

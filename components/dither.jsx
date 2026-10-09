@@ -23,7 +23,7 @@ function ensureViewTransitionPatch() {
 }
 
 /* ----- Bayer threshold matrix, generated on the CPU ----- */
-function generateBayer(n) {
+export function generateBayer(n) {
   let m = [[0, 2], [3, 1]];
   let size = 2;
   while (size < n) {

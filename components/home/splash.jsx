@@ -22,7 +22,7 @@ export function HomeSplash() {
                 />
               </div>
 
-              <div className="checker-surface flex w-full justify-center border-2">
+              <div className="checker-surface flex w-full justify-center border-2 bg-white/90">
                 <div className="mx-6 my-4 md:mx-8 md:my-6 w-fit justify-center space-y-8 text-center">
                   <p className="text-lg leading-tight font-bold text-black md:text-2xl">
                     I code, produce films, design lights, and more...
