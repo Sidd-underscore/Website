@@ -46,7 +46,7 @@ export default function RootLayout({ children }) {
 
           className="justify-left relative flex min-h-screen flex-col items-center overflow-x-hidden overflow-y-scroll p-3 pb-0! md:p-8 2xl:p-14"
         >
-          <WorldwideBackground variant="gutter" />
+          <WorldwideBackground />
           <Navbar />
           <main className="relative z-10 mt-12 min-h-screen w-full max-w-6xl has-[.no-max-w]:max-w-none lg:mt-14 xl:mt-16">
             {children}

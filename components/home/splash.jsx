@@ -13,7 +13,7 @@ export function HomeSplash() {
               <div className="relative h-96 w-full">
                 <Image
                   draggable={false}
-                  src="/images/sidd.svg"
+                  src="/images/sidd-filled.svg"
                   alt="Sidd"
                   className="object-contain"
                   fill

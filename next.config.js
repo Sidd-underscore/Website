@@ -14,11 +14,6 @@ const nextConfig = {
       },
     async redirects() {
       return [
-        {
-          source: "/hadestown",
-          destination: "/projects/hadestown",
-          permanent: true,
-        },
       ];
     },
 };

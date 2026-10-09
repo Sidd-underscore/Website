@@ -1,11 +1,16 @@
 import { Projects } from "@/components/home/projects";
-import { Icon } from "@/components/ui/icon";
 import { Link } from "@/components/ui/link";
 import { projects } from "@/lib/projects";
 import { MoveUpRight } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import NotFound from "@/app/not-found";
 import { Button } from "@/components/ui/button";
+import { notFound } from "next/navigation";
+
+export function generateStaticParams() {
+  return projects
+    .filter((project) => !project.projectPath)
+    .map((project) => ({ projectId: project.id }));
+}
 
 export async function generateMetadata(props) {
   const params = await props.params;
@@ -30,15 +35,7 @@ export default async function ProjectPage(props) {
   const { projectId } = params;
   const project = projects.find((e) => e.id === projectId);
 
-  if (!project) {
-    return (
-      <>
-        <NotFound prefix="Project" />
-        <Separator className="mt-10 -mb-10" />
-        <Projects />
-      </>
-    );
-  }
+  if (!project) notFound();
 
   return (
     <>
@@ -48,16 +45,15 @@ export default async function ProjectPage(props) {
         </h1>
 
       {project.url && (
-        <Link
-          className="mt-4 flex w-fit items-center gap-2 no-underline"
-          target="_blank"
-          passHref
-          href={project.url}
-        >
-          <Button variant="default">
+        <Button asChild variant="default" className="mt-4 w-fit">
+          <Link
+            className="no-underline"
+            target="_blank"
+            href={project.url}
+          >
             <span>Go to project</span> <MoveUpRight />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       )}
       </div>
 

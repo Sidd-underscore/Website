@@ -137,6 +137,7 @@ export function Achievements({ className, defaultAchievementTypes }) {
               variant="destructive"
               size="icon"
               className="px-2 text-sm"
+              aria-label="Clear all filters"
               onClick={() => setAchievementTypesToShow(achievementData.types)}
             >
               <X />
@@ -262,14 +263,13 @@ export function Achievements({ className, defaultAchievementTypes }) {
         ) : (
           <p className="w-full text-center text-neutral-400">
             No achievements found... Try{" "}
-            <span
+            <button
+              type="button"
               className="cursor-pointer underline"
-              onClick={() => {
-                setAchievementTypesToShow(gatherAllAchievementData().types);
-              }}
+              onClick={() => setAchievementTypesToShow(achievementData.types)}
             >
               clearing the filters
-            </span>
+            </button>
             ?
           </p>
         )}

@@ -79,7 +79,7 @@ export function Work({ className, defaultWorkTypes, title }) {
             The best testament of knowledge is putting it to work. Here is some
             of my experience
             {defaultWorkTypes
-              ? "that are " +
+              ? " that is " +
                 formatArrayIntoSentence(
                   defaultWorkTypes || [],
                   undefined,
@@ -157,6 +157,7 @@ export function Work({ className, defaultWorkTypes, title }) {
                 variant="destructive"
                 size="icon"
                 className="px-2 text-sm"
+                aria-label="Clear all filters"
                 onClick={() => setWorkTypesToShow(workData.types)}
               >
                 <X />
@@ -237,14 +238,13 @@ export function Work({ className, defaultWorkTypes, title }) {
         ) : (
           <p className="w-full text-center text-neutral-400">
             No relevant work items found... Try{" "}
-            <span
+            <button
+              type="button"
               className="cursor-pointer underline"
-              onClick={() => {
-                setWorkTypesToShow(gatherAllWorkData().types);
-              }}
+              onClick={() => setWorkTypesToShow(workData.types)}
             >
               clearing the filters
-            </span>
+            </button>
             ?
           </p>
         )}

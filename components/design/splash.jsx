@@ -1,7 +1,13 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -34,6 +40,14 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 const SAMPLE_PHOTO_DATE = fromUnixTime(1679481600);
 const SAMPLE_NOW = new Date("2026-05-23T12:00:00-07:00");
+
+const MOBILE_QUERY = "(max-width: 639px)";
+
+function subscribeToMobileQuery(callback) {
+  const query = window.matchMedia(MOBILE_QUERY);
+  query.addEventListener("change", callback);
+  return () => query.removeEventListener("change", callback);
+}
 
 export default function DesignSplash() {
   const [colorBoxBackgroundColor, setColorBoxBackgroundColor] =
@@ -126,7 +140,8 @@ export function TextBox({ textContent }) {
 
   const [width, setWidth] = useState();
   const [height, setHeight] = useState(98);
-  const [top, setTop] = useState(-150);
+  // null until the box is dragged or resized; until then it follows the breakpoint.
+  const [draggedTop, setDraggedTop] = useState(null);
   const [left, setLeft] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
 
@@ -141,10 +156,12 @@ export function TextBox({ textContent }) {
     }
   }, []);
 
-  useLayoutEffect(() => {
-    const isMobile = window.matchMedia("(max-width: 639px)").matches;
-    setTop(isMobile ? mobileTop : desktopTop);
-  }, []);
+  const isMobile = useSyncExternalStore(
+    subscribeToMobileQuery,
+    () => window.matchMedia(MOBILE_QUERY).matches,
+    () => false,
+  );
+  const top = draggedTop ?? (isMobile ? mobileTop : desktopTop);
 
   const updateHeightForText = (content) => {
     const input = measureRef.current;
@@ -166,6 +183,7 @@ export function TextBox({ textContent }) {
       let currentIndex = 0;
       let lastTime = 0;
       const typingDelay = 50;
+      let animationFrameId;
 
       const typeText = (time) => {
         if (time - lastTime >= typingDelay) {
@@ -178,11 +196,11 @@ export function TextBox({ textContent }) {
         }
 
         if (currentIndex < textContent.length) {
-          requestAnimationFrame(typeText);
+          animationFrameId = requestAnimationFrame(typeText);
         }
       };
 
-      const animationFrameId = requestAnimationFrame(typeText);
+      animationFrameId = requestAnimationFrame(typeText);
 
       return () => cancelAnimationFrame(animationFrameId);
     }
@@ -209,7 +227,7 @@ export function TextBox({ textContent }) {
       const moveY = isTouch ? moveEvent.touches[0].clientY : moveEvent.clientY;
       const deltaX = moveX - startX;
       const deltaY = moveY - startY;
-      setTop(startTop + deltaY);
+      setDraggedTop(startTop + deltaY);
       setLeft(startLeft + deltaX);
     };
 
@@ -269,7 +287,7 @@ export function TextBox({ textContent }) {
       setWidth(newWidth);
       setHeight(newHeight);
       setLeft(newLeft);
-      setTop(newTop);
+      setDraggedTop(newTop);
     };
 
     const stopMove = () => {
@@ -299,14 +317,12 @@ export function TextBox({ textContent }) {
       }}
     >
       <textarea
-        type="text"
         ref={inputRef}
         className="h-full w-full resize-none overflow-hidden border-2 border-black bg-white p-4 text-2xl leading-loose text-black ring-0 outline-hidden focus:ring-0 focus:outline-hidden"
         value={text}
         onChange={(e) => {
           setText(e.target.value);
         }}
-        autoFocus={true}
       />
       <div
         ref={measureRef}

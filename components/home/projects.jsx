@@ -240,6 +240,7 @@ export function Projects({
               variant="destructive"
               size="icon"
               className="px-2 text-sm"
+              aria-label="Clear all filters"
               onClick={() => {
                 setProjectTypesToShow(projectData.types);
                 setProjectTechnologiesToShow(projectData.technologies);
@@ -313,7 +314,9 @@ export function Projects({
                           <TooltipProvider>
                             <Tooltip>
                               <TooltipTrigger
-                                onClick={() => {
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
                                   setProjectTechnologiesToShow([technology]);
                                 }}
                                 className="text-md flex size-8 cursor-pointer items-center justify-center overflow-hidden border-2 border-black bg-[#FFE121] p-0 text-black shadow-[2px_2px_0_#000] group-hover:bg-[#45e52c] hover:bg-[#FF80F2]"
@@ -343,17 +346,16 @@ export function Projects({
         ) : (
           <p className="w-full text-center text-neutral-400">
             No projects found... Try{" "}
-            <span
+            <button
+              type="button"
               className="cursor-pointer underline"
               onClick={() => {
-                setProjectTypesToShow(gatherAllProjectData().types);
-                setProjectTechnologiesToShow(
-                  gatherAllProjectData().technologies,
-                );
+                setProjectTypesToShow(projectData.types);
+                setProjectTechnologiesToShow(projectData.technologies);
               }}
             >
               clearing the filters
-            </span>
+            </button>
             ?
           </p>
         )}

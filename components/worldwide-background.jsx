@@ -1,7 +1,14 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { generateBayer } from '@/components/dither';
+import {
+  CELL_CANVAS_STYLE,
+  IDLE_FRAME_MS,
+  createBayerTexture,
+  createCellGrid,
+  createFullscreenProgram,
+  createGl,
+} from '@/components/dither';
 
 /*
   Site-wide background texture built from /worldwideAlert.svg.
@@ -11,43 +18,26 @@ import { generateBayer } from '@/components/dither';
   grid and Bayer-dithered. It sits behind all content and scrolls slower than
   the page for depth.
 
-  Every variant shares a faint grey "watermark" base and an animated "signal"
-  treatment (breathing grey globes, alert rings, and flaring stars). They differ
-  in where and when the signal shows up:
-
-    signal     signal everywhere, all the time
-    quiet      watermark only
-    spotlight  signal follows the cursor (and blooms while scrolling on touch)
-    scroll     signal blooms while scrolling, then settles back to the watermark
-    gutter     signal only in the margins beside the content column
-    giant      one huge, very faint globe parked at the bottom of the screen
+  Behind the content column the globes are a faint, still grey "watermark" that
+  fades out toward the middle of the screen. Out in the margins beside it they
+  get the animated "signal" treatment: breathing grey globes, alert rings, and
+  flaring stars.
 */
-
-export const BACKGROUND_VARIANTS = ['signal', 'quiet', 'spotlight', 'scroll', 'gutter', 'giant'];
 
 const SVG_SRC = '/worldwideAlert.svg';
 const TEX_W = 512;
 const TEX_H = 256;
 
-const VERT = `
-attribute vec2 a_pos;
-void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
-`;
-
 const FRAG = `
 precision highp float;
-uniform vec2  u_res;
-uniform vec2  u_scroll;   // parallaxed page scroll in device px
+uniform vec2  u_res;      // canvas size in cells
+uniform vec2  u_origin;   // index of the top-left cell in parallaxed page space
+uniform float u_cell;     // CSS px per dither cell
+uniform float u_shiftX;   // CSS px the canvas is shifted by to stay on the cell grid (<= 0)
+uniform float u_viewW;    // viewport width, CSS px
 uniform float u_time;
-uniform float u_dpr;
-uniform float u_pixel;    // device px per dither cell
 uniform float u_n;        // bayer matrix size
 uniform float u_scale;    // tile scale (smaller on phones)
-uniform float u_mode;     // index into BACKGROUND_VARIANTS
-uniform vec2  u_mouse;    // eased cursor position, CSS px
-uniform float u_mouseOn;  // 0-1, eased cursor presence
-uniform float u_energy;   // 0-1, decaying scroll activity
-uniform float u_hover;    // 1 when the device has a real pointer
 uniform float u_content;  // content column width, CSS px
 uniform sampler2D u_bayer;
 uniform sampler2D u_mark; // r = globe, g = star
@@ -66,7 +56,7 @@ float vnoise(vec2 p) {
   return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
 }
 
-// Always sample (no early return) so mipmap derivatives stay well-defined.
+// Masked to the unit square so neighbouring tiles never pick up a clamped edge.
 float sampleMark(vec2 uv, float channel) {
   float inside = step(0.0, uv.x) * step(0.0, uv.y) * step(uv.x, 1.0) * step(uv.y, 1.0);
   vec4 m = texture2D(u_mark, clamp(uv, 0.0, 1.0));
@@ -74,37 +64,24 @@ float sampleMark(vec2 uv, float channel) {
 }
 
 void main() {
-  // Snap to dither cells, then work in CSS px with a top-left origin.
-  vec2 frag = vec2(gl_FragCoord.x, u_res.y - gl_FragCoord.y);
-  vec2 cell = floor((frag + u_scroll) / u_pixel);
-  vec2 p = (cell + 0.5) * u_pixel / u_dpr;
-  vec2 screen = frag / u_dpr;
-  vec2 view = u_res / u_dpr;
-  bool giant = u_mode > 4.5;
+  // One fragment per dither cell; work in CSS px with a top-left origin.
+  vec2 pix = vec2(floor(gl_FragCoord.x), u_res.y - 1.0 - floor(gl_FragCoord.y));
+  vec2 cell = u_origin + pix;
+  vec2 p = (cell + 0.5) * u_cell;
+  float screenX = (pix.x + 0.5) * u_cell + u_shiftX;
 
   float threshold = texture2D(u_bayer, (mod(cell, u_n) + 0.5) / u_n).r;
 
-  vec2 tile, globe, local, center;
-  float seed;
-  if (giant) {
-    // One mark, wider than the screen, parked low so its top arc peeks up.
-    globe = vec2(1.0, 0.5) * max(view.x * 1.15, 900.0);
-    tile = globe * 2.0;
-    center = u_scroll / u_dpr + vec2(view.x * 0.5, view.y * 0.9);
-    local = p;
-    seed = 0.37;
-  } else {
-    // Staggered tiling: every other row shifts by half a tile, and some spots
-    // are left empty (below) so it reads as a scatter rather than wallpaper.
-    tile = vec2(300.0, 210.0) * u_scale;
-    globe = vec2(108.0, 54.0) * u_scale;
-    float row = floor(p.y / tile.y);
-    vec2 shifted = p + vec2(mod(row, 2.0) * tile.x * 0.5, 0.0);
-    local = fract(shifted / tile) * tile;
-    center = tile * 0.5;
-    seed = hash(floor(shifted / tile));
-  }
-  float present = giant ? 1.0 : step(0.4, seed);
+  // Staggered tiling: every other row shifts by half a tile, and some spots
+  // are left empty (below) so it reads as a scatter rather than wallpaper.
+  vec2 tile = vec2(300.0, 210.0) * u_scale;
+  vec2 globe = vec2(108.0, 54.0) * u_scale;
+  float row = floor(p.y / tile.y);
+  vec2 shifted = p + vec2(mod(row, 2.0) * tile.x * 0.5, 0.0);
+  vec2 local = fract(shifted / tile) * tile;
+  vec2 center = tile * 0.5;
+  float seed = hash(floor(shifted / tile));
+  float present = step(0.4, seed);
   vec2 uv = (local - (center - globe * 0.5)) / globe;
 
   // A slow diagonal broadcast wave, broken up by noise, sets how lit each area is.
@@ -112,34 +89,28 @@ void main() {
   wave = mix(wave, vnoise(p * 0.004 + u_time * 0.05), 0.35);
   wave = smoothstep(0.15, 0.9, wave);
 
-  // How much of the animated "signal" treatment this pixel gets (0 = watermark).
-  float accent = 1.0;
-  if (u_mode > 0.5 && u_mode < 1.5) {
-    accent = 0.0;
-  } else if (u_mode > 1.5 && u_mode < 2.5) {
-    float spot = u_mouseOn * (1.0 - smoothstep(60.0, 280.0, length(screen - u_mouse)));
-    accent = max(spot, u_energy * (1.0 - u_hover));
-  } else if (u_mode > 2.5 && u_mode < 3.5) {
-    accent = u_energy;
-  } else if (u_mode > 3.5 && u_mode < 4.5) {
-    float halfWidth = u_content * 0.5;
-    accent = smoothstep(halfWidth + 8.0, halfWidth + 200.0, abs(screen.x - view.x * 0.5));
-  }
+  // How much of the animated "signal" treatment this cell gets: 0 behind the content, 1 in the margins.
+  float halfWidth = u_content * 0.5;
+  float fromCenter = abs(screenX - u_viewW * 0.5);
+  float accent = smoothstep(halfWidth + 8.0, halfWidth + 200.0, fromCenter);
+
+  // Marks fade out toward the middle of the screen so they stay out from under the text. Full
+  // strength from the edge of the content column (or the screen edge on phones) outwards; the
+  // cubic keeps most of the column nearly empty and ramps up close to its edge.
+  float fade = pow(clamp(fromCenter / (min(u_content, u_viewW) * 0.5 + 8.0), 0.0, 1.0), 3.0);
 
   // Alert rings expanding out of each globe on its own schedule.
-  float phase = fract(u_time * (giant ? 0.04 : 0.12) + seed);
-  float radius = giant
-    ? mix(globe.y * 0.5, globe.x * 0.75, phase)
-    : mix(globe.y * 0.55, min(tile.x, tile.y) * 0.5, phase);
+  float phase = fract(u_time * 0.12 + seed);
+  float radius = mix(globe.y * 0.55, min(tile.x, tile.y) * 0.5, phase);
   float ringDist = abs(length((local - center) * vec2(1.0, 1.6)) - radius);
-  float ringWidth = giant ? 4.0 : 2.0 * u_scale;
+  float ringWidth = 2.0 * u_scale;
   float ring = (1.0 - smoothstep(ringWidth * 0.5, ringWidth * 1.5, ringDist)) * (1.0 - phase) * present;
-  ring *= accent * (giant ? 0.2 : 0.3) * wave;
+  ring *= accent * 0.3 * wave;
 
   float globeA = sampleMark(uv, 0.0) * present;
   float monoDensity = globeA * mix(0.2, 0.34, wave);
-  float signalDensity = globeA * (giant ? mix(0.04, 0.16, wave) : mix(0.04, 0.34, wave));
-  float globeDensity = mix(monoDensity, signalDensity, accent);
+  float signalDensity = globeA * mix(0.04, 0.34, wave);
+  float globeDensity = mix(monoDensity, signalDensity, accent) * fade;
 
   // The star is a flare across the globe: it swells and shrinks on each tile's
   // own rhythm and knocks the globe grid out behind it. In the watermark it holds still.
@@ -148,7 +119,7 @@ void main() {
   vec2 starScale = vec2(mix(0.35, 0.8, tw), mix(0.45, 0.9, tw));
   float starA = sampleMark(starCenter + (uv - starCenter) / starScale, 1.0) * present;
   float starHalo = sampleMark(starCenter + (uv - starCenter) / (starScale * 1.25), 1.0) * present;
-  float starDensity = giant ? mix(0.06, 0.18, tw) : mix(0.5, mix(0.25, 0.7, tw), accent);
+  float starDensity = mix(0.5, mix(0.25, 0.7, tw), accent) * fade;
 
   // Monochrome: the signal treatment is a slightly darker grey than the watermark.
   vec3 ink = mix(PAPER, INK, mix(0.1, 0.16, accent));
@@ -195,7 +166,6 @@ async function rasterizeMark() {
 }
 
 export default function WorldwideBackground({
-  variant = 'signal',
   pixelSize = 2,
   matrixSize = 8,
   parallax = 0.45,
@@ -208,59 +178,18 @@ export default function WorldwideBackground({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const mode = Math.max(0, BACKGROUND_VARIANTS.indexOf(variant));
-    const scrollRate = mode === BACKGROUND_VARIANTS.indexOf('giant') ? 0.1 : parallax;
-
-    const gl = canvas.getContext('webgl', {
-      alpha: false,
-      antialias: false,
-      depth: false,
-      stencil: false,
-      preserveDrawingBuffer: false,
-    });
+    const gl = createGl(canvas, { alpha: false });
     if (!gl) return;
 
     const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     let disposed = false;
     let raf = 0;
 
-    const compile = (type, src) => {
-      const s = gl.createShader(type);
-      gl.shaderSource(s, src);
-      gl.compileShader(s);
-      return s;
-    };
-    const program = gl.createProgram();
-    gl.attachShader(program, compile(gl.VERTEX_SHADER, VERT));
-    gl.attachShader(program, compile(gl.FRAGMENT_SHADER, FRAG));
-    gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      // eslint-disable-next-line no-console
-      console.warn('WorldwideBackground: shader link failed', gl.getProgramInfoLog(program));
-      return;
-    }
-    gl.useProgram(program);
+    const prog = createFullscreenProgram(gl, FRAG, 'WorldwideBackground');
+    if (!prog) return;
+    const u = prog.uniform;
 
-    const buf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-    const aPos = gl.getAttribLocation(program, 'a_pos');
-    gl.enableVertexAttribArray(aPos);
-    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-
-    /* --- Bayer threshold texture (unit 0) --- */
-    const bayerTex = gl.createTexture();
-    gl.activeTexture(gl.TEXTURE0);
-    gl.bindTexture(gl.TEXTURE_2D, bayerTex);
-    gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
-    gl.texImage2D(
-      gl.TEXTURE_2D, 0, gl.LUMINANCE, matrixSize, matrixSize, 0,
-      gl.LUMINANCE, gl.UNSIGNED_BYTE, generateBayer(matrixSize),
-    );
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+    const bayerTex = createBayerTexture(gl, matrixSize);
 
     /* --- mark texture (unit 1), filled once the SVG is rasterized --- */
     const markTex = gl.createTexture();
@@ -268,65 +197,52 @@ export default function WorldwideBackground({
     gl.bindTexture(gl.TEXTURE_2D, markTex);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array(4));
 
-    const u = (name) => gl.getUniformLocation(program, name);
     const uRes = u('u_res');
-    const uScroll = u('u_scroll');
+    const uOrigin = u('u_origin');
+    const uCell = u('u_cell');
+    const uShiftX = u('u_shiftX');
+    const uViewW = u('u_viewW');
     const uTime = u('u_time');
-    const uDpr = u('u_dpr');
-    const uPixel = u('u_pixel');
     const uScale = u('u_scale');
     gl.uniform1i(u('u_bayer'), 0);
     gl.uniform1i(u('u_mark'), 1);
     gl.uniform1f(u('u_n'), matrixSize);
-    gl.uniform1f(u('u_mode'), mode);
     gl.uniform1f(u('u_content'), contentWidth);
-    const uMouse = u('u_mouse');
-    const uMouseOn = u('u_mouseOn');
-    const uEnergy = u('u_energy');
-    const hasHover = window.matchMedia?.('(hover: hover) and (pointer: fine)').matches;
-    gl.uniform1f(u('u_hover'), hasHover ? 1 : 0);
 
-    // Cursor and scroll state, eased every frame so the signal fades in and out smoothly.
-    const pointer = { x: -1000, y: -1000, tx: -1000, ty: -1000, on: 0, target: 0 };
-    let energy = 0;
-    let lastScrollY = window.scrollY;
-
-    let dpr = 1;
+    const grid = createCellGrid(canvas, gl);
     const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
-      const w = Math.floor(window.innerWidth * dpr);
-      const h = Math.floor(window.innerHeight * dpr);
-      if (canvas.width !== w || canvas.height !== h) {
-        canvas.width = w;
-        canvas.height = h;
-      }
-      gl.viewport(0, 0, w, h);
-      gl.uniform2f(uRes, w, h);
-      gl.uniform1f(uDpr, dpr);
+      const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
       // Phones get smaller globes, so halve the dither cell to keep their lines legible.
       const compact = window.innerWidth < 640;
-      gl.uniform1f(uPixel, Math.max(1, pixelSize * (compact ? 0.5 : 1) * dpr));
+      grid.resize(pixelSize * (compact ? 0.5 : 1) * dpr, dpr);
+      gl.uniform2f(uRes, grid.cols, grid.rows);
+      gl.uniform1f(uCell, grid.cell);
+      gl.uniform1f(uViewW, window.innerWidth);
       gl.uniform1f(uScale, compact ? 0.7 : 1);
     };
     resize();
 
-    let start = 0;
-    const draw = (t = 0) => {
-      if (!start) start = t;
-      pointer.x += (pointer.tx - pointer.x) * 0.12;
-      pointer.y += (pointer.ty - pointer.y) * 0.12;
-      pointer.on += (pointer.target - pointer.on) * 0.06;
-      energy *= 0.96;
+    const start = performance.now();
+    let lastDraw = -Infinity;
+    let lastX = NaN;
+    let lastY = NaN;
+    const draw = (t = performance.now()) => {
+      lastX = window.scrollX;
+      lastY = window.scrollY;
+      const { ox, oy, dx } = grid.align(lastX * parallax, lastY * parallax);
+      gl.uniform2f(uOrigin, ox, oy);
+      gl.uniform1f(uShiftX, dx);
       gl.uniform1f(uTime, prefersReduced ? 0 : (t - start) / 1000);
-      gl.uniform2f(uScroll, window.scrollX * scrollRate * dpr, window.scrollY * scrollRate * dpr);
-      gl.uniform2f(uMouse, pointer.x, pointer.y);
-      gl.uniform1f(uMouseOn, pointer.on);
-      gl.uniform1f(uEnergy, prefersReduced ? 0 : Math.min(1, energy));
       gl.drawArrays(gl.TRIANGLES, 0, 3);
+      lastDraw = t;
     };
+
+    // Redraw every frame while the page scrolls (to keep the parallax smooth), otherwise at 30fps.
     const loop = (t) => {
-      draw(t);
       raf = requestAnimationFrame(loop);
+      if (t - lastDraw >= IDLE_FRAME_MS || window.scrollX !== lastX || window.scrollY !== lastY) {
+        draw(t);
+      }
     };
     const play = () => {
       cancelAnimationFrame(raf);
@@ -340,8 +256,8 @@ export default function WorldwideBackground({
         gl.activeTexture(gl.TEXTURE1);
         gl.bindTexture(gl.TEXTURE_2D, markTex);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, TEX_W, TEX_H, 0, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
-        gl.generateMipmap(gl.TEXTURE_2D);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+        // Each cell samples the mark once, so plain linear filtering matches the old full-res look.
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
@@ -352,25 +268,11 @@ export default function WorldwideBackground({
 
     const onResize = () => {
       resize();
-      if (prefersReduced) draw();
+      draw();
     };
+    // With reduced motion there is no loop, so redraw on scroll to keep the parallax in place.
     const onScroll = () => {
-      energy = Math.min(1.4, energy + Math.abs(window.scrollY - lastScrollY) * 0.004);
-      lastScrollY = window.scrollY;
       if (prefersReduced) draw();
-    };
-    const onPointerMove = (e) => {
-      if (e.pointerType !== 'mouse') return;
-      if (pointer.target === 0) {
-        pointer.x = e.clientX;
-        pointer.y = e.clientY;
-      }
-      pointer.tx = e.clientX;
-      pointer.ty = e.clientY;
-      pointer.target = 1;
-    };
-    const onPointerLeave = () => {
-      pointer.target = 0;
     };
     const onVisibility = () => {
       if (document.hidden) cancelAnimationFrame(raf);
@@ -382,8 +284,6 @@ export default function WorldwideBackground({
     };
     window.addEventListener('resize', onResize);
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('pointermove', onPointerMove, { passive: true });
-    document.documentElement.addEventListener('pointerleave', onPointerLeave);
     document.addEventListener('visibilitychange', onVisibility);
     canvas.addEventListener('webglcontextlost', onLost, false);
 
@@ -392,27 +292,20 @@ export default function WorldwideBackground({
       cancelAnimationFrame(raf);
       window.removeEventListener('resize', onResize);
       window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('pointermove', onPointerMove);
-      document.documentElement.removeEventListener('pointerleave', onPointerLeave);
       document.removeEventListener('visibilitychange', onVisibility);
       canvas.removeEventListener('webglcontextlost', onLost);
       gl.deleteTexture(bayerTex);
       gl.deleteTexture(markTex);
-      gl.deleteBuffer(buf);
-      gl.deleteProgram(program);
+      prog.dispose();
     };
-  }, [variant, pixelSize, matrixSize, parallax, contentWidth, maxDpr]);
+  }, [pixelSize, matrixSize, parallax, contentWidth, maxDpr]);
 
   return (
     <canvas
       ref={canvasRef}
       aria-hidden="true"
       style={{
-        position: 'fixed',
-        inset: 0,
-        width: '100vw',
-        height: '100vh',
-        pointerEvents: 'none',
+        ...CELL_CANVAS_STYLE,
         zIndex: -1,
         background: '#fff',
       }}

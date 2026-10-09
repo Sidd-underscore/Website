@@ -91,5 +91,3 @@ export function Icon({
     </svg>
   );
 }
-
-export const iconNames = Object.keys(ICONS);

@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { usePathname } from 'next/navigation';
 
 /* ----- module-level View Transition hook (shared across instances) ----- */
 const vtCallbacks = new Set();
@@ -52,17 +51,147 @@ export function generateBayer(n) {
   return out;
 }
 
-const VERT = `
+/* ----- shared WebGL helpers (also used by the worldwide background) ----- */
+
+// Idle animation is slow and dithered, so 30fps reads the same as 60 for half the work.
+// The slack keeps a 60Hz rAF from occasionally rounding down to 20fps.
+export const IDLE_FRAME_MS = 1000 / 30 - 4;
+
+const FULLSCREEN_VERT = `
 attribute vec2 a_pos;
 void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
 `;
 
+export function createGl(canvas, opts) {
+  return canvas.getContext('webgl', {
+    antialias: false,
+    depth: false,
+    stencil: false,
+    preserveDrawingBuffer: false,
+    powerPreference: 'low-power',
+    ...opts,
+  });
+}
+
+// Compiles and links a program that draws one fullscreen triangle. Returns null on failure.
+export function createFullscreenProgram(gl, frag, label) {
+  const compile = (type, src) => {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  };
+  const vs = compile(gl.VERTEX_SHADER, FULLSCREEN_VERT);
+  const fs = compile(gl.FRAGMENT_SHADER, frag);
+  const program = gl.createProgram();
+  gl.attachShader(program, vs);
+  gl.attachShader(program, fs);
+  gl.linkProgram(program);
+  // A linked program keeps what it needs, so the shader objects can go.
+  gl.deleteShader(vs);
+  gl.deleteShader(fs);
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    console.warn(`${label}: shader link failed`, gl.getProgramInfoLog(program));
+    gl.deleteProgram(program);
+    return null;
+  }
+  gl.useProgram(program);
+
+  const buffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const aPos = gl.getAttribLocation(program, 'a_pos');
+  gl.enableVertexAttribArray(aPos);
+  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+  return {
+    uniform: (name) => gl.getUniformLocation(program, name),
+    dispose: () => {
+      gl.deleteBuffer(buffer);
+      gl.deleteProgram(program);
+    },
+  };
+}
+
+// Uploads an n×n Bayer threshold matrix to texture unit 0.
+export function createBayerTexture(gl, n) {
+  const tex = gl.createTexture();
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, n, n, 0, gl.LUMINANCE, gl.UNSIGNED_BYTE, generateBayer(n));
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+  return tex;
+}
+
+// Both shaders output one flat colour per dither cell, so rather than shading every device
+// pixel, the canvas gets one backing pixel per cell and the browser upscales it with
+// `image-rendering: pixelated` (16x fewer fragments at 2x DPR with 2px cells). The canvas is
+// one cell larger than the viewport and nudged by a sub-cell transform, so cells stay locked
+// to the scrolled document grid exactly as before.
+export function createCellGrid(canvas, gl) {
+  const grid = { cell: 1, cols: 0, rows: 0 };
+  let lastTransform = '';
+
+  // `cellPx` is the cell size in device px.
+  grid.resize = (cellPx, dpr) => {
+    const cell = Math.max(1, cellPx) / dpr;
+    const cols = Math.ceil(window.innerWidth / cell) + 1;
+    const rows = Math.ceil(window.innerHeight / cell) + 1;
+    grid.cell = cell;
+    canvas.style.width = `${cols * cell}px`;
+    canvas.style.height = `${rows * cell}px`;
+    if (cols !== grid.cols || rows !== grid.rows) {
+      grid.cols = cols;
+      grid.rows = rows;
+      canvas.width = cols;
+      canvas.height = rows;
+      gl.viewport(0, 0, cols, rows);
+    }
+  };
+
+  // Scroll offset (CSS px) -> index of the top-left cell, plus the canvas shift (<= 0, CSS px).
+  grid.align = (sx, sy) => {
+    const ox = Math.floor(sx / grid.cell);
+    const oy = Math.floor(sy / grid.cell);
+    const dx = ox * grid.cell - sx;
+    const dy = oy * grid.cell - sy;
+    const transform = `translate3d(${dx}px, ${dy}px, 0)`;
+    if (transform !== lastTransform) {
+      canvas.style.transform = transform;
+      lastTransform = transform;
+    }
+    return { ox, oy, dx, dy };
+  };
+
+  return grid;
+}
+
+// Inline styles for a fixed, viewport-covering, cell-resolution canvas. Sizes come from createCellGrid.
+export const CELL_CANVAS_STYLE = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 'auto',
+  bottom: 'auto',
+  margin: 0,
+  padding: 0,
+  border: 0,
+  maxWidth: 'none',
+  maxHeight: 'none',
+  pointerEvents: 'none',
+  imageRendering: 'pixelated',
+  willChange: 'transform',
+};
+
 const FRAG = `
 precision highp float;
-uniform vec2  u_res;
-uniform vec2  u_scroll;  // page scroll offset in device px (anchors dither to the document)
+uniform vec2  u_res;     // canvas size in cells
+uniform vec2  u_origin;  // document-space index of the top-left cell (anchors dither to the page)
 uniform float u_time;
-uniform float u_pixel;   // device px per dither cell
 uniform float u_n;       // bayer matrix size
 uniform float u_amp;     // animation amplitude
 uniform float u_speed;
@@ -81,9 +210,8 @@ float vnoise(vec2 p) {
 }
 
 void main() {
-  // Sample in document space (top-left origin) so the pattern scrolls with the page.
-  vec2 docPos = vec2(gl_FragCoord.x + u_scroll.x, (u_res.y - gl_FragCoord.y) + u_scroll.y);
-  vec2 cell = floor(docPos / u_pixel);
+  // One fragment per cell, indexed in document space (top-left origin) so the pattern scrolls with the page.
+  vec2 cell = u_origin + vec2(floor(gl_FragCoord.x), u_res.y - 1.0 - floor(gl_FragCoord.y));
   vec2 uv = (mod(cell, u_n) + 0.5) / u_n;
   float threshold = texture2D(u_bayer, uv).r;
 
@@ -96,6 +224,9 @@ void main() {
 }
 `;
 
+// Stable default so the effect below doesn't re-run (and rebuild the GL program) every render.
+const WHITE = [1, 1, 1];
+
 export default function DitherOverlay({
   pixelSize = 1,
   opacity = 0.3,
@@ -103,156 +234,92 @@ export default function DitherOverlay({
   animate = true,
   speed = 1,
   amount = 0.6,
-  color = [1, 1, 1],
+  color = WHITE,
   matrixSize = 8,
   maxDpr = 2,
   topLayer = true,
   zIndex = 2147483647,
 }) {
-  const pathname = usePathname();
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const gl = canvas.getContext('webgl', {
-      alpha: true,
-      antialias: false,
-      depth: false,
-      stencil: false,
-      premultipliedAlpha: true,
-      preserveDrawingBuffer: false,
-    });
+    const gl = createGl(canvas, { alpha: true, premultipliedAlpha: true });
     if (!gl) return;
 
-    const prefersReduced =
-      typeof window !== 'undefined' &&
-      window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     const doAnimate = animate && !prefersReduced;
 
-    /* --- compile --- */
-    const compile = (type, src) => {
-      const s = gl.createShader(type);
-      gl.shaderSource(s, src);
-      gl.compileShader(s);
-      return s;
-    };
-    const program = gl.createProgram();
-    gl.attachShader(program, compile(gl.VERTEX_SHADER, VERT));
-    gl.attachShader(program, compile(gl.FRAGMENT_SHADER, FRAG));
-    gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      // eslint-disable-next-line no-console
-      console.warn('DitherOverlay: shader link failed', gl.getProgramInfoLog(program));
-      return;
-    }
-    gl.useProgram(program);
+    const prog = createFullscreenProgram(gl, FRAG, 'DitherOverlay');
+    if (!prog) return;
+    const tex = createBayerTexture(gl, matrixSize);
 
-    /* --- fullscreen triangle --- */
-    const buf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-    const aPos = gl.getAttribLocation(program, 'a_pos');
-    gl.enableVertexAttribArray(aPos);
-    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+    const uRes = prog.uniform('u_res');
+    const uOrigin = prog.uniform('u_origin');
+    const uTime = prog.uniform('u_time');
+    gl.uniform1i(prog.uniform('u_bayer'), 0);
+    gl.uniform1f(prog.uniform('u_n'), matrixSize);
+    gl.uniform1f(prog.uniform('u_amp'), doAnimate ? amount : 0);
+    gl.uniform1f(prog.uniform('u_speed'), speed);
+    gl.uniform3f(prog.uniform('u_color'), color[0], color[1], color[2]);
 
-    /* --- Bayer texture --- */
-    const n = matrixSize;
-    const bayer = generateBayer(n);
-    const tex = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, tex);
-    gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, n, n, 0, gl.LUMINANCE, gl.UNSIGNED_BYTE, bayer);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
-
-    /* --- uniforms --- */
-    const uRes = gl.getUniformLocation(program, 'u_res');
-    const uScroll = gl.getUniformLocation(program, 'u_scroll');
-    const uTime = gl.getUniformLocation(program, 'u_time');
-    const uPixel = gl.getUniformLocation(program, 'u_pixel');
-    const uN = gl.getUniformLocation(program, 'u_n');
-    const uAmp = gl.getUniformLocation(program, 'u_amp');
-    const uSpeed = gl.getUniformLocation(program, 'u_speed');
-    const uColor = gl.getUniformLocation(program, 'u_color');
-    const uBayer = gl.getUniformLocation(program, 'u_bayer');
-
-    gl.uniform1i(uBayer, 0);
-    gl.uniform1f(uN, n);
-    gl.uniform1f(uAmp, doAnimate ? amount : 0);
-    gl.uniform1f(uSpeed, speed);
-    gl.uniform3f(uColor, color[0], color[1], color[2]);
-
-    let dpr = 1;
+    const grid = createCellGrid(canvas, gl);
     const resize = () => {
-      dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
-      const w = Math.floor(window.innerWidth * dpr);
-      const h = Math.floor(window.innerHeight * dpr);
-      if (canvas.width !== w || canvas.height !== h) {
-        canvas.width = w;
-        canvas.height = h;
-      }
-      gl.viewport(0, 0, w, h);
-      gl.uniform2f(uRes, w, h);
-      gl.uniform1f(uPixel, Math.max(1, pixelSize * dpr));
+      const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
+      grid.resize(pixelSize * dpr, dpr);
+      gl.uniform2f(uRes, grid.cols, grid.rows);
     };
     resize();
 
-    // Anchor the dither to the document by feeding the shader the page scroll.
-    const readScroll = () => {
-      const sx = window.scrollX || window.pageXOffset || 0;
-      const sy = window.scrollY || window.pageYOffset || 0;
-      gl.uniform2f(uScroll, sx * dpr, sy * dpr);
-    };
-
     /* --- render loop --- */
+    const start = performance.now();
     let raf = 0;
-    let start = 0;
-    const render = (t) => {
-      if (!start) start = t;
-      gl.uniform1f(uTime, (t - start) / 1000);
-      readScroll();
+    let lastDraw = -Infinity;
+    let lastX = NaN;
+    let lastY = NaN;
+
+    const draw = (t) => {
+      lastX = window.scrollX;
+      lastY = window.scrollY;
+      const { ox, oy } = grid.align(lastX, lastY);
+      gl.uniform2f(uOrigin, ox, oy);
+      gl.uniform1f(uTime, doAnimate ? (t - start) / 1000 : 0);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
-      if (doAnimate) raf = requestAnimationFrame(render);
+      lastDraw = t;
     };
 
-    const draw = () => {
-      if (doAnimate) {
-        cancelAnimationFrame(raf);
-        start = 0;
-        raf = requestAnimationFrame(render);
-      } else {
-        gl.uniform1f(uTime, 0);
-        readScroll();
-        gl.drawArrays(gl.TRIANGLES, 0, 3);
+    // Redraw every frame while the page scrolls (so the pattern tracks it), otherwise at 30fps.
+    const loop = (t) => {
+      raf = requestAnimationFrame(loop);
+      if (t - lastDraw >= IDLE_FRAME_MS || window.scrollX !== lastX || window.scrollY !== lastY) {
+        draw(t);
       }
     };
-    draw();
+
+    const play = () => {
+      cancelAnimationFrame(raf);
+      if (doAnimate) raf = requestAnimationFrame(loop);
+      else draw(performance.now());
+    };
+    play();
 
     const onResize = () => {
       resize();
-      if (!doAnimate) draw();
+      draw(performance.now());
     };
     window.addEventListener('resize', onResize);
 
-    // When not animating, the loop is idle — redraw on scroll so the pattern tracks the page.
+    // When not animating there is no loop, so redraw on scroll to keep the pattern on the page.
     const onScroll = () => {
-      if (doAnimate) return; // the raf loop already reads scroll every frame
-      readScroll();
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      if (!doAnimate) draw(performance.now());
     };
     window.addEventListener('scroll', onScroll, { passive: true });
 
     const onVisibility = () => {
-      if (document.hidden) {
-        cancelAnimationFrame(raf);
-      } else if (doAnimate) {
-        start = 0;
-        raf = requestAnimationFrame(render);
-      }
+      if (document.hidden) cancelAnimationFrame(raf);
+      else play();
     };
     document.addEventListener('visibilitychange', onVisibility);
 
@@ -268,8 +335,8 @@ export default function DitherOverlay({
       if (!promoted) return;
       try {
         // Move ourselves back to the top of the top layer, above ::view-transition.
-        (canvas).hidePopover();
-        (canvas).showPopover();
+        canvas.hidePopover();
+        canvas.showPopover();
       } catch {
       }
     };
@@ -300,41 +367,26 @@ export default function DitherOverlay({
       vtCallbacks.delete(reassert);
       if (promoted) {
         try {
-          (canvas).hidePopover();
+          canvas.hidePopover();
         } catch {
         }
       }
       gl.deleteTexture(tex);
-      gl.deleteBuffer(buf);
-      gl.deleteProgram(program);
+      prog.dispose();
     };
-  }, [pixelSize, opacity, animate, speed, amount, matrixSize, maxDpr, topLayer, color]);
-
-  // i dunno
-  // if (pathname === '/lightshows') {
-  //   return null;
-  // }
+  }, [pixelSize, animate, speed, amount, matrixSize, maxDpr, topLayer, color]);
 
   return (
     <canvas
       ref={canvasRef}
       aria-hidden="true"
       style={{
-        position: 'fixed',
-        inset: 0,
-        width: '100vw',
-        height: '100vh',
-        margin: 0,
-        padding: 0,
-        border: 0,
+        ...CELL_CANVAS_STYLE,
         background: 'transparent',
-        maxWidth: 'none',
-        maxHeight: 'none',
-        pointerEvents: 'none',
+        overflow: 'hidden',
         mixBlendMode: blendMode,
         opacity,
         zIndex,
-        overflow: 'hidden',
       }}
     />
   );

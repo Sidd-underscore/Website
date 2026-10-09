@@ -2,7 +2,11 @@ import { Separator } from "@/components/ui/separator";
 import { work } from "@/lib/work";
 import { Work } from "@/components/home/work";
 import { CalendarClock, Pin } from "lucide-react";
-import NotFound from "@/app/not-found";
+import { notFound } from "next/navigation";
+
+export function generateStaticParams() {
+  return work.map((workItem) => ({ workId: workItem.id }));
+}
 
 export async function generateMetadata(props) {
   const params = await props.params;
@@ -27,15 +31,7 @@ export default async function WorkPage(props) {
   const { workId } = params;
   const workItem = work.find((e) => e.id === workId);
 
-  if (!workItem) {
-    return (
-      <>
-        <NotFound prefix="Work" />
-        <Separator className="mt-10 -mb-10" />
-        <Work />
-      </>
-    );
-  }
+  if (!workItem) notFound();
 
   return (
     <>
