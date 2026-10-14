@@ -1,5 +1,4 @@
-<img width="1584" height="396" alt="sidd linked in" src="https://github.com/user-attachments/assets/525fa58c-b896-4bfa-8680-3749f8e1e235" />
-![sidd logomark](https://www.sidd.studio/images/sidd.svg)
+<img width="960" height="540" alt="sidd workmark" src="https://github.com/user-attachments/assets/1052240b-b171-478d-a74e-0181694d14d2" />
 
 This repo stores the code for my personal website, [sidd.studio](https://sidd.studio). Feel free to browse through the files if you are looking to mimic (or ~~steal~~ borrow) any components in my website! I love open source, and how it allows people to build better, together.
 
