@@ -1,7 +1,8 @@
+import { SITE } from "@/lib/agent-content.mjs";
 import { projects } from "@/lib/projects";
 import { work } from "@/lib/work";
 
-const BASE_URL = "https://sidd.studio";
+const BASE_URL = SITE.url;
 
 export default function sitemap() {
   const lastModified = new Date();

@@ -15,7 +15,12 @@ import { cn, formatArrayIntoSentence } from "@/lib/utils";
 import { useEffect, useMemo, useRef, useState } from "react";
 import autoAnimate from "@formkit/auto-animate";
 
-export function Work({ className, defaultWorkTypes, title }) {
+export function Work({
+  className,
+  defaultWorkTypes,
+  title,
+  headingLevel: Heading = "h2",
+}) {
   const parent = useRef(null);
   const filterRowRef = useRef(null);
 
@@ -70,10 +75,10 @@ export function Work({ className, defaultWorkTypes, title }) {
   return (
     <section className={cn("my-32 w-full text-left", className)}>
       <div className="panel bg-[#FF80F2] p-3">
-        <h2 className="text-3xl leading-none font-black tracking-normal uppercase">
+        <Heading className="text-3xl leading-none font-black tracking-normal uppercase">
           <Icon name="StarGroup2" className="mr-2" size="lg" />
           {workHeading}
-        </h2>
+        </Heading>
         <div className="mt-4 flex items-end justify-between space-x-2 lg:mt-0">
           <p className="text-sm font-bold text-black">
             The best testament of knowledge is putting it to work. Here is some

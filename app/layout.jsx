@@ -6,14 +6,31 @@ import { Archivo } from "next/font/google";
 import "./globals.css";
 import DitherOverlay from "@/components/dither";
 import WorldwideBackground from "@/components/worldwide-background";
+import { buildJsonLd, SITE } from "@/lib/agent-content.mjs";
 
 const archivo = Archivo({ subsets: ["latin"] });
 
 export const metadata = {
-  title: { default: "Sidd", template: "%s / Sidd" },
-  description: "I code, take photos and live stream.",
-  metadataBase: new URL("https://sidd.studio"),
+  title: { default: SITE.title, template: "%s / Sidd" },
+  description: SITE.description,
+  metadataBase: new URL(SITE.url),
+  // Relative, so every route gets its own canonical rather than the homepage's.
+  alternates: { canonical: "./" },
+  // No title or description here: Next derives og:/twitter: titles from each
+  // page's own metadata, so a child page is attributed to itself.
+  openGraph: {
+    type: "website",
+    siteName: SITE.name,
+    url: "./",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
+
+// schema.org identity graph, so agents can resolve who runs this domain.
+const jsonLd = JSON.stringify(buildJsonLd()).replace(/</g, "\\u003c");
 
 export function TailwindIndicator() {
   if (process.env.NODE_ENV === "production") return null;
@@ -42,6 +59,10 @@ export default function RootLayout({ children }) {
         className={`${archivo.className} text-white selection:bg-[#FFE121] selection:text-black`}
         style={{ scrollbarGutter: "stable" }}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLd }}
+        />
         <div
 
           className="justify-left relative flex min-h-screen flex-col items-center overflow-x-hidden overflow-y-scroll p-3 pb-0! md:p-8 2xl:p-14"

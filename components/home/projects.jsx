@@ -32,7 +32,9 @@ export function Projects({
   className,
   defaultProjectTypes,
   defaultTechnologies,
-  title
+  title,
+  // "h1" on the standalone /projects page, where this section is the page.
+  headingLevel: Heading = "h2",
 }) {
   const parent = useRef(null);
   const filterRowRef = useRef(null);
@@ -104,10 +106,10 @@ export function Projects({
   return (
     <section className={cn("my-32 w-full text-left", className)}>
       <div className="panel bg-[#45e52c] p-3">
-        <h2 className="text-3xl leading-none font-black tracking-normal uppercase">
+        <Heading className="text-3xl leading-none font-black tracking-normal uppercase">
           <Icon name="StarGroup3_2" className="mr-2" size="lg" />
             {projectHeading}
-        </h2>
+        </Heading>
 
         <div className="mt-4 flex items-end justify-between space-x-2 lg:mt-0">
           <p className="text-sm font-bold text-black">

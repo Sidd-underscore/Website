@@ -10,7 +10,12 @@ export function HomeSplash() {
         <div className="relative z-10 grid w-full items-center gap-8">
           <div className="flex flex-col gap-6">
             <div>
-              <div className="relative h-96 w-full">
+              {/* The wordmark *is* the page heading, so it carries the h1. The
+                  text is for screen readers and agents, not for layout. */}
+              <h1 className="relative h-96 w-full">
+                <span className="sr-only">
+                  Sidd — developer, filmmaker and lighting designer in Portland, Oregon
+                </span>
                 <Image
                   draggable={false}
                   src="/images/sidd-filled.svg"
@@ -20,7 +25,7 @@ export function HomeSplash() {
                   sizes="(min-width: 768px) 50vw, 100vw"
                   priority
                 />
-              </div>
+              </h1>
 
               <div className="checker-surface flex w-full justify-center border-2 bg-white/90">
                 <div className="mx-6 my-4 md:mx-8 md:my-6 w-fit justify-center space-y-8 text-center">

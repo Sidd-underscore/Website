@@ -149,12 +149,16 @@ export default function LightshowSplash() {
 
         <div className="absolute inset-0 z-20 flex items-center justify-center">
           <div ref={boxRef} className="relative">
-            <h1
+            {/* The word is painted three times over for the crossfade, so the
+                heading itself lives here once and the painted copies are
+                hidden from assistive tech and from agents. */}
+            <h1 className="sr-only">Lightshows</h1>
+            <div
               aria-hidden="true"
               className="invisible select-none text-center text-[2rem] md:text-[4rem] lg:text-[6rem] xl:text-[10rem] 2xl:text-[12rem] font-black leading-tight tracking-tight px-8 lg:px-16 border-2 border-transparent"
             >
               LIGHTSHOWS
-            </h1>
+            </div>
 
             {/* Inverted fill - current */}
             <div
@@ -177,7 +181,8 @@ export default function LightshowSplash() {
               }}
             />
             {/* Text clip - current */}
-            <h1
+            <div
+              aria-hidden="true"
               className="absolute inset-0 text-center text-[2rem] md:text-[4rem] lg:text-[6rem] xl:text-[10rem] 2xl:text-[12rem] font-black leading-tight tracking-tight px-8 lg:px-16"
               style={{
                 ...getAlignedBackgroundStyle(currentSrc),
@@ -190,9 +195,10 @@ export default function LightshowSplash() {
               }}
             >
               LIGHTSHOWS
-            </h1>
+            </div>
             {/* Text clip - next (crossfade) */}
-            <h1
+            <div
+              aria-hidden="true"
               className="absolute inset-0 text-center text-[2rem] md:text-[4rem] lg:text-[6rem] xl:text-[10rem] 2xl:text-[12rem] font-black leading-tight tracking-tight px-8 lg:px-16"
               style={{
                 ...getAlignedBackgroundStyle(nextSrc),
@@ -205,7 +211,7 @@ export default function LightshowSplash() {
               }}
             >
               LIGHTSHOWS
-            </h1>
+            </div>
           </div>
         </div>
       </div>
